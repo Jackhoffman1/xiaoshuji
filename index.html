@@ -22,13 +22,15 @@
             background-position: center;
             background-repeat: no-repeat;
             min-height: 100vh;
-            height: 100vh;
-            overflow: hidden;
+            height: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
             -webkit-touch-callout: none;
             /* 移除全局用户选择限制，以确保输入元素正常工作 */
             /* -webkit-user-select: none;
             user-select: none; */
             touch-action: manipulation;
+            -webkit-overflow-scrolling: touch;
         }
 
         .ios-container {
@@ -36,9 +38,11 @@
             height: 100vh;
             background: transparent;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
+            -webkit-overflow-scrolling: touch;
         }
 
         .home-screen {
@@ -565,6 +569,51 @@
                 padding-bottom: max(20px, env(safe-area-inset-bottom));
                 padding-top: env(safe-area-inset-top);
             }
+        }
+
+        /* 触摸滚动容器样式 */
+        .touch-scroll-container {
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        .touch-scroll-container.dragging {
+            cursor: grabbing;
+        }
+
+        .touch-scroll-container.momentum {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            right: 4px;
+            top: 0;
+            width: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .scroll-indicator.visible {
+            opacity: 1;
+        }
+
+        /* 确保所有可滚动元素都有正确的样式 */
+        .chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-content {
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            touch-action: manipulation;
         }
 
         /* 小屏幕适配 */
@@ -1701,7 +1750,7 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            margin: 25px 8px 8px;
+            margin: 28px 8px 8px;
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -1855,7 +1904,7 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            margin: 25px 8px 8px;
+            margin: 28px 8px 8px;
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -2348,7 +2397,7 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            margin: 25px 8px 8px;
+            margin: 28px 8px 8px;
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -2534,7 +2583,7 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            margin: 25px 8px 8px;
+            margin: 28px 8px 8px;
             padding: 22px 22px;
             display: flex;
             align-items: center;
@@ -2605,31 +2654,31 @@
 
         .detail-image-box {
             width: 110px;
-            height: 110px;
+            height: 120px;
             background: #ffffff;
-            border-radius: 10px;
-            border: 1px solid #E5E7EB;
+            border-radius: 5px;
             cursor: pointer;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
             position: relative;
             overflow: hidden;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .detail-image-box:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-            border-color: #D1D5DB;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .detail-image-box .image-box-placeholder {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            width: 90px;
+            height: 90px;
+            margin-top: 8px;
         }
 
         .detail-image-box .image-box-placeholder svg {
@@ -2643,13 +2692,13 @@
         }
 
         .detail-image-box .image-box-preview {
-            width: 100%;
-            height: 100%;
+            width: 90px;
+            height: 90px;
             object-fit: cover;
             position: absolute;
-            top: 0;
-            left: 0;
-            border-radius: 10px;
+            top: 8px;
+            left: 10px;
+            border-radius: 3px;
         }
 
         .image-box-label {
@@ -2934,7 +2983,7 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            margin: 25px 8px 8px;
+            margin: 28px 8px 8px;
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -5010,6 +5059,10 @@
                     </div>
                 </div>
                 <div class="contact-detail-info-card">
+                    <div class="detail-info-row" onclick="openRoleWechatIdModal()">
+                        <span class="detail-label">微信号</span>
+                        <span class="detail-value" id="detail-wechat-id">未设置</span>
+                    </div>
                     <div class="detail-info-row" onclick="openGroupSelector()">
                         <span class="detail-label">角色分组</span>
                         <span class="detail-value" id="detail-group">默认分组</span>
@@ -5017,10 +5070,6 @@
                     <div class="detail-info-row" onclick="openRemarkModal()">
                         <span class="detail-label">角色备注</span>
                         <span class="detail-value" id="detail-remark">无</span>
-                    </div>
-                    <div class="detail-info-row">
-                        <span class="detail-label">微信号</span>
-                        <span class="detail-value" id="detail-wechat-id">未设置</span>
                     </div>
                 </div>
                 <button class="send-message-btn" onclick="sendMessageFromDetail()">
@@ -5280,7 +5329,7 @@
                 </div>
                 <div class="wechat-id-modal-buttons">
                     <button class="btn-cancel" onclick="closeWechatIdModal()">取消</button>
-                    <button class="btn-confirm" id="wechat-id-confirm" onclick="saveWechatId()">确认</button>
+                    <button class="btn-confirm" id="wechat-id-confirm" onclick="handleWechatIdSave()">确认</button>
                 </div>
             </div>
         </div>
@@ -5663,8 +5712,10 @@
                 }
                 
                 applyTransform() {
-                    this.element.scrollTop = -this.translateY;
-                    this.element.scrollLeft = -this.translateX;
+                    // 使用CSS transform而不是直接修改scrollTop/scrollLeft
+                    // 这样可以获得更流畅的滚动体验，特别是在移动设备上
+                    this.element.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+                    this.element.style.transformOrigin = '0 0';
                 }
                 
                 scrollTo(x, y, animated = true) {
@@ -5745,9 +5796,18 @@
 
         // 初始化触摸滚动
         document.addEventListener('DOMContentLoaded', function() {
-            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-                TouchScroll.initAll();
-            }
+            // 无论是否支持触摸事件，都初始化TouchScroll
+            // 这样在桌面设备上也能使用鼠标拖拽滚动
+            TouchScroll.initAll();
+            
+            // 确保所有可滚动元素都有正确的CSS样式
+            const scrollableElements = document.querySelectorAll('.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-content');
+            scrollableElements.forEach(el => {
+                el.style.overflowY = 'auto';
+                el.style.overflowX = 'hidden';
+                el.style.WebkitOverflowScrolling = 'touch';
+                el.style.touchAction = 'manipulation';
+            });
         });
 
         let selectedApp = null;
@@ -5965,7 +6025,7 @@
                 wechatIdInput.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
-                        saveWechatId();
+                        handleWechatIdSave();
                     }
                 });
             }
@@ -9584,16 +9644,33 @@
             setTimeout(() => input.focus(), 100);
         }
 
+        // 处理微信ID保存
+        function handleWechatIdSave() {
+            const modal = document.getElementById('wechat-id-modal');
+            const operation = modal.dataset.operation;
+            
+            if (operation === 'role') {
+                saveRoleWechatId();
+            } else {
+                saveWechatId();
+            }
+        }
+
         // 关闭微信号编辑模态窗口
         function closeWechatIdModal() {
             const modal = document.getElementById('wechat-id-modal');
             const input = document.getElementById('wechat-id-input');
             const errorElement = document.getElementById('wechat-id-error');
+            const modalHeader = modal.querySelector('.modal-header h2');
             
             modal.style.display = 'none';
             input.value = '';
             input.classList.remove('error');
             errorElement.classList.remove('visible');
+            
+            // 重置模态窗口状态
+            modalHeader.textContent = '修改微信号';
+            delete modal.dataset.operation;
         }
 
         // 验证微信号输入（仅允许英文字母和数字）
@@ -9651,6 +9728,77 @@
             
             // 更新显示
             loadWechatId();
+            
+            // 关闭模态窗口
+            closeWechatIdModal();
+        }
+
+        // 打开角色微信号编辑模态窗口
+        function openRoleWechatIdModal() {
+            if (!currentDetailRole) return;
+            
+            const modal = document.getElementById('wechat-id-modal');
+            const input = document.getElementById('wechat-id-input');
+            const errorElement = document.getElementById('wechat-id-error');
+            const modalHeader = modal.querySelector('.modal-header h2');
+            
+            // 修改模态窗口标题
+            modalHeader.textContent = '修改角色微信号';
+            
+            // 加载当前角色微信号
+            const currentId = currentDetailRole.wechatId || '';
+            input.value = currentId;
+            
+            // 清除错误状态
+            input.classList.remove('error');
+            errorElement.classList.remove('visible');
+            
+            // 保存当前操作类型
+            modal.dataset.operation = 'role';
+            
+            modal.style.display = 'block';
+            
+            // 聚焦输入框
+            setTimeout(() => input.focus(), 100);
+        }
+
+        // 保存角色微信号
+        function saveRoleWechatId() {
+            if (!currentDetailRole) {
+                closeWechatIdModal();
+                return;
+            }
+            
+            const input = document.getElementById('wechat-id-input');
+            const value = input.value.trim();
+            
+            if (!value) {
+                input.classList.add('error');
+                document.getElementById('wechat-id-error').textContent = '微信号不能为空';
+                document.getElementById('wechat-id-error').classList.add('visible');
+                return;
+            }
+            
+            // 再次验证
+            if (!/^[a-zA-Z0-9]+$/.test(value)) {
+                input.classList.add('error');
+                document.getElementById('wechat-id-error').textContent = '只能输入英文字母和数字';
+                document.getElementById('wechat-id-error').classList.add('visible');
+                return;
+            }
+            
+            // 更新角色数据
+            const roleIndex = roles.findIndex(r => r.id === currentDetailRole.id);
+            if (roleIndex !== -1) {
+                roles[roleIndex].wechatId = value;
+                localStorage.setItem('wechatRoles', JSON.stringify(roles));
+                
+                // 更新当前详情角色
+                currentDetailRole.wechatId = value;
+                
+                // 更新显示
+                document.getElementById('detail-wechat-id').textContent = value;
+            }
             
             // 关闭模态窗口
             closeWechatIdModal();
