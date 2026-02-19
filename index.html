@@ -25,8 +25,9 @@
             height: 100vh;
             overflow: hidden;
             -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
+            /* 移除全局用户选择限制，以确保输入元素正常工作 */
+            /* -webkit-user-select: none;
+            user-select: none; */
             touch-action: manipulation;
         }
 
@@ -1700,7 +1701,7 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            margin: 40px 8px 8px;
+            margin: 20px 8px 8px;
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -3809,9 +3810,17 @@
         .touch-scroll-container {
             overflow: hidden;
             position: relative;
-            touch-action: none;
+            touch-action: auto;
             user-select: none;
             -webkit-user-select: none;
+        }
+        
+        /* 确保输入元素的触摸行为正常 */
+        input, textarea, select, [contenteditable="true"] {
+            touch-action: auto;
+            pointer-events: auto;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .touch-scroll-content {
@@ -5455,10 +5464,11 @@
                 }
                 
                 bindEvents() {
-                    this.element.addEventListener('touchstart', this.handleStart.bind(this), { passive: false });
-                    this.element.addEventListener('touchmove', this.handleMove.bind(this), { passive: false });
-                    this.element.addEventListener('touchend', this.handleEnd.bind(this), { passive: false });
-                    this.element.addEventListener('touchcancel', this.handleEnd.bind(this), { passive: false });
+                    // 修改触摸事件监听器，确保不会阻止输入元素的正常交互
+                    this.element.addEventListener('touchstart', this.handleStart.bind(this), { passive: true });
+                    this.element.addEventListener('touchmove', this.handleMove.bind(this), { passive: true });
+                    this.element.addEventListener('touchend', this.handleEnd.bind(this), { passive: true });
+                    this.element.addEventListener('touchcancel', this.handleEnd.bind(this), { passive: true });
                     
                     this.element.addEventListener('mousedown', this.handleStart.bind(this));
                     window.addEventListener('mousemove', this.handleMove.bind(this));
@@ -5471,6 +5481,16 @@
                 }
                 
                 handleStart(e) {
+                    // 检查是否点击了可输入元素，如果是则不阻止默认行为
+                    const target = e.target || e.touches[0].target;
+                    const isInputElement = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || 
+                                         target.contentEditable === 'true' || 
+                                         target.tagName === 'SELECT';
+                    
+                    if (isInputElement) {
+                        return; // 允许输入元素的默认行为
+                    }
+                    
                     const point = e.touches ? e.touches[0] : e;
                     
                     this.isDragging = true;
@@ -5486,6 +5506,7 @@
                     this.element.classList.add('dragging');
                     
                     if (e.type === 'mousedown') {
+                        // 只在非输入元素上阻止默认行为
                         e.preventDefault();
                     }
                 }
@@ -5522,7 +5543,8 @@
                     this.lastY = point.clientY;
                     this.lastTime = now;
                     
-                    e.preventDefault();
+                    // 不再阻止所有移动事件的默认行为
+                    // e.preventDefault();
                 }
                 
                 handleEnd(e) {
@@ -7681,6 +7703,8 @@
             arrow.classList.toggle('rotated');
         }
 
+        // 移除全局手势事件阻止，以确保移动设备上的输入元素能正常工作
+        /*
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
@@ -7692,6 +7716,7 @@
         document.addEventListener('gestureend', function(e) {
             e.preventDefault();
         });
+        */
 
         // 页面加载时应用字体颜色设置
         applyFontColors();
