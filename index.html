@@ -51,11 +51,13 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            position: relative;
         }
 
         .widget-section {
             display: flex;
             gap: 15px;
+            justify-content: center;
         }
 
         .left-widgets {
@@ -63,6 +65,7 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            align-items: center;
         }
 
         .circle-widget {
@@ -120,24 +123,77 @@
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 
-                0 6px 16px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: white;
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 300;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
             margin-left: -10px;
         }
 
         .text-widget:active {
             transform: scale(0.98);
+        }
+
+        .input-widgets-container {
+            position: absolute;
+            left: 10px;
+            top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .circle-inputs-container {
+            position: absolute;
+            right: 10px;
+            top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .input-widgets-container .input-widget,
+        .circle-inputs-container .input-widget {
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .input-widget {
+            width: 100%;
+            max-width: 80px;
+            height: 30px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 6px 16px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            padding: 0 12px;
+            font-size: 14px;
+            font-weight: 300;
+            color: white;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-widget::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .input-widget:focus {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
         }
 
         /* iOS备忘录风格便签 */
@@ -348,14 +404,17 @@
         }
 
         .app-grid {
-            flex: 1;
+            position: fixed;
+            left: 20px;
+            top: 40%;
+            transform: translateY(-50%);
             display: grid;
             grid-template-rows: repeat(3, auto);
             grid-auto-flow: column;
             gap: 18px;
-            margin-left: 5px;
             justify-content: start;
             align-content: start;
+            z-index: 100;
         }
 
         .app-icon {
@@ -638,6 +697,27 @@
             .message-content {
                 padding: 6px 10px;
                 font-size: 14px;
+            }
+            
+            .chat-header {
+                padding: 14px 14px;
+                padding-top: calc(14px + env(safe-area-inset-top));
+                border-radius: 16px;
+                margin: 0 6px 6px;
+            }
+            
+            .back-btn, .chat-menu-btn {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .back-btn svg, .chat-menu-btn svg {
+                width: 22px;
+                height: 22px;
+            }
+            
+            .chat-title {
+                font-size: 16px;
             }
             
             .chat-input-area {
@@ -2036,48 +2116,33 @@
         }
 
         .chat-header {
-            background: rgba(255, 255, 255, 0.75);
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
-            border-radius: 12px;
-            margin: 35px 8px 8px;
-            padding: 20px 16px;
+            background: rgba(255, 255, 255, 0.88);
+            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(24px);
+            border-radius: 18px;
+            margin: 0 8px 8px;
+            padding: 16px 16px;
+            padding-top: calc(16px + env(safe-area-inset-top));
             display: flex;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.08),
-                0 2px 8px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
+                0 1px 0 rgba(255, 255, 255, 0.85) inset,
+                0 -1px 0 rgba(0, 0, 0, 0.03) inset;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: visible;
         }
 
-        .chat-header::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            right: 0;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q15,8 30,20 Q45,32 60,20 Q75,8 90,20 Q105,32 120,20 Q135,8 150,20 Q165,32 180,20 Q195,8 210,20 Q225,32 240,20 Q255,8 270,20 Q285,32 300,20 Q315,8 330,20 Q345,32 360,20 Q375,8 390,20 Q405,32 420,20 Q435,8 450,20 Q465,32 480,20 Q495,8 510,20 Q525,32 540,20 Q555,8 570,20 Q585,32 600,20 Q615,8 630,20 Q645,32 660,20 Q675,8 690,20 Q705,32 720,20 Q735,8 750,20 Q765,32 780,20 Q795,8 810,20 Q825,32 840,20 Q855,8 870,20 Q885,32 900,20 Q915,8 930,20 Q945,32 960,20 Q975,8 990,20 Q1005,32 1020,20 Q1035,8 1050,20 Q1065,32 1080,20 Q1095,8 1110,20 Q1125,32 1140,20 Q1155,8 1170,20 Q1185,32 1200,20 L1200,40 L0,40 Z' fill='rgba(255,255,255,0.75)'/%3E%3Cpath d='M0,20 Q15,8 30,20 Q45,32 60,20 Q75,8 90,20 Q105,32 120,20 Q135,8 150,20 Q165,32 180,20 Q195,8 210,20 Q225,32 240,20 Q255,8 270,20 Q285,32 300,20 Q315,8 330,20 Q345,32 360,20 Q375,8 390,20 Q405,32 420,20 Q435,8 450,20 Q465,32 480,20 Q495,8 510,20 Q525,32 540,20 Q555,8 570,20 Q585,32 600,20 Q615,8 630,20 Q645,32 660,20 Q675,8 690,20 Q705,32 720,20 Q735,8 750,20 Q765,32 780,20 Q795,8 810,20 Q825,32 840,20 Q855,8 870,20 Q885,32 900,20 Q915,8 930,20 Q945,32 960,20 Q975,8 990,20 Q1005,32 1020,20 Q1035,8 1050,20 Q1065,32 1080,20 Q1095,8 1110,20 Q1125,32 1140,20 Q1155,8 1170,20 Q1185,32 1200,20' stroke='rgba(200,200,200,0.6)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            pointer-events: none;
-            z-index: -1;
-        }
-
         .chat-header:hover {
-            box-shadow: 
-                0 6px 20px rgba(0, 0, 0, 0.1),
-                0 3px 10px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.92);
         }
 
         .back-btn {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2086,32 +2151,50 @@
             font-weight: 600;
             color: #333;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             margin-right: 8px;
             z-index: 1;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
 
         .back-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.06);
+            transform: scale(1.05);
+        }
+
+        .back-btn:active {
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(0.96);
         }
 
         .back-btn svg {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             stroke: #333;
-            stroke-width: 3;
+            stroke-width: 2.5;
             stroke-linecap: round;
             stroke-linejoin: round;
             fill: none;
+            transition: transform 0.25s ease;
+        }
+
+        .back-btn:hover svg {
+            transform: translateX(-2px);
         }
 
         .chat-title {
             position: absolute;
-            left: 55%;
+            left: 50%;
             transform: translateX(-50%);
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            letter-spacing: 0.2px;
         }
 
         .chat-actions {
@@ -2232,10 +2315,10 @@
         }
 
         .chat-input-area {
-            background: rgba(255, 255, 255, 0.85);
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.75);
+            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(24px);
+            border-radius: 18px;
             margin: 8px 12px 12px 12px;
             padding: 12px 16px;
             display: flex;
@@ -2246,39 +2329,45 @@
             min-height: 56px;
             max-height: 80px;
             box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.1),
-                0 2px 8px rgba(0, 0, 0, 0.06),
-                inset 0 0.5px 0 rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+                0 1px 0 rgba(255, 255, 255, 0.85) inset,
+                0 -1px 0 rgba(0, 0, 0, 0.03) inset;
+            border: none;
             position: relative;
             z-index: 10;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-input-area:hover {
+            background: rgba(255, 255, 255, 0.92);
         }
 
         .chat-input {
             flex: 1;
-            padding: 10px 14px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 20px;
             font-size: 15px;
-            background: rgba(0, 0, 0, 0.02);
+            background: rgba(255, 255, 255, 0.7);
             outline: none;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
         .chat-input:focus {
-            border-color: #C3EAC1;
-            background: white;
+            border-color: rgba(255, 200, 220, 0.6);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 3px rgba(255, 200, 220, 0.2), 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .send-btn {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border: none;
             border-radius: 50%;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.02);
             color: #555;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2286,17 +2375,25 @@
         }
 
         .send-btn svg {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
+            transition: transform 0.25s ease;
         }
 
         .send-btn:hover {
             color: #333;
-            transform: scale(1.05);
+            transform: scale(1.08);
+            background: rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .send-btn:hover svg {
+            transform: translateX(2px);
         }
 
         .send-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .envelope-icon {
@@ -5789,33 +5886,41 @@
         }
 
         .chat-menu-btn {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             -webkit-tap-highlight-color: transparent;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
 
         .chat-menu-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.06);
+            transform: scale(1.05);
         }
 
         .chat-menu-btn:active {
-            transform: scale(0.9);
+            transform: scale(0.96);
             background: rgba(0, 0, 0, 0.1);
         }
 
         .chat-menu-btn svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             stroke: #333;
-            stroke-width: 2;
+            stroke-width: 2.2;
             stroke-linecap: round;
             fill: none;
+            transition: transform 0.25s ease;
+        }
+
+        .chat-menu-btn:hover svg {
+            transform: rotate(90deg);
         }
 
         .chat-menu-overlay {
@@ -7865,11 +7970,815 @@
             height: 16px;
             fill: currentColor;
         }
+
+        /* ==================== 模拟人生4角色状态栏 - iOS风格 ==================== */
+        .sims-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 3000;
+            display: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            animation: panelFadeIn 0.3s ease-out;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .sims-panel.visible {
+            display: block;
+        }
+
+        @keyframes panelFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .sims-header {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 20px;
+            padding-top: calc(12px + env(safe-area-inset-top));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            border-radius: 20px 20px 20px 20px;
+            margin: 12px 12px 0 12px;
+            background-clip: padding-box;
+        }
+
+        .sims-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: env(safe-area-inset-top);
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .sims-title {
+            color: #000000;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .sims-close-btn {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-top: calc(env(safe-area-inset-top) / 2);
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            color: #007AFF;
+            font-size: 24px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .sims-close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sims-close-btn:active {
+            transform: translateY(-50%) scale(0.92);
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .sims-options-btn {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-top: calc(env(safe-area-inset-top) / 2);
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            color: #007AFF;
+            font-size: 24px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .sims-options-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sims-options-btn:active {
+            transform: translateY(-50%) scale(0.92);
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .sims-dropdown-menu {
+            position: fixed;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            min-width: 140px;
+            z-index: 9999;
+            display: none;
+            animation: dropdownFadeIn 0.2s ease-out;
+            overflow: hidden;
+        }
+
+        .sims-dropdown-menu.visible {
+            display: block;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .sims-dropdown-item {
+            padding: 12px 16px;
+            color: #000000;
+            font-size: 15px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sims-dropdown-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .sims-dropdown-item:active {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .sims-dropdown-item + .sims-dropdown-item {
+            border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .sims-dropdown-item svg {
+            width: 18px;
+            height: 18px;
+            fill: #007AFF;
+        }
+
+        .sims-main {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 12px 12px;
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+            position: relative;
+            background: transparent;
+            gap: 16px;
+        }
+
+        .sims-characters-list {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .sims-characters-list::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .sims-characters-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 2px;
+        }
+
+        .sims-characters-list::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 2px;
+        }
+
+        .sims-character-item {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            min-width: 70px;
+        }
+
+        .sims-character-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .sims-character-item.active {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .sims-character-item-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: #F2F2F7;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .sims-character-item.active .sims-character-item-avatar {
+            border-color: #667eea;
+        }
+
+        .sims-character-item-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sims-character-item-name {
+            font-size: 12px;
+            color: #333;
+            text-align: center;
+            max-width: 70px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .sims-character-item.active .sims-character-item-name {
+            color: #667eea;
+        }
+
+        .sims-character-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+            position: relative;
+            padding: 20px 16px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 0;
+        }
+
+        .sims-character-section:hover {
+            transform: translateY(-0.5px);
+            background: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .sims-avatar-container {
+            width: 72px;
+            height: 72px;
+            border-radius: 14px;
+            background: #F2F2F7;
+            border: 0.5px solid rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sims-avatar-container:hover {
+            transform: scale(1.03);
+        }
+
+        .sims-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sims-avatar-placeholder {
+            font-size: 30px;
+        }
+
+        .sims-avatar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .sims-plumbob {
+            width: 26px;
+            height: 44px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: plumbobBreath 2.5s ease-in-out infinite;
+        }
+
+        .sims-plumbob::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #98FB98 0%, #00FF00 30%, #00CD00 60%, #008B00 100%);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.7));
+        }
+
+        .plumbob-inner {
+            position: absolute;
+            width: 35%;
+            height: 25%;
+            top: 18%;
+            left: 32.5%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.1) 100%);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            z-index: 1;
+        }
+
+        @keyframes plumbobBreath {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                filter: drop-shadow(0 0 8px rgba(124, 252, 0, 0.6));
+            }
+            50% {
+                transform: translateY(-3px) scale(1.05);
+                filter: drop-shadow(0 0 16px rgba(124, 252, 0, 0.9));
+            }
+        }
+
+        .sims-left-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+        }
+
+        .sims-character-info {
+            flex: 1;
+            padding-top: 4px;
+            padding-left: 0;
+        }
+
+        .sims-character-name {
+            color: #000000;
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.4px;
+            transition: all 0.2s ease;
+        }
+
+        .sims-character-section:hover .sims-character-name {
+            color: #007AFF;
+        }
+
+        .sims-character-mood {
+            color: #8E8E93;
+            font-size: 15px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mood-icon {
+            font-size: 17px;
+        }
+
+        /* 思想气泡 - iOS短信风格 */
+        .thought-bubble-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .thought-bubble {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 16px;
+            border-radius: 20px;
+            border-top-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            max-width: 260px;
+            position: relative;
+            animation: bubbleAppear 0.4s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            color: #000000;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .thought-bubble.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+
+
+        .thought-text {
+            color: #333333;
+            font-size: 14px;
+            line-height: 1.45;
+            font-style: italic;
+        }
+
+        @keyframes bubbleAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.9);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-5px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes bubbleDisappear {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.9);
+            }
+        }
+
+        /* 需求状态条 - iOS风格 */
+        .needs-container {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .needs-title {
+            color: #000000;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: left;
+            letter-spacing: -0.2px;
+        }
+
+        .need-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 12px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .need-item:hover {
+            background: rgba(255, 255, 255, 0.45);
+            transform: translateY(-0.5px);
+        }
+
+        .need-item:active {
+            transform: translateY(0) scale(0.99);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .need-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .need-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .need-icon svg {
+            width: 24px;
+            height: 24px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .need-item:hover .need-icon {
+            transform: scale(1.05);
+        }
+
+        .need-item:hover .need-icon svg {
+            transform: scale(1.05);
+        }
+
+        .need-info {
+            flex: 1;
+            margin-right: 12px;
+        }
+
+        .need-name {
+            color: #000000;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .need-bar-container {
+            position: relative;
+            height: 7px;
+            background: #E5E5EA;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .need-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .need-bar.high {
+            background: #34C759;
+        }
+
+        .need-bar.medium {
+            background: #FF9500;
+        }
+
+        .need-bar.low {
+            background: #FF3B30;
+            animation: pulseLow 1.2s ease-in-out infinite;
+        }
+
+        @keyframes pulseLow {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .need-percentage {
+            color: #000000;
+            font-size: 15px;
+            font-weight: 700;
+            min-width: 44px;
+            text-align: right;
+            letter-spacing: -0.2px;
+        }
+
+        .need-percentage.high {
+            color: #34C759;
+        }
+
+        .need-percentage.medium {
+            color: #FF9500;
+        }
+
+        .need-percentage.low {
+            color: #FF3B30;
+        }
+
+        /* 需求详情弹窗 - iOS风格 */
+        .need-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            z-index: 4000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top));
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+
+        .need-detail-modal.visible {
+            display: flex;
+        }
+
+        .need-detail-content {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 24px;
+            padding: 28px 24px;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08), 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .need-detail-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .need-detail-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .need-detail-modal.visible .need-detail-icon {
+            animation: iconBounce 0.5s ease 0.1s;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        .need-detail-name {
+            color: #333333;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.4px;
+        }
+
+        .need-detail-value {
+            color: #34C759;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .need-detail-desc {
+            color: #8E8E93;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            letter-spacing: -0.2px;
+        }
+
+        .need-detail-close {
+            background: #007AFF;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.2px;
+        }
+
+        .need-detail-close:hover {
+            background: #0066CC;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        .need-detail-close:active {
+            transform: translateY(0) scale(0.96);
+            background: #0055BB;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .sims-character-section {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .sims-left-section {
+                flex-direction: row;
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .thought-bubble-container {
+                width: 100%;
+            }
+
+            .thought-bubble {
+                max-width: 100%;
+            }
+
+            .need-item {
+                padding: 10px 12px;
+            }
+
+            .need-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="ios-container">
         <div class="home-screen">
+            <div class="input-widgets-container">
+                <input type="text" class="input-widget" id="input-widget-1" placeholder="₊𝔹𝕒𝕓𝕖₊">
+                <input type="text" class="input-widget" id="input-widget-2" placeholder="♰𝐾𝑖𝑡𝑡𝑒𝑛♰">
+            </div>
+            <div class="circle-inputs-container">
+                <input type="text" class="input-widget" id="circle-input-1" placeholder="+ Elf Ear ★">
+                <input type="text" class="input-widget" id="circle-input-2" placeholder="ʟɪᴇɴ">
+            </div>
             <div class="widget-section">
                 <div class="left-widgets">
                     <div class="circle-widget" id="circle-widget">
@@ -7878,7 +8787,13 @@
                         </svg>
                     </div>
                     <div class="text-widget" id="text-widget">Aily</div>
-                    <div class="app-grid">
+
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="app-grid">
                     <div class="app-icon" data-app="wechat">
                         <div class="icon-container">
                             <img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/9Zl1/1600X1994/IMG_1404.JPG/webp" alt="微信">
@@ -7903,11 +8818,7 @@
                         </div>
                         <div class="app-name">微博</div>
                     </div>
-
                 </div>
-                </div>
-            </div>
-        </div>
         
         <div class="dock">
             <div class="dock-app" data-app="home">
@@ -7958,6 +8869,188 @@
             </div>
         </div>
         <div class="note-star"></div>
+    </div>
+
+    <!-- 模拟人生菜单 -->
+    <div id="sims-dropdown" class="sims-dropdown-menu">
+        <div class="sims-dropdown-item" onclick="window.openWorldbookSelector();">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+            </svg>
+            选择世界书
+        </div>
+        <div class="sims-dropdown-item" onclick="changeSimsBackground()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <path d="M20 8L14.5 13 11 9 4 16V6h16z" opacity=".5"/>
+            </svg>
+            更换背景
+        </div>
+        <div class="sims-dropdown-item" onclick="refreshSims()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
+            刷新
+        </div>
+    </div>
+
+    <!-- 模拟人生4角色状态栏 -->
+    <div id="sims-panel" class="sims-panel">
+        <div class="sims-header">
+            <button class="sims-close-btn" onclick="closeSimsPanel()">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px;">
+                    <path d="M15.5 19L8.5 12L15.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="sims-title">模拟人生</div>
+            <button class="sims-options-btn" onclick="toggleSimsDropdown(event)">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px;">
+                    <circle cx="12" cy="6" r="2"/>
+                    <circle cx="12" cy="12" r="2"/>
+                    <circle cx="12" cy="18" r="2"/>
+                </svg>
+            </button>
+        </div>
+        <div class="sims-main">
+            <div class="sims-character-section">
+                <div class="sims-left-section">
+                    <div class="sims-avatar-wrapper">
+                        <div class="sims-plumbob">
+                            <div class="plumbob-inner"></div>
+                        </div>
+                        <div class="sims-avatar-container" id="sims-avatar-container" onclick="openCharacterSelector()" style="cursor: pointer;">
+                            <div class="sims-avatar-placeholder" id="sims-avatar">🧑</div>
+                        </div>
+                    </div>
+                    <div class="sims-character-info" style="cursor: pointer;" onclick="openCharacterSelector()">
+                        <div class="sims-character-name" id="sims-character-name">模拟市民</div>
+                        <div class="sims-character-mood">
+                            <span class="mood-icon" id="mood-icon">😊</span>
+                            <span id="mood-text">心情愉悦</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="thought-bubble-container">
+                    <div id="thought-bubble" class="thought-bubble">
+                        <div class="thought-text" id="thought-text">今天心情不错，想要做些什么好呢？</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="needs-container">
+                <div class="needs-title">需求状态</div>
+                
+                <div class="need-item" onclick="showNeedDetail('hunger')">
+                    <div class="need-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.88 9.29L12 13.17L8.12 9.29C7.73 8.9 7.1 8.9 6.71 9.29C6.32 9.68 6.32 10.31 6.71 10.7L11.3 15.29C11.69 15.68 12.32 15.68 12.71 15.29L17.3 10.7C17.69 10.31 17.69 9.68 17.3 9.29C16.91 8.9 16.27 8.9 15.88 9.29Z" fill="#FF3B30"/>
+                        </svg>
+                    </div>
+                    <div class="need-info">
+                        <div class="need-name">饥饿值</div>
+                        <div class="need-bar-container">
+                            <div id="need-hunger" class="need-bar high" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div id="percentage-hunger" class="need-percentage high">75%</div>
+                </div>
+                
+                <div class="need-item" onclick="showNeedDetail('energy')">
+                    <div class="need-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 2C8.62 2 8.27 2.2 8.1 2.57L4.1 11.57C3.85 12.14 4.05 12.82 4.57 13.11L9 15.67L9 22C9 22.55 9.45 23 10 23C10.38 23 10.73 22.8 10.9 22.43L14.9 13.43C15.15 12.86 14.95 12.18 14.43 11.89L10 9.33L10 2C10 1.45 9.55 1 9 1V2Z" fill="#FF9500"/>
+                        </svg>
+                    </div>
+                    <div class="need-info">
+                        <div class="need-name">睡眠值</div>
+                        <div class="need-bar-container">
+                            <div id="need-energy" class="need-bar high" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div id="percentage-energy" class="need-percentage high">60%</div>
+                </div>
+                
+                <div class="need-item" onclick="showNeedDetail('bladder')">
+                    <div class="need-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM11 7H13V13H11V7ZM11 15H13V17H11V15Z" fill="#007AFF"/>
+                        </svg>
+                    </div>
+                    <div class="need-info">
+                        <div class="need-name">如厕需求</div>
+                        <div class="need-bar-container">
+                            <div id="need-bladder" class="need-bar high" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div id="percentage-bladder" class="need-percentage high">85%</div>
+                </div>
+                
+                <div class="need-item" onclick="showNeedDetail('hygiene')">
+                    <div class="need-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z" fill="#5AC8FA"/>
+                        </svg>
+                    </div>
+                    <div class="need-info">
+                        <div class="need-name">清洁度</div>
+                        <div class="need-bar-container">
+                            <div id="need-hygiene" class="need-bar medium" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                    <div id="percentage-hygiene" class="need-percentage medium">45%</div>
+                </div>
+                
+                <div class="need-item" onclick="showNeedDetail('fun')">
+                    <div class="need-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 6H3C1.9 6 1 6.9 1 8V16C1 17.1 1.9 18 3 18H10V20H8V22H16V20H14V18H21C22.1 18 23 17.1 23 16V8C23 6.9 22.1 6 21 6ZM21 16H3V8H21V16ZM9 12C9 13.1 8.1 14 7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12ZM19 12C19 13.1 18.1 14 17 14C15.9 14 15 13.1 15 12C15 10.9 15.9 10 17 10C18.1 10 19 10.9 19 12Z" fill="#5856D6"/>
+                        </svg>
+                    </div>
+                    <div class="need-info">
+                        <div class="need-name">娱乐值</div>
+                        <div class="need-bar-container">
+                            <div id="need-fun" class="need-bar high" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <div id="percentage-fun" class="need-percentage high">70%</div>
+                </div>
+                
+                <div class="need-item" onclick="showNeedDetail('social')">
+                    <div class="need-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 11C17.66 11 19 9.66 19 8C19 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM6 11C7.66 11 9 9.66 9 8C9 6.34 7.66 5 6 5C4.34 5 3 6.34 3 8C3 9.66 4.34 11 6 11ZM16 13C13.33 13 8 14.34 8 17V19H24V17C24 14.34 18.67 13 16 13ZM6 13C3.33 13 1 14.34 1 17V19H11V17C11 14.34 8.67 13 6 13Z" fill="#34C759"/>
+                        </svg>
+                    </div>
+                    <div class="need-info">
+                        <div class="need-name">社交值</div>
+                        <div class="need-bar-container">
+                            <div id="need-social" class="need-bar low" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                    <div id="percentage-social" class="need-percentage low">30%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 需求详情弹窗 -->
+    <div id="need-detail-modal" class="need-detail-modal">
+        <div class="need-detail-content">
+            <div class="need-detail-icon" id="detail-icon">🍔</div>
+            <div class="need-detail-name" id="detail-name">饥饿值</div>
+            <div class="need-detail-value" id="detail-value">75%</div>
+            <div class="need-detail-desc" id="detail-desc">你的模拟市民现在有些饿了，是时候吃点东西补充能量了！</div>
+            <button class="need-detail-close" onclick="closeNeedDetail()">好的</button>
+        </div>
+    </div>
+
+    <!-- 角色选择弹窗 -->
+    <div id="character-selector-modal" class="need-detail-modal">
+        <div class="need-detail-content" style="max-width: 400px; padding: 20px;">
+            <div style="font-size: 20px; font-weight: 600; color: #333; margin-bottom: 20px;">选择角色</div>
+            <div id="character-selector-list" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-height: 400px; overflow-y: auto; margin-bottom: 20px;"></div>
+            <button class="need-detail-close" onclick="closeCharacterSelector()">关闭</button>
+        </div>
     </div>
 
     <!-- 设置应用模态窗口 -->
@@ -8176,6 +9269,25 @@
                                 <button class="btn-secondary" onclick="resetFontColors()">恢复默认颜色</button>
                             </div>
 
+                            <!-- 聊天字体颜色设置 -->
+                            <div class="form-group">
+                                <label>聊天字体颜色:</label>
+                                <div class="color-options">
+                                    <div class="color-option">
+                                        <label for="chat-self-color">自己消息颜色:</label>
+                                        <input type="color" id="chat-self-color" value="#1d1d1f" onchange="saveToColorPalette(this.value); updateColorCode(this)">
+                                        <input type="text" class="color-code-input" id="chat-self-color-code" value="#1d1d1f" onchange="updateColorFromCode('chat-self-color', this.value)">
+                                    </div>
+                                    <div class="color-option">
+                                        <label for="chat-other-color">对方消息颜色:</label>
+                                        <input type="color" id="chat-other-color" value="#1d1d1f" onchange="saveToColorPalette(this.value); updateColorCode(this)">
+                                        <input type="text" class="color-code-input" id="chat-other-color-code" value="#1d1d1f" onchange="updateColorFromCode('chat-other-color', this.value)">
+                                    </div>
+                                </div>
+                                <button class="btn-primary" onclick="saveChatFontColors()">保存聊天颜色</button>
+                                <button class="btn-secondary" onclick="resetChatFontColors()">恢复默认</button>
+                            </div>
+
                             <!-- 图标设置 -->
                             <div class="form-group">
                                 <label>应用图标 (点击选择要修改的应用):</label>
@@ -8186,6 +9298,70 @@
                                 <button class="btn-secondary" id="reset-icon-btn" onclick="resetSelectedIcon()" style="display: none;">恢复图标</button>
                                 <button class="btn-secondary" id="rename-icon-btn" onclick="openRenameModal()" style="display: none;">修改名称</button>
                                 <button class="btn-secondary" onclick="resetAllIcons()">全部恢复默认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 储存分类 -->
+                <div class="category-wrapper">
+                    <div class="category-header" onclick="toggleCategory('storage')">
+                        <div class="category-title">
+                            <div class="category-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5h3V8h4v4h3l-5 5z"/>
+                                </svg>
+                            </div>
+                            储存
+                        </div>
+                        <svg class="category-arrow" viewBox="0 0 24 24" fill="white">
+                            <path d="M7,10l5,5l5-5H7z"/>
+                        </svg>
+                    </div>
+                    <div class="category-content" id="category-storage">
+                        <div class="settings-section-inner">
+                            <div class="form-group">
+                                <label>数据管理:</label>
+                                <p style="font-size: 13px; color: #666; margin-bottom: 16px;">导出或导入您的所有应用数据，包括角色信息、世界书内容、图片资源、美化设置等。</p>
+                                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                    <button class="btn-primary" onclick="exportAllData()" style="flex: 1; min-width: 120px;">
+                                        <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                                <polyline points="17 8 12 3 7 8"/>
+                                                <line x1="12" y1="3" x2="12" y2="15"/>
+                                            </svg>
+                                            导出数据
+                                        </span>
+                                    </button>
+                                    <button class="btn-secondary" onclick="document.getElementById('import-file-input').click()" style="flex: 1; min-width: 120px;">
+                                        <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                                <polyline points="7 10 12 15 17 10"/>
+                                                <line x1="12" y1="15" x2="12" y2="3"/>
+                                            </svg>
+                                            导入数据
+                                        </span>
+                                    </button>
+                                    <input type="file" id="import-file-input" accept=".zip" style="display: none;" onchange="importAllData(event)">
+                                </div>
+                            </div>
+                            <div id="storage-status" style="margin-top: 16px; padding: 12px; border-radius: 12px; background: rgba(0,0,0,0.05); display: none;">
+                                <span id="storage-status-text"></span>
+                            </div>
+                            <div class="form-group" style="margin-top: 20px;">
+                                <label>数据清除:</label>
+                                <p style="font-size: 13px; color: #666; margin-bottom: 12px;">清除所有本地存储数据，此操作不可恢复，请谨慎操作。</p>
+                                <button class="btn-secondary" onclick="confirmClearAllData()" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; border-color: rgba(255, 59, 48, 0.3);">
+                                    <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"/>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                        </svg>
+                                        清除所有数据
+                                    </span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -8231,30 +9407,7 @@
         </div>
     </div>
 
-    <!-- 图片来源选择模态窗口 -->
-    <div id="image-source-modal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
-            <div class="modal-header">
-                <h2>选择图片来源</h2>
-                <button class="close-btn" onclick="closeImageSourceModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="image-source-options">
-                    <button class="btn-primary" style="width: 100%; margin-bottom: 12px;" onclick="selectImageSource('local')">本地文件</button>
-                    <button class="btn-secondary" style="width: 100%;" onclick="selectImageSource('url')">图片URL</button>
-                </div>
-                <div class="image-url-input" style="margin-top: 15px; display: none;">
-                    <label for="image-url">图片URL:</label>
-                    <input type="url" id="image-url" placeholder="https://example.com/image.jpg" style="margin-top: 8px;">
-                </div>
-                <div class="image-source-actions" style="margin-top: 20px; text-align: center;">
-                    <button class="btn-primary" onclick="confirmImageSource()">确定</button>
-                    <button class="btn-secondary" onclick="closeImageSourceModal()">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+
     <!-- 模型选择模态窗口 -->
     <div id="model-modal" class="modal">
         <div class="modal-content" style="max-width: 400px;">
@@ -8465,6 +9618,24 @@
             <div class="worldbook-modal-footer">
                 <button class="worldbook-btn worldbook-btn-secondary" onclick="closeWorldbookFolderModal()">取消</button>
                 <button class="worldbook-btn worldbook-btn-primary" onclick="saveWorldbookFolder()">创建</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模拟人生世界书选择模态窗口 -->
+    <div id="sims-worldbook-selector" class="worldbook-modal" style="z-index: 4000;">
+        <div class="worldbook-modal-content">
+            <div class="worldbook-modal-header">
+                <div class="worldbook-modal-title">选择世界书</div>
+                <div class="worldbook-modal-close" onclick="window.closeSimsWorldbookSelector()">×</div>
+            </div>
+            <div class="worldbook-modal-body">
+                <div id="sims-worldbook-list" class="worldbook-entries-container">
+                    <!-- 世界书列表将通过JavaScript动态添加 -->
+                </div>
+            </div>
+            <div class="worldbook-modal-footer">
+                <button class="worldbook-btn worldbook-btn-secondary" onclick="closeSimsWorldbookSelector()">关闭</button>
             </div>
         </div>
     </div>
@@ -9533,6 +10704,7 @@
         </div>
     </div>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
         // ============================================
         // 触摸拖拽滚动模块 (TouchScroll Module)
@@ -9920,15 +11092,113 @@
         });
 
         let selectedApp = null;
-        let currentImageContext = null; // 追踪当前使用图片来源选择的上下文
-        let currentImageSource = null; // 追踪当前选择的图片来源
+        
+        // 模拟人生相关变量
+        let currentSelectedRoleId = null;
+        let simsRolesData = (function() {
+            try {
+                const saved = localStorage.getItem('simsRolesData');
+                return saved ? JSON.parse(saved) : {};
+            } catch {
+                return {};
+            }
+        })();
+        
+        function getDefaultNeeds() {
+            return {
+                hunger: 75,
+                energy: 60,
+                bladder: 85,
+                hygiene: 45,
+                fun: 70,
+                social: 30
+            };
+        }
+        
+        function getRoleNeeds(roleId) {
+            if (!simsRolesData[roleId]) {
+                simsRolesData[roleId] = getDefaultNeeds();
+            }
+            return simsRolesData[roleId];
+        }
+        
+        let simsNeeds = getDefaultNeeds();
+        let simsThoughtMessages = [];
+        let simsUsedThoughtMessages = [];
+        let selectedSimsWorldbookIds = JSON.parse(localStorage.getItem('selectedSimsWorldbookIds')) || [];
+        
+        const thoughtMessages = [
+            "今天心情不错，想要做些什么好呢？",
+            "肚子有点饿了，要不要吃点东西？",
+            "感觉有点累，应该休息一下。",
+            "好想出去玩啊！在家好无聊。",
+            "需要和朋友聊聊天，增进感情。",
+            "身上有点不舒服，应该去洗个澡。",
+            "哇！这个想法太棒了！",
+            "不知道邻居们在做什么呢？",
+            "今天的天气真适合散步！",
+            "我是不是忘记做什么事了？",
+            "好想吃一些美味的食物！",
+            "要是能去旅行就好了～",
+            "感觉精力充沛，可以做很多事情！",
+            "这个音乐真好听！",
+            "突然想画画了，好久没画了。"
+        ];
+        
+        const needInfo = {
+            hunger: { 
+                icon: '🍔', 
+                svg: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.88 9.29L12 13.17L8.12 9.29C7.73 8.9 7.1 8.9 6.71 9.29C6.32 9.68 6.32 10.31 6.71 10.7L11.3 15.29C11.69 15.68 12.32 15.68 12.71 15.29L17.3 10.7C17.69 10.31 17.69 9.68 17.3 9.29C16.91 8.9 16.27 8.9 15.88 9.29Z" fill="#FF3B30"/></svg>',
+                color: '#FF3B30',
+                name: '饥饿值', 
+                desc: '你的模拟市民现在有些饿了，是时候吃点东西补充能量了！' 
+            },
+            energy: { 
+                icon: '😴', 
+                svg: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 2C8.62 2 8.27 2.2 8.1 2.57L4.1 11.57C3.85 12.14 4.05 12.82 4.57 13.11L9 15.67L9 22C9 22.55 9.45 23 10 23C10.38 23 10.73 22.8 10.9 22.43L14.9 13.43C15.15 12.86 14.95 12.18 14.43 11.89L10 9.33L10 2C10 1.45 9.55 1 9 1V2Z" fill="#FF9500"/></svg>',
+                color: '#FF9500',
+                name: '睡眠值', 
+                desc: '模拟市民需要休息了，好好睡一觉恢复精力吧！' 
+            },
+            bladder: { 
+                icon: '🚽', 
+                svg: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM11 7H13V13H11V7ZM11 15H13V17H11V15Z" fill="#007AFF"/></svg>',
+                color: '#007AFF',
+                name: '如厕需求', 
+                desc: '嗯...是时候去趟洗手间了！' 
+            },
+            hygiene: { 
+                icon: '🛁', 
+                svg: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z" fill="#5AC8FA"/></svg>',
+                color: '#5AC8FA',
+                name: '清洁度', 
+                desc: '该洗个澡了，保持清洁让模拟市民更快乐！' 
+            },
+            fun: { 
+                icon: '🎮', 
+                svg: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H3C1.9 6 1 6.9 1 8V16C1 17.1 1.9 18 3 18H10V20H8V22H16V20H14V18H21C22.1 18 23 17.1 23 16V8C23 6.9 22.1 6 21 6ZM21 16H3V8H21V16ZM9 12C9 13.1 8.1 14 7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12ZM19 12C19 13.1 18.1 14 17 14C15.9 14 15 13.1 15 12C15 10.9 15.9 10 17 10C18.1 10 19 10.9 19 12Z" fill="#5856D6"/></svg>',
+                color: '#5856D6',
+                name: '娱乐值', 
+                desc: '找点乐子吧！玩游戏、看电视或者做些有趣的事情！' 
+            },
+            social: { 
+                icon: '👥', 
+                svg: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11C17.66 11 19 9.66 19 8C19 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM6 11C7.66 11 9 9.66 9 8C9 6.34 7.66 5 6 5C4.34 5 3 6.34 3 8C3 9.66 4.34 11 6 11ZM16 13C13.33 13 8 14.34 8 17V19H24V17C24 14.34 18.67 13 16 13ZM6 13C3.33 13 1 14.34 1 17V19H11V17C11 14.34 8.67 13 6 13Z" fill="#34C759"/></svg>',
+                color: '#34C759',
+                name: '社交值', 
+                desc: '模拟市民需要社交！和朋友聊聊天或者打个电话吧！' 
+            }
+        };
+        
+        let thoughtBubbleInterval = null;
+        let needsUpdateInterval = null;
         
         const apps = [
             { id: 'wechat', name: '微信', svg: '<img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/9Zl1/1600X1994/IMG_1404.JPG/webp" alt="微信">' },
             { id: 'worldbook', name: '世界书', svg: '<img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/6mpR/1056X1056/IMG_1410.JPG/webp" alt="世界书">' },
             { id: 'netease', name: '网易云', svg: '<img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/xFcr/1440X1440/IMG_1413.JPG/webp" alt="网易云">' },
             { id: 'forum', name: '微博', svg: '<img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/Zra1/1080X1080/IMG_1414.JPG/webp" alt="微博">' },
-            { id: 'home', name: '主页', svg: '<img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/dKkP/736X736/IMG_1632.JPG/webp" alt="主页">' },
+            { id: 'home', name: '模拟人生', svg: '<img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/dKkP/736X736/IMG_1632.JPG/webp" alt="模拟人生">' },
             { id: 'settings', name: '设置', svg: '<img src="https://test.fukit.cn/autoupload/fr/_hIym_kL0IbP0iEiZkSoLxtzreEdjgdv9GXNy9AuHlayl5f0KlZfm6UsKj-HyTuv/20260217/Z9tt/640X640/IMG_1633.JPG/webp" alt="设置">' }
         ];
 
@@ -9951,6 +11221,8 @@
                         openWechat();
                     } else if (appData === 'worldbook' || appName === '世界书') {
                         openWorldbook();
+                    } else if (appData === 'home' || appName === '模拟人生') {
+                        openSimsPanel();
                     } else {
                         alert(`打开应用: ${appName}`);
                     }
@@ -9982,110 +11254,6 @@
             };
             input.click();
         });
-
-        // 打开图片来源选择模态窗口
-        function openImageSourceModal(context) {
-            currentImageContext = context;
-            currentImageSource = null;
-            document.getElementById('image-url').value = '';
-            document.querySelector('.image-url-input').style.display = 'none';
-            document.getElementById('image-source-modal').style.display = 'block';
-        }
-
-        // 关闭图片来源选择模态窗口
-        function closeImageSourceModal() {
-            document.getElementById('image-source-modal').style.display = 'none';
-            currentImageContext = null;
-            currentImageSource = null;
-        }
-
-        // 选择图片来源
-        function selectImageSource(source) {
-            currentImageSource = source;
-            if (source === 'url') {
-                document.querySelector('.image-url-input').style.display = 'block';
-            } else {
-                document.querySelector('.image-url-input').style.display = 'none';
-            }
-        }
-
-        // 确认图片来源选择
-        function confirmImageSource() {
-            if (!currentImageSource) {
-                alert('请选择图片来源');
-                return;
-            }
-
-            if (currentImageSource === 'local') {
-                // 从本地文件上传
-                switch(currentImageContext) {
-                    case 'circle-widget':
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'image/*';
-                        input.onchange = function(e) {
-                            const file = e.target.files[0];
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.onload = function(event) {
-                                    const imageUrl = event.target.result;
-                                    const widget = document.getElementById('circle-widget');
-                                    widget.innerHTML = `<img src="${imageUrl}" alt="小组件图片" style="border-radius: 50%; box-shadow: 0 0 4px 1px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3); border: 4px solid white;">`;
-                                    localStorage.setItem('circleWidgetImage', imageUrl);
-                                };
-                                reader.readAsDataURL(file);
-                            }
-                        };
-                        input.click();
-                        break;
-                    case 'icon-upload':
-                        document.getElementById('icon-upload').click();
-                        break;
-                    case 'wallpaper-upload':
-                        document.getElementById('wallpaper-upload').click();
-                        break;
-                }
-            } else if (currentImageSource === 'url') {
-                // 从URL导入
-                const imageUrl = document.getElementById('image-url').value;
-                if (imageUrl && imageUrl.startsWith('http')) {
-                    switch(currentImageContext) {
-                        case 'circle-widget':
-                            const widget = document.getElementById('circle-widget');
-                            widget.innerHTML = `<img src="${imageUrl}" alt="小组件图片" style="border-radius: 50%; box-shadow: 0 0 4px 1px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3); border: 4px solid white;">`;
-                            localStorage.setItem('circleWidgetImage', imageUrl);
-                            break;
-                        case 'icon-upload':
-                            if (!selectedApp) {
-                                alert('请先选择要修改的应用');
-                                break;
-                            }
-                            localStorage.setItem('icon_' + selectedApp, imageUrl);
-                            const app = apps.find(a => a.id === selectedApp);
-                            document.querySelectorAll('[data-app="' + selectedApp + '"]').forEach(element => {
-                                const iconContainer = element.querySelector('.icon-container, .dock-icon');
-                                if (iconContainer) {
-                                    iconContainer.innerHTML = `<img src="${imageUrl}" alt="${app ? app.name : ''}">`;
-                                }
-                            });
-                            renderIconGrid();
-                            alert('图标已上传');
-                            break;
-                        case 'wallpaper-upload':
-                            localStorage.setItem('customWallpaper', imageUrl);
-                            applyWallpaper();
-                            updateWallpaperPreview();
-                            alert('自定义壁纸已应用');
-                            break;
-                    }
-                } else if (imageUrl) {
-                    alert('请输入有效的图片URL，必须以 http 或 https 开头');
-                    return;
-                }
-            }
-
-            closeImageSourceModal();
-        }
 
         // 文字小组件点击事件
         document.getElementById('text-widget').addEventListener('click', function() {
@@ -10128,6 +11296,623 @@
                 localStorage.setItem('noteWidgetContent', lines.join('\n'));
             }
         }
+
+        // ==================== 模拟人生4功能 ====================
+        
+        function openSimsPanel() {
+            const panel = document.getElementById('sims-panel');
+            panel.classList.add('visible');
+            
+            const savedBackground = localStorage.getItem('simsBackground');
+            if (savedBackground) {
+                const simsMain = panel.querySelector('.sims-main');
+                simsMain.style.background = savedBackground;
+            }
+            
+            const thoughtBubble = document.getElementById('thought-bubble');
+            thoughtBubble.classList.add('visible');
+            
+            if (roles.length > 0 && !currentSelectedRoleId) {
+                selectSimsCharacter(roles[0].id);
+            } else if (currentSelectedRoleId) {
+                selectSimsCharacter(currentSelectedRoleId);
+            }
+            
+            startThoughtBubbleTimer();
+            startNeedsUpdateTimer();
+        }
+        
+        function openCharacterSelector() {
+            const modal = document.getElementById('character-selector-modal');
+            const container = document.getElementById('character-selector-list');
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (!roles || roles.length === 0) {
+                const emptyItem = document.createElement('div');
+                emptyItem.style.padding = '20px';
+                emptyItem.style.color = '#999';
+                emptyItem.style.fontSize = '14px';
+                emptyItem.textContent = '暂无角色，请先添加角色';
+                container.appendChild(emptyItem);
+            } else {
+                roles.forEach((role) => {
+                    const item = document.createElement('div');
+                    item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; min-width: 80px;';
+                    if (currentSelectedRoleId === role.id) {
+                        item.style.background = 'rgba(102, 126, 234, 0.15)';
+                    }
+                    item.onclick = () => {
+                        selectSimsCharacter(role.id);
+                        closeCharacterSelector();
+                    };
+                    item.onmouseenter = () => {
+                        item.style.background = 'rgba(0, 0, 0, 0.05)';
+                        item.style.transform = 'translateY(-2px)';
+                    };
+                    item.onmouseleave = () => {
+                        if (currentSelectedRoleId === role.id) {
+                            item.style.background = 'rgba(102, 126, 234, 0.15)';
+                        } else {
+                            item.style.background = 'transparent';
+                        }
+                        item.style.transform = 'translateY(0)';
+                    };
+                    
+                    const avatar = document.createElement('div');
+                    avatar.style.cssText = 'width: 60px; height: 60px; border-radius: 10px; background: #F2F2F7; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 28px;';
+                    if (role.avatar) {
+                        const img = document.createElement('img');
+                        img.src = role.avatar;
+                        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+                        avatar.appendChild(img);
+                    } else {
+                        avatar.textContent = '🧑';
+                    }
+                    
+                    const name = document.createElement('div');
+                    name.style.cssText = 'font-size: 13px; color: #333; text-align: center; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500;';
+                    if (currentSelectedRoleId === role.id) {
+                        name.style.color = '#667eea';
+                    }
+                    name.textContent = role.name;
+                    
+                    item.appendChild(avatar);
+                    item.appendChild(name);
+                    container.appendChild(item);
+                });
+            }
+            
+            modal.classList.add('visible');
+        }
+        
+        function closeCharacterSelector() {
+            const modal = document.getElementById('character-selector-modal');
+            modal.classList.remove('visible');
+        }
+        
+        function selectSimsCharacter(roleId) {
+            currentSelectedRoleId = roleId;
+            const role = roles.find(r => r.id === roleId);
+            if (!role) return;
+            
+            const avatarContainer = document.getElementById('sims-avatar-container');
+            const nameEl = document.getElementById('sims-character-name');
+            
+            if (role.avatar) {
+                avatarContainer.innerHTML = `<img src="${role.avatar}" class="sims-avatar" alt="${role.name}">`;
+            } else {
+                avatarContainer.innerHTML = `<div class="sims-avatar-placeholder">🧑</div>`;
+            }
+            
+            nameEl.textContent = role.name;
+            
+            simsNeeds = getRoleNeeds(roleId);
+            
+            // 恢复思想气泡数据
+            try {
+                const savedThoughts = localStorage.getItem(`simsThoughts_${roleId}`);
+                const savedUsedThoughts = localStorage.getItem(`simsUsedThoughts_${roleId}`);
+                if (savedThoughts) {
+                    simsThoughtMessages = JSON.parse(savedThoughts);
+                } else {
+                    simsThoughtMessages = [];
+                }
+                if (savedUsedThoughts) {
+                    simsUsedThoughtMessages = JSON.parse(savedUsedThoughts);
+                } else {
+                    simsUsedThoughtMessages = [];
+                }
+            } catch {
+                simsThoughtMessages = [];
+                simsUsedThoughtMessages = [];
+            }
+            
+            updateAllNeeds();
+            updateThoughtBubble();
+        }
+        
+        function closeSimsPanel() {
+            const panel = document.getElementById('sims-panel');
+            panel.classList.remove('visible');
+            
+            stopThoughtBubbleTimer();
+            stopNeedsUpdateTimer();
+        }
+
+        function toggleSimsDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('sims-dropdown');
+            const btn = document.querySelector('.sims-options-btn');
+            
+            if (dropdown.classList.contains('visible')) {
+                dropdown.classList.remove('visible');
+            } else {
+                const rect = btn.getBoundingClientRect();
+                dropdown.style.top = (rect.bottom + 4) + 'px';
+                dropdown.style.right = (window.innerWidth - rect.right) + 'px';
+                dropdown.classList.add('visible');
+            }
+        }
+
+        function changeSimsBackground() {
+            const dropdown = document.getElementById('sims-dropdown');
+            dropdown.classList.remove('visible');
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const simsPanel = document.getElementById('sims-panel');
+                        const simsMain = simsPanel.querySelector('.sims-main');
+                        const backgroundStyle = `url('${event.target.result}') center/cover no-repeat`;
+                        simsMain.style.background = backgroundStyle;
+                        localStorage.setItem('simsBackground', backgroundStyle);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function analyzeAndUpdateNeeds(content) {
+            if (!currentSelectedRoleId) return;
+            
+            const lowerContent = content.toLowerCase();
+            let needsChanged = false;
+            
+            const keywords = {
+                hunger: ['吃', '饿', '饭', '餐', '零食', '蛋糕', '面条', '汉堡', '炸鸡', '美食', '喂', '饼干', '面包'],
+                energy: ['睡', '困', '累', '休息', '晚安', '睡觉', '躺', '熬夜', '疲惫', '精神'],
+                bladder: ['厕', '卫生间', '洗手间', '厕所', '小便', '尿', '大便'],
+                hygiene: ['洗', '澡', '干净', '脏', '清洁', '沐浴', '洗澡', '洗手', '刷牙'],
+                fun: ['玩', '游戏', '娱乐', '开心', '有趣', '看', '电影', '听', '音乐', '旅游', '散步'],
+                social: ['聊', '说', '朋友', '社交', '见面', '联系', '约会', '聚会', '陪伴']
+            };
+            
+            for (const [need, words] of Object.entries(keywords)) {
+                for (const word of words) {
+                    if (lowerContent.includes(word)) {
+                        const currentValue = simsNeeds[need];
+                        const boost = Math.floor(Math.random() * 15) + 10;
+                        simsNeeds[need] = Math.min(100, currentValue + boost);
+                        needsChanged = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (needsChanged) {
+                simsRolesData[currentSelectedRoleId] = { ...simsNeeds };
+                updateAllNeeds();
+            }
+        }
+
+        async function refreshSims() {
+            const dropdown = document.getElementById('sims-dropdown');
+            dropdown.classList.remove('visible');
+            
+            const avatars = document.querySelectorAll('.sims-avatar-placeholder');
+            avatars.forEach(avatar => {
+                avatar.style.animation = 'none';
+                avatar.offsetHeight;
+                avatar.style.animation = 'breathe 3s ease-in-out infinite';
+            });
+            
+            if (!currentSelectedRoleId || !roles) {
+                showToast('ℹ️ 请先选择一个角色');
+                updateAllNeeds();
+                updateThoughtBubble();
+                return;
+            }
+            
+            const currentRole = roles.find(r => r.id === currentSelectedRoleId);
+            if (!currentRole) {
+                showToast('❌ 找不到角色');
+                updateAllNeeds();
+                updateThoughtBubble();
+                return;
+            }
+            
+            const conversationHistory = messages[currentChatRole?.id] || [];
+            
+            let savedApiUrl = localStorage.getItem('apiUrl') || '';
+            const apiKey = localStorage.getItem('apiKey') || '';
+            const selectedModel = localStorage.getItem('selectedModel') || '';
+            
+            const chatEndpoint = getChatEndpoint(savedApiUrl);
+            const validation = validateApiConfig(chatEndpoint, apiKey, selectedModel);
+            
+            if (!validation.valid) {
+                showToast('❌ API配置无效，请检查设置');
+                updateAllNeeds();
+                updateThoughtBubble();
+                return;
+            }
+            
+            try {
+                const usedThoughts = simsUsedThoughtMessages.slice(-30).join('", "');
+                const worldbookPrompt = window.getSimsWorldbookPrompt();
+                const systemPrompt = `你是一个专业的模拟人生状态管理器。请根据角色设定和聊天记录，生成以下内容：
+
+1. 6条关于不同需求状态的想法（每条不超过15个字），分别对应：饥饿、睡眠、如厕、清洁、娱乐、社交
+2. 6个需求状态的数值（1-100之间，不能为0），需要根据聊天记录来判断
+
+角色设定：
+- 名称：${currentRole.name}
+- 性格：${currentRole.personality || '温和'}
+- 设定：${currentRole.description || '普通市民'}
+
+${worldbookPrompt}
+
+聊天记录：
+${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : currentRole.name}：${msg.content}`).join('\n')}
+
+请严格按照以下JSON格式返回，不要添加任何其他文字：
+{
+  "thoughts": ["饥饿想法", "睡眠想法", "如厕想法", "清洁想法", "娱乐想法", "社交想法"],
+  "needs": {
+    "hunger": 75,
+    "energy": 60,
+    "bladder": 85,
+    "hygiene": 45,
+    "fun": 70,
+    "social": 55
+  }
+}
+
+注意：
+- 所有想法都要符合角色设定和世界书信息，不能有人机感
+- 数值要结合聊天记录合理设定
+- 数值范围1-100，不能为0
+- 绝对不能使用以下已用过的想法：${usedThoughts ? '"' + usedThoughts + '"' : '（无）'}
+- 生成的想法必须和已用过的完全不一样`;
+
+                const requestBody = {
+                    model: selectedModel,
+                    messages: [
+                        { role: 'system', content: systemPrompt },
+                        { role: 'user', content: '请生成模拟人生状态' }
+                    ],
+                    temperature: 0.7
+                };
+
+                const response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const data = await response.json();
+                const aiResponse = data.choices?.[0]?.message?.content || '';
+                
+                const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    const result = JSON.parse(jsonMatch[0]);
+                    
+                    if (result.thoughts && result.thoughts.length >= 6) {
+                        simsThoughtMessages = result.thoughts;
+                        simsUsedThoughtMessages = [...simsUsedThoughtMessages, ...result.thoughts];
+                        if (currentSelectedRoleId) {
+                            localStorage.setItem(`simsThoughts_${currentSelectedRoleId}`, JSON.stringify(result.thoughts));
+                            localStorage.setItem(`simsUsedThoughts_${currentSelectedRoleId}`, JSON.stringify(simsUsedThoughtMessages));
+                        }
+                    }
+                    
+                    if (result.needs) {
+                        if (result.needs.hunger !== undefined) simsNeeds.hunger = Math.max(1, Math.min(100, result.needs.hunger));
+                        if (result.needs.energy !== undefined) simsNeeds.energy = Math.max(1, Math.min(100, result.needs.energy));
+                        if (result.needs.bladder !== undefined) simsNeeds.bladder = Math.max(1, Math.min(100, result.needs.bladder));
+                        if (result.needs.hygiene !== undefined) simsNeeds.hygiene = Math.max(1, Math.min(100, result.needs.hygiene));
+                        if (result.needs.fun !== undefined) simsNeeds.fun = Math.max(1, Math.min(100, result.needs.fun));
+                        if (result.needs.social !== undefined) simsNeeds.social = Math.max(1, Math.min(100, result.needs.social));
+                    }
+                    
+                    if (currentSelectedRoleId) {
+                        simsRolesData[currentSelectedRoleId] = { ...simsNeeds };
+                        localStorage.setItem('simsRolesData', JSON.stringify(simsRolesData));
+                    }
+                    
+                    showToast('✅ 刷新成功！');
+                } else {
+                    showToast('❌ 刷新失败：无法解析响应');
+                }
+                
+                updateAllNeeds();
+                updateThoughtBubble();
+                
+            } catch (error) {
+                console.error('生成模拟人生状态失败:', error);
+                showToast('❌ 刷新失败，请稍后重试');
+                updateAllNeeds();
+                updateThoughtBubble();
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('sims-dropdown');
+            const optionsBtn = document.querySelector('.sims-options-btn');
+            
+            if (dropdown && optionsBtn && 
+                !dropdown.contains(event.target) && 
+                !optionsBtn.contains(event.target)) {
+                dropdown.classList.remove('visible');
+            }
+        });
+        
+        function startThoughtBubbleTimer() {
+            updateThoughtBubble();
+            thoughtBubbleInterval = setInterval(updateThoughtBubble, 5000);
+        }
+        
+        function stopThoughtBubbleTimer() {
+            if (thoughtBubbleInterval) {
+                clearInterval(thoughtBubbleInterval);
+                thoughtBubbleInterval = null;
+            }
+        }
+        
+        function updateThoughtBubble() {
+            const thoughtBubble = document.getElementById('thought-bubble');
+            const thoughtText = document.getElementById('thought-text');
+            
+            thoughtBubble.style.animation = 'bubbleDisappear 0.3s ease-in forwards';
+            
+            setTimeout(() => {
+                let messagesToUse = thoughtMessages;
+                if (simsThoughtMessages && simsThoughtMessages.length > 0) {
+                    messagesToUse = simsThoughtMessages;
+                }
+                const randomIndex = Math.floor(Math.random() * messagesToUse.length);
+                thoughtText.textContent = messagesToUse[randomIndex];
+                
+                thoughtBubble.style.animation = 'none';
+                void thoughtBubble.offsetWidth;
+                thoughtBubble.style.animation = 'bubbleAppear 0.4s ease-out forwards';
+            }, 300);
+        }
+        
+        function startNeedsUpdateTimer() {
+            updateAllNeeds();
+            needsUpdateInterval = setInterval(updateNeedsRandomly, 3000);
+        }
+        
+        function stopNeedsUpdateTimer() {
+            if (needsUpdateInterval) {
+                clearInterval(needsUpdateInterval);
+                needsUpdateInterval = null;
+            }
+        }
+        
+        function updateNeedsRandomly() {
+            if (!currentSelectedRoleId) return;
+            
+            const needs = Object.keys(simsNeeds);
+            const randomNeed = needs[Math.floor(Math.random() * needs.length)];
+            const change = Math.floor(Math.random() * 6) - 3;
+            
+            simsNeeds[randomNeed] = Math.max(5, Math.min(100, simsNeeds[randomNeed] + change));
+            
+            if (currentSelectedRoleId) {
+                simsRolesData[currentSelectedRoleId] = {...simsNeeds};
+            }
+            
+            updateNeedBar(randomNeed, simsNeeds[randomNeed]);
+            updateMood();
+        }
+        
+        function updateAllNeeds() {
+            Object.keys(simsNeeds).forEach(need => {
+                updateNeedBar(need, simsNeeds[need]);
+            });
+            updateMood();
+        }
+        
+        function updateNeedBar(need, value) {
+            const bar = document.getElementById('need-' + need);
+            const percentage = document.getElementById('percentage-' + need);
+            
+            if (bar && percentage) {
+                bar.style.width = value + '%';
+                
+                bar.classList.remove('high', 'medium', 'low');
+                percentage.classList.remove('high', 'medium', 'low');
+                
+                if (value >= 60) {
+                    bar.classList.add('high');
+                    percentage.classList.add('high');
+                } else if (value >= 30) {
+                    bar.classList.add('medium');
+                    percentage.classList.add('medium');
+                } else {
+                    bar.classList.add('low');
+                    percentage.classList.add('low');
+                }
+                
+                percentage.textContent = value + '%';
+            }
+        }
+        
+        function updateMood() {
+            const moodText = document.getElementById('mood-text');
+            const moodIcon = document.querySelector('.mood-icon');
+            
+            const avgNeed = Object.values(simsNeeds).reduce((a, b) => a + b, 0) / 6;
+            
+            if (avgNeed >= 70) {
+                moodText.textContent = '心情愉悦';
+                moodIcon.textContent = '😊';
+            } else if (avgNeed >= 50) {
+                moodText.textContent = '状态一般';
+                moodIcon.textContent = '😐';
+            } else if (avgNeed >= 30) {
+                moodText.textContent = '有点不舒服';
+                moodIcon.textContent = '😟';
+            } else {
+                moodText.textContent = '非常不开心';
+                moodIcon.textContent = '😢';
+            }
+        }
+        
+        function showNeedDetail(need) {
+            const modal = document.getElementById('need-detail-modal');
+            const info = needInfo[need];
+            const value = simsNeeds[need];
+            
+            if (info) {
+                const detailIcon = document.getElementById('detail-icon');
+                detailIcon.innerHTML = info.svg;
+                document.getElementById('detail-name').textContent = info.name;
+                document.getElementById('detail-value').textContent = value + '%';
+                document.getElementById('detail-desc').textContent = info.desc;
+                
+                modal.classList.add('visible');
+            }
+        }
+        
+        function closeNeedDetail() {
+            const modal = document.getElementById('need-detail-modal');
+            modal.classList.remove('visible');
+        }
+        
+        window.openWorldbookSelector = function() {
+            console.log('openWorldbookSelector called');
+            try {
+                const dropdown = document.getElementById('sims-dropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('visible');
+                }
+                renderSimsWorldbookList();
+                const selector = document.getElementById('sims-worldbook-selector');
+                if (selector) {
+                    selector.style.display = 'flex';
+                    console.log('Worldbook selector opened');
+                } else {
+                    console.error('sims-worldbook-selector element not found');
+                }
+            } catch (error) {
+                console.error('Error in openWorldbookSelector:', error);
+            }
+        };
+        
+        window.closeSimsWorldbookSelector = function() {
+            const selector = document.getElementById('sims-worldbook-selector');
+            if (selector) {
+                selector.style.display = 'none';
+            }
+        };
+        
+        window.renderSimsWorldbookList = function() {
+            console.log('renderSimsWorldbookList called');
+            const container = document.getElementById('sims-worldbook-list');
+            if (!container) {
+                console.error('sims-worldbook-list container not found');
+                return;
+            }
+            
+            const entries = JSON.parse(localStorage.getItem('worldbookEntries')) || [];
+            console.log('Worldbook entries:', entries.length);
+            
+            if (entries.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #8E8E93; padding: 40px 0;">暂无世界书条目</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            entries.forEach(entry => {
+                const isSelected = selectedSimsWorldbookIds.includes(entry.id);
+                const entryEl = document.createElement('div');
+                entryEl.className = 'worldbook-entry';
+                entryEl.style.cursor = 'pointer';
+                entryEl.innerHTML = `
+                    <div class="worldbook-entry-header">
+                        <div class="worldbook-entry-title-wrapper">
+                            <div class="worldbook-entry-title">${entry.title || '无标题'}</div>
+                        </div>
+                        <label class="worldbook-entry-toggle" onclick="event.stopPropagation()">
+                            <input type="checkbox" ${isSelected ? 'checked' : ''} onchange="window.toggleSimsWorldbook('${entry.id}', this.checked)">
+                            <span class="worldbook-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="worldbook-entry-preview">${entry.content || '无内容'}</div>
+                    <div class="worldbook-entry-meta">
+                        <div class="worldbook-entry-status">
+                            <span class="worldbook-status-dot ${isSelected ? 'active' : ''}"></span>
+                            <span class="worldbook-status-text ${isSelected ? 'active' : ''}">${isSelected ? '已选中' : '未选中'}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(entryEl);
+            });
+        };
+        
+        window.toggleSimsWorldbook = function(entryId, selected) {
+            if (selected) {
+                if (!selectedSimsWorldbookIds.includes(entryId)) {
+                    selectedSimsWorldbookIds.push(entryId);
+                }
+            } else {
+                selectedSimsWorldbookIds = selectedSimsWorldbookIds.filter(id => id !== entryId);
+            }
+            localStorage.setItem('selectedSimsWorldbookIds', JSON.stringify(selectedSimsWorldbookIds));
+            window.renderSimsWorldbookList();
+        };
+        
+        window.getSimsWorldbookPrompt = function() {
+            const entries = JSON.parse(localStorage.getItem('worldbookEntries')) || [];
+            const selectedEntries = entries.filter(e => selectedSimsWorldbookIds.includes(e.id));
+            
+            if (selectedEntries.length === 0) return '';
+            
+            const promptParts = selectedEntries.map(entry => {
+                const title = entry.title || '无标题';
+                const content = entry.content || '';
+                return `【${title}】\n${content}`;
+            });
+            
+            return `\n\n=== 世界书信息 ===\n${promptParts.join('\n\n')}\n=== 世界书信息结束 ===\n`;
+        };
+        
+        document.getElementById('need-detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNeedDetail();
+            }
+        });
+        
+        document.getElementById('character-selector-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCharacterSelector();
+            }
+        });
 
         // 监听便签内容变化
         document.addEventListener('DOMContentLoaded', function() {
@@ -10191,6 +11976,16 @@
             
             // 初始化角色朋友圈定时器
             initRoleMomentsTimer();
+            
+            // 点击模拟人生世界书选择器外部关闭
+            const simsWorldbookSelector = document.getElementById('sims-worldbook-selector');
+            if (simsWorldbookSelector) {
+                simsWorldbookSelector.addEventListener('click', function(e) {
+                    if (e.target === simsWorldbookSelector) {
+                        window.closeSimsWorldbookSelector();
+                    }
+                });
+            }
         });
 
         // 设置应用功能
@@ -10705,6 +12500,198 @@
             alert('所有图标已恢复默认');
         }
 
+        // ============================================
+        // 数据导出导入功能
+        // ============================================
+        
+        function showStorageStatus(message, type = 'info') {
+            const statusEl = document.getElementById('storage-status');
+            const textEl = document.getElementById('storage-status-text');
+            statusEl.style.display = 'block';
+            
+            const colors = {
+                info: { bg: 'rgba(0, 122, 255, 0.1)', color: '#007aff' },
+                success: { bg: 'rgba(52, 199, 89, 0.1)', color: '#34c759' },
+                error: { bg: 'rgba(255, 59, 48, 0.1)', color: '#ff3b30' },
+                warning: { bg: 'rgba(255, 149, 0, 0.1)', color: '#ff9500' }
+            };
+            
+            const style = colors[type] || colors.info;
+            statusEl.style.background = style.bg;
+            textEl.style.color = style.color;
+            textEl.textContent = message;
+            
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusEl.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        async function exportAllData() {
+            showStorageStatus('正在准备导出数据...', 'info');
+            
+            try {
+                const zip = new JSZip();
+                const exportData = {
+                    version: '1.0',
+                    exportDate: new Date().toISOString(),
+                    data: {}
+                };
+
+                const allKeys = Object.keys(localStorage);
+                
+                const imageData = {};
+                const textData = {};
+                
+                allKeys.forEach(key => {
+                    const value = localStorage.getItem(key);
+                    if (value) {
+                        if (value.startsWith('data:image') || (value.length > 1000 && value.includes('base64'))) {
+                            imageData[key] = value;
+                        } else {
+                            textData[key] = value;
+                        }
+                    }
+                });
+
+                exportData.data = textData;
+                
+                zip.file('data.json', JSON.stringify(exportData, null, 2));
+                
+                const imagesFolder = zip.folder('images');
+                Object.keys(imageData).forEach((key, index) => {
+                    const base64Data = imageData[key];
+                    if (base64Data && base64Data.startsWith('data:image')) {
+                        const matches = base64Data.match(/^data:image\/(\w+);base64,(.+)$/);
+                        if (matches) {
+                            const extension = matches[1] === 'jpeg' ? 'jpg' : matches[1];
+                            const base64Content = matches[2];
+                            const fileName = `${key.replace(/[^a-zA-Z0-9]/g, '_')}.${extension}`;
+                            imagesFolder.file(fileName, base64Content, { base64: true });
+                            imageData[key] = { type: 'file', path: `images/${fileName}` };
+                        }
+                    }
+                });
+                
+                zip.file('images_index.json', JSON.stringify(imageData, null, 2));
+
+                const content = await zip.generateAsync({ 
+                    type: 'blob',
+                    compression: 'DEFLATE',
+                    compressionOptions: { level: 6 }
+                });
+
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+                const fileName = `小鼠机数据备份_${timestamp}.zip`;
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+                
+                showStorageStatus(`导出成功！已保存 ${allKeys.length} 项数据`, 'success');
+            } catch (error) {
+                console.error('导出失败:', error);
+                showStorageStatus(`导出失败: ${error.message}`, 'error');
+            }
+        }
+
+        async function importAllData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.name.endsWith('.zip')) {
+                showStorageStatus('请选择有效的备份文件 (.zip)', 'error');
+                event.target.value = '';
+                return;
+            }
+            
+            showStorageStatus('正在读取备份文件...', 'info');
+            
+            try {
+                const zip = await JSZip.loadAsync(file);
+                
+                const dataFile = zip.file('data.json');
+                if (!dataFile) {
+                    showStorageStatus('无效的备份文件：缺少 data.json', 'error');
+                    event.target.value = '';
+                    return;
+                }
+                
+                const dataContent = await dataFile.async('string');
+                const exportData = JSON.parse(dataContent);
+                
+                const imagesIndexFile = zip.file('images_index.json');
+                let imagesIndex = {};
+                if (imagesIndexFile) {
+                    const imagesIndexContent = await imagesIndexFile.async('string');
+                    imagesIndex = JSON.parse(imagesIndexContent);
+                }
+
+                const confirmMsg = `确定要导入此备份吗？\n\n备份日期: ${new Date(exportData.exportDate).toLocaleString()}\n数据版本: ${exportData.version}\n数据项数: ${Object.keys(exportData.data).length}\n\n注意：这将覆盖当前的所有数据！`;
+                
+                if (!confirm(confirmMsg)) {
+                    showStorageStatus('导入已取消', 'warning');
+                    event.target.value = '';
+                    return;
+                }
+                
+                showStorageStatus('正在导入数据...', 'info');
+
+                Object.keys(exportData.data).forEach(key => {
+                    localStorage.setItem(key, exportData.data[key]);
+                });
+
+                const imagesFolder = zip.folder('images');
+                for (const key of Object.keys(imagesIndex)) {
+                    const imageInfo = imagesIndex[key];
+                    if (imageInfo && imageInfo.type === 'file' && imageInfo.path) {
+                        const imageFile = zip.file(imageInfo.path);
+                        if (imageFile) {
+                            const extension = imageInfo.path.split('.').pop();
+                            const mimeType = extension === 'jpg' ? 'jpeg' : extension;
+                            const base64Content = await imageFile.async('base64');
+                            const dataUrl = `data:image/${mimeType};base64,${base64Content}`;
+                            localStorage.setItem(key, dataUrl);
+                        }
+                    } else if (typeof imageInfo === 'string') {
+                        localStorage.setItem(key, imageInfo);
+                    }
+                }
+
+                showStorageStatus('导入成功！正在刷新页面...', 'success');
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+                
+            } catch (error) {
+                console.error('导入失败:', error);
+                showStorageStatus(`导入失败: ${error.message}`, 'error');
+            }
+            
+            event.target.value = '';
+        }
+
+        function confirmClearAllData() {
+            const confirmMsg = '确定要清除所有数据吗？\n\n此操作将删除所有本地存储的数据，包括：\n- 角色信息\n- 世界书内容\n- 聊天记录\n- 图片资源\n- 美化设置\n- API配置\n\n此操作不可恢复！';
+            
+            if (confirm(confirmMsg)) {
+                const doubleConfirm = confirm('再次确认：真的要清除所有数据吗？此操作不可撤销！');
+                if (doubleConfirm) {
+                    localStorage.clear();
+                    showStorageStatus('所有数据已清除！正在刷新页面...', 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }
+            }
+        }
+
         // 保存字体颜色设置
         function saveFontColors() {
             const desktopColor = document.getElementById('desktop-color').value;
@@ -10738,6 +12725,15 @@
             alert('字体颜色已恢复默认');
         }
 
+        // HEX颜色转RGBA格式
+        function hexToRgba(hex, alpha) {
+            hex = hex.replace('#', '');
+            const r = parseInt(hex.length === 3 ? hex[0] + hex[0] : hex.substring(0, 2), 16);
+            const g = parseInt(hex.length === 3 ? hex[1] + hex[1] : hex.substring(2, 4), 16);
+            const b = parseInt(hex.length === 3 ? hex[2] + hex[2] : hex.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
         // 应用字体颜色设置
         function applyFontColors() {
             const desktopColor = localStorage.getItem('desktopColor') || '#ffffff';
@@ -10746,8 +12742,22 @@
             const noteColor = localStorage.getItem('noteColor') || '#808080';
             
             // 应用桌面字体颜色
-            document.querySelectorAll('.app-name, .dock-name').forEach(element => {
+            document.querySelectorAll('.app-name, .dock-name, .text-widget, .input-widget').forEach(element => {
                 element.style.color = desktopColor;
+            });
+            // 同时更新输入框的 placeholder 颜色
+            document.querySelectorAll('.input-widget').forEach(element => {
+                element.style.setProperty('--placeholder-color', desktopColor);
+                // 动态修改 placeholder 样式
+                const placeholderColor = hexToRgba(desktopColor, 0.6);
+                const style = document.createElement('style');
+                style.id = 'placeholder-style';
+                const oldStyle = document.getElementById('placeholder-style');
+                if (oldStyle) oldStyle.remove();
+                style.textContent = `
+                    .input-widget::placeholder { color: ${placeholderColor} !important; }
+                `;
+                document.head.appendChild(style);
             });
             
             // 应用菜单字体颜色
@@ -10764,6 +12774,59 @@
             document.querySelectorAll('.note-line-text').forEach(element => {
                 element.style.color = noteColor;
             });
+        }
+
+        // 保存聊天字体颜色设置
+        function saveChatFontColors() {
+            const selfColor = document.getElementById('chat-self-color').value;
+            const otherColor = document.getElementById('chat-other-color').value;
+            
+            localStorage.setItem('chatSelfColor', selfColor);
+            localStorage.setItem('chatOtherColor', otherColor);
+            
+            applyChatFontColors();
+            alert('聊天字体颜色设置已保存');
+        }
+
+        // 恢复默认聊天字体颜色
+        function resetChatFontColors() {
+            localStorage.removeItem('chatSelfColor');
+            localStorage.removeItem('chatOtherColor');
+            
+            document.getElementById('chat-self-color').value = '#1d1d1f';
+            document.getElementById('chat-self-color-code').value = '#1d1d1f';
+            document.getElementById('chat-other-color').value = '#1d1d1f';
+            document.getElementById('chat-other-color-code').value = '#1d1d1f';
+            
+            applyChatFontColors();
+            alert('聊天字体颜色已恢复默认');
+        }
+
+        // 应用聊天字体颜色设置
+        function applyChatFontColors() {
+            const selfColor = localStorage.getItem('chatSelfColor') || '#1d1d1f';
+            const otherColor = localStorage.getItem('chatOtherColor') || '#1d1d1f';
+            
+            // 应用自己发送消息的字体颜色
+            document.querySelectorAll('.message.sent .message-content').forEach(element => {
+                element.style.color = selfColor;
+            });
+            
+            // 应用对方发送消息的字体颜色
+            document.querySelectorAll('.message.received .message-content').forEach(element => {
+                element.style.color = otherColor;
+            });
+        }
+
+        // 加载聊天字体颜色设置到UI
+        function loadChatFontColors() {
+            const selfColor = localStorage.getItem('chatSelfColor') || '#1d1d1f';
+            const otherColor = localStorage.getItem('chatOtherColor') || '#1d1d1f';
+            
+            document.getElementById('chat-self-color').value = selfColor;
+            document.getElementById('chat-self-color-code').value = selfColor;
+            document.getElementById('chat-other-color').value = otherColor;
+            document.getElementById('chat-other-color-code').value = otherColor;
         }
 
         // 保存颜色储存到本地存储
@@ -10869,7 +12932,7 @@
         // 从色板应用颜色
         function applyPaletteColor(color) {
             // 显示一个提示，让用户选择要应用到哪个颜色选择器
-            const choice = prompt('请选择要应用到的颜色设置:\n1. 桌面字体颜色\n2. 菜单字体颜色\n3. UI字体颜色\n\n请输入数字 1-3:', '1');
+            const choice = prompt('请选择要应用到的颜色设置:\n1. 桌面字体颜色\n2. 菜单字体颜色\n3. UI字体颜色\n4. 自己消息颜色\n5. 对方消息颜色\n\n请输入数字 1-5:', '1');
             
             switch(choice) {
                 case '1':
@@ -10880,6 +12943,14 @@
                     break;
                 case '3':
                     document.getElementById('ui-color').value = color;
+                    break;
+                case '4':
+                    document.getElementById('chat-self-color').value = color;
+                    document.getElementById('chat-self-color-code').value = color;
+                    break;
+                case '5':
+                    document.getElementById('chat-other-color').value = color;
+                    document.getElementById('chat-other-color-code').value = color;
                     break;
                 default:
                     break;
@@ -11847,11 +13918,56 @@
             this.value = '';
         });
 
-        // 为上传图标按钮添加点击事件，支持URL导入
-        document.getElementById('upload-icon-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openImageSourceModal('icon-upload');
+        // 图标上传事件监听
+        document.getElementById('icon-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            if (!selectedApp) {
+                alert('请先选择要修改的应用');
+                this.value = '';
+                return;
+            }
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('请上传有效的图片文件\n支持格式: JPG, PNG, GIF, WebP, SVG');
+                this.value = '';
+                return;
+            }
+
+            const maxSize = 5 * 1024 * 1024;
+            if (file.size > maxSize) {
+                alert('图片文件过大，请选择小于5MB的图片');
+                this.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imageUrl = event.target.result;
+                const timestamp = Date.now();
+                const iconUrl = imageUrl + '#t=' + timestamp;
+
+                localStorage.setItem('icon_' + selectedApp, iconUrl);
+
+                document.querySelectorAll('[data-app="' + selectedApp + '"]').forEach(element => {
+                    const iconContainer = element.querySelector('.icon-container, .dock-icon');
+                    if (iconContainer) {
+                        iconContainer.innerHTML = `<img src="${iconUrl}" alt="自定义图标">`;
+                    }
+                });
+
+                renderIconGrid();
+                alert('图标上传成功');
+            };
+            reader.onerror = function() {
+                alert('图片读取失败，请重试');
+            };
+            reader.readAsDataURL(file);
+            this.value = '';
         });
 
         window.addEventListener('load', function() {
@@ -11899,6 +14015,8 @@
         // 页面加载时应用字体颜色设置
         applyFontColors();
         initColorPalette();
+        loadChatFontColors();
+        applyChatFontColors();
         
         // 初始化便签颜色输入框的值
         const savedNoteColor = localStorage.getItem('noteColor');
@@ -15033,6 +17151,7 @@ ${recentHistory.map(msg => {
             }
 
             attachMessageClickHandlers();
+            applyChatFontColors();
 
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
@@ -15382,6 +17501,10 @@ ${recentHistory.map(msg => {
             messages[roleId].push(newMessage);
 
             localStorage.setItem('wechatMessages', JSON.stringify(messages));
+            
+            if (type === 'sent') {
+                analyzeAndUpdateNeeds(content);
+            }
 
             if (currentChatRole && currentChatRole.id === roleId) {
                 const chatMessages = document.getElementById('chat-messages');
