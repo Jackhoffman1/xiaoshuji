@@ -271,36 +271,6 @@
             transform: scale(0.98);
         }
 
-        .text-input-widget {
-            height: 30px;
-            border-radius: 12px;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: white;
-            font-size: 15px;
-            font-weight: 300;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            margin-left: -10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            background: transparent;
-            outline: none;
-            width: 200px;
-            text-align: center;
-        }
-
-        .text-input-widget::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .text-input-widget:focus {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
         .input-widgets-container {
             position: absolute;
             left: 10px;
@@ -904,12 +874,6 @@
                 font-size: 18px;
                 max-width: 280px;
             }
-
-            .text-input-widget {
-                height: 40px;
-                font-size: 15px;
-                max-width: 280px;
-            }
             
             .app-grid {
                 gap: 12px;
@@ -1042,11 +1006,6 @@
             .text-widget {
                 height: 45px;
                 font-size: 24px;
-            }
-
-            .text-input-widget {
-                height: 45px;
-                font-size: 15px;
             }
             
             .dock {
@@ -10485,7 +10444,6 @@
             <div class="widget-section">
                 <div class="left-widgets">
                     <div class="circle-widget" id="circle-widget"><img src="" alt="小组件图片" style="border-radius: 50%; box-shadow: 0 0 4px 1px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3); border: 2px solid white;"></div>
-                    <input type="text" class="text-input-widget" id="text-input-widget" placeholder="输入文字..." style="color: rgb(245, 245, 245);">
                     <div class="text-widget" id="text-widget" style="color: rgb(245, 245, 245);">₊˚. ♰𝓚𝓲𝓽𝓽𝓮𝓷 𝓤𝓷𝓲𝓿𝓮𝓻𝓼𝓮ฅ . ⁺</div>
 
                 </div>
@@ -16181,7 +16139,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             const noteColor = localStorage.getItem('noteColor') || '#808080';
             
             // 应用桌面字体颜色
-            document.querySelectorAll('.app-name, .dock-name, .text-widget, .text-input-widget, .input-widget').forEach(element => {
+            document.querySelectorAll('.app-name, .dock-name, .text-widget, .input-widget').forEach(element => {
                 element.style.color = desktopColor;
             });
             // 同时更新输入框的 placeholder 颜色
