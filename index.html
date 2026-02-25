@@ -13752,12 +13752,16 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                                          target.contentEditable === 'true' || 
                                          target.tagName === 'SELECT';
                     
+                    // 检查是否点击了按钮元素
+                    const isButtonElement = target.tagName === 'BUTTON' || 
+                                           target.closest('button') !== null;
+                    
                     // 检查是否点击了需要点击事件的元素
                     const isClickableElement = target.id === 'moments-username' || 
                                               target.classList.contains('moments-username') ||
                                               target.closest('.moments-username');
                     
-                    if (isInputElement || isClickableElement) {
+                    if (isInputElement || isClickableElement || isButtonElement) {
                         return; // 允许这些元素的默认行为
                     }
                     
@@ -18563,6 +18567,7 @@ ${commenterInfo}
                 document.getElementById('wechat-main').style.display = 'flex';
             } else if (tab === 'profile') {
                 document.getElementById('wechat-profile').style.display = 'flex';
+                loadSavedAvatar();
             }
         }
 
@@ -18589,6 +18594,7 @@ ${commenterInfo}
                     break;
                 case 'profile':
                     document.getElementById('wechat-profile').style.display = 'flex';
+                    loadSavedAvatar();
                     break;
             }
         }
