@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -62,7 +62,7 @@
 
         .announcement-title {
             font-size: 17px;
-            font-weight: 600;
+            font-weight: 550;
             color: #000000;
             text-align: center;
             margin: 0;
@@ -249,14 +249,12 @@
         }
 
         .text-widget {
-            max-width: 180px;
             height: 30px;
             border-radius: 12px;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: white;
@@ -271,6 +269,36 @@
 
         .text-widget:active {
             transform: scale(0.98);
+        }
+
+        .text-input-widget {
+            height: 30px;
+            border-radius: 12px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: white;
+            font-size: 15px;
+            font-weight: 300;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            margin-left: -10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background: transparent;
+            outline: none;
+            width: 200px;
+            text-align: center;
+        }
+
+        .text-input-widget::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .text-input-widget:focus {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .input-widgets-container {
@@ -406,7 +434,7 @@
 
         .heart-icon-text .days-count {
             font-size: 20px;
-            font-weight: 700;
+            font-weight: 600;
             display: block;
             margin-bottom: 2px;
         }
@@ -701,7 +729,7 @@
 
         .dock {
             position: absolute;
-            bottom: 20px;
+            bottom: max(3px, env(safe-area-inset-bottom));
             left: 50%;
             transform: translateX(-50%);
             width: 340px;
@@ -713,7 +741,6 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 0 25px;
             box-shadow: 
                 0 8px 32px rgba(0, 0, 0, 0.08), 
                 0 4px 16px rgba(0, 0, 0, 0.05), 
@@ -877,6 +904,12 @@
                 font-size: 18px;
                 max-width: 280px;
             }
+
+            .text-input-widget {
+                height: 40px;
+                font-size: 15px;
+                max-width: 280px;
+            }
             
             .app-grid {
                 gap: 12px;
@@ -1009,7 +1042,11 @@
             .text-widget {
                 height: 45px;
                 font-size: 24px;
-                max-width: 380px;
+            }
+
+            .text-input-widget {
+                height: 45px;
+                font-size: 15px;
             }
             
             .dock {
@@ -2663,7 +2700,7 @@
             border-radius: 14px;
             line-height: 1.45;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 550;
             display: inline-block;
             width: fit-content;
             max-width: 100%;
@@ -10124,9 +10161,9 @@
         }
 
         .phone-container {
-            width: 320px;
+            width: 380px;
             max-width: 90vw;
-            height: 600px;
+            height: 700px;
             background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 32px;
             box-shadow: 
@@ -10227,8 +10264,8 @@
         }
 
         .call-chat-box {
-            width: 250px;
-            height: 120px;
+            width: 265px;
+            height: 240px;
             border: 1px solid #e0e0e0;
             border-radius: 12px;
             background-color: #ffffff;
@@ -10242,31 +10279,63 @@
         }
 
         .call-chat-message {
-            font-size: 11px;
+            max-width: 80%;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 12px;
             line-height: 1.4;
             word-wrap: break-word;
         }
 
         .call-chat-message.sent {
-            text-align: right;
-            padding-left: 20px;
-        }
-
-        .call-chat-message.sent .call-chat-sender {
-            font-size: 9px;
-            color: #ff6b8a;
-            margin-bottom: 1px;
+            align-self: flex-end;
+            background: linear-gradient(135deg, #ffd6e0, #ffb6c8);
+            color: #2d3436;
+            border-radius: 12px 12px 4px 12px;
         }
 
         .call-chat-message.received {
-            text-align: left;
-            padding-right: 20px;
+            align-self: flex-start;
+            background: #e8e8e8;
+            color: #2d3436;
+            border-radius: 12px 12px 12px 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
         }
 
-        .call-chat-message.received .call-chat-sender {
+        .call-chat-message.received:hover {
+            background: #dcdcdc;
+        }
+
+        .call-chat-message.received:active,
+        .call-chat-message.received.playing {
+            transform: scale(0.98);
+        }
+
+        .call-chat-message.received::after {
+            content: '🔊';
             font-size: 9px;
-            color: #ff6b8a;
-            margin-bottom: 1px;
+            margin-left: 4px;
+            opacity: 1;
+            filter: brightness(0) invert(1);
+        }
+
+        .call-chat-sender {
+            display: none;
+        }
+
+        .call-chat-end {
+            text-align: center;
+            padding: 8px 0;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .call-chat-end span {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 4px 12px;
+            border-radius: 10px;
         }
 
         .call-chat-content {
@@ -10351,16 +10420,15 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年2月25日</div>
+                <div class="announcement-date" id="announcement-date">2026年2月26日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <p>欢迎使用小鼠机！本次更新内容如下：</p>
                     <ul>
-                        <li>🎤 增加了语音功能</li>
-                        <li>❤️ 增加了纪念日功能</li>
-                        <li>🖥️ 桌面大修</li>
-                        <li>💬 聊天界面顶栏修改</li>
+                        <li>📞 增加了通话功能</li>
+                        <li>🤖 接入了Minimax</li>
+                        <li>🐛 修复了一些小bug</li>
                     </ul>
                 </div>
             </div>
@@ -10417,6 +10485,7 @@
             <div class="widget-section">
                 <div class="left-widgets">
                     <div class="circle-widget" id="circle-widget"><img src="" alt="小组件图片" style="border-radius: 50%; box-shadow: 0 0 4px 1px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3); border: 2px solid white;"></div>
+                    <input type="text" class="text-input-widget" id="text-input-widget" placeholder="输入文字..." style="color: rgb(245, 245, 245);">
                     <div class="text-widget" id="text-widget" style="color: rgb(245, 245, 245);">₊˚. ♰𝓚𝓲𝓽𝓽𝓮𝓷 𝓤𝓷𝓲𝓿𝓮𝓻𝓼𝓮ฅ . ⁺</div>
 
                 </div>
@@ -10478,7 +10547,7 @@
         </svg>
         <div class="heart-icon-text" id="heart-icon-text-btn">
             <span class="days-count" id="days-count">689</span>
-            <span>天</span>
+            <span>Day</span>
         </div>
     </div>
 
@@ -12624,6 +12693,7 @@
         const CallPopupModule = (function() {
             let callTimer = null;
             let callSeconds = 0;
+            let isCallLoading = false;
 
             function init() {
                 const iconCallBtn = document.querySelector('.func-btn.icon-call');
@@ -12661,30 +12731,351 @@
                 }
             }
 
-            function sendMessage() {
+            async function sendMessage() {
+                if (isCallLoading) return;
+                
                 const input = document.getElementById('call-message-input');
                 const chatBox = document.getElementById('call-chat-box');
                 if (input && input.value.trim() && chatBox) {
                     const message = input.value.trim();
-                    addMessage(message, 'sent', '我');
-                    console.log('发送消息:', message);
+                    addCallMessageToUI(message, 'sent', '我');
+                    saveCallMessage(message, 'sent');
                     input.value = '';
+                    
+                    await fetchCallReply(message);
                 }
             }
 
-            function addMessage(content, type, sender) {
+            function addCallMessageToUI(content, type, sender) {
                 const chatBox = document.getElementById('call-chat-box');
                 if (!chatBox) return;
                 
                 const msgDiv = document.createElement('div');
                 msgDiv.className = `call-chat-message ${type}`;
-                msgDiv.innerHTML = `<div class="call-chat-sender">${sender}</div><div class="call-chat-content">${content}</div>`;
+                msgDiv.innerHTML = `<div class="call-chat-content">${content}</div>`;
+                
+                if (type === 'received') {
+                    msgDiv.style.cursor = 'pointer';
+                    msgDiv.title = '点击播放语音';
+                    msgDiv.addEventListener('click', function() {
+                        playCallMessageVoice(content, msgDiv);
+                    });
+                }
+                
                 chatBox.appendChild(msgDiv);
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
 
+            async function playCallMessageVoice(text, msgDiv) {
+                if (msgDiv.classList.contains('playing')) return;
+                
+                try {
+                    msgDiv.classList.add('playing');
+                    msgDiv.style.opacity = '0.7';
+                    
+                    const audioUrl = await VoiceSettings.synthesizeSpeech(text);
+                    if (audioUrl) {
+                        const audio = new Audio(audioUrl);
+                        audio.onended = function() {
+                            msgDiv.classList.remove('playing');
+                            msgDiv.style.opacity = '1';
+                            URL.revokeObjectURL(audioUrl);
+                        };
+                        audio.onerror = function() {
+                            msgDiv.classList.remove('playing');
+                            msgDiv.style.opacity = '1';
+                        };
+                        await audio.play();
+                    }
+                } catch (error) {
+                    console.error('播放语音失败:', error);
+                    msgDiv.classList.remove('playing');
+                    msgDiv.style.opacity = '1';
+                }
+            }
+
+            function addTypingIndicator() {
+                const chatBox = document.getElementById('call-chat-box');
+                if (!chatBox) return;
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'call-typing-indicator';
+                typingDiv.className = 'call-chat-message received';
+                typingDiv.innerHTML = `<div class="call-chat-content"><span class="typing-dots">正在输入...</span></div>`;
+                chatBox.appendChild(typingDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            function removeTypingIndicator() {
+                const typingDiv = document.getElementById('call-typing-indicator');
+                if (typingDiv) {
+                    typingDiv.remove();
+                }
+            }
+
+            function saveCallMessage(content, type) {
+                if (!currentChatRole) return;
+                
+                if (!messages[currentChatRole.id]) {
+                    messages[currentChatRole.id] = [];
+                }
+                
+                const newMessage = {
+                    type: type,
+                    content: content,
+                    timestamp: new Date().toISOString(),
+                    roleId: currentChatRole.id,
+                    context: 'call'
+                };
+                
+                messages[currentChatRole.id].push(newMessage);
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+            }
+
+            async function fetchCallReply(userMessage) {
+                if (!currentChatRole) {
+                    addCallMessageToUI('请先选择一个角色进行通话', 'received', '系统');
+                    return;
+                }
+
+                isCallLoading = true;
+                addTypingIndicator();
+
+                const savedApiUrl = localStorage.getItem('apiUrl') || '';
+                const apiKey = localStorage.getItem('apiKey') || '';
+                const selectedModel = localStorage.getItem('selectedModel') || '';
+                
+                const chatEndpoint = getChatEndpoint(savedApiUrl);
+
+                if (!chatEndpoint || !apiKey || !selectedModel) {
+                    removeTypingIndicator();
+                    addCallMessageToUI('API配置不完整，请检查设置', 'received', '系统');
+                    isCallLoading = false;
+                    return;
+                }
+
+                try {
+                    const userSettings = getUserPersona();
+                    const userName = userSettings.name || '用户';
+                    
+                    let systemPrompt = buildCallSystemPrompt(currentChatRole, userName);
+                    
+                    const worldbookPrompt = getWorldbookPrompt(currentChatRole.id);
+                    if (worldbookPrompt) {
+                        systemPrompt += worldbookPrompt;
+                    }
+                    
+                    const summaryKey = 'summaryContents_' + currentChatRole.id;
+                    let summaryContents = [];
+                    try {
+                        summaryContents = JSON.parse(localStorage.getItem(summaryKey) || '[]');
+                        if (!Array.isArray(summaryContents)) {
+                            summaryContents = [];
+                        }
+                    } catch (e) {
+                        summaryContents = [];
+                    }
+                    
+                    if (summaryContents.length > 0) {
+                        systemPrompt += '\n\n【对话总结】';
+                        summaryContents.forEach((item) => {
+                            if (item.content && item.content.trim()) {
+                                const typeLabel = item.type === 'auto' ? '自动总结' : '手动总结';
+                                systemPrompt += `\n\n[${typeLabel} - ${new Date(item.timestamp).toLocaleDateString('zh-CN')}]\n${item.content}`;
+                            }
+                        });
+                    }
+
+                    const conversationHistory = messages[currentChatRole.id] || [];
+                    const contextCount = parseInt(localStorage.getItem('contextMessageCount')) || 10;
+                    const recentHistory = conversationHistory.slice(-contextCount);
+                    
+                    const apiMessages = [
+                        { role: 'system', content: systemPrompt }
+                    ];
+                    
+                    recentHistory.forEach(msg => {
+                        if (msg.type === 'sent') {
+                            apiMessages.push({ role: 'user', content: msg.content });
+                        } else if (msg.type === 'received') {
+                            apiMessages.push({ role: 'assistant', content: msg.content });
+                        }
+                    });
+                    
+                    apiMessages.push({ role: 'user', content: userMessage });
+
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+                    const response = await fetch(chatEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: selectedModel,
+                            messages: apiMessages,
+                            max_tokens: 800,
+                            temperature: parseFloat(localStorage.getItem('apiTemperature')) || 1.0,
+                            presence_penalty: 0.6,
+                            frequency_penalty: 0.5
+                        }),
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+                    removeTypingIndicator();
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        if (data.choices && data.choices[0] && data.choices[0].message) {
+                            let reply = data.choices[0].message.content;
+                            
+                            reply = reply.replace(/\[STATUS:[^\]]+\]/g, '');
+                            reply = reply.replace(/^(作为|作为一个|作为AI|作为一个AI|作为一个人工智能|作为大语言模型)[，,。：: ]*/gi, '');
+                            reply = reply.replace(/我(不)?是(AI|人工智能|语言模型|大语言模型|助手|机器人)[，,。：: ]*/gi, '');
+                            reply = reply.replace(/(请注意|请注意，|需要说明的是|需要说明的是，)[，,。：: ]*(我|本|此)[^。！？]*[。！？]/gi, '');
+                            reply = reply.replace(/作为(一个)?(虚拟|数字|AI|人工智能)[^。！？]*[，,。：: ]*/gi, '');
+                            reply = reply.replace(/(我不能|我无法|我不可以)[^。！？]*[。！？]/gi, '这个嘛……');
+                            reply = reply.trim();
+                            
+                            const messageList = splitCallMessages(reply);
+                            await sendCallMultipleMessages(messageList);
+                        } else {
+                            addCallMessageToUI('抱歉，收到了无法理解的回复', 'received', currentChatRole.name);
+                        }
+                    } else {
+                        const errorText = await response.text();
+                        let errorMessage = `请求失败 (${response.status})`;
+                        try {
+                            const errorJson = JSON.parse(errorText);
+                            if (errorJson.error && errorJson.error.message) {
+                                errorMessage = `错误: ${errorJson.error.message}`;
+                            }
+                        } catch (e) {
+                            errorMessage = `请求失败: ${response.status}`;
+                        }
+                        addCallMessageToUI(errorMessage, 'received', '系统');
+                    }
+                } catch (error) {
+                    removeTypingIndicator();
+                    console.error('通话API调用失败:', error);
+                    
+                    let errorMessage = '请求出错';
+                    if (error.name === 'AbortError') {
+                        errorMessage = '请求超时，请稍后再试';
+                    } else if (error.message.includes('Failed to fetch')) {
+                        errorMessage = '网络连接失败';
+                    }
+                    addCallMessageToUI(errorMessage, 'received', '系统');
+                }
+
+                isCallLoading = false;
+            }
+
+            function splitCallMessages(text) {
+                if (!text) return [];
+                
+                const targetCount = Math.floor(Math.random() * 3) + 2;
+                
+                let lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+                
+                if (lines.length >= 2 && lines.length <= 4) {
+                    return lines.slice(0, 4);
+                }
+                
+                if (lines.length > 4) {
+                    const result = [];
+                    const chunkSize = Math.ceil(lines.length / targetCount);
+                    
+                    for (let i = 0; i < lines.length && result.length < targetCount; i += chunkSize) {
+                        const chunk = lines.slice(i, i + chunkSize).join(' ');
+                        if (chunk.trim()) {
+                            result.push(chunk.trim());
+                        }
+                    }
+                    return result.slice(0, 4);
+                }
+                
+                const sentences = text.split(/[！？。]+/).map(s => s.trim()).filter(s => s.length > 0);
+                
+                if (sentences.length >= 2) {
+                    if (sentences.length <= 4) {
+                        return sentences.slice(0, 4);
+                    }
+                    const result = [];
+                    const chunkSize = Math.ceil(sentences.length / targetCount);
+                    for (let i = 0; i < sentences.length && result.length < targetCount; i += chunkSize) {
+                        const chunk = sentences.slice(i, i + chunkSize).join(' ');
+                        if (chunk.trim()) {
+                            result.push(chunk.trim());
+                        }
+                    }
+                    return result.slice(0, 4);
+                }
+                
+                return [text];
+            }
+
+            async function sendCallMultipleMessages(messageList) {
+                if (!messageList || messageList.length === 0) return;
+                
+                for (let i = 0; i < messageList.length; i++) {
+                    const messageContent = messageList[i];
+                    
+                    if (!messageContent || messageContent.trim().length === 0) continue;
+                    
+                    const delay = Math.random() * 600 + 300;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    
+                    addCallMessageToUI(messageContent, 'received', currentChatRole.name);
+                    saveCallMessage(messageContent, 'received');
+                }
+            }
+
+            function buildCallSystemPrompt(role, userName) {
+                let prompt = `你是一个真实的活人，正在和${userName}进行语音通话（打电话）。
+
+## 重要：当前场景
+你现在正在和${userName}**打电话**，不是发微信消息！
+- 这是语音通话，你们的对话是实时进行的
+- 说话要像打电话一样自然流畅
+- 可以用语音的方式回应，比如"嗯"、"啊"、"对啊"等
+- 回复要简短，像真实通话中的对话
+- 不要说"我发消息给你"、"我微信回复你"之类的话
+- 你是在打电话，用口语交流
+
+## 角色信息
+- 角色名称：${role.name}
+${role.description ? `- 角色描述：${role.description}` : ''}
+${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}` : ''}
+
+## 用户信息
+- 用户名称：${userName}
+
+## 通话对话风格
+1. 像打电话一样自然对话，回复简短
+2. 使用口语化表达，可以有语气词
+3. 可以打断、插话、追问，像真实通话
+4. 不要长篇大论，电话里说话要简洁
+5. 可以说"喂"、"嗯"、"啊"、"对"等口语词
+6. 保持情感真实，像朋友间的电话聊天
+
+## 禁止事项
+1. 禁止说"作为AI"、"我无法"等
+2. 禁止说"我发消息给你"、"微信上聊"
+3. 禁止过于正式或书面化的回复
+4. 禁止长篇大论
+
+记住：你现在就是在打电话，用你的声音和${userName}交流！`;
+
+                return prompt;
+            }
+
             function receiveMessage(content, sender) {
-                addMessage(content, 'received', sender);
+                addCallMessageToUI(content, 'received', sender);
             }
 
             function openCallPopup() {
@@ -12718,9 +13109,91 @@
             function closeCallPopup() {
                 const callOverlay = document.getElementById('call-overlay');
                 if (callOverlay) {
+                    const duration = getCallDuration();
+                    addCallEndMessage(duration);
                     callOverlay.classList.remove('show');
                     stopCallTimer();
                 }
+            }
+
+            function getCallDuration() {
+                const hours = Math.floor(callSeconds / 3600);
+                const minutes = Math.floor((callSeconds % 3600) / 60);
+                const seconds = callSeconds % 60;
+                
+                if (hours > 0) {
+                    return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                } else if (minutes > 0) {
+                    return `${minutes}:${String(seconds).padStart(2, '0')}`;
+                } else {
+                    return `${seconds}秒`;
+                }
+            }
+
+            function addCallEndMessage(duration) {
+                const chatBox = document.getElementById('call-chat-box');
+                if (chatBox) {
+                    const endDiv = document.createElement('div');
+                    endDiv.className = 'call-chat-message received';
+                    endDiv.innerHTML = `<div class="call-chat-content">通话结束 ${duration}</div>`;
+                    chatBox.appendChild(endDiv);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+                
+                if (currentChatRole) {
+                    addCallEndMessageToChat(duration);
+                }
+            }
+
+            function addCallEndMessageToChat(duration) {
+                const chatMessages = document.getElementById('chat-messages');
+                if (!chatMessages || !currentChatRole) return;
+                
+                const role = roles.find(r => r.id === currentChatRole.id);
+                const roleAvatar = role ? role.avatar : '';
+                const roleName = role ? role.name : '';
+                
+                const content = `通话结束 ${duration}`;
+                const timestamp = new Date().toISOString();
+                
+                if (!messages[currentChatRole.id]) {
+                    messages[currentChatRole.id] = [];
+                }
+                
+                messages[currentChatRole.id].push({
+                    type: 'received',
+                    content: content,
+                    timestamp: timestamp,
+                    roleId: currentChatRole.id
+                });
+                
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                
+                const message = document.createElement('div');
+                message.className = 'message received message-enter';
+                message.innerHTML = `
+                    <div class="chat-avatar">${roleAvatar 
+                        ? `<img src="${roleAvatar}" alt="头像" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span style="display:none">${roleName ? roleName.charAt(0) : 'TA'}</span>`
+                        : `<span>${roleName ? roleName.charAt(0) : 'TA'}</span>`}</div>
+                    <div class="message-bubble">
+                        <div class="message-content">${content}</div>
+                        <div class="message-time">${new Date(timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</div>
+                    </div>
+                `;
+                
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    chatMessages.insertBefore(message, typingIndicator);
+                } else {
+                    chatMessages.appendChild(message);
+                }
+                
+                requestAnimationFrame(() => {
+                    chatMessages.scrollTo({
+                        top: chatMessages.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                });
             }
 
             function startCallTimer() {
@@ -15175,13 +15648,46 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     }
                 };
 
+                var imageKeys = [];
+                var imagePatterns = [
+                    'icon_', 'Avatar', 'Wallpaper', 'Background', 'Image',
+                    'circleWidgetImage', 'customWallpaper', 'chatWallpaper_',
+                    'characterDetailImage_', 'detailImages_'
+                ];
+
                 for (var i = 0; i < allKeys.length; i++) {
                     var key = allKeys[i];
                     var value = localStorage.getItem(key);
                     if (value !== null) {
                         exportData.data[key] = value;
+                        
+                        var isImageKey = imagePatterns.some(function(pattern) {
+                            return key.indexOf(pattern) !== -1;
+                        });
+                        
+                        if (isImageKey || (value.indexOf('data:image') === 0)) {
+                            imageKeys.push(key);
+                        }
+                        
+                        try {
+                            var parsed = JSON.parse(value);
+                            if (parsed && typeof parsed === 'object') {
+                                var jsonStr = JSON.stringify(parsed);
+                                if (jsonStr.indexOf('data:image') !== -1 || 
+                                    jsonStr.indexOf('"avatar"') !== -1 ||
+                                    jsonStr.indexOf('"background"') !== -1) {
+                                    if (imageKeys.indexOf(key) === -1) {
+                                        imageKeys.push(key);
+                                    }
+                                }
+                            }
+                        } catch (e) {
+                        }
                     }
                 }
+
+                exportData.metadata.imageKeys = imageKeys;
+                exportData.metadata.imageCount = imageKeys.length;
 
                 exportData.checksum = calculateChecksum(exportData.data);
                 
@@ -15199,7 +15705,11 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 document.body.removeChild(link);
                 URL.revokeObjectURL(link.href);
                 
-                showStorageStatus('导出成功！已保存 ' + totalItems + ' 项数据', 'success');
+                var statusMsg = '导出成功！已保存 ' + totalItems + ' 项数据';
+                if (imageKeys.length > 0) {
+                    statusMsg += '（含 ' + imageKeys.length + ' 项图片资源）';
+                }
+                showStorageStatus(statusMsg, 'success');
             } catch (error) {
                 console.error('导出失败:', error);
                 showStorageStatus('导出失败: ' + (error.message || '未知错误'), 'error');
@@ -15480,6 +15990,10 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     resultMsg += '，跳过 ' + skippedCount + ' 项';
                 }
                 
+                if (importData.metadata && importData.metadata.imageCount) {
+                    resultMsg += '（含 ' + importData.metadata.imageCount + ' 项图片资源）';
+                }
+                
                 showStorageStatus(resultMsg, 'success');
                 hideStorageProgress();
                 
@@ -15667,7 +16181,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             const noteColor = localStorage.getItem('noteColor') || '#808080';
             
             // 应用桌面字体颜色
-            document.querySelectorAll('.app-name, .dock-name, .text-widget, .input-widget').forEach(element => {
+            document.querySelectorAll('.app-name, .dock-name, .text-widget, .text-input-widget, .input-widget').forEach(element => {
                 element.style.color = desktopColor;
             });
             // 同时更新输入框的 placeholder 颜色
@@ -18215,7 +18729,7 @@ ${commenterInfo}
                 name.textContent = role.remark || role.name;
 
                 let timeText = '刚刚';
-                const roleMessages = messages[role.id] || [];
+                const roleMessages = (messages[role.id] || []).filter(msg => msg.context !== 'call');
                 if (roleMessages.length > 0) {
                     const lastMessage = roleMessages[roleMessages.length - 1];
                     if (lastMessage.timestamp) {
@@ -18669,6 +19183,9 @@ ${commenterInfo}
             const savedStatus = RoleStatusManager.loadStatus(role.id);
             if (savedStatus) {
                 RoleStatusManager.updateUI(savedStatus, role.id);
+            } else {
+                const defaultStatus = RoleStatusManager.defaultStatuses[Math.floor(Math.random() * RoleStatusManager.defaultStatuses.length)];
+                RoleStatusManager.updateUI(defaultStatus, role.id);
             }
             
             loadChatMessages(role.id);
@@ -20042,7 +20559,7 @@ ${recentHistory.map(msg => {
             }
             
             const chatMessages = document.getElementById('chat-messages');
-            const roleMessages = messages[roleId] || [];
+            const roleMessages = (messages[roleId] || []).filter(msg => msg.context !== 'call');
             const existingMessages = chatMessages.querySelectorAll('.message:not(#typing-indicator)');
             const currentMessageCount = existingMessages.length;
             
@@ -21696,6 +22213,7 @@ ${recentHistory.map(msg => {
                             </div>
                             <div class="character-card-actions">
                                 <button class="character-action-btn edit" onclick="event.stopPropagation(); openCharacterEditModal('${role.id}')" title="编辑">✏️</button>
+                                <button class="character-action-btn clear-chat" onclick="event.stopPropagation(); showClearChatConfirmModal('${role.id}', '${role.name}')" title="清空聊天记录">💬</button>
                                 <button class="character-action-btn delete" onclick="event.stopPropagation(); deleteCharacter('${role.id}')" title="删除">🗑️</button>
                             </div>
                         </div>
@@ -21890,6 +22408,81 @@ ${recentHistory.map(msg => {
                 characterDeleteConfirmModal = null;
             }
             pendingDeleteRoleId = null;
+        }
+
+        let clearChatConfirmModal = null;
+        let pendingClearChatRoleId = null;
+
+        function showClearChatConfirmModal(roleId, roleName) {
+            if (clearChatConfirmModal) {
+                clearChatConfirmModal.remove();
+            }
+            
+            pendingClearChatRoleId = roleId;
+            
+            const messageCount = messages[roleId] ? messages[roleId].length : 0;
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'clear-chat-confirm-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content">
+                    <div class="preset-modal-title">清空聊天记录</div>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">确定要清空与"${roleName}"的聊天记录吗？<br>当前共有 ${messageCount} 条消息，清空后无法恢复。</p>
+                    <div class="preset-modal-buttons">
+                        <button class="preset-modal-btn preset-modal-btn-delete-confirm" onclick="confirmClearChat()">确认清空</button>
+                        <button class="preset-modal-btn preset-modal-btn-cancel" onclick="closeClearChatConfirmModal()">取消</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            clearChatConfirmModal = modal;
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeClearChatConfirmModal();
+                }
+            });
+            
+            modal.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeClearChatConfirmModal();
+                }
+            });
+        }
+
+        function closeClearChatConfirmModal() {
+            if (clearChatConfirmModal) {
+                clearChatConfirmModal.remove();
+                clearChatConfirmModal = null;
+            }
+            pendingClearChatRoleId = null;
+        }
+
+        function confirmClearChat() {
+            if (!pendingClearChatRoleId) {
+                closeClearChatConfirmModal();
+                return;
+            }
+            
+            const roleId = pendingClearChatRoleId;
+            const role = roles.find(r => r.id === roleId);
+            const roleName = role ? role.name : '未知角色';
+            closeClearChatConfirmModal();
+            
+            if (messages[roleId]) {
+                delete messages[roleId];
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+            }
+            
+            if (currentChatRole && currentChatRole.id === roleId) {
+                renderMessages();
+            }
+            
+            loadMessages();
+            
+            showToast(`已清空与"${roleName}"的聊天记录`);
         }
 
         function confirmDeleteCharacter() {
@@ -24313,7 +24906,6 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
     </script>
 
 </body></html>
-
 
 
 
