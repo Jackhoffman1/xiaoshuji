@@ -171,10 +171,11 @@
             background: transparent;
             position: relative;
             overflow-x: hidden;
-            overflow-y: auto;
+            overflow-y: hidden;
             display: flex;
             flex-direction: column;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
         }
 
         .home-screen {
@@ -645,7 +646,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: rotate(1deg);
+            transform: rotate(0deg);
             transition: all 0.3s ease;
         }
 
@@ -818,6 +819,8 @@
             overflow: hidden;
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
+            transform-origin: 0 0;
+            -webkit-transform-origin: 0 0;
             will-change: transform;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
@@ -1030,29 +1033,29 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
-            margin: 8% auto;
+            margin: 0;
             padding: 0;
             border: 1px solid rgba(255, 255, 255, 0.7);
             border-radius: 20px;
             width: 90%;
             max-width: 500px;
             max-height: 75vh;
-            overflow-y: auto;
+            overflow: hidden;
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            -webkit-backface-visibility: visible;
-            backface-visibility: visible;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
+            position: relative;
+            transform: translate(3vw, 5vh);
         }
         
         .modal-content::-webkit-scrollbar {
@@ -1101,10 +1104,10 @@
             padding: 20px;
             background: rgba(255, 255, 255, 0.7);
             border-radius: 0 0 20px 20px;
-            -webkit-backface-visibility: visible;
-            backface-visibility: visible;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: calc(75vh - 80px);
+            -webkit-overflow-scrolling: touch;
         }
 
         .wallpaper-options, .icon-options {
@@ -1365,7 +1368,12 @@
         @media (max-width: 480px) {
             .modal-content {
                 width: 95%;
-                margin: 10% auto;
+                margin: 0;
+                max-height: 80vh;
+            }
+            
+            .modal-body {
+                max-height: calc(80vh - 80px);
             }
             
             .wallpaper-grid {
@@ -10821,13 +10829,13 @@
 
     <!-- 设置应用模态窗口 -->
     <div id="settings-modal" class="modal">
-        <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">设置</h2>
                 <button class="close-btn" onclick="closeSettings()">×</button>
             </div>
             
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <!-- API设置分类 -->
                 <div class="category-wrapper">
                     <div class="category-header" onclick="toggleCategory(&#39;api&#39;)">
@@ -10963,8 +10971,8 @@
                                 <div class="color-options">
                                     <div class="color-option">
                                         <label for="desktop-color" style="color: rgb(51, 51, 51);">桌面字体颜色:</label>
-                                        <input type="color" id="desktop-color" value="#ffffff" onchange="saveToColorPalette(this.value); updateColorCode(this)">
-                                        <input type="text" class="color-code-input" id="desktop-color-code" value="#ffffff" onchange="updateColorFromCode(&#39;desktop-color&#39;, this.value)">
+                                        <input type="color" id="desktop-color" value="#000000" onchange="saveToColorPalette(this.value); updateColorCode(this)">
+                                        <input type="text" class="color-code-input" id="desktop-color-code" value="#000000" onchange="updateColorFromCode(&#39;desktop-color&#39;, this.value)">
                                     </div>
                                     <div class="color-option">
                                         <label for="menu-color" style="color: rgb(51, 51, 51);">菜单字体颜色:</label>
@@ -11260,12 +11268,12 @@
 
     <!-- 文字编辑模态窗口 -->
     <div id="text-modal" class="modal">
-        <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">编辑文字</h2>
                 <button class="close-btn" onclick="closeTextModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div class="form-group">
                     <label for="text-input" style="color: rgb(51, 51, 51);">输入文字:</label>
                     <input type="text" id="text-input" placeholder="输入要显示的文字" value="用户">
@@ -11278,12 +11286,12 @@
 
     <!-- 图标名称编辑模态窗口 -->
     <div id="rename-modal" class="modal">
-        <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">修改图标名称</h2>
                 <button class="close-btn" onclick="closeRenameModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div class="form-group">
                     <label for="app-name-input" style="color: rgb(51, 51, 51);">输入新名称:</label>
                     <input type="text" id="app-name-input" placeholder="输入应用新名称">
@@ -11297,12 +11305,12 @@
 
     <!-- 模型选择模态窗口 -->
     <div id="model-modal" class="modal">
-        <div class="modal-content touch-scroll-container" style="max-width: 400px; overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content" style="max-width: 400px;">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">选择模型</h2>
                 <button class="close-btn" onclick="closeModelModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div id="model-list" style="max-height: 40vh; overflow-y: auto; text-align: left;">
                     <!-- 模型列表将通过JavaScript动态添加 -->
                 </div>
@@ -11888,12 +11896,12 @@
         
         <!-- 聊天记录条数设置模态窗口 -->
         <div id="summary-settings-modal" class="modal">
-            <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h2 style="color: rgb(51, 51, 51);">聊天上下文设置</h2>
                     <button class="close-btn" onclick="closeSummarySettings()">×</button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                     <div class="form-group">
                         <label for="context-message-count" style="color: rgb(51, 51, 51);">读取历史聊天记录条数:</label>
                         <div style="display: flex; gap: 10px; align-items: center;">
@@ -11911,12 +11919,12 @@
 
         <!-- AI总结设置模态窗口 -->
         <div id="ai-summary-settings-modal" class="modal">
-            <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h2 style="color: rgb(51, 51, 51);">总结设置</h2>
                     <button class="close-btn" onclick="closeAiSummarySettings()">×</button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                     <div class="form-group">
                         <label for="manual-summary-count" style="color: rgb(51, 51, 51);">手动总结 - 回顾聊天记录条数:</label>
                         <div style="display: flex; gap: 10px; align-items: center;">
@@ -12123,12 +12131,12 @@
         
         <!-- 角色备注编辑模态窗口 -->
         <div id="remark-modal" class="modal wechat-id-modal">
-            <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h2 style="color: rgb(51, 51, 51);">设置备注</h2>
                     <button class="close-btn" onclick="closeRemarkModal()">×</button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                     <div class="wechat-id-input-container">
                         <input type="text" id="remark-input" class="wechat-id-input" placeholder="请输入备注名" maxlength="20">
                         <div class="wechat-id-hint">备注仅自己可见，最多20个字符</div>
@@ -12430,12 +12438,12 @@
         
         <!-- 图片裁剪模态窗口 -->
         <div id="image-crop-modal" class="modal">
-            <div class="modal-content crop-modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+            <div class="modal-content crop-modal-content">
                 <div class="modal-header">
                     <h2 style="color: rgb(51, 51, 51);">调整背景图片</h2>
                     <button class="close-btn" onclick="closeCropModal()">×</button>
                 </div>
-                <div class="crop-modal-body">
+                <div class="crop-modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                     <div class="crop-container">
                         <div class="crop-preview-area" id="crop-preview-area">
                             <img id="crop-image" src="" alt="裁剪预览">
@@ -12494,12 +12502,12 @@
     
     <!-- 角色编辑模态窗口 -->
     <div id="character-edit-modal" class="modal character-edit-modal">
-        <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2 id="character-edit-title" style="color: rgb(51, 51, 51);">添加角色</h2>
                 <button class="close-btn" onclick="closeCharacterEditModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div class="character-avatar-upload">
                     <div class="character-avatar-preview" id="character-avatar-preview" onclick="document.getElementById(&#39;character-avatar-input&#39;).click()">
                         <div class="upload-hint">点击上传</div>
@@ -12537,12 +12545,12 @@
     
     <!-- 微信号编辑模态窗口 -->
     <div id="wechat-id-modal" class="modal wechat-id-modal">
-        <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">修改微信号</h2>
                 <button class="close-btn" onclick="closeWechatIdModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div class="wechat-id-input-container">
                     <input type="text" id="wechat-id-input" class="wechat-id-input" placeholder="请输入微信号" maxlength="20">
                     <div class="wechat-id-error" id="wechat-id-error">只能输入英文字母和数字</div>
@@ -12558,12 +12566,12 @@
     
     <!-- 微信名编辑模态窗口 -->
     <div id="profile-name-modal" class="modal wechat-id-modal">
-        <div class="modal-content touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">修改微信名</h2>
                 <button class="close-btn" onclick="closeProfileNameModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div class="wechat-id-input-container">
                     <input type="text" id="profile-name-input" class="wechat-id-input" placeholder="请输入微信名" maxlength="20">
                     <div class="wechat-id-error" id="profile-name-error">微信名不能为空</div>
@@ -12579,12 +12587,12 @@
     
     <!-- 添加角色模态窗口 -->
     <div id="add-role-modal" class="modal">
-        <div class="modal-content touch-scroll-container" style="max-width: 400px; overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content" style="max-width: 400px;">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">添加角色</h2>
                 <button class="close-btn" onclick="closeAddRoleModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div class="form-group">
                     <label for="role-name" style="color: rgb(51, 51, 51);">角色名称:</label>
                     <input type="text" id="role-name" placeholder="输入角色名称">
@@ -12627,12 +12635,12 @@
     
     <!-- 用户人物设定模态窗口 -->
     <div id="user-persona-modal" class="modal">
-        <div class="modal-content touch-scroll-container" style="max-width: 450px; overflow: hidden auto; touch-action: manipulation;">
+        <div class="modal-content" style="max-width: 450px;">
             <div class="modal-header">
                 <h2 style="color: rgb(51, 51, 51);">人物设定</h2>
                 <button class="close-btn" onclick="closeUserPersonaModal()">×</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                 <div class="form-group">
                     <label for="user-name" style="color: rgb(51, 51, 51);">你的名字:</label>
                     <input type="text" id="user-name" placeholder="输入你的名字">
@@ -12751,11 +12759,16 @@
                             msgDiv.style.opacity = '1';
                         };
                         await audio.play();
+                    } else {
+                        msgDiv.classList.remove('playing');
+                        msgDiv.style.opacity = '1';
+                        alert('请先配置语音设置（MiniMax API Key、Group ID、音色ID）');
                     }
                 } catch (error) {
                     console.error('播放语音失败:', error);
                     msgDiv.classList.remove('playing');
                     msgDiv.style.opacity = '1';
+                    alert('播放语音失败: ' + error.message);
                 }
             }
 
@@ -14017,7 +14030,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     }
                 },
                 
-                initAll(selector = '.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-content, .wechat-settings-content, .moments-content') {
+                initAll(selector = '.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-body, .wechat-settings-content, .moments-content') {
                     document.querySelectorAll(selector).forEach(el => {
                         TouchScroll.create(el, {
                             direction: 'vertical',
@@ -14037,7 +14050,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
             TouchScroll.initAll();
             
             // 确保所有可滚动元素都有正确的CSS样式
-            const scrollableElements = document.querySelectorAll('.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-content, .wechat-settings-content, .moments-content');
+            const scrollableElements = document.querySelectorAll('.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-body, .wechat-settings-content, .moments-content');
             scrollableElements.forEach(el => {
                 el.style.overflowY = 'auto';
                 el.style.overflowX = 'hidden';
@@ -15079,7 +15092,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             
             updateApiStatus();
             
-            const desktopColor = localStorage.getItem('desktopColor') || '#ffffff';
+            const desktopColor = localStorage.getItem('desktopColor') || '#000000';
             const menuColor = localStorage.getItem('menuColor') || '#333333';
             const uiColor = localStorage.getItem('uiColor') || '#333333';
             
@@ -16127,7 +16140,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             localStorage.removeItem('uiColor');
             localStorage.removeItem('noteColor');
             
-            document.getElementById('desktop-color').value = '#ffffff';
+            document.getElementById('desktop-color').value = '#000000';
             document.getElementById('menu-color').value = '#333333';
             document.getElementById('ui-color').value = '#333333';
             document.getElementById('note-color').value = '#808080';
@@ -19586,6 +19599,7 @@ ${commenterInfo}
             const frequencyGroup = document.getElementById('role-moments-frequency-group');
             const customIntervalGroup = document.getElementById('role-moments-custom-interval-group');
             const frequencySelect = document.getElementById('role-moments-frequency');
+            const intervalInput = document.getElementById('role-moments-interval');
             
             toggle.classList.toggle('active');
             const isActive = toggle.classList.contains('active');
@@ -19602,6 +19616,24 @@ ${commenterInfo}
                 status.className = 'toggle-status-text off';
                 frequencyGroup.style.display = 'none';
                 customIntervalGroup.style.display = 'none';
+            }
+            
+            let customInterval = parseInt(intervalInput.value) || 24;
+            if (customInterval < 1) customInterval = 1;
+            if (customInterval > 168) customInterval = 168;
+            
+            const config = {
+                enabled: isActive,
+                frequency: frequencySelect.value,
+                customInterval: customInterval
+            };
+            
+            RoleMomentsConfig.save(config);
+            
+            if (isActive) {
+                startRoleMomentsTimer(config.frequency, customInterval);
+            } else {
+                stopRoleMomentsTimer();
             }
         }
 
@@ -24283,7 +24315,8 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
                 }
 
                 try {
-                    const url = `https://api.minimax.chat/v1/text_to_speech?GroupId=${config.groupId}`;
+                    const proxyUrl = config.proxyUrl || 'https://api.minimax.chat/v1';
+                    const url = `${proxyUrl}/text_to_speech?GroupId=${config.groupId}`;
                     
                     const response = await fetch(url, {
                         method: 'POST',
@@ -24940,7 +24973,7 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
             }, { passive: false });
 
             document.addEventListener('touchmove', function(e) {
-                if (isEventOnDesktop(e) && e.touches.length > 1) {
+                if (isEventOnDesktop(e)) {
                     e.preventDefault();
                 }
             }, { passive: false });
