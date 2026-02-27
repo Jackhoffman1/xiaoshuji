@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -6102,11 +6102,18 @@
         }
         
         /* 确保输入元素的触摸行为正常 */
-        input, textarea, select, [contenteditable="true"] {
+        input, textarea, select, [contenteditable="true"], button, .btn-primary, .btn-secondary {
             touch-action: auto;
             pointer-events: auto;
             user-select: text;
             -webkit-user-select: text;
+        }
+        
+        /* 确保按钮可以正常点击 */
+        button, .btn-primary, .btn-secondary {
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: pointer;
         }
 
         .touch-scroll-content {
@@ -13754,7 +13761,11 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     
                     // 检查是否点击了按钮元素
                     const isButtonElement = target.tagName === 'BUTTON' || 
-                                           target.closest('button') !== null;
+                                           target.closest('button') !== null ||
+                                           target.classList.contains('btn-primary') ||
+                                           target.classList.contains('btn-secondary') ||
+                                           target.closest('.btn-primary') !== null ||
+                                           target.closest('.btn-secondary') !== null;
                     
                     // 检查是否点击了需要点击事件的元素
                     const isClickableElement = target.id === 'moments-username' || 
@@ -24869,6 +24880,71 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
         document.addEventListener('DOMContentLoaded', function() {
             FontManagementModule.init();
         });
+
+        // ==================== 桌面区域滚动和缩放限制 ====================
+        (function() {
+            var desktopSelectors = '.ios-container, .home-screen, .app-grid, .dock';
+            
+            function isEventOnDesktop(e) {
+                var target = e.target;
+                while (target && target !== document) {
+                    if (target.matches && target.matches(desktopSelectors)) {
+                        var isOnScrollableArea = false;
+                        var checkTarget = e.target;
+                        while (checkTarget && checkTarget !== target) {
+                            var style = window.getComputedStyle(checkTarget);
+                            if ((style.overflowY === 'auto' || style.overflowY === 'scroll' || 
+                                 style.overflowX === 'auto' || style.overflowX === 'scroll') &&
+                                (checkTarget.scrollHeight > checkTarget.clientHeight || 
+                                 checkTarget.scrollWidth > checkTarget.clientWidth)) {
+                                isOnScrollableArea = true;
+                                break;
+                            }
+                            checkTarget = checkTarget.parentElement;
+                        }
+                        return !isOnScrollableArea;
+                    }
+                    target = target.parentElement;
+                }
+                return false;
+            }
+
+            document.addEventListener('wheel', function(e) {
+                if (isEventOnDesktop(e)) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            document.addEventListener('gesturestart', function(e) {
+                if (isEventOnDesktop(e)) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            document.addEventListener('gesturechange', function(e) {
+                if (isEventOnDesktop(e)) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            document.addEventListener('gestureend', function(e) {
+                if (isEventOnDesktop(e)) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchstart', function(e) {
+                if (isEventOnDesktop(e) && e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchmove', function(e) {
+                if (isEventOnDesktop(e) && e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        })();
 
 
     </script>
