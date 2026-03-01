@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -819,19 +819,26 @@
             overflow: hidden;
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
-            transform-origin: 0 0;
-            -webkit-transform-origin: 0 0;
-            will-change: transform;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             perspective: 1000px;
         }
 
-        .touch-scroll-container.dragging {
-            cursor: grabbing;
+        .touch-scroll-content {
+            position: relative;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            transform-origin: 0 0;
+            -webkit-transform-origin: 0 0;
         }
 
-        .touch-scroll-container.momentum {
+        .touch-scroll-container.dragging .touch-scroll-content {
+            cursor: grabbing;
+            transition: none;
+        }
+
+        .touch-scroll-container.momentum .touch-scroll-content {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -1055,7 +1062,6 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             position: relative;
-            transform: translate(3vw, 5vh);
         }
         
         .modal-content::-webkit-scrollbar {
@@ -2061,37 +2067,112 @@
             transition: background 0.3s ease;
         }
 
+        /* 顶栏核心变量 */
+        :root {
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-left: env(safe-area-inset-left);
+            --safe-area-inset-right: env(safe-area-inset-right);
+            --top-bar-base-height: 58px;
+        }
+
+        /* 顶栏核心样式（填充顶部版） */
         .wechat-header {
-            background: rgba(255, 255, 255, 0.75);
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
-            border-radius: 12px;
-            margin: 35px 8px 8px;
-            padding: 20px 16px;
+            font-family: '简修圆体-9', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            scrollbar-width: none;
+            
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            
+            border-radius: 0 0 24px 24px;
+            
+            margin: 0 12px 12px;
+            padding: calc(var(--safe-area-inset-top) + 12px) 20px 18px;
+            
             display: flex;
             align-items: center;
+            justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 100;
+            min-height: calc(var(--top-bar-base-height) + var(--safe-area-inset-top));
+            
             box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.08),
-                0 2px 8px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
+                0 8px 32px rgba(0, 0, 0, 0.06),
+                0 2px 12px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-top: none;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+            
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            background-image: 
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.85),
+                    rgba(255, 255, 255, 0.8)
+                ),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
         }
 
-        .wechat-header:hover {
+        .wechat-header.scrolled {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border-radius: 0 0 20px 20px;
+            margin: 0 8px 8px;
             box-shadow: 
-                0 6px 20px rgba(0, 0, 0, 0.1),
-                0 3px 10px rgba(0, 0, 0, 0.05);
+                0 12px 40px rgba(0, 0, 0, 0.08),
+                0 4px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .wechat-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(200, 200, 200, 0.4),
+                transparent
+            );
+            border-radius: 1px;
+        }
+
+        .wechat-header .icon {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #555;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .wechat-header .icon:hover {
+            stroke: #222;
+            transform: scale(1.05);
         }
 
         .wechat-header-title {
-            flex: 1;
             font-size: 17px;
-            font-weight: 600;
             color: #333;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+            flex: 1;
             text-align: center;
+            margin-top: 15px;
         }
 
         .message-list {
@@ -2123,6 +2204,10 @@
             border-radius: 14px;
         }
 
+        .message-item-wrapper.pinned-wrapper {
+            overflow: visible;
+        }
+
         .message-item-actions {
             position: absolute;
             right: 0;
@@ -2133,10 +2218,12 @@
             transform: translateX(100%);
             transition: transform 0.15s ease-out;
             z-index: 1;
+            visibility: hidden;
         }
 
         .message-item-actions.visible {
             transform: translateX(0);
+            visibility: visible;
         }
 
         .message-action-btn {
@@ -2184,16 +2271,41 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
         }
 
+        .message-item.pinned {
+            background: #ffffff;
+            border: 1px solid rgba(230, 230, 230, 0.5);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                0 1px 3px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            padding-top: 28px;
+            position: relative;
+        }
+
         .message-item.pinned::before {
             content: '';
             position: absolute;
-            top: 6px;
+            top: -4px;
+            left: 8px;
             right: 8px;
-            width: 14px;
-            height: 14px;
-            background: #333;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            opacity: 0.8;
+            height: 100%;
+            background: #fafafa;
+            border-radius: 14px;
+            z-index: -1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .message-item.pinned::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 16px;
+            right: 16px;
+            height: 100%;
+            background: #f5f5f5;
+            border-radius: 14px;
+            z-index: -2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
         }
 
         .pinned-label {
@@ -2551,6 +2663,10 @@
             border: 1px solid rgba(0, 0, 0, 0.03);
         }
 
+        .wechat-header .back-btn {
+            margin-top: 15px;
+        }
+
         .back-btn:hover {
             background: rgba(0, 0, 0, 0.06);
             transform: scale(1.05);
@@ -2842,6 +2958,13 @@
             transform: scale(0.98);
             opacity: 0.9;
             transition: transform 0.1s ease, opacity 0.1s ease;
+        }
+
+
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
         }
 
         .message-context-menu {
@@ -3332,11 +3455,20 @@
                 top: 3px;
             }
 
+            .message-item.pinned {
+                padding-top: 22px;
+            }
+
             .message-item.pinned::before {
-                width: 12px;
-                height: 12px;
-                top: 6px;
+                top: -3px;
+                left: 6px;
                 right: 6px;
+            }
+
+            .message-item.pinned::after {
+                top: -6px;
+                left: 12px;
+                right: 12px;
             }
 
             .message-time-pinned {
@@ -3397,11 +3529,20 @@
                 top: 2px;
             }
 
+            .message-item.pinned {
+                padding-top: 20px;
+            }
+
             .message-item.pinned::before {
-                width: 10px;
-                height: 10px;
-                top: 5px;
+                top: -2px;
+                left: 5px;
                 right: 5px;
+            }
+
+            .message-item.pinned::after {
+                top: -4px;
+                left: 10px;
+                right: 10px;
             }
 
             .message-time-pinned {
@@ -3458,11 +3599,20 @@
                 top: 5px;
             }
 
+            .message-item.pinned {
+                padding-top: 36px;
+            }
+
             .message-item.pinned::before {
-                width: 16px;
-                height: 16px;
-                top: 10px;
+                top: -5px;
+                left: 10px;
                 right: 10px;
+            }
+
+            .message-item.pinned::after {
+                top: -10px;
+                left: 20px;
+                right: 20px;
             }
 
             .message-time-pinned {
@@ -4423,82 +4573,149 @@
             cursor: not-allowed;
         }
 
-        /* iOS液态玻璃效果底栏样式 */
+        /* 底栏核心变量（需保留，关联样式依赖） */
+        :root {
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-left: env(safe-area-inset-left);
+            --safe-area-inset-right: env(safe-area-inset-right);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --primary-blue: #000000;
+            --bg-gray: rgba(233, 233, 235, 0.85);
+            --text-gray: #86868b;
+            --ios-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --glass-blur: 12px;
+            --border-top: rgba(255, 255, 255, 0.6);
+            --border-bottom: rgba(200, 200, 205, 0.4);
+        }
+
+        /* 底栏容器（整体固定在底部） */
         .ios-glass-tabbar {
+            -webkit-tap-highlight-color: transparent;
             position: fixed;
-            bottom: 16px;
-            left: 16px;
-            right: 16px;
-            height: 72px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-radius: 20px;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            background-color: transparent;
+            border-top: none;
+            z-index: 1000;
             display: none;
             align-items: center;
-            justify-content: space-around;
-            z-index: 1000;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 0 8px;
+            justify-content: center;
+            padding: 12px 16px 8px;
         }
 
         .ios-glass-tabbar.visible {
             display: flex;
         }
 
-        @supports not (backdrop-filter: blur(20px)) {
-            .ios-glass-tabbar {
-                background: rgba(255, 255, 255, 0.95);
-            }
+        /* 底栏玻璃容器（仅包裹左侧三个图标） */
+        .bottom-bar__content {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 32px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            flex: 1;
+            max-width: calc(100% - 60px);
+            margin-right: 8px;
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: rgba(255, 255, 255, 0.95);
         }
 
-        .tabbar-item {
-            flex: 1;
-            height: 100%;
+        /* 左侧三图标容器 */
+        .bottom-bar__left-group {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        /* 单个图标项样式 */
+        .tabbar-item {
+            display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             position: relative;
-            transition: all 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
-            border-radius: 16px;
+            color: var(--text-gray);
+            transition: all 0.2s var(--ios-easing);
+            -webkit-tap-highlight-color: rgba(0, 122, 255, 0.1);
+            padding: 8px 16px;
         }
 
-        .tabbar-item:active {
-            transform: scale(0.92);
-        }
-
+        /* 图标样式 */
         .tabbar-item svg {
-            width: 30px;
-            height: 30px;
-            stroke: #666;
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
             stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
             fill: none;
-            transition: all 0.2s ease;
         }
 
-        .tabbar-item span {
-            font-size: 10px;
-            color: #666;
-            margin-top: 2px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+        /* 图标选中态 */
+        .tabbar-item.active {
+            color: var(--primary-blue);
+            transform: scale(1.05);
         }
 
-        .tabbar-item.active svg {
-            stroke: #000;
+        /* 右侧独立搜索按钮 */
+        .bottom-bar__search-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow:
+                0 4px 15px rgba(180, 180, 180, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.2s var(--ios-easing);
+            flex-shrink: 0;
         }
 
-        .tabbar-item.active span {
-            color: #000;
+        .bottom-bar__search-btn:hover {
+            transform: scale(1.05);
+            box-shadow:
+                0 6px 20px rgba(180, 180, 180, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.3));
+        }
+
+        /* 小屏适配 */
+        @media (max-width: 375px) {
+            .ios-glass-tabbar {
+                padding: 10px 12px 6px;
+            }
+            .bottom-bar__content {
+                padding: 6px 12px;
+                margin-right: 6px;
+                max-width: calc(100% - 56px);
+                box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            }
+            .bottom-bar__search-btn {
+                width: 44px;
+                height: 44px;
+                box-shadow: 0 3px 12px rgba(180, 180, 180, 0.2);
+            }
+            .search-icon {
+                width: 18px;
+                height: 18px;
+            }
         }
 
         .profile-menu {
@@ -6293,6 +6510,32 @@
 
         .message-enter {
             animation: messageSlideIn 0.3s ease-out;
+        }
+
+        .load-more-btn {
+            display: flex;
+            justify-content: center;
+            padding: 12px 0;
+            width: 100%;
+        }
+
+        .load-more-btn button {
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            border-radius: 16px;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: #576b95;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .load-more-btn button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .load-more-btn button:active {
+            transform: scale(0.98);
         }
 
         @keyframes messageSlideIn {
@@ -8452,7 +8695,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: transparent;
+            background: #f5f5f7;
             z-index: 3000;
             display: none;
             overflow-y: auto;
@@ -8487,7 +8730,6 @@
             position: relative;
             min-height: 60px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);
             border-radius: 20px 20px 20px 20px;
             margin: 12px 12px 0 12px;
             background-clip: padding-box;
@@ -8641,7 +8883,7 @@
             padding: 12px 12px;
             padding-bottom: calc(20px + env(safe-area-inset-bottom));
             position: relative;
-            background: transparent;
+            background: #f5f5f7;
             gap: 16px;
         }
 
@@ -10386,6 +10628,383 @@
             color: #8b9497;
             border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
+
+        /* ======== 网易云音乐杂志版样式 ======== */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@400;700&display=swap');
+
+        #netease-app {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        #netease-app.visible {
+            display: flex;
+        }
+
+        .netease-device-container {
+            width: 430px;
+            height: 932px;
+            max-width: 100%;
+            max-height: 100%;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+
+        .netease-header {
+            padding: 30px 20px 20px;
+            border-bottom: 4px solid #000;
+            background: #fff;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .netease-magazine-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .netease-magazine-title span {
+            font-size: 0.8rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding-bottom: 8px;
+        }
+
+        .netease-search-bar {
+            height: 44px;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fff;
+        }
+
+        .netease-search-bar:hover {
+            background: #f0f0f0;
+        }
+
+        .netease-search-bar:active, .netease-search-bar.active {
+            background: #000;
+            color: #fff;
+        }
+
+        .netease-search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: inherit;
+            pointer-events: none;
+        }
+
+        .netease-search-bar input::placeholder {
+            color: #888;
+        }
+
+        .netease-search-bar.active input::placeholder {
+            color: #ccc;
+        }
+
+        .netease-search-bar svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .netease-main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .netease-main-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .netease-album-art-container {
+            width: 100%;
+            aspect-ratio: 4/5;
+            border: 2px solid #000;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .netease-album-art-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: transform 0.5s ease;
+        }
+
+        .netease-album-art-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .netease-art-badge {
+            position: absolute;
+            bottom: 15px;
+            left: -5px;
+            background: #000;
+            color: #fff;
+            padding: 5px 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        .netease-track-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .netease-track-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .netease-track-artist {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .netease-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+
+        .netease-btn {
+            background: transparent;
+            border: 2px solid #000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .netease-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .netease-btn:active {
+            background: #000;
+            transform: scale(0.95);
+        }
+
+        .netease-btn:active svg {
+            fill: #fff;
+        }
+
+        .netease-btn.play-btn {
+            width: 70px;
+            height: 70px;
+            background: #000;
+        }
+
+        .netease-btn.play-btn svg {
+            fill: #fff;
+        }
+
+        .netease-btn.play-btn:active {
+            background: #fff;
+        }
+
+        .netease-btn.play-btn:active svg {
+            fill: #000;
+        }
+
+        .netease-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+            transition: fill 0.2s;
+        }
+
+        .netease-progress-wrapper {
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            margin-bottom: 40px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .netease-progress-bar {
+            width: 45%;
+            height: 100%;
+            background: #000;
+            position: relative;
+        }
+
+        .netease-progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        .netease-three-col-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            border-top: 2px solid #000;
+            padding-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .netease-col-item {
+            border: 1px solid #000;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .netease-col-item:hover {
+            background: #f5f5f5;
+            transform: translateY(-3px);
+        }
+
+        .netease-col-item:active {
+            background: #000;
+            color: #fff;
+        }
+
+        .netease-col-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .netease-col-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .netease-bottom-nav {
+            height: 80px;
+            border-top: 4px solid #000;
+            display: flex;
+            background: #fff;
+        }
+
+        .netease-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-right: 2px solid #000;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .netease-nav-item:last-child {
+            border-right: none;
+        }
+
+        .netease-nav-item:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .netease-nav-item:active {
+            opacity: 0.8;
+        }
+
+        .netease-nav-item.active {
+            background: #000;
+            color: #fff;
+        }
+
+        .netease-back-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+
+        .netease-back-btn:hover {
+            background: #000;
+        }
+
+        .netease-back-btn:hover svg {
+            stroke: #fff;
+        }
+
+        .netease-back-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #000;
+            stroke-width: 2;
+            fill: none;
+        }
     </style>
 </head>
 <body>
@@ -10394,15 +11013,16 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年2月26日</div>
+                <div class="announcement-date" id="announcement-date">2026年2月28日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <p>欢迎使用小鼠机！本次更新内容如下：</p>
                     <ul>
-                        <li>📞 增加了通话功能</li>
-                        <li>🤖 接入了Minimax</li>
-                        <li>🐛 修复了一些小bug</li>
+                        <li>🎨 更新了部分UI</li>
+                        <li>🐛 修复了一些bug</li>
+                        <li>☑️ 增加了多选功能</li>
+                        <li>🎲 增加了重roll功能</li>
                     </ul>
                 </div>
             </div>
@@ -10449,17 +11069,17 @@
     <div class="ios-container">
         <div class="home-screen">
             <div class="input-widgets-container">
-                <input type="text" class="input-widget" id="input-widget-1" placeholder="₊𝔹𝕒𝕓𝕖₊" style="color: rgb(245, 245, 245); --placeholder-color: #f5f5f5;">
-                <input type="text" class="input-widget" id="input-widget-2" placeholder="♰𝐾𝑖𝑡𝑡𝑒𝑛♰" style="color: rgb(245, 245, 245); --placeholder-color: #f5f5f5;">
+                <input type="text" class="input-widget" id="input-widget-1" placeholder="₊𝔹𝕒𝕓𝕖₊" style="color: rgb(0, 0, 0); --placeholder-color: #f5f5f5;">
+                <input type="text" class="input-widget" id="input-widget-2" placeholder="♰𝐾𝑖𝑡𝑡𝑒𝑛♰" style="color: rgb(0, 0, 0); --placeholder-color: #f5f5f5;">
             </div>
             <div class="circle-inputs-container">
-                <input type="text" class="input-widget" id="circle-input-1" placeholder="+ Elf Ear ★" style="color: rgb(245, 245, 245); --placeholder-color: #f5f5f5;">
-                <input type="text" class="input-widget" id="circle-input-2" placeholder="ʟɪᴇɴ" style="color: rgb(245, 245, 245); --placeholder-color: #f5f5f5;">
+                <input type="text" class="input-widget" id="circle-input-1" placeholder="+ Elf Ear ★" style="color: rgb(0, 0, 0); --placeholder-color: #f5f5f5;">
+                <input type="text" class="input-widget" id="circle-input-2" placeholder="ʟɪᴇɴ" style="color: rgb(0, 0, 0); --placeholder-color: #f5f5f5;">
             </div>
             <div class="widget-section">
                 <div class="left-widgets">
                     <div class="circle-widget" id="circle-widget"><img src="" alt="小组件图片" style="border-radius: 50%; box-shadow: 0 0 4px 1px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3); border: 2px solid white;"></div>
-                    <div class="text-widget" id="text-widget" style="color: rgb(245, 245, 245);">₊˚. ♰𝓚𝓲𝓽𝓽𝓮𝓷 𝓤𝓷𝓲𝓿𝓮𝓻𝓼𝓮ฅ . ⁺</div>
+                    <div class="text-widget" id="text-widget" style="color: rgb(0, 0, 0);">₊˚. ♰𝓚𝓲𝓽𝓽𝓮𝓷 𝓤𝓷𝓲𝓿𝓮𝓻𝓼𝓮ฅ . ⁺</div>
 
                 </div>
                 </div>
@@ -10469,36 +11089,36 @@
         <div class="app-grid">
                     <div class="app-icon" data-app="wechat" style="">
                         <div class="icon-container"><img src="" alt="微信"></div>
-                        <div class="app-name" style="color: rgb(245, 245, 245);">微信</div>
+                        <div class="app-name" style="color: rgb(0, 0, 0);">微信</div>
                     </div>
                     <div class="app-icon" data-app="worldbook">
                         <div class="icon-container"><img src="" alt="世界书"></div>
-                        <div class="app-name" style="color: rgb(245, 245, 245);">世界书</div>
+                        <div class="app-name" style="color: rgb(0, 0, 0);">世界书</div>
                     </div>
                     <div class="app-icon" data-app="netease">
                         <div class="icon-container"><img src="" alt="网易云"></div>
-                        <div class="app-name" style="color: rgb(245, 245, 245);">网易云</div>
+                        <div class="app-name" style="color: rgb(0, 0, 0);">网易云</div>
                     </div>
                     <div class="app-icon" data-app="forum">
                         <div class="icon-container"><img src="" alt="微博"></div>
-                        <div class="app-name" style="color: rgb(245, 245, 245);">微博</div>
+                        <div class="app-name" style="color: rgb(0, 0, 0);">微博</div>
                     </div>
                 </div>
         
         <div class="dock">
             <div class="dock-app" data-app="home">
                 <div class="dock-icon"><img src="" alt="模拟人生"></div>
-                <div class="dock-name" style="color: rgb(245, 245, 245);">模拟人生</div>
+                <div class="dock-name" style="color: rgb(0, 0, 0);">模拟人生</div>
             </div>
             
             <div class="dock-app" data-app="anniversary">
                 <div class="dock-icon"><img src="" alt="纪念日"></div>
-                <div class="dock-name" style="color: rgb(245, 245, 245);">纪念日</div>
+                <div class="dock-name" style="color: rgb(0, 0, 0);">纪念日</div>
             </div>
             
             <div class="dock-app" data-app="settings">
                 <div class="dock-icon"><img src="" alt="设置"></div>
-                <div class="dock-name" style="color: rgb(245, 245, 245);">设置</div>
+                <div class="dock-name" style="color: rgb(0, 0, 0);">设置</div>
             </div>
         </div>
     
@@ -11523,12 +12143,81 @@
             </div>
             <div class="worldbook-modal-body">
                 <div id="sims-worldbook-list" class="worldbook-entries-container">
-                    <!-- 世界书列表将通过JavaScript动态添加 -->
                 </div>
             </div>
             <div class="worldbook-modal-footer">
                 <button class="worldbook-btn worldbook-btn-secondary" onclick="closeSimsWorldbookSelector()">关闭</button>
             </div>
+        </div>
+    </div>
+    
+    <!-- 网易云音乐杂志版界面 -->
+    <div id="netease-app">
+        <div class="netease-device-container">
+            <div class="netease-back-btn" onclick="closeNeteaseApp()">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </div>
+            
+            <header class="netease-header">
+                <div class="netease-magazine-title">
+                    Netease <span>VOL. 1</span>
+                </div>
+                <div class="netease-search-bar" id="neteaseSearchBar" onclick="activateNeteaseSearch()">
+                    <input type="text" placeholder="TAP TO SEARCH TRACKS..." id="neteaseSearchInput">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </div>
+            </header>
+
+            <main class="netease-main-content">
+                <div class="netease-album-art-container" onclick="toggleNeteasePlay()">
+                    <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Album Art" id="neteaseAlbumArt">
+                    <div class="netease-art-badge">NOW PLAYING</div>
+                </div>
+
+                <div class="netease-track-info">
+                    <div class="netease-track-title" id="neteaseTrackTitle">Black & White</div>
+                    <div class="netease-track-artist" id="neteaseTrackArtist">Cloud Music Editorials</div>
+                </div>
+
+                <div class="netease-progress-wrapper">
+                    <div class="netease-progress-bar" id="neteaseProgressBar"></div>
+                </div>
+
+                <div class="netease-controls">
+                    <button class="netease-btn" onclick="neteaseClickEffect(this)">
+                        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                    </button>
+                    <button class="netease-btn play-btn" id="neteasePlayBtn" onclick="toggleNeteasePlay()">
+                        <svg id="neteasePlayIcon" viewBox="0 0 24 24" style="width: 32px; height: 32px;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <button class="netease-btn" onclick="neteaseClickEffect(this)">
+                        <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                    </button>
+                </div>
+
+                <div class="netease-three-col-layout">
+                    <div class="netease-col-item">
+                        <div class="netease-col-num">99+</div>
+                        <div class="netease-col-label">Comments</div>
+                    </div>
+                    <div class="netease-col-item">
+                        <div class="netease-col-num">12k</div>
+                        <div class="netease-col-label">Likes</div>
+                    </div>
+                    <div class="netease-col-item">
+                        <div class="netease-col-num">•••</div>
+                        <div class="netease-col-label">More</div>
+                    </div>
+                </div>
+            </main>
+
+            <nav class="netease-bottom-nav">
+                <div class="netease-nav-item" onclick="switchNeteaseTab(this)">Discover</div>
+                <div class="netease-nav-item active" onclick="switchNeteaseTab(this)">Player</div>
+                <div class="netease-nav-item" onclick="switchNeteaseTab(this)">Profile</div>
+            </nav>
         </div>
     </div>
     
@@ -12464,37 +13153,42 @@
                     </div>
                     <p class="crop-hint">拖动滑块调整图片缩放和位置，图片将自动适配屏幕</p>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn-secondary" onclick="closeCropModal()" style="color: rgb(51, 51, 51);">取消</button>
-                    <button class="btn-primary" onclick="confirmCropImage()" style="color: rgb(51, 51, 51);">确认设置</button>
+                <div class="modal-footer" style="position: relative; z-index: 10;">
+                    <button class="btn-secondary" onclick="closeCropModal()" style="color: rgb(51, 51, 51); -webkit-tap-highlight-color: transparent;">取消</button>
+                    <button class="btn-primary" id="confirm-crop-btn" style="color: rgb(51, 51, 51); -webkit-tap-highlight-color: transparent;">确认设置</button>
                 </div>
             <div class="scroll-indicator"></div></div>
         </div>
         
         <!-- iOS液态玻璃效果底栏 -->
         <div id="ios-glass-tabbar" class="ios-glass-tabbar">
-            <div class="tabbar-item active" data-tab="messages" onclick="handleTabbarClick(event, &#39;messages&#39;)">
-                <svg viewBox="0 0 24 24">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
+            <div class="bottom-bar__content">
+                <div class="bottom-bar__left-group">
+                    <div class="tabbar-item active" data-tab="messages" onclick="handleTabbarClick(event, &#39;messages&#39;)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="tabbar-item" data-tab="contacts" onclick="handleTabbarClick(event, &#39;contacts&#39;)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="tabbar-item" data-tab="profile" onclick="handleTabbarClick(event, &#39;profile&#39;)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <div class="tabbar-item" data-tab="contacts" onclick="handleTabbarClick(event, &#39;contacts&#39;)">
-                <svg viewBox="0 0 24 24">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-            </div>
-            <div class="tabbar-item" data-tab="discover" onclick="handleTabbarClick(event, &#39;discover&#39;)">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
-                </svg>
-            </div>
-            <div class="tabbar-item" data-tab="profile" onclick="handleTabbarClick(event, &#39;profile&#39;)">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
+            <div class="bottom-bar__search-btn" onclick="handleTabbarClick(event, &#39;discover&#39;)">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4" fill="none"></circle>
                 </svg>
             </div>
         </div>
@@ -13138,6 +13832,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     messages[currentChatRole.id] = [];
                 }
                 
+                const messageIndex = messages[currentChatRole.id].length;
+                
                 messages[currentChatRole.id].push({
                     type: 'received',
                     content: content,
@@ -13153,7 +13849,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     <div class="chat-avatar">${roleAvatar 
                         ? `<img src="${roleAvatar}" alt="头像" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span style="display:none">${roleName ? roleName.charAt(0) : 'TA'}</span>`
                         : `<span>${roleName ? roleName.charAt(0) : 'TA'}</span>`}</div>
-                    <div class="message-bubble">
+                    <div class="message-bubble" data-message-index="${messageIndex}">
                         <div class="message-content">${content}</div>
                         <div class="message-time">${new Date(timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</div>
                     </div>
@@ -13165,6 +13861,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 } else {
                     chatMessages.appendChild(message);
                 }
+                
+                attachMessageClickHandlers();
                 
                 requestAnimationFrame(() => {
                     chatMessages.scrollTo({
@@ -13228,6 +13926,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 try {
                     console.log('AnniversaryModule init starting...');
                     initDatePicker();
+                    initColorPicker();
                     initEventListeners();
                     loadSavedData();
                     
@@ -13707,6 +14406,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 }
                 
                 init() {
+                    this.createContentWrapper();
                     this.updateBounds();
                     this.bindEvents();
                     
@@ -13715,6 +14415,19 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     }
                     
                     this.element.classList.add('touch-scroll-container');
+                }
+                
+                createContentWrapper() {
+                    // 创建内部内容包装器，用于滚动
+                    this.contentWrapper = document.createElement('div');
+                    this.contentWrapper.className = 'touch-scroll-content';
+                    
+                    // 移动所有子元素到包装器中
+                    while (this.element.firstChild) {
+                        this.contentWrapper.appendChild(this.element.firstChild);
+                    }
+                    
+                    this.element.appendChild(this.contentWrapper);
                 }
                 
                 createIndicator() {
@@ -13728,7 +14441,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     if (!this.indicator) return;
                     
                     const containerHeight = this.element.clientHeight;
-                    const contentHeight = this.element.scrollHeight;
+                    const contentHeight = this.contentWrapper.scrollHeight;
                     
                     if (contentHeight <= containerHeight) {
                         this.indicator.classList.remove('visible');
@@ -13744,8 +14457,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 }
                 
                 updateBounds() {
-                    this.maxScrollX = Math.max(0, this.element.scrollWidth - this.element.clientWidth);
-                    this.maxScrollY = Math.max(0, this.element.scrollHeight - this.element.clientHeight);
+                    this.maxScrollX = Math.max(0, this.contentWrapper.scrollWidth - this.element.clientWidth);
+                    this.maxScrollY = Math.max(0, this.contentWrapper.scrollHeight - this.element.clientHeight);
                 }
                 
                 bindEvents() {
@@ -13778,7 +14491,9 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                                            target.classList.contains('btn-primary') ||
                                            target.classList.contains('btn-secondary') ||
                                            target.closest('.btn-primary') !== null ||
-                                           target.closest('.btn-secondary') !== null;
+                                           target.closest('.btn-secondary') !== null ||
+                                           target.id === 'confirm-crop-btn' ||
+                                           target.closest('.modal-footer') !== null;
                     
                     // 检查是否点击了需要点击事件的元素
                     const isClickableElement = target.id === 'moments-username' || 
@@ -13963,8 +14678,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 applyTransform() {
                     // 使用CSS transform而不是直接修改scrollTop/scrollLeft
                     // 这样可以获得更流畅的滚动体验，特别是在移动设备上
-                    this.element.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
-                    this.element.style.transformOrigin = '0 0';
+                    this.contentWrapper.style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+                    this.contentWrapper.style.transformOrigin = '0 0';
                 }
                 
                 scrollTo(x, y, animated = true) {
@@ -14030,7 +14745,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     }
                 },
                 
-                initAll(selector = '.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-body, .wechat-settings-content, .moments-content') {
+                initAll(selector = '.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-body:not(.crop-modal-body), .wechat-settings-content, .moments-content') {
                     document.querySelectorAll(selector).forEach(el => {
                         TouchScroll.create(el, {
                             direction: 'vertical',
@@ -14050,7 +14765,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
             TouchScroll.initAll();
             
             // 确保所有可滚动元素都有正确的CSS样式
-            const scrollableElements = document.querySelectorAll('.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-body, .wechat-settings-content, .moments-content');
+            const scrollableElements = document.querySelectorAll('.chat-messages, .contacts-list, .message-list, .character-settings-content, .preset-list, .modal-body:not(.crop-modal-body), .wechat-settings-content, .moments-content');
             scrollableElements.forEach(el => {
                 el.style.overflowY = 'auto';
                 el.style.overflowX = 'hidden';
@@ -14192,6 +14907,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                         AnniversaryModule.openAnniversaryPage();
                     } else if (appData === 'worldbook' || appName === '世界书') {
                         openWorldbook();
+                    } else if (appData === 'netease' || appName === '网易云') {
+                        openNetease();
                     } else if (appData === 'home' || appName === '模拟人生') {
                         openSimsPanel();
                     } else {
@@ -14230,7 +14947,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
         document.getElementById('text-widget').addEventListener('click', function() {
             const currentText = this.textContent;
             document.getElementById('text-input').value = currentText;
-            document.getElementById('text-modal').style.display = 'block';
+            document.getElementById('text-modal').style.display = 'flex';
         });
 
         function saveTextWidget() {
@@ -15042,7 +15759,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         // 设置应用功能
         function openSettings() {
             const modal = document.getElementById('settings-modal');
-            modal.style.display = 'block';
+            modal.style.display = 'flex';
             loadSettings();
             renderIconGrid();
         }
@@ -16511,7 +17228,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             if (app) {
                 const savedName = localStorage.getItem('appName_' + selectedApp) || app.name;
                 document.getElementById('app-name-input').value = savedName;
-                document.getElementById('rename-modal').style.display = 'block';
+                document.getElementById('rename-modal').style.display = 'flex';
             }
         }
 
@@ -16822,7 +17539,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                         }
                     }
                     
-                    document.getElementById('model-modal').style.display = 'block';
+                    document.getElementById('model-modal').style.display = 'flex';
                     
                     const responseTime = Date.now() - startTime;
                     alert(`✅ 成功获取 ${models.length} 个模型\n响应时间: ${responseTime}ms\n\n点击模型列表中的模型即可选择`);
@@ -17521,6 +18238,49 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         let roles = JSON.parse(localStorage.getItem('wechatRoles')) || [];
         let messages = JSON.parse(localStorage.getItem('wechatMessages')) || {};
         let moments = JSON.parse(localStorage.getItem('wechatMoments')) || [];
+        let visibleMessageCount = 50;
+        const MESSAGES_PER_PAGE = 50;
+
+        // 未读消息管理器
+        const UnreadManager = {
+            STORAGE_KEY: 'roleLastReadTimestamp',
+            
+            getLastReadTime: function(roleId) {
+                const data = JSON.parse(localStorage.getItem(this.STORAGE_KEY)) || {};
+                return data[roleId] ? new Date(data[roleId]) : null;
+            },
+            
+            setLastReadTime: function(roleId) {
+                const data = JSON.parse(localStorage.getItem(this.STORAGE_KEY)) || {};
+                data[roleId] = new Date().toISOString();
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+            },
+            
+            hasUnreadMessages: function(roleId) {
+                const roleMessages = messages[roleId] || [];
+                if (roleMessages.length === 0) return false;
+                
+                const lastReadTime = this.getLastReadTime(roleId);
+                if (!lastReadTime) return true;
+                
+                const receivedMessages = roleMessages.filter(msg => msg.type === 'received' && msg.context !== 'call');
+                if (receivedMessages.length === 0) return false;
+                
+                const lastReceivedMsg = receivedMessages[receivedMessages.length - 1];
+                const lastReceivedTime = new Date(lastReceivedMsg.timestamp);
+                
+                return lastReceivedTime > lastReadTime;
+            },
+            
+            hasAnyUnreadMessages: function() {
+                for (const roleId in messages) {
+                    if (this.hasUnreadMessages(roleId)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
 
         // 保存朋友圈动态
         function saveMoments() {
@@ -18538,6 +19298,87 @@ ${commenterInfo}
             renderMoments();
         }
 
+        // ==================== 网易云音乐杂志版功能 ====================
+        
+        let neteaseIsPlaying = true;
+        let neteaseProgress = 45;
+        let neteaseProgressInterval = null;
+
+        function openNetease() {
+            document.getElementById('netease-app').classList.add('visible');
+            startNeteaseProgressAnimation();
+        }
+
+        function closeNeteaseApp() {
+            document.getElementById('netease-app').classList.remove('visible');
+            if (neteaseProgressInterval) {
+                clearInterval(neteaseProgressInterval);
+                neteaseProgressInterval = null;
+            }
+        }
+
+        function activateNeteaseSearch() {
+            const searchBar = document.getElementById('neteaseSearchBar');
+            const searchInput = document.getElementById('neteaseSearchInput');
+
+            searchBar.classList.add('active');
+            searchInput.style.pointerEvents = 'auto';
+            searchInput.focus();
+            searchInput.placeholder = "TYPE TO SEARCH...";
+
+            searchInput.onblur = function() {
+                searchBar.classList.remove('active');
+                searchInput.style.pointerEvents = 'none';
+                searchInput.placeholder = "TAP TO SEARCH TRACKS...";
+                searchInput.value = '';
+            }
+        }
+
+        function toggleNeteasePlay() {
+            neteaseIsPlaying = !neteaseIsPlaying;
+            const playIcon = document.getElementById('neteasePlayIcon');
+
+            if (neteaseIsPlaying) {
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            } else {
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            }
+        }
+
+        function neteaseClickEffect(element) {
+            element.style.transform = "scale(0.85)";
+            setTimeout(() => {
+                element.style.transform = "";
+            }, 150);
+        }
+
+        function switchNeteaseTab(element) {
+            const tabs = document.querySelectorAll('.netease-nav-item');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+
+            element.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                element.style.transform = "scale(1)";
+            }, 100);
+        }
+
+        function startNeteaseProgressAnimation() {
+            if (neteaseProgressInterval) {
+                clearInterval(neteaseProgressInterval);
+            }
+            neteaseProgressInterval = setInterval(() => {
+                if(neteaseIsPlaying) {
+                    neteaseProgress += 0.1;
+                    if(neteaseProgress > 100) neteaseProgress = 0;
+                    const progressBar = document.getElementById('neteaseProgressBar');
+                    if (progressBar) {
+                        progressBar.style.width = neteaseProgress + '%';
+                    }
+                }
+            }, 100);
+        }
+
         // 打开微信应用
         function openWechat() {
             document.getElementById('wechat-app').style.display = 'flex';
@@ -18696,6 +19537,7 @@ ${commenterInfo}
                 const isPinned = pinnedRoles.includes(role.id);
                 if (isPinned) {
                     messageItem.classList.add('pinned');
+                    wrapper.classList.add('pinned-wrapper');
                 }
 
                 const avatar = document.createElement('div');
@@ -18765,6 +19607,13 @@ ${commenterInfo}
                 messageItem.appendChild(info);
 
                 if (isPinned) {
+                    const binderClip = document.createElement('div');
+                    binderClip.className = 'pinned-binder-clip';
+                    const clipMiddle = document.createElement('div');
+                    clipMiddle.className = 'pinned-clip-middle';
+                    binderClip.appendChild(clipMiddle);
+                    messageItem.appendChild(binderClip);
+                    
                     const pinnedLabel = document.createElement('div');
                     pinnedLabel.className = 'pinned-label';
                     pinnedLabel.textContent = '置顶';
@@ -18820,20 +19669,32 @@ ${commenterInfo}
         function togglePin(roleId, messageItem, pinBtn) {
             let pinnedRoles = JSON.parse(localStorage.getItem('pinnedRoles')) || [];
             const isPinned = pinnedRoles.includes(roleId);
+            const wrapper = messageItem.closest('.message-item-wrapper');
 
             if (isPinned) {
                 pinnedRoles = pinnedRoles.filter(id => id !== roleId);
                 messageItem.classList.remove('pinned');
+                if (wrapper) wrapper.classList.remove('pinned-wrapper');
                 pinBtn.classList.remove('pinned');
                 pinBtn.querySelector('span').textContent = '置顶';
                 const label = messageItem.querySelector('.pinned-label');
                 if (label) label.remove();
+                const binderClip = messageItem.querySelector('.pinned-binder-clip');
+                if (binderClip) binderClip.remove();
                 showToast('已取消置顶');
             } else {
                 pinnedRoles.push(roleId);
                 messageItem.classList.add('pinned');
+                if (wrapper) wrapper.classList.add('pinned-wrapper');
                 pinBtn.classList.add('pinned');
                 pinBtn.querySelector('span').textContent = '取消置顶';
+                
+                const binderClip = document.createElement('div');
+                binderClip.className = 'pinned-binder-clip';
+                const clipMiddle = document.createElement('div');
+                clipMiddle.className = 'pinned-clip-middle';
+                binderClip.appendChild(clipMiddle);
+                messageItem.appendChild(binderClip);
                 
                 let pinnedLabel = messageItem.querySelector('.pinned-label');
                 if (!pinnedLabel) {
@@ -18860,8 +19721,11 @@ ${commenterInfo}
             let startX = 0;
             let currentX = 0;
             let isSwiping = false;
+            let isTracking = false;
+            let wasAlreadyOpen = false;
             const threshold = 80;
             const maxSwipe = 180;
+            const startThreshold = 10;
 
             function handleTouchStart(e) {
                 if (activeSwipeItem && activeSwipeItem !== messageItem) {
@@ -18870,41 +19734,88 @@ ${commenterInfo}
                 
                 startX = e.touches[0].clientX;
                 currentX = startX;
-                isSwiping = true;
-                messageItem.classList.add('swiping');
+                isTracking = true;
+                isSwiping = false;
+                wasAlreadyOpen = messageItem.classList.contains('swiped');
             }
 
             function handleTouchMove(e) {
-                if (!isSwiping) return;
+                if (!isTracking) return;
                 
                 currentX = e.touches[0].clientX;
                 let diff = startX - currentX;
                 
-                if (diff < 0) {
-                    diff = 0;
-                } else if (diff > maxSwipe) {
-                    diff = maxSwipe;
+                if (!wasAlreadyOpen) {
+                    if (diff < 0) {
+                        diff = 0;
+                    } else if (diff > maxSwipe) {
+                        diff = maxSwipe;
+                    }
+                    
+                    if (!isSwiping && diff >= startThreshold) {
+                        isSwiping = true;
+                        messageItem.classList.add('swiping');
+                        actions.classList.add('visible');
+                    }
+                    
+                    if (isSwiping) {
+                        messageItem.style.transform = `translateX(-${diff}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${diff}px))`;
+                    }
+                } else {
+                    const currentOffset = maxSwipe + diff;
+                    
+                    if (currentOffset < 0) {
+                        diff = -maxSwipe;
+                    } else if (currentOffset > maxSwipe) {
+                        diff = 0;
+                    }
+                    
+                    if (!isSwiping && Math.abs(diff) >= startThreshold) {
+                        isSwiping = true;
+                        messageItem.classList.add('swiping');
+                    }
+                    
+                    if (isSwiping) {
+                        const newOffset = Math.max(0, Math.min(maxSwipe, maxSwipe + diff));
+                        messageItem.style.transform = `translateX(-${newOffset}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${newOffset}px))`;
+                    }
                 }
-                
-                messageItem.style.transform = `translateX(-${diff}px)`;
-                actions.style.transform = `translateX(calc(100% - ${diff}px))`;
             }
 
             function handleTouchEnd(e) {
-                if (!isSwiping) return;
+                if (!isTracking) return;
+                
+                isTracking = false;
+                
+                if (!isSwiping) {
+                    return;
+                }
                 
                 isSwiping = false;
                 messageItem.classList.remove('swiping');
-                messageItem.classList.add('swiped');
                 
                 const diff = startX - currentX;
                 
-                if (diff >= threshold) {
-                    messageItem.style.transform = `translateX(-${maxSwipe}px)`;
-                    actions.style.transform = `translateX(calc(100% - ${maxSwipe}px))`;
-                    activeSwipeItem = messageItem;
+                if (!wasAlreadyOpen) {
+                    if (diff >= threshold) {
+                        messageItem.style.transform = `translateX(-${maxSwipe}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${maxSwipe}px))`;
+                        messageItem.classList.add('swiped');
+                        activeSwipeItem = messageItem;
+                    } else {
+                        closeSwipe(messageItem);
+                    }
                 } else {
-                    closeSwipe(messageItem);
+                    if (diff <= -threshold) {
+                        closeSwipe(messageItem);
+                    } else {
+                        messageItem.style.transform = `translateX(-${maxSwipe}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${maxSwipe}px))`;
+                        messageItem.classList.add('swiped');
+                        activeSwipeItem = messageItem;
+                    }
                 }
             }
 
@@ -18915,47 +19826,94 @@ ${commenterInfo}
                 
                 startX = e.clientX;
                 currentX = startX;
-                isSwiping = true;
-                messageItem.classList.add('swiping');
+                isTracking = true;
+                isSwiping = false;
+                wasAlreadyOpen = messageItem.classList.contains('swiped');
                 
                 document.addEventListener('mousemove', handleMouseMove);
                 document.addEventListener('mouseup', handleMouseUp);
             }
 
             function handleMouseMove(e) {
-                if (!isSwiping) return;
+                if (!isTracking) return;
                 
                 currentX = e.clientX;
                 let diff = startX - currentX;
                 
-                if (diff < 0) {
-                    diff = 0;
-                } else if (diff > maxSwipe) {
-                    diff = maxSwipe;
+                if (!wasAlreadyOpen) {
+                    if (diff < 0) {
+                        diff = 0;
+                    } else if (diff > maxSwipe) {
+                        diff = maxSwipe;
+                    }
+                    
+                    if (!isSwiping && diff >= startThreshold) {
+                        isSwiping = true;
+                        messageItem.classList.add('swiping');
+                        actions.classList.add('visible');
+                    }
+                    
+                    if (isSwiping) {
+                        messageItem.style.transform = `translateX(-${diff}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${diff}px))`;
+                    }
+                } else {
+                    const currentOffset = maxSwipe + diff;
+                    
+                    if (currentOffset < 0) {
+                        diff = -maxSwipe;
+                    } else if (currentOffset > maxSwipe) {
+                        diff = 0;
+                    }
+                    
+                    if (!isSwiping && Math.abs(diff) >= startThreshold) {
+                        isSwiping = true;
+                        messageItem.classList.add('swiping');
+                    }
+                    
+                    if (isSwiping) {
+                        const newOffset = Math.max(0, Math.min(maxSwipe, maxSwipe + diff));
+                        messageItem.style.transform = `translateX(-${newOffset}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${newOffset}px))`;
+                    }
                 }
-                
-                messageItem.style.transform = `translateX(-${diff}px)`;
-                actions.style.transform = `translateX(calc(100% - ${diff}px))`;
             }
 
             function handleMouseUp(e) {
-                if (!isSwiping) return;
+                if (!isTracking) return;
                 
-                isSwiping = false;
-                messageItem.classList.remove('swiping');
-                messageItem.classList.add('swiped');
+                isTracking = false;
                 
                 document.removeEventListener('mousemove', handleMouseMove);
                 document.removeEventListener('mouseup', handleMouseUp);
                 
+                if (!isSwiping) {
+                    return;
+                }
+                
+                isSwiping = false;
+                messageItem.classList.remove('swiping');
+                
                 const diff = startX - currentX;
                 
-                if (diff >= threshold) {
-                    messageItem.style.transform = `translateX(-${maxSwipe}px)`;
-                    actions.style.transform = `translateX(calc(100% - ${maxSwipe}px))`;
-                    activeSwipeItem = messageItem;
+                if (!wasAlreadyOpen) {
+                    if (diff >= threshold) {
+                        messageItem.style.transform = `translateX(-${maxSwipe}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${maxSwipe}px))`;
+                        messageItem.classList.add('swiped');
+                        activeSwipeItem = messageItem;
+                    } else {
+                        closeSwipe(messageItem);
+                    }
                 } else {
-                    closeSwipe(messageItem);
+                    if (diff <= -threshold) {
+                        closeSwipe(messageItem);
+                    } else {
+                        messageItem.style.transform = `translateX(-${maxSwipe}px)`;
+                        actions.style.transform = `translateX(calc(100% - ${maxSwipe}px))`;
+                        messageItem.classList.add('swiped');
+                        activeSwipeItem = messageItem;
+                    }
                 }
             }
 
@@ -18972,6 +19930,7 @@ ${commenterInfo}
             const actions = messageItem.parentElement.querySelector('.message-item-actions');
             if (actions) {
                 actions.style.transform = 'translateX(100%)';
+                actions.classList.remove('visible');
             }
             messageItem.classList.remove('swiped');
             
@@ -19144,6 +20103,7 @@ ${commenterInfo}
                 }
                 chatMessages.innerHTML = '';
                 clearQuoteMessage();
+                visibleMessageCount = MESSAGES_PER_PAGE;
             }
             
             currentChatRole = role;
@@ -19180,6 +20140,8 @@ ${commenterInfo}
             loadChatWallpaper(role.id);
             applyRoleCustomCss(role.id);
             checkChatApiStatus();
+            
+            UnreadManager.setLastReadTime(role.id);
         }
 
         function checkChatApiStatus() {
@@ -20216,6 +21178,7 @@ ${recentHistory.map(msg => {
             document.getElementById('wechat-contacts').style.display = 'flex';
             document.getElementById('ios-glass-tabbar').classList.add('visible');
             currentDetailRole = null;
+            localStorage.removeItem('currentCharacterId');
             closeGroupSelector();
         }
 
@@ -20567,7 +21530,7 @@ ${recentHistory.map(msg => {
             
             const chatMessages = document.getElementById('chat-messages');
             const roleMessages = (messages[roleId] || []).filter(msg => msg.context !== 'call');
-            const existingMessages = chatMessages.querySelectorAll('.message:not(#typing-indicator)');
+            const existingMessages = chatMessages.querySelectorAll('.message:not(#typing-indicator):not(.load-more-btn)');
             const currentMessageCount = existingMessages.length;
             
             const role = roles.find(r => r.id === roleId);
@@ -20580,12 +21543,26 @@ ${recentHistory.map(msg => {
                 return;
             }
             
+            const totalMessages = roleMessages.length;
+            const startIndex = Math.max(0, totalMessages - visibleMessageCount);
+            const messagesToShow = roleMessages.slice(startIndex);
+            const hasMoreMessages = startIndex > 0;
+            
             if (currentMessageCount === 0 || currentMessageCount > roleMessages.length) {
                 chatMessages.innerHTML = '';
-                roleMessages.forEach((msg, index) => {
+                
+                if (hasMoreMessages) {
+                    const loadMoreBtn = document.createElement('div');
+                    loadMoreBtn.className = 'load-more-btn';
+                    loadMoreBtn.innerHTML = `<button onclick="loadMoreMessages()">显示更早消息 (${startIndex}条)</button>`;
+                    chatMessages.appendChild(loadMoreBtn);
+                }
+                
+                messagesToShow.forEach((msg, index) => {
+                    const actualIndex = startIndex + index;
                     const message = document.createElement('div');
                     message.className = `message ${msg.type} message-enter`;
-                    message.innerHTML = createMessageHTML(msg, roleAvatar, userAvatar, roleName, index);
+                    message.innerHTML = createMessageHTML(msg, roleAvatar, userAvatar, roleName, actualIndex);
                     chatMessages.appendChild(message);
                 });
             } else {
@@ -20601,6 +21578,12 @@ ${recentHistory.map(msg => {
                         chatMessages.appendChild(message);
                     }
                 }
+                
+                const loadMoreBtn = chatMessages.querySelector('.load-more-btn');
+                if (loadMoreBtn && hasMoreMessages) {
+                    const newStartIndex = Math.max(0, totalMessages - visibleMessageCount);
+                    loadMoreBtn.innerHTML = `<button onclick="loadMoreMessages()">显示更早消息 (${newStartIndex}条)</button>`;
+                }
             }
 
             attachMessageClickHandlers();
@@ -20613,6 +21596,53 @@ ${recentHistory.map(msg => {
                         behavior: 'smooth'
                     });
                 });
+            });
+        }
+        
+        function loadMoreMessages() {
+            if (!currentChatRole) return;
+            
+            const roleId = currentChatRole.id;
+            const roleMessages = (messages[roleId] || []).filter(msg => msg.context !== 'call');
+            const totalMessages = roleMessages.length;
+            
+            visibleMessageCount += MESSAGES_PER_PAGE;
+            
+            const chatMessages = document.getElementById('chat-messages');
+            const role = roles.find(r => r.id === roleId);
+            const roleAvatar = role ? role.avatar : '';
+            const roleName = role ? role.name : '';
+            const userAvatar = localStorage.getItem('userAvatar') || '';
+            
+            const startIndex = Math.max(0, totalMessages - visibleMessageCount);
+            const messagesToShow = roleMessages.slice(startIndex);
+            const hasMoreMessages = startIndex > 0;
+            
+            const oldScrollHeight = chatMessages.scrollHeight;
+            
+            chatMessages.innerHTML = '';
+            
+            if (hasMoreMessages) {
+                const loadMoreBtn = document.createElement('div');
+                loadMoreBtn.className = 'load-more-btn';
+                loadMoreBtn.innerHTML = `<button onclick="loadMoreMessages()">显示更早消息 (${startIndex}条)</button>`;
+                chatMessages.appendChild(loadMoreBtn);
+            }
+            
+            messagesToShow.forEach((msg, index) => {
+                const actualIndex = startIndex + index;
+                const message = document.createElement('div');
+                message.className = `message ${msg.type}`;
+                message.innerHTML = createMessageHTML(msg, roleAvatar, userAvatar, roleName, actualIndex);
+                chatMessages.appendChild(message);
+            });
+            
+            attachMessageClickHandlers();
+            applyChatFontColors();
+            
+            requestAnimationFrame(() => {
+                const newScrollHeight = chatMessages.scrollHeight;
+                chatMessages.scrollTop = newScrollHeight - oldScrollHeight;
             });
         }
 
@@ -21021,6 +22051,7 @@ ${recentHistory.map(msg => {
                 bubble.dataset.clickHandlerAttached = 'true';
                 bubble.style.cursor = 'pointer';
                 
+                // 点击事件 - 和引用按钮一样的触发方式
                 bubble.addEventListener('click', handleBubbleClick);
             });
         }
@@ -21048,10 +22079,11 @@ ${recentHistory.map(msg => {
             const messageEl = bubble.closest('.message');
             const isSent = messageEl.classList.contains('sent');
             
-            showMessageContextMenu(bubble, rect, isSent);
+            // 总是显示包含多选按钮的上下文菜单，和引用按钮一样的触发方式
+            showMessageContextMenu(bubble, rect, isSent, true);
         }
 
-        function showMessageContextMenu(bubble, rect, isSent) {
+        function showMessageContextMenu(bubble, rect, isSent, isLongPress = false) {
             hideContextMenu();
             
             const messageIndex = bubble.dataset.messageIndex;
@@ -21066,16 +22098,38 @@ ${recentHistory.map(msg => {
             
             const quoteIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path></svg>`;
             
-            contextMenu.innerHTML = `
+            const regenerateIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path></svg>`;
+            
+            const multiSelectIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>`;
+            
+            let menuHTML = '';
+            
+            // 如果是长按，添加多选按钮
+            if (isLongPress) {
+                menuHTML += `
+                    <div class="context-menu-item multi-select" data-message-index="${messageIndex}">
+                        ${multiSelectIcon}
+                        <span>多选</span>
+                    </div>
+                `;
+            }
+            
+            menuHTML += `
                 <div class="context-menu-item quote" data-message-index="${messageIndex}">
                     ${quoteIcon}
                     <span>引用</span>
+                </div>
+                <div class="context-menu-item regenerate" data-message-index="${messageIndex}">
+                    ${regenerateIcon}
+                    <span>重新生成</span>
                 </div>
                 <div class="context-menu-item delete" data-message-index="${messageIndex}">
                     ${deleteIcon}
                     <span>删除</span>
                 </div>
             `;
+            
+            contextMenu.innerHTML = menuHTML;
             
             document.body.appendChild(contextMenu);
             
@@ -21086,34 +22140,53 @@ ${recentHistory.map(msg => {
             
             let posX, posY;
             
-            if (isSent) {
-                posX = rect.right - menuWidth;
-            } else {
-                posX = rect.left;
-            }
+            // 计算消息气泡中心位置
+            const bubbleCenterX = rect.left + rect.width / 2;
             
-            posY = rect.top - menuHeight - 8;
+            // 让菜单显示在消息气泡的正下方
+            posX = bubbleCenterX - menuWidth / 2;
+            posY = rect.bottom + 8;
             
-            if (posY < 10) {
-                posY = rect.bottom + 8;
-            }
-            
-            if (posX + menuWidth > windowWidth - 10) {
-                posX = windowWidth - menuWidth - 10;
-            }
+            // 确保菜单位于屏幕内
             if (posX < 10) {
                 posX = 10;
+            } else if (posX + menuWidth > windowWidth - 10) {
+                posX = windowWidth - menuWidth - 10;
+            }
+            
+            // 如果下方空间不够，显示在上方
+            if (posY + menuHeight > windowHeight - 10) {
+                posY = rect.top - menuHeight - 8;
             }
             
             contextMenu.style.left = posX + 'px';
             contextMenu.style.top = posY + 'px';
             
+            // 多选按钮事件
+            const multiSelectItem = contextMenu.querySelector('.context-menu-item.multi-select');
+            if (multiSelectItem) {
+                multiSelectItem.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hideContextMenu();
+                    enterMultiSelectMode(parseInt(messageIndex));
+                });
+            }
+            
+            // 引用按钮事件
             contextMenu.querySelector('.context-menu-item.quote').addEventListener('click', (e) => {
                 e.stopPropagation();
                 hideContextMenu();
                 setQuoteMessage(parseInt(messageIndex));
             });
             
+            // 重新生成按钮事件
+            contextMenu.querySelector('.context-menu-item.regenerate').addEventListener('click', (e) => {
+                e.stopPropagation();
+                hideContextMenu();
+                regenerateMessage(parseInt(messageIndex));
+            });
+            
+            // 删除按钮事件
             contextMenu.querySelector('.context-menu-item.delete').addEventListener('click', (e) => {
                 e.stopPropagation();
                 hideContextMenu();
@@ -21124,6 +22197,225 @@ ${recentHistory.map(msg => {
                 document.addEventListener('click', handleContextMenuOutsideClick);
                 document.addEventListener('touchstart', handleContextMenuOutsideClick, { passive: true });
             }, 10);
+        }
+        
+        // 多选模式状态
+        let multiSelectMode = false;
+        let selectedMessages = [];
+        
+        function enterMultiSelectMode(startIndex) {
+            if (!currentChatRole) return;
+            
+            multiSelectMode = true;
+            selectedMessages = [startIndex];
+            
+            const chatHeader = document.querySelector('.chat-header');
+            if (chatHeader) {
+                chatHeader.style.display = 'none';
+            }
+            
+            showMultiSelectToolbar();
+            
+            updateMultiSelectUI();
+        }
+        
+        function showMultiSelectToolbar() {
+            const existingToolbar = document.getElementById('multi-select-toolbar');
+            if (existingToolbar) {
+                existingToolbar.remove();
+            }
+            
+            const toolbar = document.createElement('div');
+            toolbar.id = 'multi-select-toolbar';
+            toolbar.style.cssText = `
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100vw;
+                height: 88px;
+                padding: 0 16px;
+                background-color: #ffffff;
+                border-radius: 0 0 50% 50%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 9999;
+                box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            `;
+            
+            const cancelIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>`;
+            
+            toolbar.innerHTML = `
+                <div class="back-btn" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 22px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden;">
+                    ${cancelIcon}
+                </div>
+                <div style="font-size: 17px; font-weight: 600; color: #1d1d1f; letter-spacing: -0.24px; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 50%;">已选择 <span id="selected-count">1</span> 条</div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="multi-select-btn select-all" style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 16px; background: white; color: #333; font-size: 14px; cursor: pointer;">
+                        全选
+                    </button>
+                    <button class="multi-select-btn delete" style="padding: 8px 16px; border: 1px solid #ff3b30; border-radius: 16px; background: #ff3b30; color: white; font-size: 14px; cursor: pointer;">
+                        删除
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(toolbar);
+            
+            const backBtn = toolbar.querySelector('.back-btn');
+            backBtn.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = 'rgba(0, 122, 255, 0.06)';
+                this.style.transform = 'scale(1.05)';
+            });
+            backBtn.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = 'transparent';
+                this.style.transform = 'scale(1)';
+            });
+            
+            backBtn.addEventListener('click', exitMultiSelectMode);
+            toolbar.querySelector('.multi-select-btn.select-all').addEventListener('click', selectAllMessages);
+            toolbar.querySelector('.multi-select-btn.delete').addEventListener('click', deleteSelectedMessages);
+        }
+        
+        function updateMultiSelectUI() {
+            if (!currentChatRole) return;
+            
+            const chatMessages = document.getElementById('chat-messages');
+            const messageBubbles = chatMessages.querySelectorAll('.message-bubble');
+            
+            messageBubbles.forEach(bubble => {
+                const messageIndex = parseInt(bubble.dataset.messageIndex);
+                const messageEl = bubble.closest('.message');
+                
+                let selectCircle = messageEl.querySelector('.multi-select-circle');
+                if (!selectCircle) {
+                    selectCircle = document.createElement('div');
+                    selectCircle.className = 'multi-select-circle';
+                    selectCircle.style.cssText = `
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        border: 2px solid #999;
+                        background: transparent;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        flex-shrink: 0;
+                        margin-left: 8px;
+                        margin-top: 10px;
+                    `;
+                    messageEl.appendChild(selectCircle);
+                }
+                
+                if (selectedMessages.includes(messageIndex)) {
+                    messageEl.classList.add('message-selected');
+                    selectCircle.style.background = '#999';
+                    selectCircle.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                } else {
+                    messageEl.classList.remove('message-selected');
+                    selectCircle.style.background = 'transparent';
+                    selectCircle.innerHTML = '';
+                }
+                
+                bubble.onclick = function() {
+                    toggleMessageSelection(messageIndex);
+                };
+            });
+            
+            const countElement = document.getElementById('selected-count');
+            if (countElement) {
+                countElement.textContent = selectedMessages.length;
+            }
+        }
+        
+        function toggleMessageSelection(messageIndex) {
+            if (!multiSelectMode) return;
+            
+            const index = selectedMessages.indexOf(messageIndex);
+            if (index > -1) {
+                // 取消选择
+                selectedMessages.splice(index, 1);
+            } else {
+                // 选择
+                selectedMessages.push(messageIndex);
+            }
+            
+            updateMultiSelectUI();
+        }
+        
+        function selectAllMessages() {
+            if (!currentChatRole) return;
+            
+            const roleId = currentChatRole.id;
+            const roleMessages = messages[roleId] || [];
+            
+            selectedMessages = [];
+            for (let i = 0; i < roleMessages.length; i++) {
+                selectedMessages.push(i);
+            }
+            
+            updateMultiSelectUI();
+        }
+        
+        function deleteSelectedMessages() {
+            if (!currentChatRole || selectedMessages.length === 0) return;
+            
+            if (confirm(`确定要删除选中的 ${selectedMessages.length} 条消息吗？`)) {
+                const roleId = currentChatRole.id;
+                
+                // 按索引从大到小排序，避免删除时索引变化
+                selectedMessages.sort((a, b) => b - a);
+                
+                selectedMessages.forEach(index => {
+                    if (messages[roleId][index]) {
+                        messages[roleId].splice(index, 1);
+                    }
+                });
+                
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                
+                // 退出多选模式
+                exitMultiSelectMode();
+                
+                // 重新加载消息
+                loadChatMessages(roleId);
+                loadMessages();
+            }
+        }
+        
+        function exitMultiSelectMode() {
+            multiSelectMode = false;
+            selectedMessages = [];
+            
+            const toolbar = document.getElementById('multi-select-toolbar');
+            if (toolbar) {
+                toolbar.remove();
+            }
+            
+            const chatHeader = document.querySelector('.chat-header');
+            if (chatHeader) {
+                chatHeader.style.display = '';
+            }
+            
+            const chatMessages = document.getElementById('chat-messages');
+            const messageBubbles = chatMessages.querySelectorAll('.message-bubble');
+            
+            messageBubbles.forEach(bubble => {
+                const messageEl = bubble.closest('.message');
+                messageEl.classList.remove('message-selected');
+                
+                const selectCircle = messageEl.querySelector('.multi-select-circle');
+                if (selectCircle) {
+                    selectCircle.remove();
+                }
+                
+                bubble.onclick = null;
+                bubble.addEventListener('click', handleBubbleClick);
+            });
+            
+            attachMessageClickHandlers();
         }
 
         function handleContextMenuOutsideClick(e) {
@@ -21140,6 +22432,308 @@ ${recentHistory.map(msg => {
             }
             document.removeEventListener('click', handleContextMenuOutsideClick);
             document.removeEventListener('touchstart', handleContextMenuOutsideClick);
+        }
+
+        async function regenerateMessage(messageIndex) {
+            console.log('开始重新生成消息，messageIndex:', messageIndex);
+            
+            if (!currentChatRole) {
+                console.log('没有当前聊天角色');
+                return;
+            }
+
+            const roleId = currentChatRole.id;
+            const roleMessages = messages[roleId] || [];
+            
+            console.log('当前角色ID:', roleId);
+            console.log('角色消息数量:', roleMessages.length);
+            
+            if (messageIndex < 0 || messageIndex >= roleMessages.length) {
+                console.log('消息索引超出范围');
+                return;
+            }
+
+            const targetMessage = roleMessages[messageIndex];
+            if (targetMessage.type !== 'received') {
+                console.log('目标消息不是接收类型:', targetMessage.type);
+                return;
+            }
+
+            // 显示加载指示器
+            console.log('尝试查找消息气泡元素，messageIndex:', messageIndex);
+            let messageBubbleElement = null;
+            
+            // 尝试直接通过选择器查找
+            messageBubbleElement = document.querySelector(`.message-bubble[data-message-index="${messageIndex}"]`);
+            
+            // 如果直接查找失败，遍历所有消息气泡元素
+            if (!messageBubbleElement) {
+                const allBubbles = document.querySelectorAll('.message-bubble');
+                console.log('所有消息气泡元素数量:', allBubbles.length);
+                allBubbles.forEach((bubble, index) => {
+                    console.log(`气泡 ${index} 的data-message-index:`, bubble.dataset.messageIndex);
+                    if (bubble.dataset.messageIndex === messageIndex.toString()) {
+                        messageBubbleElement = bubble;
+                        console.log('通过遍历找到消息气泡元素:', bubble);
+                    }
+                });
+            }
+            
+            if (messageBubbleElement) {
+                console.log('找到消息气泡元素:', messageBubbleElement);
+                messageBubbleElement.classList.add('message-loading');
+                console.log('已添加message-loading类');
+                console.log('元素当前类:', messageBubbleElement.className);
+                
+                // 直接修改元素样式
+                messageBubbleElement.style.opacity = '0.6';
+                messageBubbleElement.style.position = 'relative';
+                
+                // 直接创建并添加加载图标元素到气泡外部右侧
+                let loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                if (!loadingIcon) {
+                    loadingIcon = document.createElement('div');
+                    loadingIcon.className = 'loading-icon';
+                    loadingIcon.style.position = 'absolute';
+                    loadingIcon.style.top = '50%';
+                    loadingIcon.style.right = '-25px';
+                    loadingIcon.style.transform = 'translateY(-50%)';
+                    loadingIcon.style.width = '16px';
+                    loadingIcon.style.height = '16px';
+                    loadingIcon.style.border = '2px solid #999';
+                    loadingIcon.style.borderTop = '2px solid #fff';
+                    loadingIcon.style.borderRadius = '50%';
+                    loadingIcon.style.animation = 'spin 1s linear infinite';
+                    loadingIcon.style.zIndex = '9999';
+                    messageBubbleElement.appendChild(loadingIcon);
+                    console.log('已添加加载图标元素到气泡外部');
+                }
+            } else {
+                console.log('未找到消息气泡元素，messageIndex:', messageIndex);
+            }
+
+            try {
+                const savedApiUrl = localStorage.getItem('apiUrl') || '';
+                const apiKey = localStorage.getItem('apiKey') || '';
+                const selectedModel = localStorage.getItem('selectedModel') || '';
+                
+                const chatEndpoint = getChatEndpoint(savedApiUrl);
+
+                if (!chatEndpoint || !apiKey || !selectedModel) {
+                    if (messageBubbleElement) {
+                        // 移除加载图标
+                        const loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                        if (loadingIcon) {
+                            loadingIcon.remove();
+                            console.log('已移除加载图标');
+                        }
+                        
+                        // 恢复原始样式
+                        messageBubbleElement.style.opacity = '';
+                        messageBubbleElement.style.position = '';
+                        
+                        messageBubbleElement.classList.remove('message-loading');
+                        console.log('已移除message-loading类');
+                    }
+                    
+                    // 显示错误提示
+                    alert('API配置不完整，请先在设置中配置API参数');
+                    console.log('API配置不完整，无法重新生成消息');
+                    return;
+                }
+
+                const userSettings = getUserPersona();
+                const userName = userSettings.name || '用户';
+                
+                const roleInfo = {
+                    name: currentChatRole.name,
+                    description: currentChatRole.description || '',
+                    tags: currentChatRole.tags || [],
+                    greeting: currentChatRole.greeting || ''
+                };
+                
+                let systemPrompt = PromptsConfig.buildFullPrompt(roleInfo, userSettings);
+                
+                const worldbookPrompt = getWorldbookPrompt(currentChatRole.id);
+                if (worldbookPrompt) {
+                    systemPrompt += worldbookPrompt;
+                }
+                
+                const summaryKey = 'summaryContents_' + currentChatRole.id;
+                let summaryContents = [];
+                try {
+                    summaryContents = JSON.parse(localStorage.getItem(summaryKey) || '[]');
+                    if (!Array.isArray(summaryContents)) {
+                        summaryContents = [];
+                    }
+                } catch (e) {
+                    summaryContents = [];
+                }
+                
+                if (summaryContents.length > 0) {
+                    systemPrompt += '\n\n【对话总结】';
+                    summaryContents.forEach((item) => {
+                        if (item.content && item.content.trim()) {
+                            const typeLabel = item.type === 'auto' ? '自动总结' : '手动总结';
+                            systemPrompt += `\n\n[${typeLabel} - ${new Date(item.timestamp).toLocaleDateString('zh-CN')}]\n${item.content}`;
+                        }
+                    });
+                }
+
+                // 读取前5条消息作为上下文
+                const contextMessages = roleMessages.slice(Math.max(0, messageIndex - 5), messageIndex);
+                
+                const apiMessages = [
+                    { role: 'system', content: systemPrompt }
+                ];
+                
+                contextMessages.forEach(msg => {
+                    if (msg.type === 'sent') {
+                        apiMessages.push({ role: 'user', content: msg.content });
+                    } else if (msg.type === 'received') {
+                        apiMessages.push({ role: 'assistant', content: msg.content });
+                    }
+                });
+
+                // 添加最后一条用户消息作为触发
+                const lastUserMessage = contextMessages.filter(msg => msg.type === 'sent').pop();
+                if (lastUserMessage) {
+                    apiMessages.push({ role: 'user', content: lastUserMessage.content });
+                }
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+                const response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: apiMessages,
+                        max_tokens: 800,
+                        temperature: parseFloat(localStorage.getItem('apiTemperature')) || 1.0,
+                        presence_penalty: 0.6,
+                        frequency_penalty: 0.5
+                    }),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.choices && data.choices[0] && data.choices[0].message) {
+                        let reply = data.choices[0].message.content;
+                        
+                        reply = reply.replace(/\[STATUS:[^\]]+\]/g, '');
+                        reply = reply.replace(/^(作为|作为一个|作为AI|作为一个AI|作为一个人工智能|作为大语言模型)[，,。：: ]*/gi, '');
+                        reply = reply.replace(/我(不)?是(AI|人工智能|语言模型|大语言模型|助手|机器人)[，,。：: ]*/gi, '');
+                        reply = reply.replace(/(请注意|请注意，|需要说明的是|需要说明的是，)[，,。：: ]*(我|本|此)[^。！？]*[。！？]/gi, '');
+                        reply = reply.replace(/作为(一个)?(虚拟|数字|AI|人工智能)[^。！？]*[，,。：: ]*/gi, '');
+                        reply = reply.replace(/(我不能|我无法|我不可以)[^。！？]*[。！？]/gi, '这个嘛……');
+                        reply = reply.trim();
+                        
+                        reply = processNaturalReply(reply);
+                        
+                        const messageList = splitIntoMessages(reply);
+                        reply = messageList[0] || reply;
+
+                        roleMessages[messageIndex].content = reply;
+                        roleMessages[messageIndex].timestamp = new Date().toISOString();
+                        localStorage.setItem('wechatMessages', JSON.stringify(messages));
+
+                        // 更新UI
+                        if (messageBubbleElement) {
+                            // 保存加载图标
+                            const loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                            
+                            // 更新内容
+                            const contentElement = messageBubbleElement.querySelector('.message-content');
+                            if (contentElement) {
+                                contentElement.innerHTML = reply;
+                            }
+                            
+                            // 恢复原始样式
+                            messageBubbleElement.style.opacity = '';
+                            messageBubbleElement.style.position = '';
+                            
+                            // 移除加载图标
+                            if (loadingIcon) {
+                                loadingIcon.remove();
+                                console.log('已移除加载图标');
+                            }
+                            
+                            messageBubbleElement.classList.remove('message-loading');
+                            console.log('已移除message-loading类');
+                        }
+                    } else {
+                        // 处理API返回但没有正确消息的情况
+                        console.error('API返回但没有正确的消息:', data);
+                        if (messageBubbleElement) {
+                            // 移除加载图标
+                            const loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                            if (loadingIcon) {
+                                loadingIcon.remove();
+                                console.log('已移除加载图标');
+                            }
+                            
+                            // 恢复原始样式
+                            messageBubbleElement.style.opacity = '';
+                            messageBubbleElement.style.position = '';
+                            
+                            messageBubbleElement.classList.remove('message-loading');
+                            console.log('已移除message-loading类');
+                        }
+                        
+                        // 显示错误提示
+                        alert('重新生成消息失败：API返回了无效的响应');
+                    }
+                } else {
+                    // 处理API调用失败的情况
+                    const errorText = await response.text();
+                    console.error('API调用失败:', response.status, errorText);
+                    
+                    if (messageBubbleElement) {
+                        // 移除加载图标
+                        const loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                        if (loadingIcon) {
+                            loadingIcon.remove();
+                            console.log('已移除加载图标');
+                        }
+                        
+                        // 恢复原始样式
+                        messageBubbleElement.style.opacity = '';
+                        messageBubbleElement.style.position = '';
+                        
+                        messageBubbleElement.classList.remove('message-loading');
+                        console.log('已移除message-loading类');
+                    }
+                    
+                    // 显示错误提示
+                    alert(`重新生成消息失败：API请求失败 (${response.status})`);
+                }
+            } catch (error) {
+                console.error('重新生成消息失败:', error);
+                if (messageBubbleElement) {
+                    // 移除加载图标
+                    const loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                    if (loadingIcon) {
+                        loadingIcon.remove();
+                        console.log('已移除加载图标');
+                    }
+                    
+                    // 恢复原始样式
+                    messageBubbleElement.style.opacity = '';
+                    messageBubbleElement.style.position = '';
+                    
+                    messageBubbleElement.classList.remove('message-loading');
+                    console.log('已移除message-loading类');
+                }
+            }
         }
 
         function showDeleteConfirmModal(messageIndex) {
@@ -21505,7 +23099,7 @@ ${recentHistory.map(msg => {
             const modal = document.createElement('div');
             modal.id = 'add-role-modal';
             modal.className = 'modal';
-            modal.style.display = 'block';
+            modal.style.display = 'flex';
             modal.innerHTML = modalContent;
             document.body.appendChild(modal);
             
@@ -21775,7 +23369,7 @@ ${recentHistory.map(msg => {
             input.classList.remove('error');
             errorElement.classList.remove('visible');
             
-            modal.style.display = 'block';
+            modal.style.display = 'flex';
             
             // 聚焦输入框
             setTimeout(() => input.focus(), 100);
@@ -21879,7 +23473,7 @@ ${recentHistory.map(msg => {
             // 保存当前操作类型
             modal.dataset.operation = 'role';
             
-            modal.style.display = 'block';
+            modal.style.display = 'flex';
             
             // 聚焦输入框
             setTimeout(() => input.focus(), 100);
@@ -21936,7 +23530,7 @@ ${recentHistory.map(msg => {
                 personaInput.value = savedPersona;
             }
             
-            modal.style.display = 'block';
+            modal.style.display = 'flex';
         }
 
         // 关闭用户人物设定模态框
@@ -21990,6 +23584,36 @@ ${recentHistory.map(msg => {
             scale: 100,
             positionY: 50
         };
+
+        function saveCropState() {
+            if (currentCropType && currentCropImage) {
+                localStorage.setItem('cropState', JSON.stringify({
+                    type: currentCropType,
+                    image: currentCropImage,
+                    settings: cropSettings
+                }));
+            }
+        }
+
+        function restoreCropState() {
+            const savedState = localStorage.getItem('cropState');
+            if (savedState) {
+                try {
+                    const state = JSON.parse(savedState);
+                    currentCropType = state.type;
+                    currentCropImage = state.image;
+                    cropSettings = state.settings || { scale: 100, positionY: 50 };
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        function clearCropState() {
+            localStorage.removeItem('cropState');
+        }
 
         function openWechatSettings() {
             document.getElementById('wechat-profile').style.display = 'none';
@@ -22049,6 +23673,7 @@ ${recentHistory.map(msg => {
                 currentCropType = type;
                 currentCropImage = e.target.result;
                 cropSettings = { scale: 100, positionY: 50 };
+                saveCropState();
                 openCropModal();
             };
             reader.readAsDataURL(file);
@@ -22063,19 +23688,46 @@ ${recentHistory.map(msg => {
             const positionSlider = document.getElementById('crop-position-y');
             
             cropImage.src = currentCropImage;
-            scaleSlider.value = 100;
-            positionSlider.value = 50;
+            scaleSlider.value = cropSettings.scale;
+            positionSlider.value = cropSettings.positionY;
             
-            updateCropScale(100);
-            updateCropPosition(50);
+            updateCropScale(cropSettings.scale);
+            updateCropPosition(cropSettings.positionY);
             
             modal.style.display = 'flex';
+            
+            initCropModalButtons();
+        }
+
+        function initCropModalButtons() {
+            const confirmBtn = document.getElementById('confirm-crop-btn');
+            if (confirmBtn) {
+                const newBtn = confirmBtn.cloneNode(true);
+                confirmBtn.parentNode.replaceChild(newBtn, confirmBtn);
+                
+                newBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    confirmCropImage();
+                });
+                
+                newBtn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    confirmCropImage();
+                }, { passive: false });
+                
+                newBtn.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                }, { passive: true });
+            }
         }
 
         function closeCropModal() {
             document.getElementById('image-crop-modal').style.display = 'none';
             currentCropType = null;
             currentCropImage = null;
+            clearCropState();
         }
 
         function updateCropScale(value) {
@@ -22094,25 +23746,41 @@ ${recentHistory.map(msg => {
             const cropImage = document.getElementById('crop-image');
             const translateY = (cropSettings.positionY - 50) * 2;
             cropImage.style.transform = `scale(${cropSettings.scale / 100}) translateY(${translateY}px)`;
+            saveCropState();
         }
 
         function confirmCropImage() {
-            if (!currentCropType || !currentCropImage) return;
+            if (!currentCropType || !currentCropImage) {
+                if (!restoreCropState()) {
+                    showToast('请先选择图片');
+                    return;
+                }
+            }
 
-            const backgrounds = JSON.parse(localStorage.getItem('wechatBackgrounds')) || {};
-            
-            backgrounds[currentCropType] = {
-                image: currentCropImage,
-                scale: cropSettings.scale,
-                positionY: cropSettings.positionY
-            };
-            
-            localStorage.setItem('wechatBackgrounds', JSON.stringify(backgrounds));
-            
-            loadBackgroundPreviews();
-            applyWechatBackgrounds();
-            closeCropModal();
-            showToast('背景设置成功');
+            if (!currentCropType || !currentCropImage) {
+                showToast('图片数据丢失，请重新选择');
+                closeCropModal();
+                return;
+            }
+
+            try {
+                const backgrounds = JSON.parse(localStorage.getItem('wechatBackgrounds')) || {};
+                
+                backgrounds[currentCropType] = {
+                    image: currentCropImage,
+                    scale: cropSettings.scale,
+                    positionY: cropSettings.positionY
+                };
+                
+                localStorage.setItem('wechatBackgrounds', JSON.stringify(backgrounds));
+                
+                loadBackgroundPreviews();
+                applyWechatBackgrounds();
+                closeCropModal();
+                showToast('背景设置成功');
+            } catch (e) {
+                showToast('保存失败，请重试');
+            }
         }
 
         function resetBackground(type) {
@@ -22296,7 +23964,7 @@ ${recentHistory.map(msg => {
                 avatarPreview.classList.remove('has-image');
             }
             
-            modal.style.display = 'block';
+            modal.style.display = 'flex';
         }
 
         // 关闭角色编辑模态框
@@ -22821,6 +24489,60 @@ ${recentHistory.map(msg => {
             });
         }
 
+        // iOS端页面恢复处理 - 解决从照片选择器返回后状态丢失的问题
+        function handleIOSPageRestore() {
+            const savedCharacterId = localStorage.getItem('currentCharacterId');
+            const detailPanel = document.getElementById('contact-detail-panel');
+            
+            if (savedCharacterId && detailPanel && detailPanel.style.display !== 'none') {
+                if (!currentDetailRole || currentDetailRole.id !== savedCharacterId) {
+                    const role = roles.find(r => r.id === savedCharacterId);
+                    if (role) {
+                        currentDetailRole = role;
+                        loadCharacterBackground();
+                        loadDetailImageBoxes();
+                    }
+                } else {
+                    loadCharacterBackground();
+                    loadDetailImageBoxes();
+                }
+            }
+
+            const cropModal = document.getElementById('image-crop-modal');
+            if (cropModal && cropModal.style.display !== 'none') {
+                if (restoreCropState()) {
+                    const cropImage = document.getElementById('crop-image');
+                    const scaleSlider = document.getElementById('crop-scale');
+                    const positionSlider = document.getElementById('crop-position-y');
+                    
+                    if (cropImage && currentCropImage) {
+                        cropImage.src = currentCropImage;
+                        scaleSlider.value = cropSettings.scale;
+                        positionSlider.value = cropSettings.positionY;
+                        applyCropPreview();
+                        initCropModalButtons();
+                    }
+                }
+            }
+        }
+
+        // 监听pageshow事件 - iOS Safari从照片选择器返回时会触发
+        window.addEventListener('pageshow', function(event) {
+            handleIOSPageRestore();
+        });
+
+        // 监听visibilitychange事件 - 处理iOS从后台返回的情况
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                handleIOSPageRestore();
+            }
+        });
+
+        // 监听resume事件 - 处理iOS WebView从后台返回
+        window.addEventListener('resume', function() {
+            handleIOSPageRestore();
+        });
+
         // ==================== 角色对话隔离单元测试 ====================
         const ChatIsolationTests = {
             results: [],
@@ -23273,14 +24995,14 @@ ${recentHistory.map(msg => {
         function splitIntoMessages(text) {
             if (!text) return [];
             
+            const targetCount = Math.floor(Math.random() * 5) + 1;
+            
             let lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
             
-            if (lines.length >= 3 && lines.length <= 6) {
-                return lines;
-            }
-            
-            if (lines.length > 6) {
-                const targetCount = Math.floor(Math.random() * 4) + 3;
+            if (lines.length >= targetCount) {
+                if (lines.length === targetCount) {
+                    return lines;
+                }
                 const result = [];
                 const chunkSize = Math.ceil(lines.length / targetCount);
                 
@@ -23295,11 +25017,7 @@ ${recentHistory.map(msg => {
             
             const sentences = text.split(/[！？\n]+/).map(s => s.trim()).filter(s => s.length > 0);
             
-            if (sentences.length >= 3) {
-                const targetCount = Math.min(Math.max(sentences.length, 3), 6);
-                if (sentences.length <= 6) {
-                    return sentences;
-                }
+            if (sentences.length >= targetCount) {
                 const result = [];
                 const chunkSize = Math.ceil(sentences.length / targetCount);
                 for (let i = 0; i < sentences.length && result.length < targetCount; i += chunkSize) {
@@ -23311,8 +25029,11 @@ ${recentHistory.map(msg => {
                 return result;
             }
             
+            if (sentences.length > 1) {
+                return sentences.slice(0, Math.min(sentences.length, targetCount));
+            }
+            
             const words = text.split(/\s+/).filter(w => w.length > 0);
-            const targetCount = Math.floor(Math.random() * 4) + 3;
             
             if (words.length <= targetCount) {
                 return [text];
@@ -23321,7 +25042,7 @@ ${recentHistory.map(msg => {
             const result = [];
             const chunkSize = Math.ceil(words.length / targetCount);
             
-            for (let i = 0; i < words.length; i += chunkSize) {
+            for (let i = 0; i < words.length && result.length < targetCount; i += chunkSize) {
                 const chunk = words.slice(i, i + chunkSize).join(' ');
                 if (chunk.trim()) {
                     result.push(chunk.trim());
@@ -24979,6 +26700,340 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
             }, { passive: false });
         })();
 
+
+        // ==================== 网易云音乐播放器功能 ====================
+        const NeteasePlayer = {
+            currentIndex: -1,
+            isPlaying: false,
+            currentTime: 0,
+            duration: 0,
+            volume: 0.7,
+            playMode: 'list',
+            likedSongs: new Set(),
+            progressInterval: null,
+            
+            playlist: [
+                { id: 1, title: '起风了', artist: '买辣椒也用券', album: '起风了', duration: 325, cover: '' },
+                { id: 2, title: '晴天', artist: '周杰伦', album: '叶惠美', duration: 269, cover: '' },
+                { id: 3, title: '稻香', artist: '周杰伦', album: '魔杰座', duration: 223, cover: '' },
+                { id: 4, title: '夜曲', artist: '周杰伦', album: '十一月的萧邦', duration: 226, cover: '' },
+                { id: 5, title: '告白气球', artist: '周杰伦', album: '周杰伦的床边故事', duration: 215, cover: '' },
+                { id: 6, title: '七里香', artist: '周杰伦', album: '七里香', duration: 299, cover: '' },
+                { id: 7, title: '光年之外', artist: '邓紫棋', album: '光年之外', duration: 235, cover: '' },
+                { id: 8, title: '泡沫', artist: '邓紫棋', album: '新的心跳', duration: 252, cover: '' },
+                { id: 9, title: '演员', artist: '薛之谦', album: '绅士', duration: 280, cover: '' },
+                { id: 10, title: '认真的雪', artist: '薛之谦', album: '薛之谦', duration: 261, cover: '' },
+                { id: 11, title: '平凡之路', artist: '朴树', album: '猎户星座', duration: 298, cover: '' },
+                { id: 12, title: '那些年', artist: '胡夏', album: '那些年', duration: 276, cover: '' }
+            ],
+            
+            init: function() {
+                this.loadSavedData();
+                this.renderPlaylist();
+                this.bindEvents();
+                this.updateVolumeUI();
+            },
+            
+            loadSavedData: function() {
+                const savedLiked = localStorage.getItem('neteaseLikedSongs');
+                if (savedLiked) {
+                    this.likedSongs = new Set(JSON.parse(savedLiked));
+                }
+                const savedVolume = localStorage.getItem('neteaseVolume');
+                if (savedVolume !== null) {
+                    this.volume = parseFloat(savedVolume);
+                }
+                const savedMode = localStorage.getItem('neteasePlayMode');
+                if (savedMode) {
+                    this.playMode = savedMode;
+                    this.updateModeIcon();
+                }
+            },
+            
+            saveData: function() {
+                localStorage.setItem('neteaseLikedSongs', JSON.stringify([...this.likedSongs]));
+                localStorage.setItem('neteaseVolume', this.volume.toString());
+                localStorage.setItem('neteasePlayMode', this.playMode);
+            },
+            
+            renderPlaylist: function() {
+                const container = document.getElementById('netease-playlist-items');
+                if (!container) return;
+                
+                container.innerHTML = '';
+                document.getElementById('netease-song-count').textContent = this.playlist.length;
+                
+                this.playlist.forEach((song, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'netease-playlist-item' + (index === this.currentIndex ? ' playing' : '');
+                    item.dataset.index = index;
+                    
+                    item.innerHTML = `
+                        <div class="netease-playlist-index">${index + 1}</div>
+                        <div class="netease-playlist-info">
+                            <div class="netease-playlist-cover">
+                                <img src="${song.cover || this.generateCover(song.title)}" alt="${song.title}">
+                            </div>
+                            <div class="netease-playlist-song">
+                                <div class="netease-song-name">${song.title}</div>
+                                <div class="netease-song-subtitle">${song.artist}</div>
+                            </div>
+                        </div>
+                        <div class="netease-playlist-album">${song.album}</div>
+                        <div class="netease-playlist-duration">${this.formatTime(song.duration)}</div>
+                    `;
+                    
+                    item.addEventListener('click', () => this.playSong(index));
+                    container.appendChild(item);
+                });
+            },
+            
+            generateCover: function(title) {
+                const colors = ['#C20C0C', '#E01E1E', '#D32020', '#B01010', '#A00808', '#C83030', '#D84040', '#E85050'];
+                const color = colors[title.charCodeAt(0) % colors.length];
+                return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect fill='${encodeURIComponent(color)}' width='40' height='40'/%3E%3Ctext x='50%25' y='50%25' fill='white' font-size='14' text-anchor='middle' dominant-baseline='middle'%3E${encodeURIComponent(title.charAt(0))}%3C/text%3E%3C/svg%3E`;
+            },
+            
+            bindEvents: function() {
+                document.getElementById('netease-play-btn')?.addEventListener('click', () => this.togglePlay());
+                document.getElementById('netease-prev-btn')?.addEventListener('click', () => this.prevSong());
+                document.getElementById('netease-next-btn')?.addEventListener('click', () => this.nextSong());
+                document.getElementById('netease-mode-btn')?.addEventListener('click', () => this.toggleMode());
+                document.getElementById('netease-like-btn')?.addEventListener('click', () => this.toggleLike());
+                document.getElementById('netease-play-all-btn')?.addEventListener('click', () => this.playSong(0));
+                
+                document.getElementById('netease-progress-bar')?.addEventListener('click', (e) => this.seekTo(e));
+                document.getElementById('netease-volume-slider')?.addEventListener('click', (e) => this.setVolume(e));
+                document.getElementById('netease-volume-btn')?.addEventListener('click', () => this.toggleMute());
+                
+                document.querySelectorAll('.netease-sidebar-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        document.querySelectorAll('.netease-sidebar-item').forEach(i => i.classList.remove('active'));
+                        item.classList.add('active');
+                    });
+                });
+            },
+            
+            playSong: function(index) {
+                if (index < 0 || index >= this.playlist.length) return;
+                
+                this.currentIndex = index;
+                const song = this.playlist[index];
+                
+                document.getElementById('netease-song-title').textContent = song.title;
+                document.getElementById('netease-artist-name').textContent = song.artist;
+                document.getElementById('netease-album-name').textContent = song.album;
+                document.getElementById('netease-mini-title').textContent = song.title;
+                document.getElementById('netease-mini-artist').textContent = song.artist;
+                
+                const cover = song.cover || this.generateCover(song.title);
+                document.getElementById('netease-cover-img').src = cover;
+                document.getElementById('netease-mini-cover-img').src = cover;
+                
+                this.duration = song.duration;
+                this.currentTime = 0;
+                document.getElementById('netease-total-time').textContent = this.formatTime(this.duration);
+                document.getElementById('netease-current-time').textContent = '0:00';
+                
+                this.updatePlayingItem();
+                this.updateLikeButton();
+                this.isPlaying = true;
+                this.updatePlayButton();
+                this.startProgress();
+            },
+            
+            togglePlay: function() {
+                if (this.currentIndex === -1) {
+                    this.playSong(0);
+                    return;
+                }
+                this.isPlaying = !this.isPlaying;
+                this.updatePlayButton();
+                
+                if (this.isPlaying) {
+                    this.startProgress();
+                } else {
+                    this.stopProgress();
+                }
+            },
+            
+            updatePlayButton: function() {
+                const icon = document.getElementById('netease-play-icon');
+                const cover = document.getElementById('netease-album-cover');
+                
+                if (this.isPlaying) {
+                    icon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+                    cover?.classList.add('playing');
+                } else {
+                    icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+                    cover?.classList.remove('playing');
+                }
+            },
+            
+            updatePlayingItem: function() {
+                document.querySelectorAll('.netease-playlist-item').forEach((item, idx) => {
+                    item.classList.toggle('playing', idx === this.currentIndex);
+                });
+            },
+            
+            prevSong: function() {
+                let newIndex;
+                if (this.playMode === 'random') {
+                    newIndex = Math.floor(Math.random() * this.playlist.length);
+                } else {
+                    newIndex = this.currentIndex <= 0 ? this.playlist.length - 1 : this.currentIndex - 1;
+                }
+                this.playSong(newIndex);
+            },
+            
+            nextSong: function() {
+                let newIndex;
+                if (this.playMode === 'random') {
+                    newIndex = Math.floor(Math.random() * this.playlist.length);
+                } else {
+                    newIndex = this.currentIndex >= this.playlist.length - 1 ? 0 : this.currentIndex + 1;
+                }
+                this.playSong(newIndex);
+            },
+            
+            toggleMode: function() {
+                const modes = ['list', 'single', 'random'];
+                const currentIdx = modes.indexOf(this.playMode);
+                this.playMode = modes[(currentIdx + 1) % modes.length];
+                this.updateModeIcon();
+                this.saveData();
+            },
+            
+            updateModeIcon: function() {
+                const icon = document.getElementById('netease-mode-icon');
+                if (!icon) return;
+                
+                switch(this.playMode) {
+                    case 'single':
+                        icon.innerHTML = '<circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon><line x1="10" y1="4" x2="14" y2="4" stroke-width="3"></line>';
+                        break;
+                    case 'random':
+                        icon.innerHTML = '<polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line>';
+                        break;
+                    default:
+                        icon.innerHTML = '<polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path>';
+                }
+            },
+            
+            toggleLike: function() {
+                if (this.currentIndex === -1) return;
+                
+                const songId = this.playlist[this.currentIndex].id;
+                if (this.likedSongs.has(songId)) {
+                    this.likedSongs.delete(songId);
+                } else {
+                    this.likedSongs.add(songId);
+                }
+                this.updateLikeButton();
+                this.saveData();
+            },
+            
+            updateLikeButton: function() {
+                const btn = document.getElementById('netease-like-btn');
+                if (!btn || this.currentIndex === -1) return;
+                
+                const songId = this.playlist[this.currentIndex].id;
+                btn.classList.toggle('liked', this.likedSongs.has(songId));
+            },
+            
+            startProgress: function() {
+                this.stopProgress();
+                this.progressInterval = setInterval(() => {
+                    if (this.isPlaying && this.currentTime < this.duration) {
+                        this.currentTime += 1;
+                        this.updateProgress();
+                    } else if (this.currentTime >= this.duration) {
+                        if (this.playMode === 'single') {
+                            this.currentTime = 0;
+                            this.updateProgress();
+                        } else {
+                            this.nextSong();
+                        }
+                    }
+                }, 1000);
+            },
+            
+            stopProgress: function() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            },
+            
+            updateProgress: function() {
+                const progress = (this.currentTime / this.duration) * 100;
+                document.getElementById('netease-progress-fill').style.width = progress + '%';
+                document.getElementById('netease-current-time').textContent = this.formatTime(this.currentTime);
+            },
+            
+            seekTo: function(e) {
+                const bar = e.currentTarget;
+                const rect = bar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                this.currentTime = Math.floor(this.duration * percent);
+                this.updateProgress();
+            },
+            
+            setVolume: function(e) {
+                const slider = e.currentTarget;
+                const rect = slider.getBoundingClientRect();
+                this.volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                this.updateVolumeUI();
+                this.saveData();
+            },
+            
+            updateVolumeUI: function() {
+                document.getElementById('netease-volume-fill').style.width = (this.volume * 100) + '%';
+                this.updateVolumeIcon();
+            },
+            
+            toggleMute: function() {
+                if (this.volume > 0) {
+                    this._prevVolume = this.volume;
+                    this.volume = 0;
+                } else {
+                    this.volume = this._prevVolume || 0.7;
+                }
+                this.updateVolumeUI();
+                this.saveData();
+            },
+            
+            updateVolumeIcon: function() {
+                const icon = document.getElementById('netease-volume-icon');
+                if (!icon) return;
+                
+                if (this.volume === 0) {
+                    icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+                } else if (this.volume < 0.5) {
+                    icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+                } else {
+                    icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+                }
+            },
+            
+            formatTime: function(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+        };
+
+        function openNetease() {
+            document.getElementById('netease-app').style.display = 'flex';
+            NeteasePlayer.init();
+        }
+
+        function closeNeteaseApp() {
+            document.getElementById('netease-app').style.display = 'none';
+            NeteasePlayer.stopProgress();
+            NeteasePlayer.isPlaying = false;
+            NeteasePlayer.updatePlayButton();
+        }
 
     </script>
 
