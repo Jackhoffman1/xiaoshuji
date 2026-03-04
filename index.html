@@ -5508,6 +5508,8 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
         }
 
         .moments-back-btn svg {
@@ -14093,6 +14095,14 @@
                                 <label for="custom-input-placeholder" style="font-size: 13px; color: #333; margin-bottom: 8px; display: block;">自定义输入框文字</label>
                                 <input type="text" id="custom-input-placeholder" placeholder="输入自定义placeholder文字" style="width: 100%; padding: 12px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 14px;">
                                 <p style="font-size: 11px; color: #666; margin-top: 6px;">设置聊天输入框的提示文字，留空则使用默认文字</p>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label style="font-size: 13px; color: #333; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                                    <span>文字大小</span>
+                                    <span id="placeholder-size-value" style="font-size: 12px; color: #666;">15px</span>
+                                </label>
+                                <input type="range" id="placeholder-size-slider" min="10" max="24" value="15" style="width: 100%; height: 6px; border-radius: 3px; background: rgba(0, 0, 0, 0.1); outline: none; -webkit-appearance: none;" oninput="updatePlaceholderSize(this.value)">
+                                <p style="font-size: 11px; color: #666; margin-top: 6px;">调整输入框内文字的大小（10px - 24px）</p>
                             </div>
                             <button class="btn-primary" onclick="saveCustomPlaceholder()" style="width: 100%; padding: 12px 16px; font-size: 14px; color: rgb(51, 51, 51);">保存设置</button>
                             <button class="btn-secondary" onclick="clearCustomPlaceholder()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">恢复默认</button>
@@ -23767,9 +23777,25 @@ ${commenterInfo}
         }
 
         const DEFAULT_PLACEHOLDER = "ˡ▹𝗜𝘁's 𝗮𝗹𝗹 𝗮𝗯𝗼𝘂𝘁 𝘆𝗼𝘂";
+        const DEFAULT_PLACEHOLDER_SIZE = 15;
 
         function getCustomPlaceholderKey(roleId) {
             return 'customPlaceholder_' + roleId;
+        }
+
+        function getPlaceholderSizeKey(roleId) {
+            return 'placeholderSize_' + roleId;
+        }
+
+        function updatePlaceholderSize(value) {
+            const sizeValue = document.getElementById('placeholder-size-value');
+            if (sizeValue) {
+                sizeValue.textContent = value + 'px';
+            }
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                chatInput.style.fontSize = value + 'px';
+            }
         }
 
         function saveCustomPlaceholder() {
@@ -23778,7 +23804,9 @@ ${commenterInfo}
                 return;
             }
             const placeholderText = document.getElementById('custom-input-placeholder').value;
+            const placeholderSize = document.getElementById('placeholder-size-slider').value;
             const placeholderKey = getCustomPlaceholderKey(currentChatRole.id);
+            const sizeKey = getPlaceholderSizeKey(currentChatRole.id);
             
             if (placeholderText.trim()) {
                 localStorage.setItem(placeholderKey, placeholderText);
@@ -23786,8 +23814,10 @@ ${commenterInfo}
                 localStorage.removeItem(placeholderKey);
             }
             
+            localStorage.setItem(sizeKey, placeholderSize);
+            
             applyCustomPlaceholder(currentChatRole.id);
-            alert('自定义输入框文字已保存！');
+            alert('输入框设置已保存！');
         }
 
         function clearCustomPlaceholder() {
@@ -23797,10 +23827,14 @@ ${commenterInfo}
             }
             
             const placeholderKey = getCustomPlaceholderKey(currentChatRole.id);
+            const sizeKey = getPlaceholderSizeKey(currentChatRole.id);
             localStorage.removeItem(placeholderKey);
+            localStorage.removeItem(sizeKey);
             document.getElementById('custom-input-placeholder').value = '';
+            document.getElementById('placeholder-size-slider').value = DEFAULT_PLACEHOLDER_SIZE;
+            document.getElementById('placeholder-size-value').textContent = DEFAULT_PLACEHOLDER_SIZE + 'px';
             applyCustomPlaceholder(currentChatRole.id);
-            alert('已恢复默认输入框文字！');
+            alert('已恢复默认输入框设置！');
         }
 
         function applyCustomPlaceholder(roleId) {
@@ -23808,21 +23842,41 @@ ${commenterInfo}
             if (!chatInput) return;
             
             const placeholderKey = getCustomPlaceholderKey(roleId);
+            const sizeKey = getPlaceholderSizeKey(roleId);
             const customPlaceholder = localStorage.getItem(placeholderKey);
+            const customSize = localStorage.getItem(sizeKey);
             
             if (customPlaceholder && customPlaceholder.trim()) {
                 chatInput.placeholder = customPlaceholder;
             } else {
                 chatInput.placeholder = DEFAULT_PLACEHOLDER;
             }
+            
+            if (customSize) {
+                chatInput.style.fontSize = customSize + 'px';
+            } else {
+                chatInput.style.fontSize = DEFAULT_PLACEHOLDER_SIZE + 'px';
+            }
         }
 
         function loadCustomPlaceholder(roleId) {
             const placeholderKey = getCustomPlaceholderKey(roleId);
+            const sizeKey = getPlaceholderSizeKey(roleId);
             const placeholderText = localStorage.getItem(placeholderKey) || '';
+            const placeholderSize = localStorage.getItem(sizeKey) || DEFAULT_PLACEHOLDER_SIZE;
+            
             const input = document.getElementById('custom-input-placeholder');
             if (input) {
                 input.value = placeholderText;
+            }
+            
+            const slider = document.getElementById('placeholder-size-slider');
+            const sizeValue = document.getElementById('placeholder-size-value');
+            if (slider) {
+                slider.value = placeholderSize;
+            }
+            if (sizeValue) {
+                sizeValue.textContent = placeholderSize + 'px';
             }
         }
 
@@ -25405,7 +25459,7 @@ ${recentHistory.map(msg => {
                 justify-content: space-between;
                 width: 100vw;
                 height: 88px;
-                padding: 0 16px;
+                padding: 20px 16px 0 16px;
                 background-color: #ffffff;
                 border-radius: 0 0 50% 50%;
                 position: fixed;
@@ -25421,7 +25475,7 @@ ${recentHistory.map(msg => {
                 <div class="back-btn" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 22px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden;">
                     ${cancelIcon}
                 </div>
-                <div style="font-size: 17px; font-weight: 600; color: #1d1d1f; letter-spacing: -0.24px; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 50%;">已选择 <span id="selected-count">1</span> 条</div>
+                <div style="font-size: 17px; font-weight: 600; color: #1d1d1f; letter-spacing: -0.24px; position: absolute; left: 50%; transform: translate(-50%, -50%); top: 60%;">已选择 <span id="selected-count">1</span> 条</div>
                 <div style="display: flex; gap: 8px;">
                     <button class="multi-select-btn select-all" style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 16px; background: white; color: #333; font-size: 14px; cursor: pointer;">
                         全选
