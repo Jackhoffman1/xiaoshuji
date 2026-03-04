@@ -2800,8 +2800,8 @@
         }
 
         .message-content {
-            padding: 7px 11px;
-            border-radius: 14px;
+            padding: 10px 14px;
+            border-radius: 20px;
             line-height: 1.45;
             font-size: 13px;
             font-weight: 550;
@@ -2814,27 +2814,29 @@
         }
 
         .message.sent .message-content {
-            background: var(--bubble-bg);
-            color: var(--bubble-text);
-            border-radius: 14px;
-            box-shadow: 0 1px 4px var(--bubble-shadow);
-            padding: 7px 11px;
-            border: 1px solid rgba(0, 0, 0, 0.03);
-            --bubble-bg: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%);
-            --bubble-text: #1d1d1f;
-            --bubble-shadow: rgba(0, 0, 0, 0.06);
+            padding: 10px 14px;
+            border-radius: 20px;
+            animation: bubbleFadeIn 0.4s ease-out forwards;
+            background: linear-gradient(135deg, #fff2f5 0%, #fae1e6 100%);
+            color: #5c4d50;
+            box-shadow:
+                0 2px 8px rgba(235, 195, 205, 0.35),
+                inset 0 2px 4px rgba(255, 255, 255, 0.6),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+            border: none;
         }
 
         .message.received .message-content {
-            background: var(--bubble-bg);
-            color: var(--bubble-text);
-            border-radius: 14px;
-            box-shadow: 0 1px 4px var(--bubble-shadow);
-            padding: 7px 11px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            --bubble-bg: rgba(255, 255, 255, 1);
-            --bubble-text: #1d1d1f;
-            --bubble-shadow: rgba(0, 0, 0, 0.08);
+            padding: 10px 14px;
+            border-radius: 20px;
+            animation: bubbleFadeIn 0.4s ease-out forwards;
+            background: linear-gradient(135deg, #ffffff 0%, #f7f8f9 100%);
+            color: #4a4a50;
+            box-shadow:
+                0 2px 8px rgba(140, 150, 170, 0.12),
+                inset 0 2px 4px rgba(255, 255, 255, 1),
+                inset 0 0 0 1px rgba(240, 242, 245, 0.9);
+            border: none;
         }
 
         .message.sent .message-content:active,
@@ -3878,6 +3880,11 @@
             }
         }
 
+        @keyframes bubbleFadeIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         .message-content {
             -webkit-user-select: none;
             user-select: none;
@@ -4853,6 +4860,44 @@
         }
 
         .delete-friend-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .new-action-btn {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 24px;
+            background: rgba(255, 255, 255, 0.85);
+            color: #333;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-top: 12px;
+        }
+
+        .new-action-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .new-action-btn:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .new-action-btn svg {
             width: 20px;
             height: 20px;
         }
@@ -14029,6 +14074,31 @@
                         </div>
                     </div>
                 </div>
+                <div class="chat-menu-category">
+                    <div class="chat-menu-category-header" onclick="toggleCategory('input-settings')">
+                        <div class="category-title-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <span>输入框</span>
+                        <svg class="category-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="chat-menu-category-content" id="input-settings-category">
+                        <div style="padding: 12px 16px;">
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="custom-input-placeholder" style="font-size: 13px; color: #333; margin-bottom: 8px; display: block;">自定义输入框文字</label>
+                                <input type="text" id="custom-input-placeholder" placeholder="输入自定义placeholder文字" style="width: 100%; padding: 12px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 14px;">
+                                <p style="font-size: 11px; color: #666; margin-top: 6px;">设置聊天输入框的提示文字，留空则使用默认文字</p>
+                            </div>
+                            <button class="btn-primary" onclick="saveCustomPlaceholder()" style="width: 100%; padding: 12px 16px; font-size: 14px; color: rgb(51, 51, 51);">保存设置</button>
+                            <button class="btn-secondary" onclick="clearCustomPlaceholder()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">恢复默认</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <input type="file" id="chat-wallpaper-input" class="chat-wallpaper-input" accept="image/*" onchange="handleChatWallpaperUpload(event)">
         </div>
@@ -14218,10 +14288,17 @@
                 <button class="delete-friend-btn" onclick="showDeleteFriendConfirm()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 6h18"></path>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                        <path d="M19 6v14a2 2 0 1 1-2 2H7a2 2 0 0 1-2-2V6"></path>
                         <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                     </svg>
                     <span>删除好友</span>
+                </button>
+                <button class="new-action-btn" onclick="showClearChatHistoryConfirm()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    <span>清空聊天记录</span>
                 </button>
             </div>
         </div>
@@ -22572,6 +22649,7 @@ ${commenterInfo}
             loadChatMessages(role.id);
             loadChatWallpaper(role.id);
             applyRoleCustomCss(role.id);
+            applyCustomPlaceholder(role.id);
             checkChatApiStatus();
             
             UnreadManager.setLastReadTime(role.id);
@@ -22608,6 +22686,7 @@ ${commenterInfo}
                 loadRoleMomentsSettings();
                 if (currentChatRole) {
                     loadRoleCustomCss(currentChatRole.id);
+                    loadCustomPlaceholder(currentChatRole.id);
                 }
             }
         }
@@ -23687,6 +23766,66 @@ ${commenterInfo}
             }
         }
 
+        const DEFAULT_PLACEHOLDER = "ˡ▹𝗜𝘁's 𝗮𝗹𝗹 𝗮𝗯𝗼𝘂𝘁 𝘆𝗼𝘂";
+
+        function getCustomPlaceholderKey(roleId) {
+            return 'customPlaceholder_' + roleId;
+        }
+
+        function saveCustomPlaceholder() {
+            if (!currentChatRole) {
+                alert('请先选择一个角色');
+                return;
+            }
+            const placeholderText = document.getElementById('custom-input-placeholder').value;
+            const placeholderKey = getCustomPlaceholderKey(currentChatRole.id);
+            
+            if (placeholderText.trim()) {
+                localStorage.setItem(placeholderKey, placeholderText);
+            } else {
+                localStorage.removeItem(placeholderKey);
+            }
+            
+            applyCustomPlaceholder(currentChatRole.id);
+            alert('自定义输入框文字已保存！');
+        }
+
+        function clearCustomPlaceholder() {
+            if (!currentChatRole) {
+                alert('请先选择一个角色');
+                return;
+            }
+            
+            const placeholderKey = getCustomPlaceholderKey(currentChatRole.id);
+            localStorage.removeItem(placeholderKey);
+            document.getElementById('custom-input-placeholder').value = '';
+            applyCustomPlaceholder(currentChatRole.id);
+            alert('已恢复默认输入框文字！');
+        }
+
+        function applyCustomPlaceholder(roleId) {
+            const chatInput = document.getElementById('chat-input');
+            if (!chatInput) return;
+            
+            const placeholderKey = getCustomPlaceholderKey(roleId);
+            const customPlaceholder = localStorage.getItem(placeholderKey);
+            
+            if (customPlaceholder && customPlaceholder.trim()) {
+                chatInput.placeholder = customPlaceholder;
+            } else {
+                chatInput.placeholder = DEFAULT_PLACEHOLDER;
+            }
+        }
+
+        function loadCustomPlaceholder(roleId) {
+            const placeholderKey = getCustomPlaceholderKey(roleId);
+            const placeholderText = localStorage.getItem(placeholderKey) || '';
+            const input = document.getElementById('custom-input-placeholder');
+            if (input) {
+                input.value = placeholderText;
+            }
+        }
+
         function loadRoleCustomCss(roleId) {
             const cssKey = getRoleCustomCssKey(roleId);
             const cssContent = localStorage.getItem(cssKey) || '';
@@ -24226,6 +24365,90 @@ ${recentHistory.map(msg => {
                 }
                 
                 alert(`删除失败！已回滚所有操作。请稍后重试。\n错误信息: ${error.message || '未知错误'}`);
+            }
+        }
+
+        let clearChatHistoryConfirmModal = null;
+
+        function showClearChatHistoryConfirm() {
+            if (!currentDetailRole) return;
+            
+            if (clearChatHistoryConfirmModal) {
+                clearChatHistoryConfirmModal.remove();
+            }
+            
+            const roleName = currentDetailRole.remark || currentDetailRole.name;
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="max-width: 320px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+                    <h3 style="margin-bottom: 12px; color: #333;">清空聊天记录</h3>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        确定要删除与"${roleName}"的所有聊天记录吗？<br>
+                        <strong style="color: #ff4d4f;">此操作不可恢复</strong>
+                    </p>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button onclick="closeClearChatHistoryConfirmModal()" style="flex: 1; padding: 10px 20px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-size: 14px;">取消</button>
+                        <button onclick="confirmClearChatHistory()" style="flex: 1; padding: 10px 20px; border: none; background: #ff4d4f; color: #fff; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500;">确认</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            clearChatHistoryConfirmModal = modal;
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeClearChatHistoryConfirmModal();
+                }
+            });
+        }
+
+        function closeClearChatHistoryConfirmModal() {
+            if (clearChatHistoryConfirmModal) {
+                clearChatHistoryConfirmModal.remove();
+                clearChatHistoryConfirmModal = null;
+            }
+        }
+
+        function confirmClearChatHistory() {
+            if (!currentDetailRole) {
+                closeClearChatHistoryConfirmModal();
+                return;
+            }
+            
+            const roleId = currentDetailRole.id;
+            const roleName = currentDetailRole.remark || currentDetailRole.name;
+            
+            closeClearChatHistoryConfirmModal();
+            
+            try {
+                if (messages[roleId]) {
+                    delete messages[roleId];
+                    localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                }
+                
+                if (musicMessages[roleId]) {
+                    delete musicMessages[roleId];
+                }
+                
+                const summaryKey = 'summaryContents_' + roleId;
+                localStorage.removeItem(summaryKey);
+                
+                if (currentChatRole && currentChatRole.id === roleId) {
+                    loadMessages();
+                    const chatArea = document.getElementById('chat-area');
+                    if (chatArea) {
+                        chatArea.innerHTML = '';
+                    }
+                }
+                
+                alert(`聊天记录已清除`);
+                
+            } catch (error) {
+                console.error('清空聊天记录失败:', error);
+                alert(`清空失败！请稍后重试。\n错误信息: ${error.message || '未知错误'}`);
             }
         }
 
@@ -26226,6 +26449,21 @@ ${recentHistory.map(msg => {
                 roles = [];
                 localStorage.setItem('wechatRoles', JSON.stringify(roles));
                 console.log('初始化空roles数组');
+            }
+            
+            // 重新加载moments数据，确保与localStorage同步
+            const savedMoments = localStorage.getItem('wechatMoments');
+            if (savedMoments) {
+                try {
+                    moments = JSON.parse(savedMoments);
+                    console.log('从localStorage加载moments，数量:', moments.length);
+                } catch (e) {
+                    console.error('moments解析失败:', e);
+                    moments = [];
+                }
+            } else {
+                moments = [];
+                console.log('初始化空moments数组');
             }
             
             // 清理孤立数据（已删除角色的聊天记录和朋友圈动态）
