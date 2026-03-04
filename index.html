@@ -13031,6 +13031,22 @@
                                     查看localStorage状态
                                 </button>
                             </div>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label style="color: rgb(51, 51, 51);">数据清理:</label>
+                                <p style="font-size: 13px; color: #666; margin-bottom: 12px;">清理孤立数据（已删除角色的聊天记录、朋友圈动态等）和无效的空数据。建议在删除角色后手动执行一次。</p>
+                                <button class="btn-secondary" onclick="manualCleanOrphanedData()" style="width: 100%; background: rgba(255, 149, 0, 0.1); color: rgb(51, 51, 51); border-color: rgba(255, 149, 0, 0.3);">
+                                    <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                                        </svg>
+                                        清理孤立数据和无效数据
+                                    </span>
+                                </button>
+                            </div>
                             <div class="form-group" style="margin-top: 20px;">
                                 <label style="color: rgb(51, 51, 51);">数据清除:</label>
                                 <p style="font-size: 13px; color: #666; margin-bottom: 12px;">清除所有本地存储数据，此操作不可恢复，请谨慎操作。</p>
@@ -18016,6 +18032,128 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             return { valid: true, checks: checks };
         }
 
+        let importConfirmResolve = null;
+
+        function showImportConfirmModal(options) {
+            return new Promise(function(resolve) {
+                importConfirmResolve = resolve;
+                
+                const existingModal = document.getElementById('import-confirm-modal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                const conflictItemsHtml = options.conflictKeys && options.conflictKeys.length > 0 
+                    ? options.conflictKeys.slice(0, 20).map(function(key) {
+                        return `<li style="padding: 4px 0; border-bottom: 1px solid #f0f0f0;">${key}</li>`;
+                    }).join('') + (options.conflictKeys.length > 20 ? `<li style="padding: 8px 0; color: #999; font-style: italic;">... 还有 ${options.conflictKeys.length - 20} 项</li>` : '')
+                    : '';
+                
+                const conflictSectionHtml = options.conflictCount > 0 
+                    ? `
+                    <div style="margin-top: 12px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+                        <div onclick="toggleConflictList()" style="padding: 12px 16px; background: #f9f9f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                            <span style="color: #ff9500; font-weight: 500;">⚠️ 发现 ${options.conflictCount} 个冲突项</span>
+                            <svg id="conflict-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="transition: transform 0.2s;">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                        <div id="conflict-list-container" style="display: none; max-height: 200px; overflow-y: auto; background: #fff;">
+                            <ul style="list-style: none; margin: 0; padding: 8px 16px; font-size: 13px; color: #666;">
+                                ${conflictItemsHtml}
+                            </ul>
+                        </div>
+                    </div>
+                    `
+                    : '';
+                
+                const modal = document.createElement('div');
+                modal.className = 'preset-modal';
+                modal.id = 'import-confirm-modal';
+                modal.innerHTML = `
+                    <div class="preset-modal-content" style="max-width: 400px; text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📥</div>
+                        <h3 style="margin-bottom: 16px; color: #333;">确认导入数据</h3>
+                        
+                        <div style="text-align: left; background: #f9f9f9; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: #666;">备份日期:</span>
+                                <span style="color: #333; font-weight: 500;">${options.exportDate}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: #666;">数据版本:</span>
+                                <span style="color: #333; font-weight: 500;">${options.version}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: #666;">数据项数:</span>
+                                <span style="color: #333; font-weight: 500;">${options.itemCount}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #666;">冲突项数:</span>
+                                <span style="color: ${options.conflictCount > 0 ? '#ff9500' : '#34c759'}; font-weight: 500;">${options.conflictCount}</span>
+                            </div>
+                        </div>
+                        
+                        ${conflictSectionHtml}
+                        
+                        <div style="margin-top: 16px; padding: 12px; background: #e8f4fd; border-radius: 8px; text-align: left;">
+                            <div style="color: #007AFF; font-weight: 500; margin-bottom: 4px;">📋 ${options.strategyText.split('：')[0]}</div>
+                            <div style="color: #666; font-size: 13px;">${options.strategyText.split('：')[1] || ''}</div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                            <button onclick="cancelImportConfirm()" style="flex: 1; padding: 12px 20px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">取消</button>
+                            <button onclick="confirmImportData()" style="flex: 1; padding: 12px 20px; border: none; background: #667eea; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">确认导入</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        cancelImportConfirm();
+                    }
+                });
+            });
+        }
+
+        function toggleConflictList() {
+            const container = document.getElementById('conflict-list-container');
+            const arrow = document.getElementById('conflict-arrow');
+            if (container) {
+                if (container.style.display === 'none') {
+                    container.style.display = 'block';
+                    arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    container.style.display = 'none';
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            }
+        }
+
+        function cancelImportConfirm() {
+            const modal = document.getElementById('import-confirm-modal');
+            if (modal) {
+                modal.remove();
+            }
+            if (importConfirmResolve) {
+                importConfirmResolve(false);
+                importConfirmResolve = null;
+            }
+        }
+
+        function confirmImportData() {
+            const modal = document.getElementById('import-confirm-modal');
+            if (modal) {
+                modal.remove();
+            }
+            if (importConfirmResolve) {
+                importConfirmResolve(true);
+                importConfirmResolve = null;
+            }
+        }
+
         async function importAllData(event) {
             var file = event.target.files[0];
             if (!file) return;
@@ -18118,14 +18256,29 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                         break;
                     case 'merge':
                     default:
-                        strategyText = '合并模式：保留现有数据，合并新数据';
+                        strategyText = '合并模式：保留现有数据、合并新数据';
                         break;
                 }
 
-                var confirmMsg = '确定要导入此数据吗？\n\n备份日期: ' + exportDate + '\n数据版本: ' + version + '\n数据项数: ' + itemCount + '\n冲突项数: ' + conflictCount + '\n\n' + strategyText + '\n\n是否继续？';
-                
+                var conflictKeys = [];
+                newKeys.forEach(function(key) {
+                    if (existingKeys.has(key)) {
+                        conflictKeys.push(key);
+                    }
+                });
+
                 console.log('步骤 5/6: 等待用户确认...');
-                if (!confirm(confirmMsg)) {
+                
+                var userConfirmed = await showImportConfirmModal({
+                    exportDate: exportDate,
+                    version: version,
+                    itemCount: itemCount,
+                    conflictCount: conflictCount,
+                    conflictKeys: conflictKeys,
+                    strategyText: strategyText
+                });
+                
+                if (!userConfirmed) {
                     hideStorageProgress();
                     console.log('用户取消导入');
                     showStorageStatus('导入已取消', 'warning');
@@ -18295,6 +18448,8 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         function reloadAllData() {
             console.log('重新加载所有数据...');
             
+            isDataInitialized = false;
+            
             try {
                 roles = JSON.parse(localStorage.getItem('wechatRoles')) || [];
                 console.log('roles 重新加载完成，数量:', roles.length);
@@ -18330,10 +18485,8 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             
             selectedSimsWorldbookIds = JSON.parse(localStorage.getItem('selectedSimsWorldbookIds')) || [];
             
-            // 清理孤立数据
-            cleanOrphanedData();
-            
-            console.log('所有数据重新加载完成');
+            isDataInitialized = true;
+            console.log('所有数据重新加载完成，isDataInitialized =', isDataInitialized);
         }
 
         function confirmImportSuccess() {
@@ -18374,18 +18527,104 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         }
 
         function confirmClearAllData() {
-            const confirmMsg = '确定要清除所有数据吗？\n\n此操作将删除所有本地存储的数据，包括：\n- 角色信息\n- 世界书内容\n- 聊天记录\n- 图片资源\n- 美化设置\n- API配置\n\n此操作不可恢复！';
-            
-            if (confirm(confirmMsg)) {
-                const doubleConfirm = confirm('再次确认：真的要清除所有数据吗？此操作不可撤销！');
-                if (doubleConfirm) {
-                    localStorage.clear();
-                    showStorageStatus('所有数据已清除！正在刷新页面...', 'success');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
-                }
+            const existingModal = document.getElementById('clear-all-data-modal');
+            if (existingModal) {
+                existingModal.remove();
             }
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'clear-all-data-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="max-width: 340px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+                    <h3 style="margin-bottom: 12px; color: #ff4d4f;">清除所有数据</h3>
+                    <p style="color: #666; margin-bottom: 8px; line-height: 1.6;">
+                        此操作将删除所有本地存储的数据，包括：
+                    </p>
+                    <ul style="text-align: left; color: #666; margin-bottom: 16px; padding-left: 24px; line-height: 1.8;">
+                        <li>角色信息</li>
+                        <li>世界书内容</li>
+                        <li>聊天记录</li>
+                        <li>图片资源</li>
+                        <li>美化设置</li>
+                        <li>API配置</li>
+                    </ul>
+                    <p style="color: #ff4d4f; font-weight: 500; margin-bottom: 20px;">
+                        ⚠️ 此操作不可恢复！
+                    </p>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button onclick="closeClearAllDataModal()" style="flex: 1; padding: 12px 20px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">取消</button>
+                        <button onclick="executeClearAllData()" style="flex: 1; padding: 12px 20px; border: none; background: #ff4d4f; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">确认清除</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeClearAllDataModal();
+                }
+            });
+        }
+        
+        function closeClearAllDataModal() {
+            const modal = document.getElementById('clear-all-data-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        function executeClearAllData() {
+            closeClearAllDataModal();
+            
+            const existingConfirm = document.getElementById('final-confirm-modal');
+            if (existingConfirm) {
+                existingConfirm.remove();
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'final-confirm-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="max-width: 300px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🚨</div>
+                    <h3 style="margin-bottom: 12px; color: #ff4d4f;">最后确认</h3>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        真的要清除所有数据吗？<br>
+                        <strong style="color: #ff4d4f;">此操作不可撤销！</strong>
+                    </p>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button onclick="closeFinalConfirmModal()" style="flex: 1; padding: 12px 20px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">取消</button>
+                        <button onclick="doClearAllData()" style="flex: 1; padding: 12px 20px; border: none; background: #ff4d4f; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">确认清除</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeFinalConfirmModal();
+                }
+            });
+        }
+        
+        function closeFinalConfirmModal() {
+            const modal = document.getElementById('final-confirm-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        function doClearAllData() {
+            closeFinalConfirmModal();
+            localStorage.clear();
+            showStorageStatus('所有数据已清除！正在刷新页面...', 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
         }
 
         // 保存字体颜色设置
@@ -19799,6 +20038,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         let currentChatRole = null;
         let currentAbortController = null;
         let isSendingMessages = false;
+        let isDataInitialized = false;
         let roles = JSON.parse(localStorage.getItem('wechatRoles')) || [];
         let messages = JSON.parse(localStorage.getItem('wechatMessages')) || {};
         let musicMessages = {};
@@ -19861,12 +20101,21 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         function cleanOrphanedData() {
             console.log('[DataClean] 开始清理孤立数据...');
             
+            if (!roles || !Array.isArray(roles) || roles.length === 0) {
+                console.log('[DataClean] roles为空，跳过清理以防止误删数据');
+                return {
+                    cleanedMessages: 0,
+                    cleanedMoments: 0,
+                    cleanedKeys: 0,
+                    totalCleaned: 0
+                };
+            }
+            
             const validRoleIds = new Set(roles.map(r => r.id));
             let cleanedMessages = 0;
             let cleanedMoments = 0;
             let hasChanges = false;
             
-            // 清理孤立的聊天记录
             const messageKeys = Object.keys(messages);
             messageKeys.forEach(roleId => {
                 if (!validRoleIds.has(roleId)) {
@@ -19882,7 +20131,6 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 console.log(`[DataClean] 已清理 ${cleanedMessages} 个孤立角色的聊天记录`);
             }
             
-            // 清理孤立的朋友圈动态
             const originalMomentsCount = moments.length;
             moments = moments.filter(moment => {
                 if (!validRoleIds.has(moment.roleId)) {
@@ -19898,7 +20146,6 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 console.log(`[DataClean] 已清理 ${cleanedMoments} 条孤立的朋友圈动态`);
             }
             
-            // 清理孤立的角色相关localStorage项
             const keysToCheck = [
                 'chatWallpaper_',
                 'characterBackground_',
@@ -19944,6 +20191,166 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 cleanedKeys,
                 totalCleaned
             };
+        }
+
+        function manualCleanOrphanedData() {
+            if (!roles || !Array.isArray(roles) || roles.length === 0) {
+                const existingModal = document.getElementById('no-roles-modal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                const modal = document.createElement('div');
+                modal.className = 'preset-modal';
+                modal.id = 'no-roles-modal';
+                modal.innerHTML = `
+                    <div class="preset-modal-content" style="max-width: 300px; text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">ℹ️</div>
+                        <h3 style="margin-bottom: 12px; color: #333;">无法执行清理</h3>
+                        <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                            当前没有角色数据，无法执行清理操作。<br><br>
+                            请先添加角色后再执行清理。
+                        </p>
+                        <button onclick="closeNoRolesModal()" style="padding: 12px 40px; border: none; background: #667eea; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">确定</button>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeNoRolesModal();
+                    }
+                });
+                return;
+            }
+            
+            const existingModal = document.getElementById('clean-orphan-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'clean-orphan-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="max-width: 340px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🧹</div>
+                    <h3 style="margin-bottom: 12px; color: #333;">清理孤立数据</h3>
+                    <p style="color: #666; margin-bottom: 8px; line-height: 1.6;">
+                        将清理以下内容：
+                    </p>
+                    <ul style="text-align: left; color: #666; margin-bottom: 16px; padding-left: 24px; line-height: 1.8;">
+                        <li>已删除角色的聊天记录</li>
+                        <li>已删除角色的朋友圈动态</li>
+                        <li>已删除角色相关的localStorage项</li>
+                        <li>无效的空数据</li>
+                    </ul>
+                    <p style="color: #ff9500; font-weight: 500; margin-bottom: 20px;">
+                        ⚠️ 此操作不可恢复！
+                    </p>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button onclick="closeCleanOrphanModal()" style="flex: 1; padding: 12px 20px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">取消</button>
+                        <button onclick="executeCleanOrphanData()" style="flex: 1; padding: 12px 20px; border: none; background: #ff9500; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">确认清理</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeCleanOrphanModal();
+                }
+            });
+        }
+        
+        function closeNoRolesModal() {
+            const modal = document.getElementById('no-roles-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        function closeCleanOrphanModal() {
+            const modal = document.getElementById('clean-orphan-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        function executeCleanOrphanData() {
+            closeCleanOrphanModal();
+            
+            console.log('[ManualClean] 开始手动清理...');
+            
+            const result = cleanOrphanedData();
+            
+            const existingModal = document.getElementById('clean-result-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            let resultContent = '';
+            if (result.totalCleaned === 0) {
+                resultContent = `
+                    <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
+                    <h3 style="margin-bottom: 12px; color: #333;">清理完成</h3>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        未发现需要清理的数据。<br>
+                        您的数据很干净！
+                    </p>
+                `;
+            } else {
+                let details = '';
+                if (result.cleanedMessages > 0) {
+                    details += `<li>清理了 ${result.cleanedMessages} 个孤立角色的聊天记录</li>`;
+                }
+                if (result.cleanedMoments > 0) {
+                    details += `<li>清理了 ${result.cleanedMoments} 条孤立的朋友圈动态</li>`;
+                }
+                if (result.cleanedKeys > 0) {
+                    details += `<li>清理了 ${result.cleanedKeys} 个孤立的localStorage项</li>`;
+                }
+                
+                resultContent = `
+                    <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+                    <h3 style="margin-bottom: 12px; color: #333;">清理完成</h3>
+                    <ul style="text-align: left; color: #666; margin-bottom: 12px; padding-left: 24px; line-height: 1.8;">
+                        ${details}
+                    </ul>
+                    <p style="color: #667eea; font-weight: 500; margin-bottom: 20px;">
+                        共计清理 ${result.totalCleaned} 项数据
+                    </p>
+                `;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'clean-result-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="max-width: 340px; text-align: center;">
+                    ${resultContent}
+                    <button onclick="closeCleanResultModal()" style="padding: 12px 40px; border: none; background: #667eea; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">确定</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeCleanResultModal();
+                }
+            });
+            
+            console.log('[ManualClean] 清理完成:', result);
+        }
+        
+        function closeCleanResultModal() {
+            const modal = document.getElementById('clean-result-modal');
+            if (modal) {
+                modal.remove();
+            }
         }
 
         // 删除指定角色的所有朋友圈动态
@@ -23234,13 +23641,6 @@ ${commenterInfo}
             const file = event.target.files[0];
             if (!file || !currentChatRole) return;
 
-            const maxSizeMB = 9;
-            const maxSizeBytes = maxSizeMB * 1024 * 1024;
-            if (file.size > maxSizeBytes) {
-                showToast(`图片大小不能超过 ${maxSizeMB}MB`);
-                return;
-            }
-            
             const reader = new FileReader();
             reader.onload = function(e) {
                 const wallpaperKey = 'chatWallpaper_' + currentChatRole.id;
@@ -26520,16 +26920,15 @@ ${recentHistory.map(msg => {
                 console.log('初始化空moments数组');
             }
             
-            // 清理孤立数据（已删除角色的聊天记录和朋友圈动态）
-            cleanOrphanedData();
-            
             loadWechatId();
             loadProfileName();
             
             if (typeof AnniversaryModule !== 'undefined') {
                 AnniversaryModule.initAfterRolesLoaded();
             }
-            console.log('=== initWechatData 完成 ===');
+            
+            isDataInitialized = true;
+            console.log('=== initWechatData 完成，isDataInitialized =', isDataInitialized, '===');
         }
 
         // 加载微信名
@@ -27675,11 +28074,44 @@ ${recentHistory.map(msg => {
         }
 
         function saveAllData() {
+            if (!isDataInitialized) {
+                console.log('[AutoSave] 数据未初始化完成，跳过保存');
+                return;
+            }
             try {
                 if (typeof roles !== 'undefined' && roles) {
+                    if (!Array.isArray(roles) || roles.length === 0) {
+                        const savedRoles = localStorage.getItem('wechatRoles');
+                        if (savedRoles) {
+                            try {
+                                const parsedRoles = JSON.parse(savedRoles);
+                                if (Array.isArray(parsedRoles) && parsedRoles.length > 0) {
+                                    console.log('[AutoSave] 跳过保存空的roles，保留现有数据（' + parsedRoles.length + '个角色）');
+                                    return;
+                                }
+                            } catch (e) {
+                                console.warn('[AutoSave] 解析现有roles失败:', e);
+                            }
+                        }
+                    }
                     localStorage.setItem('wechatRoles', JSON.stringify(roles));
                 }
                 if (typeof messages !== 'undefined' && messages) {
+                    const messageKeys = Object.keys(messages);
+                    if (messageKeys.length === 0) {
+                        const savedMessages = localStorage.getItem('wechatMessages');
+                        if (savedMessages) {
+                            try {
+                                const parsedMessages = JSON.parse(savedMessages);
+                                if (parsedMessages && Object.keys(parsedMessages).length > 0) {
+                                    console.log('[AutoSave] 跳过保存空的messages，保留现有数据');
+                                    return;
+                                }
+                            } catch (e) {
+                                console.warn('[AutoSave] 解析现有messages失败:', e);
+                            }
+                        }
+                    }
                     localStorage.setItem('wechatMessages', JSON.stringify(messages));
                 }
                 if (typeof moments !== 'undefined' && moments) {
