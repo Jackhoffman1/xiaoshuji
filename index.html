@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#667eea">
@@ -139,6 +139,709 @@
             --safe-area-inset-left: env(safe-area-inset-left);
             --safe-area-inset-right: env(safe-area-inset-right);
             --top-bar-base-height: 58px;
+            --bg-primary: #ffffff;
+            --bg-secondary: #F2F2F7;
+            --bg-tertiary: #E5E5EA;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --text-tertiary: #8E8E93;
+            --border-color: rgba(0, 0, 0, 0.05);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark-mode {
+            --bg-primary: #1C1C1E;
+            --bg-secondary: #2C2C2E;
+            --bg-tertiary: #3A3A3C;
+            --text-primary: #FFFFFF;
+            --text-secondary: #EBEBF5;
+            --text-tertiary: #8E8E93;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .profile-menu {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .menu-item {
+            border-bottom-color: var(--border-color);
+        }
+
+        .dark-mode .menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .menu-item span:first-child {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .menu-item span:last-child {
+            color: var(--text-tertiary);
+        }
+
+        .menu-item-switch {
+            cursor: default;
+        }
+
+        .menu-item-switch:hover {
+            background: transparent;
+        }
+
+        .dark-mode .profile-header {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .profile-title {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .profile-name {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .profile-id {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .profile-content {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .wechat-profile {
+            background: var(--bg-secondary) !important;
+        }
+
+        .dark-mode .character-settings {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .wechat-settings {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .wechat-settings-content {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .settings-tip {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .background-setting-title {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .background-setting-desc {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .bg-btn-primary {
+            background: #0A84FF;
+        }
+
+        .dark-mode .bg-btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .dark-mode .toggle-switch {
+            background-color: var(--bg-tertiary);
+        }
+
+        .dark-mode .toggle-switch.active {
+            background-color: #34C759;
+        }
+
+        .dark-mode .toggle-switch-handle {
+            background-color: #FFFFFF;
+        }
+
+        .dark-mode .wechat-container {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .wechat-header {
+            background: var(--bg-primary);
+        }
+
+        .dark-mode .wechat-header-title {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .wechat-list {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .chat-item {
+            background: var(--bg-primary);
+        }
+
+        .dark-mode .chat-item-name {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .chat-item-message {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .chat-item-time {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .wechat-chat {
+            background: #1C1C1E;
+        }
+
+        .dark-mode .chat-header {
+            background: rgba(28, 28, 30, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .dark-mode .chat-header::after {
+            content: "";
+            background: linear-gradient(to bottom, rgba(28, 28, 30, 0.95), rgba(28, 28, 30, 0.7), rgba(28, 28, 30, 0));
+        }
+
+        .dark-mode .chat-header:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .dark-mode .chat-title {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .avatar-wrapper span {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            color: #EBEBF5;
+        }
+
+        .dark-mode .chat-messages {
+            background: transparent;
+        }
+
+        .dark-mode .chat-avatar {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            color: #EBEBF5;
+        }
+
+        .dark-mode .chat-input-area {
+            background: rgba(44, 44, 46, 0.85);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 -1px 0 rgba(0, 0, 0, 0.3) inset;
+        }
+
+        .dark-mode .chat-input-area:hover {
+            background: rgba(58, 58, 60, 0.92);
+        }
+
+        .dark-mode .chat-input {
+            background: rgba(58, 58, 60, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode .chat-input::placeholder {
+            color: #8E8E93;
+        }
+
+        .dark-mode .add-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #EBEBF5;
+        }
+
+        .dark-mode .add-btn:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .add-menu {
+            background: rgba(44, 44, 46, 0.95);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .add-menu-item {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .add-menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .chat-menu-btn svg {
+            stroke: #EBEBF5;
+        }
+
+        .dark-mode .chat-menu-overlay {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .dark-mode .chat-menu-panel {
+            background: #2C2C2E;
+        }
+
+        .dark-mode .chat-menu-header h3 {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .chat-menu-header {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .chat-menu-item {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .chat-menu-item span {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .chat-menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .chat-menu-item svg {
+            stroke: #EBEBF5;
+        }
+
+        .dark-mode .chat-menu-wallpaper-preview {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .chat-menu-wallpaper-preview .no-wallpaper {
+            color: #8E8E93;
+        }
+
+        .dark-mode .chat-menu-category-header {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .chat-menu-category-header:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .chat-menu-category-header span {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .chat-date-divider {
+            color: #8E8E93;
+        }
+
+        .dark-mode .chat-date-divider::before,
+        .dark-mode .chat-date-divider::after {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .chat-menu-footer {
+            background: rgba(58, 58, 60, 0.9);
+        }
+
+        .dark-mode .chat-menu-footer-text {
+            color: #8E8E93;
+        }
+
+        .dark-mode .chat-menu-footer-line {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .chat-header-name {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .wechat-contacts {
+            background: var(--bg-secondary);
+        }
+
+        .dark-mode .contact-item-name {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .contacts-header {
+            background: var(--bg-primary);
+        }
+
+        .dark-mode .search-bar {
+            background: var(--bg-tertiary);
+        }
+
+        .dark-mode .search-bar input {
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .dark-mode .search-bar input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .section-header {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .tab-bar {
+            background: var(--bg-primary);
+        }
+
+        .dark-mode .tab-item-label {
+            color: var(--text-tertiary);
+        }
+
+        .dark-mode .tab-item.active .tab-item-label {
+            color: #07C160;
+        }
+
+        .dark-mode .message-item.pinned {
+            background: #2C2C2E;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .message-item.pinned::before {
+            background: #3A3A3C;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .message-item.pinned::after {
+            background: #1C1C1E;
+        }
+
+        .dark-mode .message-item {
+            background: rgba(44, 44, 46, 0.98);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 2px 3px 4px 1px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .message-item:hover {
+            background: rgba(58, 58, 60, 0.98);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 2px 3px 6px 1px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-mode .message-item-wrapper {
+            background: transparent;
+        }
+
+        .dark-mode .ios-glass-tabbar {
+            --primary-blue: #FFFFFF;
+            --bg-gray: rgba(40, 40, 50, 0.9);
+            --text-gray: #8E8E93;
+            --border-top: rgba(255, 255, 255, 0.1);
+            --border-bottom: rgba(60, 60, 70, 0.5);
+        }
+
+        .dark-mode .bottom-bar__content {
+            background: rgba(40, 40, 50, 0.9);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .bottom-bar__search-btn {
+            background: rgba(40, 40, 50, 0.9);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .bottom-bar__search-btn svg {
+            stroke: #FFFFFF;
+        }
+
+        .dark-mode .tabbar-item {
+            color: #8E8E93;
+        }
+
+        .dark-mode .tabbar-item.active {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .ios-glass-tabbar-item-label {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .dark-mode .ios-glass-tabbar-item.active .ios-glass-tabbar-item-label {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .contact-group {
+            background: transparent;
+        }
+
+        .dark-mode .contacts-group-tabs {
+            background: transparent;
+        }
+
+        .dark-mode .group-tab {
+            background: rgba(58, 58, 60, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #EBEBF5;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode .group-tab:hover {
+            background: rgba(78, 78, 80, 0.85);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .group-tab.active {
+            background: rgba(120, 120, 120, 0.85);
+            color: #FFFFFF;
+        }
+
+        .dark-mode .contact-item {
+            background: #2C2C2E;
+        }
+
+        .dark-mode .contact-item:hover {
+            background: #3A3A3C;
+        }
+
+        .dark-mode .contact-name {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .contact-detail-panel {
+            background: #1C1C1E;
+        }
+
+        .dark-mode .contact-detail-header {
+            background: rgba(44, 44, 46, 0.85);
+        }
+
+        .dark-mode .contact-detail-title {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .contact-detail-content {
+            background: #1C1C1E;
+        }
+
+        .dark-mode .contact-detail-avatar {
+            background: rgba(58, 58, 60, 0.98);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #EBEBF5;
+        }
+
+        .dark-mode .contact-detail-name {
+            color: #FFFFFF;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .dark-mode .contact-detail-info-card {
+            background: rgba(44, 44, 46, 0.9);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .detail-image-box {
+            background: #3A3A3C;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .detail-image-box:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark-mode .detail-image-box .image-box-placeholder svg {
+            color: #6B7280;
+        }
+
+        .dark-mode .detail-image-box:hover .image-box-placeholder svg {
+            color: #07C160;
+        }
+
+        .dark-mode .image-box-label {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .detail-background-image {
+            background: linear-gradient(135deg, #2C2C2E 0%, #3A3A3C 100%);
+        }
+
+        .dark-mode .detail-background-image::after {
+            background: linear-gradient(to bottom, transparent 0%, #1C1C1E 100%);
+        }
+
+        .dark-mode .background-placeholder {
+            color: #8E8E93;
+        }
+
+        .dark-mode .detail-info-row {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .detail-label {
+            color: #8E8E93;
+        }
+
+        .dark-mode .detail-value {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .moments-list {
+            background: #1C1C1E;
+        }
+
+        .dark-mode .moments-content {
+            background: #1C1C1E;
+        }
+
+        .dark-mode .moments-cover {
+            background: #2C2C2E;
+        }
+
+        .dark-mode .moments-cover-hint {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .dark-mode .moments-username {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .moments-avatar {
+            background: #3A3A3C;
+        }
+
+        .dark-mode .moments-avatar span {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .moments-avatar-hint {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .dark-mode .moments-footer {
+            background: transparent;
+        }
+
+        .dark-mode .moments-footer-text {
+            color: #8E8E93;
+        }
+
+        .dark-mode .moments-footer-line {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .moments-empty {
+            color: #8E8E93;
+        }
+
+        .dark-mode .moment-card {
+            background: #2C2C2E;
+        }
+
+        .dark-mode .moment-avatar {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+
+        .dark-mode .moment-name {
+            color: #6B8DD6;
+        }
+
+        .dark-mode .moment-content {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .moment-image {
+            background: #3A3A3C;
+        }
+
+        .dark-mode .moment-time {
+            color: #8E8E93;
+        }
+
+        .dark-mode .moment-more-btn svg {
+            fill: #8E8E93;
+        }
+
+        .dark-mode .moment-action-panel {
+            background: #3A3A3C;
+        }
+
+        .dark-mode .moment-action-item:hover {
+            background: #4A4A4C;
+        }
+
+        .dark-mode .moment-interactions {
+            background: #3A3A3C;
+        }
+
+        .dark-mode .moment-likes {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .moment-likes-list {
+            color: #6B8DD6;
+        }
+
+        .dark-mode .moment-comment {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .moment-comment-name {
+            color: #6B8DD6;
+        }
+
+        .dark-mode .moment-delete-modal {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .dark-mode .moment-delete-dialog {
+            background: #2C2C2E;
+        }
+
+        .dark-mode .moment-delete-title {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .moment-delete-message {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .moment-delete-btn-cancel {
+            background: #3A3A3C;
+            color: #FFFFFF;
+        }
+
+        .dark-mode .moment-delete-btn-confirm {
+            background: #FF453A;
+        }
+
+        .dark-mode .moment-comment-modal {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .dark-mode .moment-comment-dialog {
+            background: #2C2C2E;
+        }
+
+        .dark-mode .moment-comment-title {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .moment-comment-close svg {
+            stroke: #8E8E93;
+        }
+
+        .dark-mode .moment-comment-input {
+            background: #3A3A3C;
+            color: #FFFFFF;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .moment-comment-input::placeholder {
+            color: #8E8E93;
+        }
+
+        .dark-mode .moment-comment-count {
+            color: #8E8E93;
+        }
+
+        .dark-mode .moment-comment-submit {
+            background: #07C160;
+        }
+
+        .dark-mode .moment-comment-submit:disabled {
+            background: #3A3A3C;
+            color: #8E8E93;
         }
 
         * {
@@ -448,6 +1151,25 @@
         .note-dots {
             display: flex;
             gap: 6px;
+            cursor: pointer;
+            padding: 8px;
+            margin: -8px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .note-dots:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .note-dots:hover span {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.3);
+        }
+
+        .note-dots:active {
+            transform: scale(0.95);
         }
 
         .note-dots span {
@@ -455,6 +1177,228 @@
             height: 4px;
             background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .note-dots.clicked span {
+            animation: dotBounce 0.4s ease;
+        }
+
+        @keyframes dotBounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(0.5);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            75% {
+                transform: scale(0.8);
+            }
+        }
+
+        .note-character-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .note-character-modal.show {
+            display: flex;
+        }
+
+        .note-character-modal-content {
+            background: #fafafa;
+            border-radius: 4px;
+            padding: 24px;
+            width: 300px;
+            max-height: 420px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .note-character-modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .note-character-modal-header h3 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .note-character-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 260px;
+            margin-bottom: 20px;
+        }
+
+        .note-character-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .note-character-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .note-character-list::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+
+        .note-character-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 14px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-bottom: 4px;
+            background: transparent;
+            border: 1px solid transparent;
+        }
+
+        .note-character-item:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .note-character-item:active {
+            transform: scale(0.99);
+        }
+
+        .note-character-item.selected {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .note-character-item.selected .note-character-name {
+            color: #fff;
+        }
+
+        .note-character-item.loading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .note-character-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 2px;
+            margin-right: 12px;
+            overflow: hidden;
+            background: #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a1a;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .note-character-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .note-character-name {
+            font-size: 13px;
+            font-weight: 400;
+            color: #1a1a1a;
+            letter-spacing: 0.5px;
+        }
+
+        .note-character-modal-footer {
+            display: flex;
+            gap: 8px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .note-modal-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .note-modal-cancel {
+            background: transparent;
+            color: #666;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .note-modal-cancel:hover {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.3);
+            color: #1a1a1a;
+        }
+
+        .note-modal-refresh {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .note-modal-refresh:hover {
+            background: #333;
+        }
+
+        .note-modal-refresh:active {
+            transform: scale(0.98);
+        }
+
+        .note-modal-refresh.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .note-character-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            font-size: 13px;
+            letter-spacing: 1px;
         }
 
         /* 为便签内容容器添加样式，确保table-cell布局正常工作 */
@@ -1771,6 +2715,11 @@
             transform: translateY(0);
         }
 
+        .manual-summary-btn:active {
+            transform: scale(0.98);
+            opacity: 0.8;
+        }
+
         .btn-preset {
             padding: 14px 24px;
             border: none;
@@ -2987,6 +3936,112 @@
             color: #333;
         }
 
+        .voice-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .voice-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .voice-modal {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 24px;
+            width: 320px;
+            max-width: 90vw;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .voice-modal-overlay.active .voice-modal {
+            transform: scale(1);
+        }
+
+        .voice-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .voice-modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #333;
+            background: rgba(255, 255, 255, 0.8);
+            outline: none;
+            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .voice-modal-input:focus {
+            border-color: rgba(255, 200, 220, 0.6);
+        }
+
+        .voice-modal-input::placeholder {
+            color: #999;
+        }
+
+        .voice-modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .voice-modal-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .voice-modal-btn.cancel {
+            background: rgba(0, 0, 0, 0.05);
+            color: #666;
+        }
+
+        .voice-modal-btn.cancel:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .voice-modal-btn.send {
+            background: linear-gradient(135deg, #ff6b8a 0%, #ff8e9e 100%);
+            color: white;
+        }
+
+        .voice-modal-btn.send:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 138, 0.3);
+        }
+
+        .voice-modal-btn:active {
+            transform: scale(0.98);
+        }
+
         .music-room-overlay {
             position: fixed;
             top: 0;
@@ -3573,6 +4628,175 @@
             transition: transform 0.1s ease, opacity 0.1s ease;
         }
 
+        .voice-message {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 80px;
+            max-width: 200px;
+            cursor: pointer;
+        }
+
+        .voice-message.sent {
+            flex-direction: row-reverse;
+        }
+
+        .voice-transcribe-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .message.sent .voice-transcribe-btn {
+            right: calc(100% + 8px);
+        }
+
+        .message.received .voice-transcribe-btn {
+            left: calc(100% + 8px);
+        }
+
+        .voice-transcribe-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .voice-transcribe-btn::before {
+            content: '文';
+            font-size: 9px;
+            font-weight: 600;
+            color: white;
+            line-height: 1;
+        }
+
+        .voice-transcribe-btn.loading {
+            opacity: 0.8;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .voice-transcribe-btn.loading::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border: 1.5px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+        }
+
+        .voice-waveform {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex: 1;
+            height: 20px;
+        }
+
+        .voice-waveform span {
+            width: 3px;
+            background: currentColor;
+            border-radius: 2px;
+            opacity: 0.6;
+            animation: voiceWave 0.8s ease-in-out infinite;
+        }
+
+        .voice-waveform span:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .voice-waveform span:nth-child(2) { height: 14px; animation-delay: 0.1s; }
+        .voice-waveform span:nth-child(3) { height: 10px; animation-delay: 0.2s; }
+        .voice-waveform span:nth-child(4) { height: 16px; animation-delay: 0.3s; }
+        .voice-waveform span:nth-child(5) { height: 8px; animation-delay: 0.4s; }
+        .voice-waveform span:nth-child(6) { height: 12px; animation-delay: 0.5s; }
+        .voice-waveform span:nth-child(7) { height: 6px; animation-delay: 0.6s; }
+
+        @keyframes voiceWave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.5); }
+        }
+
+        .voice-duration {
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0.8;
+        }
+
+        .voice-message.sent .voice-duration {
+            order: -1;
+        }
+
+        .message.sent .voice-message {
+            color: #5c4d50;
+        }
+
+        .message.received .voice-message {
+            color: #4a4a50;
+        }
+
+        .voice-transcribe-text {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #333;
+            width: 100%;
+            box-sizing: border-box;
+            animation: fadeInText 0.3s ease;
+        }
+
+        .message.sent .voice-transcribe-text {
+            background: rgba(255, 255, 255, 0.3);
+            text-align: right;
+        }
+
+        .message.received .voice-transcribe-text {
+            text-align: left;
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .voice-transcribe-loading {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .voice-transcribe-loading::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ddd;
+            border-top-color: #999;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
 
 
         @keyframes spin {
@@ -3866,6 +5090,127 @@
         }
 
         .delete-confirm-btn:active {
+            transform: scale(0.97);
+        }
+
+        .edit-message-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .edit-message-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            width: 320px;
+            max-width: 90vw;
+            text-align: center;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2.5px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .edit-message-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .edit-message-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: #007AFF;
+        }
+
+        .edit-message-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .edit-message-textarea {
+            width: 100%;
+            min-height: 100px;
+            max-height: 200px;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .edit-message-textarea:focus {
+            outline: none;
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .edit-message-textarea::placeholder {
+            color: #999;
+        }
+
+        .edit-message-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .edit-message-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: none;
+        }
+
+        .edit-message-btn.cancel {
+            background: rgba(0, 0, 0, 0.05);
+            color: #333;
+        }
+
+        .edit-message-btn.cancel:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-message-btn.confirm {
+            background: #007AFF;
+            color: white;
+        }
+
+        .edit-message-btn.confirm:hover {
+            background: #0066D6;
+        }
+
+        .edit-message-btn:active {
             transform: scale(0.97);
         }
 
@@ -4404,6 +5749,82 @@
         .swipe-toast.visible {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
+        }
+
+        .auto-summary-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .auto-summary-progress-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 32px 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            min-width: 220px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .auto-summary-progress-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #07c160;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .auto-summary-progress-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .auto-summary-progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .auto-summary-progress-subtitle {
+            font-size: 13px;
+            color: #888;
         }
 
         .contacts-list {
@@ -5755,6 +7176,199 @@
             white-space: nowrap;
         }
 
+        .chat-menu-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 20px;
+            color: #B2B2B2;
+            font-size: 12px;
+            border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chat-menu-footer:hover {
+            background: rgba(0, 0, 0, 0.03);
+            color: #999;
+        }
+
+        .chat-menu-footer:active {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-menu-footer-line {
+            flex: 1;
+            height: 0.5px;
+            background: #E5E5EA;
+            max-width: 40px;
+        }
+
+        .chat-menu-footer-text {
+            padding: 0 10px;
+            white-space: nowrap;
+        }
+
+        .token-detail-item {
+            display: flex;
+            flex-direction: column;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .token-detail-item:hover {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .token-detail-item.expanded {
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .token-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .token-detail-expand-icon {
+            font-size: 12px;
+            color: #999;
+            transition: transform 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .token-detail-item.expanded .token-detail-expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .token-detail-content {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .token-detail-item.expanded .token-detail-content {
+            display: block;
+        }
+
+        .token-sub-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .token-sub-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .token-sub-name {
+            color: #666;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 12px;
+        }
+
+        .token-sub-value {
+            color: #667eea;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .token-sub-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .token-sub-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+        }
+
+        .token-empty-hint {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            padding: 12px;
+        }
+
+        .token-detail-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .token-detail-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .token-detail-value {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 14px;
+        }
+
+        .token-detail-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .token-detail-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .token-total-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .token-total-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .token-total-label {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+        }
+
         /* 删除确认对话框 */
         .moment-delete-modal {
             position: fixed;
@@ -6395,12 +8009,12 @@
         }
 
         .toggle-switch.active {
-            background-color: #1C1C1E;
+            background-color: #34C759;
         }
 
         @media (prefers-color-scheme: dark) {
             .toggle-switch.active {
-                background-color: #FFFFFF;
+                background-color: #34C759;
             }
         }
 
@@ -6414,6 +8028,7 @@
             border-radius: 50%;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
         }
 
         .toggle-switch.active .toggle-switch-handle {
@@ -7000,41 +8615,12 @@
             transition: all 0.3s ease;
         }
 
-        .online-indicator.busy {
-            color: #FF9800;
-        }
-
-        .online-indicator.away {
-            color: #9E9E9E;
-        }
-
-        .online-indicator.mood-happy {
-            color: #E91E63;
-        }
-
-        .online-indicator.mood-sad {
-            color: #3F51B5;
-        }
-
-        .online-indicator.mood-tired {
-            color: #795548;
-        }
-
         .online-dot {
             width: 6px;
             height: 6px;
             background: currentColor;
             border-radius: 50%;
             animation: onlinePulse 2s infinite;
-        }
-
-        .online-indicator.busy .online-dot {
-            animation: busyPulse 1s infinite;
-        }
-
-        @keyframes busyPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
         }
 
         @keyframes onlinePulse {
@@ -7077,6 +8663,207 @@
             color: #a8a8ad;
             margin-top: 4px;
             text-align: right;
+        }
+
+        /* Instagram 风格角色资料卡片模态窗口 */
+        .ins-profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 30000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .ins-profile-modal.show {
+            display: flex;
+        }
+
+        .widget-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .ins-profile-card {
+            width: 100%;
+            max-width: 320px;
+            background: #ffffff;
+            border: 1px solid #f2f2f2;
+            border-radius: 24px;
+            padding: 40px 24px 28px 24px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: cardAppear 0.3s ease-out;
+        }
+
+        .avatar-container {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .char-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            background-position: center;
+            background-size: cover;
+            border: 1px solid #f5f5f5;
+        }
+
+        .header-info {
+            margin-top: 25px;
+            text-align: center;
+            width: 100%;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #f8f8f8;
+            cursor: pointer;
+        }
+
+        .time-display {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #222;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+
+        .date-display {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #999;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .status-box {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .status-box:active { background: #f0f0f0; transform: scale(0.98); }
+
+        .box-label {
+            font-size: 9px;
+            color: #b0b0b0;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .box-value {
+            font-size: 12px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .affection-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .aff-row {
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .aff-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 14px;
+            color: #444;
+        }
+        .aff-num { font-size: 12px; font-weight: 700; color: #222; }
+
+        .progress-bar-bg {
+            width: 100%; height: 3px; background: #eee; border-radius: 2px; overflow: hidden;
+        }
+        .progress-bar-fill {
+            width: 72%; height: 100%; background: #222; border-radius: 2px;
+        }
+
+        .thought-container {
+            width: 100%;
+            position: relative;
+            padding: 5px 10px;
+            text-align: center;
+        }
+
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            color: #f0f0f0;
+            position: absolute;
+            top: -15px; left: 0;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .thought-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .ins-profile-refresh-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .ins-profile-refresh-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .ins-profile-refresh-btn.refreshing svg {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .message.sent .message-time {
@@ -7407,7 +9194,7 @@
         }
 
         .chat-menu-category-content.expanded {
-            max-height: 500px;
+            max-height: 800px;
             opacity: 1;
         }
 
@@ -12255,23 +14042,78 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年3月4日</div>
+                <div class="announcement-date" id="announcement-date">2026年3月5日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <p>欢迎使用小鼠机！本次更新内容如下：</p>
                     <ul>
-                        <li>💾 储存机制改了一下，现在每30秒会自动保存一次</li>
-                        <li>⚙️ 设置相关改了，现在点开不太会显示有问题了</li>
-                        <li>💾 角色编辑的保存按钮也改了，现在保存有点击反馈</li>
-                        <li>🔧 修复了无法更换纪念日和设置的图标</li>
-                        <li>📖 世界书可以导入txt啦</li>
-                        <li>👤 联系人页面增加直接跳转创建角色</li>
+                        <li>💾 又修了储存机制，增加了清除废弃数据</li>
+                        <li>🎤 角色有小概率发送语音消息（声音还没实装，没有声音是正常的）</li>
+                        <li>📱 小组件可以隐藏啦</li>
+                        <li>📝 便签点击三个点，角色会给你留言</li>
+                        <li>📊 点击角色状态会弹出一个状态栏，不刷新需要等一会，还是不刷新那是bug可以汇报哦</li>
+                        <li>💬 聊天逻辑修复，并且会回复3-8条消息</li>
+                        <li>🎵 网易云可以导入txt歌词了，有时间条的话会滚动</li>
+                        <li>📈 可以看见总Tokens占用多少</li>
+                        <li>✏️ 增加编辑消息</li>
+                        <li>📋 总结逻辑大改，自动总结可以使用了，首次开启需要给角色发送一条消息来触发</li>
+                        <li>🔧 系统Prompts中的提示词可以删除或编辑</li>
+                        <li>🌙 增加夜间模式</li>
+                        <li>🎨 增加CSS保存为预设</li>
                     </ul>
                 </div>
             </div>
             <div class="announcement-footer">
                 <button class="announcement-close-btn" id="announcement-close-btn">知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instagram 风格角色资料卡片模态窗口 -->
+    <div class="ins-profile-modal" id="ins-profile-modal">
+        <div class="widget-wrapper">
+            <div class="ins-profile-card">
+                <button class="ins-profile-refresh-btn" id="ins-profile-refresh-btn" title="刷新">
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path fill="currentColor" d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                </button>
+                
+                <div class="avatar-container">
+                    <div class="char-avatar" id="ins-profile-avatar"></div>
+                </div>
+
+                <div class="header-info" onclick="toggleInsClock()">
+                    <div class="time-display" id="ins-main-clock"></div>
+                    <div class="date-display" id="ins-date-display"></div>
+                </div>
+
+                <div class="status-grid">
+                    <div class="status-box" onclick="insClickedEffect(this)">
+                        <div class="box-label">Location</div>
+                        <div class="box-value" id="ins-location"></div>
+                    </div>
+                    <div class="status-box" onclick="insClickedEffect(this)">
+                        <div class="box-label">Mood</div>
+                        <div class="box-value" id="ins-status"></div>
+                    </div>
+                </div>
+
+                <div class="affection-container">
+                    <div class="aff-row">
+                        <span class="aff-title">Affection</span>
+                        <span class="aff-num" id="ins-affection-num"></span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="ins-progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="thought-container">
+                    <div class="quote-mark">"</div>
+                    <div class="thought-text" id="ins-thought"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -12459,6 +14301,14 @@
                         <div class="days-label">天</div>
                     </div>
                 </div>
+                <div class="anniversary-section">
+                    <div class="toggle-switch-container">
+                        <span class="toggle-switch-label">显示小组件</span>
+                        <div class="toggle-switch active" id="anniversary-widget-toggle">
+                            <div class="toggle-switch-handle"></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="anniversary-error" id="anniversary-error"></div>
                 <button class="anniversary-save-btn" id="anniversary-save-btn">保存设置</button>
             </div>
@@ -12490,6 +14340,26 @@
             </div>
         </div>
         <div class="note-star"></div>
+    </div>
+
+    <!-- 便签角色选择模态框 -->
+    <div id="note-character-modal" class="note-character-modal">
+        <div class="note-character-modal-content">
+            <div class="note-character-modal-header">
+                <h3>选择角色生成便签</h3>
+            </div>
+            <div class="note-character-list" id="note-character-list">
+            </div>
+            <div class="note-character-modal-footer">
+                <button class="note-modal-btn note-modal-cancel" onclick="closeNoteCharacterModal()">取消</button>
+                <button class="note-modal-btn note-modal-refresh" onclick="refreshNoteContent()">
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="currentColor"/>
+                    </svg>
+                    刷新
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- 模拟人生菜单 -->
@@ -12823,6 +14693,12 @@
                                     <input type="file" id="wallpaper-upload" accept="image/*" style="display: none;">
                                     <button class="btn-secondary" onclick="document.getElementById(&#39;wallpaper-upload&#39;).click()" style="color: rgb(51, 51, 51);">上传壁纸</button>
                                     <button class="btn-secondary" onclick="resetWallpaper()" style="color: rgb(51, 51, 51);">恢复默认</button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label style="color: rgb(51, 51, 51);">桌面便签:</label>
+                                <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                    <button class="btn-secondary" id="toggle-note-widget-btn" onclick="toggleNoteWidget()" style="color: rgb(51, 51, 51);">隐藏便签</button>
                                 </div>
                             </div>
                         </div>
@@ -13359,8 +15235,8 @@
                             <label class="netease-file-label" id="neteaseAudioLabel" for="neteaseLocalAudioInput">+ Select Audio (.mp3)</label>
                             <input type="file" id="neteaseLocalAudioInput" accept="audio/mpeg,audio/mp3,audio/*" style="display:none;">
 
-                            <label class="netease-file-label" id="neteaseLrcLabel" for="neteaseLocalLrcInput">+ Select Lyrics (.lrc) *Optional</label>
-                            <input type="file" id="neteaseLocalLrcInput" accept="text/plain,.lrc,text/*" style="display:none;">
+                            <label class="netease-file-label" id="neteaseLrcLabel" for="neteaseLocalLrcInput">+ Select Lyrics (.lrc/.txt) *Optional</label>
+                            <input type="file" id="neteaseLocalLrcInput" accept="text/plain,.lrc,.txt,text/*" style="display:none;">
                         </div>
                         <button class="netease-start-local-btn" id="neteaseStartPlayBtn">Play Local Track</button>
                     </div>
@@ -13711,6 +15587,15 @@
                             </svg>
                             <span>一起听歌</span>
                         </div>
+                        <div class="add-menu-item" onclick="handleAddMenuClick('voice')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                            <span>发送语音</span>
+                        </div>
                     </div>
                 </div>
                 <input type="text" id="chat-input" placeholder="ˡ▹𝗜𝘁&#39;𝘀 𝗮𝗹𝗹 𝗮𝗯𝗼𝘂𝘁 𝘆𝗼𝘂" class="chat-input">
@@ -13732,6 +15617,17 @@
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                 </button>
+            </div>
+        </div>
+        
+        <div class="voice-modal-overlay" id="voice-modal-overlay">
+            <div class="voice-modal">
+                <div class="voice-modal-title">发送语音消息</div>
+                <input type="text" class="voice-modal-input" id="voice-text-input" placeholder="请输入语音文字内容...">
+                <div class="voice-modal-buttons">
+                    <button class="voice-modal-btn cancel" onclick="closeVoiceModal()">取消</button>
+                    <button class="voice-modal-btn send" onclick="sendVoiceMessage()">发送</button>
+                </div>
             </div>
         </div>
         
@@ -14089,6 +15985,15 @@
                             </div>
                             <button class="btn-primary" onclick="saveRoleCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; color: rgb(51, 51, 51);">保存样式</button>
                             <button class="btn-secondary" onclick="clearRoleCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">清除样式</button>
+                            <button class="btn-preset" onclick="openSaveCssPresetModal()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">保存为预设</button>
+                            
+                            <div class="preset-section" style="margin-top: 16px;">
+                                <div class="preset-header">
+                                    <span class="preset-title">📋 CSS预设列表</span>
+                                </div>
+                                <div class="preset-list touch-scroll-container" id="css-preset-list" style="overflow: hidden auto; touch-action: manipulation; max-height: 200px;">
+                                <div class="scroll-indicator"></div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -14126,7 +16031,24 @@
                     </div>
                 </div>
             </div>
+            <div class="chat-menu-footer" id="chat-menu-footer" onclick="openTokenDetailModal()">
+                <div class="chat-menu-footer-line"></div>
+                <div class="chat-menu-footer-text" id="chat-menu-footer-text">当前角色占用: 0 Tokens</div>
+                <div class="chat-menu-footer-line"></div>
+            </div>
             <input type="file" id="chat-wallpaper-input" class="chat-wallpaper-input" accept="image/*" onchange="handleChatWallpaperUpload(event)">
+        </div>
+        
+        <!-- Token详情模态窗口 -->
+        <div id="token-detail-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 style="color: rgb(51, 51, 51);">Token 占用详情</h2>
+                    <button class="close-btn" onclick="closeTokenDetailModal()">×</button>
+                </div>
+                <div class="modal-body" id="token-detail-body">
+                </div>
+            </div>
         </div>
         
         <!-- 聊天记录条数设置模态窗口 -->
@@ -14171,7 +16093,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <button class="btn-primary" onclick="startManualSummaryFromSettings()" style="width: 100%; padding: 16px 24px; font-size: 16px; border: 1px solid rgb(51, 51, 51); font-weight: 500; background: rgb(0, 0, 0) !important; color: rgb(51, 51, 51);">
+                        <button class="btn-primary manual-summary-btn" onclick="startManualSummaryFromSettings()" style="width: 100%; padding: 16px 24px; font-size: 16px; border: 1px solid rgb(51, 51, 51); font-weight: 600; color: rgb(51, 51, 51);">
                             开始手动总结
                         </button>
                     </div>
@@ -14447,6 +16369,12 @@
                     <div class="menu-item" onclick="openWechatSettings()">
                         <span>背景设置</span>
                         <span>&gt;</span>
+                    </div>
+                    <div class="menu-item menu-item-switch">
+                        <span>夜间模式</span>
+                        <div class="toggle-switch" id="dark-mode-toggle" onclick="toggleDarkMode(event)">
+                            <div class="toggle-switch-handle"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -15135,6 +17063,36 @@
                         if (data.choices && data.choices[0] && data.choices[0].message) {
                             let reply = data.choices[0].message.content;
                             
+                            let extractedLocation = null;
+                            const locationMatch = reply.match(/\[LOCATION:([^\]]+)\]/);
+                            if (locationMatch) {
+                                extractedLocation = locationMatch[1].trim();
+                                reply = reply.replace(/\[LOCATION:[^\]]+\]/g, '');
+                            }
+                            
+                            let extractedMood = null;
+                            const moodMatch = reply.match(/\[MOOD:([^\]]+)\]/);
+                            if (moodMatch) {
+                                extractedMood = moodMatch[1].trim();
+                                reply = reply.replace(/\[MOOD:[^\]]+\]/g, '');
+                            }
+                            
+                            let extractedThought = null;
+                            const thoughtMatch = reply.match(/\[THOUGHT:([^\]]+)\]/);
+                            if (thoughtMatch) {
+                                extractedThought = thoughtMatch[1].trim();
+                                reply = reply.replace(/\[THOUGHT:[^\]]+\]/g, '');
+                            }
+                            
+                            if (extractedLocation || extractedMood || extractedThought) {
+                                InsProfileModule.updateFromAPIResponse(
+                                    currentChatRole.id,
+                                    extractedLocation,
+                                    extractedMood,
+                                    extractedThought
+                                );
+                            }
+                            
                             reply = reply.replace(/\[STATUS:[^\]]+\]/g, '');
                             reply = reply.replace(/^(作为|作为一个|作为AI|作为一个AI|作为一个人工智能|作为大语言模型)[，,。：: ]*/gi, '');
                             reply = reply.replace(/我(不)?是(AI|人工智能|语言模型|大语言模型|助手|机器人)[，,。：: ]*/gi, '');
@@ -15270,6 +17228,17 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
 2. 禁止说"我发消息给你"、"微信上聊"
 3. 禁止过于正式或书面化的回复
 4. 禁止长篇大论
+
+## 状态信息要求
+在回复的最后，请用以下格式添加你当前的状态信息：
+- [LOCATION:位置] - 你当前所在的位置（如：家中、公司、咖啡厅、公园等）
+- [MOOD:心情] - 你当前的心情（2-5个字，如：开心、有点累、困死了等）
+- [THOUGHT:想法] - 你此刻内心的真实想法（10-20字）
+
+例如：
+[LOCATION:家中]
+[MOOD:开心]
+[THOUGHT:打电话好开心啊]
 
 记住：你现在就是在打电话，用你的声音和${userName}交流！`;
 
@@ -15588,6 +17557,13 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                         dropdown.addEventListener('click', () => toggleDropdown());
                     }
                     
+                    const widgetToggle = document.getElementById('anniversary-widget-toggle');
+                    if (widgetToggle) {
+                        widgetToggle.addEventListener('click', function() {
+                            this.classList.toggle('active');
+                        });
+                    }
+                    
                     document.addEventListener('click', function(e) {
                         const selector = document.getElementById('character-selector');
                         if (selector && !selector.contains(e.target)) {
@@ -15811,16 +17787,21 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     return;
                 }
 
+                const widgetToggle = document.getElementById('anniversary-widget-toggle');
+                const showWidget = widgetToggle ? widgetToggle.classList.contains('active') : true;
+
                 const data = {
                     characterId: selectedCharacterId,
                     startDate: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
                     polkadotColor: selectedPolkadotColor,
+                    showWidget: showWidget,
                     savedAt: new Date().toISOString()
                 };
 
                 try {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                     updateDaysDisplay();
+                    updateWidgetVisibility(showWidget);
                     closeAnniversaryPage();
                 } catch (e) {
                     showError('保存失败，请重试');
@@ -15844,11 +17825,33 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                             selectedPolkadotColor = data.polkadotColor;
                             updatePolkadotColor(selectedPolkadotColor);
                         }
+
+                        const widgetToggle = document.getElementById('anniversary-widget-toggle');
+                        const showWidget = data.showWidget !== false;
+                        if (widgetToggle) {
+                            if (showWidget) {
+                                widgetToggle.classList.add('active');
+                            } else {
+                                widgetToggle.classList.remove('active');
+                            }
+                        }
+                        updateWidgetVisibility(showWidget);
                     }
                 } catch (e) {
                     console.error('加载纪念日数据失败:', e);
                 }
                 updateDaysDisplay();
+            }
+
+            function updateWidgetVisibility(show) {
+                const heartIcon = document.getElementById('heart-icon-btn');
+                if (heartIcon) {
+                    if (show) {
+                        heartIcon.style.display = '';
+                    } else {
+                        heartIcon.style.display = 'none';
+                    }
+                }
             }
 
             function initAfterRolesLoaded() {
@@ -16544,6 +18547,160 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 const lines = Array.from(noteLineTexts).map(el => el.textContent);
                 localStorage.setItem('noteWidgetContent', lines.join('\n'));
             }
+        }
+
+        let selectedNoteCharacter = null;
+        let isNoteGenerating = false;
+
+        function openNoteCharacterModal() {
+            const modal = document.getElementById('note-character-modal');
+            if (modal) {
+                modal.classList.add('show');
+                renderNoteCharacterList();
+            }
+        }
+
+        function closeNoteCharacterModal() {
+            const modal = document.getElementById('note-character-modal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+            selectedNoteCharacter = null;
+        }
+
+        function renderNoteCharacterList() {
+            const listContainer = document.getElementById('note-character-list');
+            if (!listContainer) return;
+
+            const characters = roles || [];
+
+            if (characters.length === 0) {
+                listContainer.innerHTML = '<div class="note-character-empty">暂无角色，请先在微信中添加角色</div>';
+                return;
+            }
+
+            listContainer.innerHTML = characters.map(char => `
+                <div class="note-character-item" data-id="${char.id}" onclick="selectNoteCharacter('${char.id}')">
+                    <div class="note-character-avatar">
+                        ${char.avatar ? `<img src="${char.avatar}" alt="${char.name}">` : (char.name ? char.name.charAt(0) : 'T')}
+                    </div>
+                    <div class="note-character-name">${char.remark || char.name}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectNoteCharacter(characterId) {
+            if (isNoteGenerating) return;
+
+            const characters = roles || [];
+            const character = characters.find(c => c.id === characterId);
+            if (!character) return;
+
+            selectedNoteCharacter = character;
+
+            const items = document.querySelectorAll('.note-character-item');
+            items.forEach(item => item.classList.remove('selected'));
+
+            const selectedItem = document.querySelector(`.note-character-item[data-id="${characterId}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+            }
+        }
+
+        async function generateNoteContent(character) {
+            if (isNoteGenerating) return;
+            isNoteGenerating = true;
+
+            const refreshBtn = document.querySelector('.note-modal-refresh');
+            if (refreshBtn) {
+                refreshBtn.classList.add('loading');
+            }
+
+            const selectedItem = document.querySelector(`.note-character-item[data-id="${character.id}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('loading');
+            }
+
+            try {
+                const savedApiUrl = localStorage.getItem('apiUrl') || '';
+                const apiKey = localStorage.getItem('apiKey') || '';
+                const selectedModel = localStorage.getItem('selectedModel') || '';
+
+                if (!savedApiUrl || !apiKey || !selectedModel) {
+                    alert('请先在设置中配置API');
+                    isNoteGenerating = false;
+                    if (refreshBtn) refreshBtn.classList.remove('loading');
+                    return;
+                }
+
+                const chatEndpoint = getChatEndpoint(savedApiUrl);
+
+                const characterInfo = character.name + (character.description ? `，${character.description}` : '');
+                const systemPrompt = `你是${characterInfo}。请用你的口吻和性格，在便签上写下3条想说的话。
+要求：
+1. 每条内容不超过12个字
+2. 内容不限，可以是任何想说的话：心情、吐槽、撒娇、关心、碎碎念、小秘密、今天发生的事、突然的想法等等
+3. 要符合你的性格特点，展现你的个性
+4. 直接输出3条内容，每条一行，不要加序号或其他符号`;
+
+                const response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: '请写下今天的便签提醒' }
+                        ],
+                        max_tokens: 150,
+                        temperature: 0.9
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API请求失败');
+                }
+
+                const data = await response.json();
+                const content = data.choices?.[0]?.message?.content || '';
+
+                const lines = content.trim().split('\n').filter(line => line.trim());
+
+                const noteLineTexts = document.querySelectorAll('.note-line-text');
+                noteLineTexts.forEach((el, index) => {
+                    if (lines[index]) {
+                        el.textContent = lines[index].trim().substring(0, 12);
+                    }
+                });
+
+                saveNoteWidget();
+                closeNoteCharacterModal();
+
+            } catch (error) {
+                console.error('生成便签内容失败:', error);
+                alert('生成失败，请检查API配置');
+            } finally {
+                isNoteGenerating = false;
+                if (refreshBtn) {
+                    refreshBtn.classList.remove('loading');
+                }
+                const items = document.querySelectorAll('.note-character-item');
+                items.forEach(item => item.classList.remove('loading'));
+            }
+        }
+
+        async function refreshNoteContent() {
+            if (isNoteGenerating) return;
+
+            if (!selectedNoteCharacter) {
+                alert('请先选择一个角色');
+                return;
+            }
+
+            generateNoteContent(selectedNoteCharacter);
         }
 
         // ==================== 模拟人生4功能 ====================
@@ -17260,6 +19417,28 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     saveNoteWidget();
                 });
             });
+            
+            const noteDots = document.querySelector('.note-dots');
+            if (noteDots) {
+                noteDots.addEventListener('click', function() {
+                    this.classList.remove('clicked');
+                    void this.offsetWidth;
+                    this.classList.add('clicked');
+                    setTimeout(() => {
+                        this.classList.remove('clicked');
+                    }, 400);
+                    openNoteCharacterModal();
+                });
+            }
+            
+            const noteCharacterModal = document.getElementById('note-character-modal');
+            if (noteCharacterModal) {
+                noteCharacterModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeNoteCharacterModal();
+                    }
+                });
+            }
             
             // 微信号输入框事件监听
             const wechatIdInput = document.getElementById('wechat-id-input');
@@ -19827,6 +22006,35 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             alert('壁纸已恢复默认');
         }
 
+        function toggleNoteWidget() {
+            const noteWidget = document.getElementById('note-widget');
+            const btn = document.getElementById('toggle-note-widget-btn');
+            if (noteWidget.style.display === 'none') {
+                noteWidget.style.display = 'block';
+                btn.textContent = '隐藏便签';
+                localStorage.setItem('noteWidgetHidden', 'false');
+            } else {
+                noteWidget.style.display = 'none';
+                btn.textContent = '显示便签';
+                localStorage.setItem('noteWidgetHidden', 'true');
+            }
+        }
+
+        function applyNoteWidgetVisibility() {
+            const noteWidget = document.getElementById('note-widget');
+            const btn = document.getElementById('toggle-note-widget-btn');
+            const isHidden = localStorage.getItem('noteWidgetHidden') === 'true';
+            if (isHidden) {
+                noteWidget.style.display = 'none';
+                if (btn) btn.textContent = '显示便签';
+            } else {
+                noteWidget.style.display = 'block';
+                if (btn) btn.textContent = '隐藏便签';
+            }
+        }
+
+        applyNoteWidgetVisibility();
+
         // 为壁纸上传按钮添加点击事件，只支持本地文件
         const wallpaperUploadButton = document.querySelector('button[onclick="document.getElementById(\'wallpaper-upload\').click()"]');
         if (wallpaperUploadButton) {
@@ -20038,6 +22246,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         let currentChatRole = null;
         let currentAbortController = null;
         let isSendingMessages = false;
+        let isAutoSummarizing = false;
         let isDataInitialized = false;
         let roles = JSON.parse(localStorage.getItem('wechatRoles')) || [];
         let messages = JSON.parse(localStorage.getItem('wechatMessages')) || {};
@@ -22965,6 +25174,35 @@ ${commenterInfo}
             }, 2000);
         }
 
+        function showAutoSummaryProgress(isManual = false) {
+            console.log('[AutoSummary] 显示进度弹窗');
+            const existing = document.querySelector('.auto-summary-progress');
+            if (existing) existing.remove();
+
+            const progress = document.createElement('div');
+            progress.className = 'auto-summary-progress';
+            progress.id = 'auto-summary-progress';
+            progress.innerHTML = `
+                <div class="auto-summary-progress-content">
+                    <div class="auto-summary-progress-spinner"></div>
+                    <div class="auto-summary-progress-text">
+                        <div class="auto-summary-progress-title">${isManual ? '正在生成总结' : '正在自动总结'}</div>
+                        <div class="auto-summary-progress-subtitle">请稍候...</div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(progress);
+            console.log('[AutoSummary] 进度弹窗已添加到DOM');
+        }
+
+        function hideAutoSummaryProgress() {
+            console.log('[AutoSummary] 隐藏进度弹窗');
+            const progress = document.querySelector('.auto-summary-progress');
+            if (progress) {
+                progress.remove();
+            }
+        }
+
         let currentContactFilter = 'all';
 
         function filterContactsByGroup(group, element) {
@@ -23101,11 +25339,231 @@ ${commenterInfo}
                 updateWallpaperPreview();
                 loadSummaryContent();
                 loadRoleMomentsSettings();
+                renderCssPresetList();
                 if (currentChatRole) {
                     loadRoleCustomCss(currentChatRole.id);
                     loadCustomPlaceholder(currentChatRole.id);
                 }
+                updateChatMenuCharCount();
             }
+        }
+
+        function estimateTokens(text) {
+            if (!text) return 0;
+            let tokens = 0;
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const code = char.charCodeAt(0);
+                if (code >= 0x4E00 && code <= 0x9FFF) {
+                    tokens += 2;
+                } else if (code >= 0x3040 && code <= 0x30FF) {
+                    tokens += 2;
+                } else if (code >= 0xAC00 && code <= 0xD7AF) {
+                    tokens += 2;
+                } else if (/[a-zA-Z]/.test(char)) {
+                    tokens += 0.25;
+                } else if (/[0-9]/.test(char)) {
+                    tokens += 0.25;
+                } else {
+                    tokens += 0.5;
+                }
+            }
+            return Math.ceil(tokens);
+        }
+
+        function updateChatMenuCharCount() {
+            const footerText = document.getElementById('chat-menu-footer-text');
+            if (!footerText || !currentChatRole) {
+                if (footerText) {
+                    footerText.textContent = '当前角色占用: 0 Tokens';
+                }
+                return;
+            }
+            
+            const tokenDetails = calculateTokenDetails();
+            footerText.textContent = `当前角色占用: ${tokenDetails.total.toLocaleString()} Tokens`;
+        }
+
+        function calculateTokenDetails() {
+            if (!currentChatRole) {
+                return { total: 0, roleSetting: 0, worldbook: 0, summary: 0, chat: 0, details: {} };
+            }
+            
+            let roleSettingTokens = 0;
+            let worldbookTokens = 0;
+            let summaryTokens = 0;
+            let chatTokens = 0;
+            
+            const roleDesc = currentChatRole.description || '';
+            const rolePersonality = currentChatRole.personality || '';
+            const roleGreeting = currentChatRole.greeting || '';
+            const descTokens = estimateTokens(roleDesc);
+            const personalityTokens = estimateTokens(rolePersonality);
+            const greetingTokens = estimateTokens(roleGreeting);
+            roleSettingTokens = descTokens + personalityTokens + greetingTokens;
+            
+            const worldbookItems = [];
+            const worldbookEntries = getWorldbookEntriesByRole(currentChatRole.id);
+            worldbookEntries.forEach(entry => {
+                if (entry.enabled !== false) {
+                    const entryTokens = estimateTokens(entry.content || '') + estimateTokens(entry.title || '');
+                    worldbookTokens += entryTokens;
+                    worldbookItems.push({
+                        name: entry.title || '无标题',
+                        tokens: entryTokens
+                    });
+                }
+            });
+            worldbookItems.sort((a, b) => b.tokens - a.tokens);
+            
+            const summaryItems = [];
+            const summaryKey = 'summaryContents_' + currentChatRole.id;
+            try {
+                const summaryContents = JSON.parse(localStorage.getItem(summaryKey) || '[]');
+                summaryContents.forEach((item, index) => {
+                    const itemTokens = estimateTokens(item.content || '');
+                    summaryTokens += itemTokens;
+                    const date = item.timestamp ? new Date(item.timestamp).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : `总结 ${index + 1}`;
+                    summaryItems.push({
+                        name: date,
+                        tokens: itemTokens
+                    });
+                });
+            } catch (e) {}
+            summaryItems.sort((a, b) => b.tokens - a.tokens);
+            
+            const chatItems = [];
+            const roleMessages = messages[currentChatRole.id] || [];
+            roleMessages.forEach(msg => {
+                chatTokens += estimateTokens(msg.content || '');
+            });
+            const recentMessages = roleMessages.slice(-20).reverse();
+            recentMessages.forEach(msg => {
+                const content = typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content || '');
+                const msgTokens = estimateTokens(content);
+                const preview = content.substring(0, 30) + (content.length > 30 ? '...' : '');
+                const sender = msg.type === 'sent' ? '用户' : currentChatRole.name;
+                chatItems.push({
+                    name: `${sender}: ${preview || '空消息'}`,
+                    tokens: msgTokens
+                });
+            });
+            
+            const total = roleSettingTokens + worldbookTokens + summaryTokens + chatTokens;
+            
+            return {
+                total,
+                roleSetting: roleSettingTokens,
+                worldbook: worldbookTokens,
+                summary: summaryTokens,
+                chat: chatTokens,
+                details: {
+                    roleSetting: [
+                        { name: '角色描述', tokens: descTokens },
+                        { name: '性格设定', tokens: personalityTokens },
+                        { name: '问候语', tokens: greetingTokens }
+                    ].sort((a, b) => b.tokens - a.tokens),
+                    worldbook: worldbookItems.slice(0, 10),
+                    summary: summaryItems.slice(0, 10),
+                    chat: chatItems.sort((a, b) => b.tokens - a.tokens).slice(0, 10)
+                }
+            };
+        }
+
+        function toggleTokenDetailItem(type) {
+            const item = document.querySelector(`[data-type="${type}"]`);
+            if (item) {
+                item.classList.toggle('expanded');
+            }
+        }
+
+        function openTokenDetailModal() {
+            if (!currentChatRole) {
+                showToast('请先选择一个角色');
+                return;
+            }
+            
+            const details = calculateTokenDetails();
+            const maxTokens = Math.max(details.roleSetting, details.worldbook, details.summary, details.chat, 1);
+            
+            const colors = [
+                { bg: 'rgba(102, 126, 234, 0.15)', fill: '#667eea', icon: '👤' },
+                { bg: 'rgba(52, 199, 89, 0.15)', fill: '#34C759', icon: '📚' },
+                { bg: 'rgba(255, 149, 0, 0.15)', fill: '#FF9500', icon: '📝' },
+                { bg: 'rgba(88, 86, 214, 0.15)', fill: '#5856D6', icon: '💬' }
+            ];
+            
+            const items = [
+                { type: 'roleSetting', label: '角色设定', value: details.roleSetting, color: colors[0], subItems: details.details.roleSetting },
+                { type: 'worldbook', label: '世界书', value: details.worldbook, color: colors[1], subItems: details.details.worldbook },
+                { type: 'summary', label: '总结内容', value: details.summary, color: colors[2], subItems: details.details.summary },
+                { type: 'chat', label: '聊天记录', value: details.chat, color: colors[3], subItems: details.details.chat }
+            ];
+            
+            let html = '';
+            items.forEach(item => {
+                const percentage = (item.value / maxTokens * 100);
+                const subMaxTokens = Math.max(...item.subItems.map(s => s.tokens), 1);
+                
+                let subItemsHtml = '';
+                if (item.subItems && item.subItems.length > 0) {
+                    item.subItems.forEach(sub => {
+                        const subPercentage = (sub.tokens / subMaxTokens * 100);
+                        subItemsHtml += `
+                            <div class="token-sub-item">
+                                <div style="width: 100%;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span class="token-sub-name">${sub.name}</span>
+                                        <span class="token-sub-value">${sub.tokens.toLocaleString()}</span>
+                                    </div>
+                                    <div class="token-sub-bar">
+                                        <div class="token-sub-bar-fill" style="width: ${subPercentage}%; background: ${item.color.fill};"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    subItemsHtml = '<div class="token-empty-hint">暂无内容</div>';
+                }
+                
+                html += `
+                    <div class="token-detail-item" data-type="${item.type}" onclick="toggleTokenDetailItem('${item.type}')">
+                        <div class="token-detail-header">
+                            <div style="display: flex; align-items: center; flex: 1;">
+                                <div class="token-detail-label">
+                                    <div class="token-detail-icon" style="background: ${item.color.bg};">
+                                        ${item.color.icon}
+                                    </div>
+                                    <span>${item.label}</span>
+                                </div>
+                                <span class="token-detail-expand-icon">▼</span>
+                            </div>
+                            <div class="token-detail-value">${item.value.toLocaleString()} Tokens</div>
+                        </div>
+                        <div class="token-detail-bar">
+                            <div class="token-detail-bar-fill" style="width: ${percentage}%; background: ${item.color.fill};"></div>
+                        </div>
+                        <div class="token-detail-content">
+                            ${subItemsHtml}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                <div class="token-total-section">
+                    <div class="token-total-value">${details.total.toLocaleString()}</div>
+                    <div class="token-total-label">总 Token 占用</div>
+                </div>
+            `;
+            
+            document.getElementById('token-detail-body').innerHTML = html;
+            document.getElementById('token-detail-modal').style.display = 'flex';
+        }
+
+        function closeTokenDetailModal() {
+            document.getElementById('token-detail-modal').style.display = 'none';
         }
 
         function closeChatMenu() {
@@ -23141,7 +25599,173 @@ ${commenterInfo}
                 case 'music':
                     openMusicRoom();
                     break;
+                case 'voice':
+                    openVoiceModal();
+                    break;
             }
+        }
+
+        function openVoiceModal() {
+            const overlay = document.getElementById('voice-modal-overlay');
+            const input = document.getElementById('voice-text-input');
+            if (overlay) {
+                overlay.classList.add('active');
+                if (input) {
+                    input.value = '';
+                    setTimeout(() => input.focus(), 100);
+                }
+            }
+        }
+
+        function closeVoiceModal() {
+            const overlay = document.getElementById('voice-modal-overlay');
+            const input = document.getElementById('voice-text-input');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+            if (input) {
+                input.value = '';
+            }
+        }
+
+        function sendVoiceMessage() {
+            const input = document.getElementById('voice-text-input');
+            const content = input.value.trim();
+            
+            if (!content) {
+                alert('请输入语音文字内容');
+                return;
+            }
+            
+            if (!currentChatRole) {
+                alert('请先选择一个角色进行对话');
+                return;
+            }
+            
+            const duration = content.length;
+            const voiceData = {
+                type: 'voice',
+                text: content,
+                duration: duration
+            };
+            
+            addMessage(currentChatRole.id, 'sent', voiceData);
+            
+            closeVoiceModal();
+        }
+
+        const voiceModalOverlay = document.getElementById('voice-modal-overlay');
+        if (voiceModalOverlay) {
+            voiceModalOverlay.addEventListener('click', function(e) {
+                if (e.target === voiceModalOverlay) {
+                    closeVoiceModal();
+                }
+            });
+        }
+
+        const voiceTextInput = document.getElementById('voice-text-input');
+        if (voiceTextInput) {
+            voiceTextInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendVoiceMessage();
+                }
+            });
+        }
+
+        function playVoiceMessage(text, duration) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert(`语音消息内容: ${text}\n时长: ${duration}秒`);
+            }
+        }
+
+        function transcribeVoice(messageIndex) {
+            if (!currentChatRole || !messages[currentChatRole.id]) return;
+            
+            const allMessages = messages[currentChatRole.id];
+            const roleMessages = allMessages.filter(msg => msg.context !== 'call');
+            const msg = roleMessages[messageIndex];
+            
+            if (!msg || !msg.content || typeof msg.content !== 'object' || msg.content.type !== 'voice') return;
+            
+            if (msg.content.transcribed) {
+                msg.content.transcribed = false;
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                forceReloadChatMessages(currentChatRole.id);
+                return;
+            }
+            
+            if (msg.content.hasTranscribed) {
+                msg.content.transcribed = true;
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                forceReloadChatMessages(currentChatRole.id);
+                return;
+            }
+            
+            const btn = document.querySelector(`[data-message-index="${messageIndex}"] .voice-transcribe-btn`);
+            if (btn) {
+                btn.classList.add('loading');
+            }
+            
+            setTimeout(() => {
+                msg.content.transcribed = true;
+                msg.content.hasTranscribed = true;
+                
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                
+                forceReloadChatMessages(currentChatRole.id);
+            }, 800);
+        }
+
+        function forceReloadChatMessages(roleId) {
+            if (!currentChatRole || currentChatRole.id !== roleId) return;
+            
+            const chatMessages = document.getElementById('chat-messages');
+            const roleMessages = (messages[roleId] || []).filter(msg => msg.context !== 'call');
+            
+            const role = roles.find(r => r.id === roleId);
+            const roleAvatar = role ? role.avatar : '';
+            const roleName = role ? role.name : '';
+            const userAvatar = localStorage.getItem('userAvatar') || '';
+            
+            const totalMessages = roleMessages.length;
+            const startIndex = Math.max(0, totalMessages - visibleMessageCount);
+            const messagesToShow = roleMessages.slice(startIndex);
+            const hasMoreMessages = startIndex > 0;
+            
+            const scrollBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight;
+            
+            chatMessages.innerHTML = '';
+            
+            if (hasMoreMessages) {
+                const loadMoreBtn = document.createElement('div');
+                loadMoreBtn.className = 'load-more-btn';
+                loadMoreBtn.innerHTML = `<button onclick="loadMoreMessages()">显示更早消息 (${startIndex}条)</button>`;
+                chatMessages.appendChild(loadMoreBtn);
+            }
+            
+            messagesToShow.forEach((msg, index) => {
+                const actualIndex = startIndex + index;
+                const message = document.createElement('div');
+                message.className = `message ${msg.type}`;
+                message.innerHTML = createMessageHTML(msg, roleAvatar, userAvatar, roleName, actualIndex);
+                chatMessages.appendChild(message);
+            });
+            
+            attachMessageClickHandlers();
+            applyChatFontColors();
+            
+            requestAnimationFrame(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight - scrollBottom;
+            });
         }
 
         function openMusicRoom() {
@@ -24176,6 +26800,237 @@ ${commenterInfo}
             }
         }
 
+        function getCssPresets() {
+            const presets = localStorage.getItem('cssPresets');
+            return presets ? JSON.parse(presets) : [];
+        }
+
+        function saveCssPresets(presets) {
+            localStorage.setItem('cssPresets', JSON.stringify(presets));
+        }
+
+        function getNextCssPresetName() {
+            const presets = getCssPresets();
+            let num = presets.length + 1;
+            let name = `CSS预设${num}`;
+            const existingNames = presets.map(p => p.name);
+            while (existingNames.includes(name)) {
+                num++;
+                name = `CSS预设${num}`;
+            }
+            return name;
+        }
+
+        let currentCssPresetModal = null;
+
+        function openSaveCssPresetModal() {
+            const cssContent = document.getElementById('role-custom-css').value.trim();
+            
+            if (!cssContent) {
+                alert('⚠️ 请先输入CSS样式后再保存预设');
+                return;
+            }
+            
+            if (currentCssPresetModal) {
+                currentCssPresetModal.remove();
+            }
+            
+            const defaultName = getNextCssPresetName();
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'css-preset-save-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content">
+                    <div class="preset-modal-title">💾 保存CSS预设</div>
+                    <div class="preset-modal-input-group">
+                        <label for="css-preset-name-input">预设名称</label>
+                        <input type="text" id="css-preset-name-input" value="${defaultName}" placeholder="输入预设名称">
+                    </div>
+                    <div class="preset-modal-buttons">
+                        <button class="preset-modal-btn preset-modal-btn-save" onclick="confirmSaveCssPreset()">保存</button>
+                        <button class="preset-modal-btn preset-modal-btn-cancel" onclick="closeCssPresetModal()">取消</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            currentCssPresetModal = modal;
+            
+            const input = modal.querySelector('#css-preset-name-input');
+            input.focus();
+            input.select();
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    confirmSaveCssPreset();
+                } else if (e.key === 'Escape') {
+                    closeCssPresetModal();
+                }
+            });
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeCssPresetModal();
+                }
+            });
+        }
+
+        function closeCssPresetModal() {
+            if (currentCssPresetModal) {
+                currentCssPresetModal.remove();
+                currentCssPresetModal = null;
+            }
+        }
+
+        function confirmSaveCssPreset() {
+            const nameInput = document.getElementById('css-preset-name-input');
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert('⚠️ 请输入预设名称');
+                return;
+            }
+            
+            const cssContent = document.getElementById('role-custom-css').value.trim();
+            
+            if (!cssContent) {
+                alert('⚠️ CSS内容不能为空');
+                return;
+            }
+            
+            const presets = getCssPresets();
+            
+            const existingIndex = presets.findIndex(p => p.name === name);
+            if (existingIndex !== -1) {
+                if (!confirm(`已存在名为"${name}"的预设，是否覆盖？`)) {
+                    return;
+                }
+                presets[existingIndex] = {
+                    name: name,
+                    css: cssContent,
+                    updatedAt: new Date().toISOString()
+                };
+            } else {
+                presets.push({
+                    name: name,
+                    css: cssContent,
+                    createdAt: new Date().toISOString()
+                });
+            }
+            
+            saveCssPresets(presets);
+            renderCssPresetList();
+            closeCssPresetModal();
+            alert(`✅ CSS预设"${name}"保存成功！`);
+        }
+
+        function loadCssPreset(name) {
+            const presets = getCssPresets();
+            const preset = presets.find(p => p.name === name);
+            
+            if (preset) {
+                document.getElementById('role-custom-css').value = preset.css || '';
+                updateCssEditorState();
+                highlightActiveCssPreset(name);
+                alert(`✅ 已加载CSS预设"${name}"`);
+            }
+        }
+
+        function deleteCssPreset(name) {
+            showDeleteCssPresetConfirmModal(name);
+        }
+
+        let deleteCssPresetConfirmModal = null;
+
+        function showDeleteCssPresetConfirmModal(name) {
+            if (deleteCssPresetConfirmModal) {
+                deleteCssPresetConfirmModal.remove();
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'delete-css-preset-confirm-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content">
+                    <div class="preset-modal-title">确认删除</div>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">确定要删除CSS预设"${name}"吗？</p>
+                    <div class="preset-modal-buttons">
+                        <button class="preset-modal-btn preset-modal-btn-delete-confirm" onclick="confirmDeleteCssPreset('${name}')">确认删除</button>
+                        <button class="preset-modal-btn preset-modal-btn-cancel" onclick="closeDeleteCssPresetConfirmModal()">取消</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            deleteCssPresetConfirmModal = modal;
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeDeleteCssPresetConfirmModal();
+                }
+            });
+            
+            modal.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeDeleteCssPresetConfirmModal();
+                }
+            });
+        }
+
+        function closeDeleteCssPresetConfirmModal() {
+            if (deleteCssPresetConfirmModal) {
+                deleteCssPresetConfirmModal.remove();
+                deleteCssPresetConfirmModal = null;
+            }
+        }
+
+        function confirmDeleteCssPreset(name) {
+            const presets = getCssPresets();
+            const filteredPresets = presets.filter(p => p.name !== name);
+            saveCssPresets(filteredPresets);
+            renderCssPresetList();
+            closeDeleteCssPresetConfirmModal();
+            alert(`✅ CSS预设"${name}"已删除`);
+        }
+
+        function highlightActiveCssPreset(name) {
+            const items = document.querySelectorAll('#css-preset-list .preset-item');
+            items.forEach(item => {
+                if (item.dataset.name === name) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function renderCssPresetList() {
+            const presetList = document.getElementById('css-preset-list');
+            const presets = getCssPresets();
+            
+            if (!presetList) return;
+            
+            if (presets.length === 0) {
+                presetList.innerHTML = '<div class="preset-empty">暂无保存的CSS预设</div>';
+                return;
+            }
+            
+            presetList.innerHTML = presets.map(preset => `
+                <div class="preset-item" data-name="${preset.name}" onclick="loadCssPreset('${preset.name}')">
+                    <span class="preset-name">${preset.name}</span>
+                    <div class="preset-actions" onclick="event.stopPropagation()">
+                        <button class="preset-btn preset-btn-load" onclick="loadCssPreset('${preset.name}')" title="加载预设">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                                <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                            </svg>
+                        </button>
+                        <button class="preset-btn preset-btn-delete" onclick="deleteCssPreset('${preset.name}')" title="删除预设">×</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         const DEFAULT_PLACEHOLDER = "ˡ▹𝗜𝘁's 𝗮𝗹𝗹 𝗮𝗯𝗼𝘂𝘁 𝘆𝗼𝘂";
         const DEFAULT_PLACEHOLDER_SIZE = 15;
 
@@ -24446,8 +27301,20 @@ ${commenterInfo}
                 return;
             }
 
+            if (summaryType === 'auto' && isAutoSummarizing) {
+                console.log('[AutoSummary] 已有自动总结在进行中，跳过');
+                return;
+            }
+
+            if (summaryType === 'auto') {
+                isAutoSummarizing = true;
+            }
+            showAutoSummaryProgress(summaryType === 'manual');
+
             const conversationHistory = messages[currentChatRole.id] || [];
             if (conversationHistory.length === 0) {
+                if (summaryType === 'auto') isAutoSummarizing = false;
+                hideAutoSummaryProgress();
                 alert('暂无聊天记录，无法生成总结');
                 return;
             }
@@ -24456,6 +27323,9 @@ ${commenterInfo}
                 ? parseInt(localStorage.getItem('autoSummaryCount')) || 50
                 : parseInt(localStorage.getItem('manualSummaryCount')) || 20;
             const recentHistory = conversationHistory.slice(-summaryCount);
+            
+            console.log(`[AutoSummary] 聊天记录数量: ${conversationHistory.length}, 取最近 ${summaryCount} 条`);
+            console.log(`[AutoSummary] recentHistory:`, recentHistory);
 
             let savedApiUrl = localStorage.getItem('apiUrl') || '';
             const apiKey = localStorage.getItem('apiKey') || '';
@@ -24465,6 +27335,8 @@ ${commenterInfo}
             
             const validation = validateApiConfig(chatEndpoint, apiKey, selectedModel);
             if (!validation.valid) {
+                if (summaryType === 'auto') isAutoSummarizing = false;
+                hideAutoSummaryProgress();
                 alert('❌ API配置无效，请先配置API');
                 return;
             }
@@ -24475,31 +27347,34 @@ ${commenterInfo}
             const roleDescription = currentChatRole.description || '';
 
             const now = new Date();
-            const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日${now.getHours()}点`;
+            const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
 
             const summaryPrompt = `请根据以下聊天记录，以${roleName}的第一人称视角（使用"我"）来精准直白地总结发生了什么。
 
 【强制总结规则】
-1. 总结内容控制在100字左右
+1. 总结内容必须正好100字，不多不少
 2. 以角色第一人称视角，使用"我"来描述
 3. 使用"${userName}"来称呼对方
 4. 禁止出现第三方视角
-5. 开头必须带有日期格式：${dateStr}
+5. 开头必须带有日期格式：${dateStr}，日期后面紧跟总结内容，不要换行
 6. 符合角色人设口吻
+7. 记录重要的事项，内容要充实详细
+8. 必须包含具体的对话内容或事件
 
 【角色人设】
 ${roleDescription}
 
 【聊天记录】
 ${recentHistory.map(msg => {
+    const content = typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content || '');
     if (msg.type === 'sent') {
-        return `${userName}：${msg.content}`;
+        return `${userName}：${content}`;
     } else {
-        return `${roleName}：${msg.content}`;
+        return `${roleName}：${content}`;
     }
 }).join('\n')}
 
-请直接返回总结内容，不要添加任何额外内容。`;
+请直接返回总结内容，格式如：${dateStr}今天我和${userName}聊了...（后面跟具体内容，总字数必须正好100字）`;
 
             try {
                 const controller = new AbortController();
@@ -24526,30 +27401,49 @@ ${recentHistory.map(msg => {
                     const data = await response.json();
                     if (data.choices && data.choices[0] && data.choices[0].message) {
                         let summaryText = data.choices[0].message.content.trim();
+                        console.log(`[AutoSummary] API返回的原始内容:`, summaryText);
                         
                         if (!summaryText.startsWith(dateStr)) {
                             summaryText = dateStr + summaryText;
                         }
+                        
+                        console.log(`[AutoSummary] 最终总结内容:`, summaryText);
 
                         const contents = getSummaryContents();
                         contents.unshift({
                             id: Date.now(),
                             type: summaryType,
                             content: summaryText,
-                            timestamp: new Date().toISOString()
+                            timestamp: new Date().toISOString(),
+                            date: dateStr
                         });
                         saveSummaryContents(contents);
                         renderSummaryContents();
+
+                        if (summaryType === 'auto' && currentChatRole) {
+                            const lastSummaryIndexKey = 'lastSummaryIndex_' + currentChatRole.id;
+                            const currentMessageCount = messages[currentChatRole.id] ? messages[currentChatRole.id].length : 0;
+                            localStorage.setItem(lastSummaryIndexKey, currentMessageCount.toString());
+                            isAutoSummarizing = false;
+                            hideAutoSummaryProgress();
+                            console.log(`[AutoSummary] 总结完成，已更新lastSummaryIndex为${currentMessageCount}`);
+                        } else {
+                            hideAutoSummaryProgress();
+                        }
 
                         alert('总结生成成功！');
                         closeChatMenu();
                         closeAiSummarySettings();
                     }
                 } else {
+                    if (summaryType === 'auto') isAutoSummarizing = false;
+                    hideAutoSummaryProgress();
                     alert('API请求失败，请检查配置');
                 }
             } catch (error) {
                 console.error('生成总结失败:', error);
+                if (summaryType === 'auto') isAutoSummarizing = false;
+                hideAutoSummaryProgress();
                 alert('生成总结失败，请稍后重试');
             }
         }
@@ -25087,8 +27981,6 @@ ${recentHistory.map(msg => {
                 ? `<img src="${avatarUrl}" alt="头像" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span style="display:none">${fallbackText}</span>`
                 : `<span>${fallbackText}</span>`;
             
-            const wrappedContent = wrapText(msg.content, 15);
-            
             const messageTime = msg.timestamp 
                 ? new Date(msg.timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
                 : '';
@@ -25106,12 +27998,37 @@ ${recentHistory.map(msg => {
                 `;
             }
             
+            let contentHTML = '';
+            let voiceBtnHTML = '';
+            if (msg.content && typeof msg.content === 'object' && msg.content.type === 'voice') {
+                const voiceMsg = msg.content;
+                const sentClass = msg.type === 'sent' ? 'sent' : '';
+                const transcribedText = voiceMsg.transcribed ? voiceMsg.text : '';
+                const transcribedHTML = voiceMsg.transcribed 
+                    ? `<div class="voice-transcribe-text">${voiceMsg.text}</div>` 
+                    : '';
+                voiceBtnHTML = `<div class="voice-transcribe-btn" onclick="event.stopPropagation(); transcribeVoice(${messageIndex})" title="转文字"></div>`;
+                contentHTML = `
+                    <div class="voice-message ${sentClass}">
+                        <div class="voice-waveform" onclick="playVoiceMessage('${voiceMsg.text}', ${voiceMsg.duration})">
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <span class="voice-duration">${voiceMsg.duration}"</span>
+                    </div>
+                    ${transcribedHTML}
+                `;
+            } else {
+                const wrappedContent = wrapText(msg.content, 15);
+                contentHTML = wrappedContent;
+            }
+            
             return `
                 <div class="chat-avatar">${avatarHTML}</div>
-                <div class="message-bubble" data-message-index="${messageIndex}">
+                <div class="message-bubble" data-message-index="${messageIndex}" style="position: relative;">
+                    ${voiceBtnHTML}
                     <div class="message-content">
                         ${quoteHTML}
-                        ${wrappedContent}
+                        ${contentHTML}
                     </div>
                     ${messageTime ? `<div class="message-time">${messageTime}</div>` : ''}
                 </div>
@@ -25357,6 +28274,19 @@ ${recentHistory.map(msg => {
             const startTime = Date.now();
 
             try {
+                // 步骤2：读取设置好的读取历史聊天记录条数
+                const contextCount = parseInt(localStorage.getItem('contextMessageCount')) || 10;
+                const conversationHistory = messages[currentChatRole.id] || [];
+                const recentHistory = conversationHistory.slice(-contextCount);
+                
+                const musicHistory = musicMessages[currentChatRole.id] || [];
+                const recentMusicHistory = musicHistory.slice(-20);
+                
+                const allHistory = [...recentHistory, ...recentMusicHistory];
+                allHistory.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                const finalHistory = allHistory.slice(-contextCount);
+                
+                // 步骤2.5：读取角色设定和用户设定
                 const userSettings = getUserPersona();
                 const userName = userSettings.name || '用户';
                 
@@ -25372,7 +28302,15 @@ ${recentHistory.map(msg => {
                     persona: userSettings.persona || ''
                 };
                 
+                // 步骤3：读取全局世界书以及和角色绑定的世界书
+                const worldbookPrompt = getWorldbookPrompt(currentChatRole.id);
+                
+                // 步骤4：读取系统提示词并构建完整提示词
                 let systemPrompt = PromptsConfig.buildFullPrompt(roleInfo, userInfo);
+                
+                if (worldbookPrompt) {
+                    systemPrompt += worldbookPrompt;
+                }
 
                 const summaryKey = 'summaryContents_' + currentChatRole.id;
                 let summaryContents = [];
@@ -25394,17 +28332,6 @@ ${recentHistory.map(msg => {
                         }
                     });
                 }
-
-                const conversationHistory = messages[currentChatRole.id] || [];
-                const contextCount = parseInt(localStorage.getItem('contextMessageCount')) || 10;
-                const recentHistory = conversationHistory.slice(-contextCount);
-                
-                const musicHistory = musicMessages[currentChatRole.id] || [];
-                const recentMusicHistory = musicHistory.slice(-20);
-                
-                const allHistory = [...recentHistory, ...recentMusicHistory];
-                allHistory.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-                const finalHistory = allHistory.slice(-contextCount);
                 
                 const apiMessages = [
                     { role: 'system', content: systemPrompt }
@@ -25463,6 +28390,7 @@ ${recentHistory.map(msg => {
                     
                     if (data.choices && data.choices[0] && data.choices[0].message) {
                         let reply = data.choices[0].message.content;
+                        console.log('[InsProfile] API 原始回复:', reply);
                         
                         let extractedStatus = null;
                         const statusMatch = reply.match(/\[STATUS:([^\]]+)\]/);
@@ -25472,6 +28400,44 @@ ${recentHistory.map(msg => {
                                 extractedStatus = extractedStatus.substring(0, 7);
                             }
                             reply = reply.replace(/\[STATUS:[^\]]+\]/g, '');
+                        }
+                        
+                        let extractedLocation = null;
+                        const locationMatch = reply.match(/\[LOCATION:([^\]]+)\]/);
+                        if (locationMatch) {
+                            extractedLocation = locationMatch[1].trim();
+                            reply = reply.replace(/\[LOCATION:[^\]]+\]/g, '');
+                            console.log('[InsProfile] 解析到位置:', extractedLocation);
+                        } else {
+                            console.log('[InsProfile] 未找到位置标签');
+                        }
+                        
+                        let extractedMood = null;
+                        const moodMatch = reply.match(/\[MOOD:([^\]]+)\]/);
+                        if (moodMatch) {
+                            extractedMood = moodMatch[1].trim();
+                            reply = reply.replace(/\[MOOD:[^\]]+\]/g, '');
+                            console.log('[InsProfile] 解析到心情:', extractedMood);
+                        } else {
+                            console.log('[InsProfile] 未找到心情标签');
+                        }
+                        
+                        let extractedThought = null;
+                        const thoughtMatch = reply.match(/\[THOUGHT:([^\]]+)\]/);
+                        if (thoughtMatch) {
+                            extractedThought = thoughtMatch[1].trim();
+                            reply = reply.replace(/\[THOUGHT:[^\]]+\]/g, '');
+                            console.log('[InsProfile] 解析到想法:', extractedThought);
+                        }
+                        
+                        if (extractedLocation || extractedMood || extractedThought) {
+                            console.log('[InsProfile] 准备更新资料:', { roleId: currentChatRole.id, extractedLocation, extractedMood, extractedThought });
+                            InsProfileModule.updateFromAPIResponse(
+                                currentChatRole.id,
+                                extractedLocation,
+                                extractedMood,
+                                extractedThought
+                            );
                         }
                         
                         reply = reply.replace(/^(作为|作为一个|作为AI|作为一个AI|作为一个人工智能|作为大语言模型)[，,。：: ]*/gi, '');
@@ -25484,17 +28450,15 @@ ${recentHistory.map(msg => {
                         reply = processNaturalReply(reply);
                         
                         const messageList = splitIntoMessages(reply);
+                        
+                        const finalStatus = extractedStatus || extractedMood;
+                        if (finalStatus) {
+                            RoleStatusManager.updateUI(finalStatus, currentChatRole.id);
+                            console.log('[RoleStatus] 已更新在线状态:', finalStatus);
+                        }
+                        
                         await sendMultipleMessages(currentChatRole.id, messageList);
                         isSendingMessages = false;
-                        
-                        const conversationContext = messages[currentChatRole.id] || [];
-                        RoleStatusManager.updateStatusAfterReply(
-                            { name: currentChatRole.name, description: currentChatRole.description, id: currentChatRole.id },
-                            { name: userName },
-                            conversationContext,
-                            extractedStatus,
-                            currentChatRole.id
-                        );
                         
                         if (Math.random() < 0.3) {
                             setTimeout(() => {
@@ -25654,11 +28618,18 @@ ${recentHistory.map(msg => {
         }
 
         function checkAutoSummary(roleId) {
-            const autoTriggerCount = parseInt(localStorage.getItem('autoSummaryTriggerCount')) || 20;
+            if (isAutoSummarizing) {
+                console.log('[AutoSummary] 正在总结中，跳过本次触发');
+                return;
+            }
+            
+            const autoTriggerCount = parseInt(localStorage.getItem('autoSummaryCount')) || 50;
             const lastSummaryIndexKey = 'lastSummaryIndex_' + roleId;
             const lastSummaryIndex = parseInt(localStorage.getItem(lastSummaryIndexKey)) || 0;
             const currentMessageCount = messages[roleId] ? messages[roleId].length : 0;
             const newMessagesSinceLastSummary = currentMessageCount - lastSummaryIndex;
+            
+            console.log(`[AutoSummary] 检查触发: 新消息数=${newMessagesSinceLastSummary}, 触发阈值=${autoTriggerCount}`);
             
             if (newMessagesSinceLastSummary >= autoTriggerCount) {
                 generateAiSummary('auto', true);
@@ -25728,6 +28699,8 @@ ${recentHistory.map(msg => {
             
             const multiSelectIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>`;
             
+            const editIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
+            
             let menuHTML = '';
             
             // 如果是长按，添加多选按钮
@@ -25741,6 +28714,10 @@ ${recentHistory.map(msg => {
             }
             
             menuHTML += `
+                <div class="context-menu-item edit" data-message-index="${messageIndex}">
+                    ${editIcon}
+                    <span>编辑</span>
+                </div>
                 <div class="context-menu-item quote" data-message-index="${messageIndex}">
                     ${quoteIcon}
                     <span>引用</span>
@@ -25797,6 +28774,13 @@ ${recentHistory.map(msg => {
                     enterMultiSelectMode(parseInt(messageIndex));
                 });
             }
+            
+            // 编辑按钮事件
+            contextMenu.querySelector('.context-menu-item.edit').addEventListener('click', (e) => {
+                e.stopPropagation();
+                hideContextMenu();
+                showEditMessageModal(parseInt(messageIndex));
+            });
             
             // 引用按钮事件
             contextMenu.querySelector('.context-menu-item.quote').addEventListener('click', (e) => {
@@ -26414,6 +29398,119 @@ ${recentHistory.map(msg => {
             }
         }
 
+        function showEditMessageModal(messageIndex) {
+            if (!currentChatRole) {
+                return;
+            }
+            
+            const roleId = currentChatRole.id;
+            const roleMessages = messages[roleId];
+            
+            if (!roleMessages || !roleMessages[messageIndex]) {
+                return;
+            }
+            
+            const msg = roleMessages[messageIndex];
+            const originalContent = msg.content || '';
+            
+            const existingModal = document.getElementById('edit-message-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'edit-message-modal';
+            modal.id = 'edit-message-modal';
+            
+            const editIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
+            
+            modal.innerHTML = `
+                <div class="edit-message-content">
+                    <div class="edit-message-icon">
+                        ${editIcon}
+                    </div>
+                    <div class="edit-message-title">编辑消息</div>
+                    <textarea class="edit-message-textarea" id="edit-message-textarea" placeholder="请输入消息内容...">${originalContent}</textarea>
+                    <div class="edit-message-buttons">
+                        <button class="edit-message-btn cancel">取消</button>
+                        <button class="edit-message-btn confirm">保存</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            const textarea = modal.querySelector('#edit-message-textarea');
+            textarea.focus();
+            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+            
+            modal.querySelector('.edit-message-btn.cancel').addEventListener('click', () => {
+                hideEditMessageModal();
+            });
+            
+            modal.querySelector('.edit-message-btn.confirm').addEventListener('click', () => {
+                const newContent = textarea.value.trim();
+                if (newContent) {
+                    editMessage(messageIndex, newContent);
+                    hideEditMessageModal();
+                }
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideEditMessageModal();
+                }
+            });
+        }
+
+        function hideEditMessageModal() {
+            const modal = document.getElementById('edit-message-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function editMessage(messageIndex, newContent) {
+            if (!currentChatRole) {
+                console.error('[EditMessage] 没有当前聊天角色');
+                return false;
+            }
+            
+            const roleId = currentChatRole.id;
+            const roleMessages = messages[roleId];
+            
+            if (!roleMessages || !roleMessages[messageIndex]) {
+                console.error('[EditMessage] 消息不存在:', messageIndex);
+                return false;
+            }
+            
+            try {
+                messages[roleId][messageIndex].content = newContent;
+                
+                localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                
+                const chatMessages = document.getElementById('chat-messages');
+                const messageBubbles = chatMessages.querySelectorAll('.message-bubble');
+                
+                messageBubbles.forEach(bubble => {
+                    if (parseInt(bubble.dataset.messageIndex) === messageIndex) {
+                        const messageContent = bubble.querySelector('.message-content');
+                        if (messageContent) {
+                            const quoteEl = messageContent.querySelector('.quote-preview');
+                            const quoteHTML = quoteEl ? quoteEl.outerHTML : '';
+                            messageContent.innerHTML = quoteHTML + wrapText(newContent, 15);
+                        }
+                    }
+                });
+                
+                console.log('[EditMessage] 消息编辑成功:', messageIndex);
+                return true;
+            } catch (error) {
+                console.error('[EditMessage] 编辑失败:', error);
+                return false;
+            }
+        }
+
         let currentQuoteMessage = null;
 
         function setQuoteMessage(messageIndex) {
@@ -26905,7 +30002,20 @@ ${recentHistory.map(msg => {
                 console.log('初始化空roles数组');
             }
             
-            // 重新加载moments数据，确保与localStorage同步
+            const savedMessages = localStorage.getItem('wechatMessages');
+            if (savedMessages) {
+                try {
+                    messages = JSON.parse(savedMessages);
+                    console.log('从localStorage加载messages，角色数:', Object.keys(messages).length);
+                } catch (e) {
+                    console.error('messages解析失败:', e);
+                    messages = {};
+                }
+            } else {
+                messages = {};
+                console.log('初始化空messages对象');
+            }
+            
             const savedMoments = localStorage.getItem('wechatMoments');
             if (savedMoments) {
                 try {
@@ -27277,6 +30387,29 @@ ${recentHistory.map(msg => {
             document.getElementById('ios-glass-tabbar').classList.add('visible');
         }
 
+        function toggleDarkMode(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            const toggle = document.getElementById('dark-mode-toggle');
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            toggle.classList.toggle('active', isDarkMode);
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        function initDarkMode() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            const toggle = document.getElementById('dark-mode-toggle');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark-mode');
+                if (toggle) toggle.classList.add('active');
+            }
+        }
+
+        window.toggleDarkMode = toggleDarkMode;
+        window.initDarkMode = initDarkMode;
+
+        initDarkMode();
+
         function loadBackgroundPreviews() {
             const backgrounds = JSON.parse(localStorage.getItem('wechatBackgrounds')) || {};
             
@@ -27301,13 +30434,6 @@ ${recentHistory.map(msg => {
 
             if (!file.type.startsWith('image/')) {
                 showToast('请选择图片文件');
-                return;
-            }
-
-            const maxSizeMB = 9;
-            const maxSizeBytes = maxSizeMB * 1024 * 1024;
-            if (file.size > maxSizeBytes) {
-                showToast(`图片大小不能超过 ${maxSizeMB}MB`);
                 return;
             }
 
@@ -28450,17 +31576,51 @@ ${recentHistory.map(msg => {
 5. 不会每条消息都秒回，有时会晚点回复并说明原因
 6. 会分享有趣的事、图片、视频链接等
 
-## 多消息发送规则（重要）
-1. 每次回复必须拆分为3-6条独立消息
-2. 每条消息控制在5-15个字左右，简短有力
+## 多消息发送规则（非常重要）
+你的一次回复会被拆分成多条消息依次发送，就像真人打字一样。请遵循以下规则：
+
+### 核心原则：整体连贯
+1. 你的所有消息加起来是一个完整的回复，不是多条独立的回复
+2. 每条消息是完整思路的一部分，它们之间要有逻辑递进关系
+3. 绝对禁止每条消息都单独回应或重复用户说的话
+
+### 消息拆分方式
+1. 每次回复拆分为3-8条消息
+2. 短促消息优于长段落
 3. 用换行符分隔每条消息
-4. 像真人发微信一样，一条一条发送
-5. 消息之间可以有逻辑递进或情绪变化
-6. 示例格式：
-   第一条：简短回应
-   第二条：补充说明或情绪表达
-   第三条：追问或延伸话题
-   第四条：表情或语气词
+
+### 正确的连贯示例
+用户说：今天好累啊
+你的回复（注意消息之间的递进关系）：
+第一条：咋啦
+第二条：工作太忙了？
+第三条：摸摸头 辛苦了
+
+用户说：你喜欢吃什么
+你的回复：
+第一条：嗯我想想
+第二条：火锅！
+第三条：特别是麻辣的 超爱
+
+用户说：周末有什么安排
+你的回复：
+第一条：还没想好呢
+第二条：可能宅家里追剧吧
+第三条：你要约我吗 哈哈
+
+### 错误示例（禁止这样）
+用户说：今天好累啊
+错误回复（每条都在单独回应，不连贯）：
+第一条：累了吗
+第二条：好好休息
+第三条：别太累了
+第四条：早点睡
+（每条都是独立回应，没有逻辑递进）
+
+### 消息递进模式
+- 先简短回应/确认 → 再追问/延伸 → 最后表达态度/情绪
+- 先思考/犹豫 → 再给出答案 → 最后补充说明
+- 先表达情绪 → 再解释原因 → 最后互动/反问
 
 ## 禁止事项
 1. 禁止说"作为AI"、"我无法"、"我不可以"等
@@ -28473,14 +31633,28 @@ ${recentHistory.map(msg => {
             
             load() {
                 const saved = localStorage.getItem('promptsConfig');
+                const result = {};
+                
                 if (saved) {
                     try {
-                        return JSON.parse(saved);
+                        const savedConfig = JSON.parse(saved);
+                        for (const key in this.defaultPrompts) {
+                            if (savedConfig.hasOwnProperty(key)) {
+                                if (savedConfig[key] && savedConfig[key].trim() !== '') {
+                                    result[key] = savedConfig[key];
+                                }
+                            } else {
+                                result[key] = this.defaultPrompts[key];
+                            }
+                        }
                     } catch (e) {
-                        console.error('加载prompts配置失败:', e);
+                        console.error('加载Prompts配置失败:', e);
+                        return { ...this.defaultPrompts };
                     }
+                } else {
+                    return { ...this.defaultPrompts };
                 }
-                return { ...this.defaultPrompts };
+                return result;
             },
             
             save(config) {
@@ -28488,7 +31662,6 @@ ${recentHistory.map(msg => {
             },
             
             reset() {
-                localStorage.removeItem('promptsConfig');
                 return { ...this.defaultPrompts };
             },
             
@@ -28544,11 +31717,15 @@ ${recentHistory.map(msg => {
 - 不要像客服，不要像AI，不要像机器人
 
 ## 状态信息要求
-在回复的最后一行，请用 [STATUS:状态文字] 的格式添加你当前的状态或心情。
-- 状态文字限制在2-7个字
-- 可以是正在做的事（如：在吃饭、在追剧、在打游戏）
-- 也可以是心情（如：开心、有点累、困死了）
-- 例如：[STATUS:在吃饭] 或 [STATUS:心情不错]
+在回复的最后，请用以下格式添加你当前的状态信息（这些信息会显示在你的个人资料卡片上）：
+- [LOCATION:位置] - 你当前所在的位置（不要包含城市/国家，只写具体位置，如：家中、公司、咖啡厅、公园、床上、沙发上等）
+- [MOOD:心情] - 你当前的心情或状态（2-5个字，如：开心、有点累、困死了、无聊、兴奋、平静、烦躁等）
+- [THOUGHT:想法] - 你此刻内心的真实想法（10-20字，从你的视角出发描述你的感受）
+
+例如：
+[LOCATION:家中]
+[MOOD:开心]
+[THOUGHT:今天聊得好开心，想继续聊下去]
 
 用你的方式、你的性格和${userInfo.name || '好友'}交流吧！`;
                 
@@ -28652,7 +31829,7 @@ ${recentHistory.map(msg => {
             processed = processed.replace(/[，]/g, ' ');
             processed = processed.replace(/[、]/g, ' ');
             
-            processed = processed.replace(/\s+/g, ' ');
+            processed = processed.replace(/[^\S\n]+/g, ' ');
             processed = processed.replace(/\n\s*\n/g, '\n');
             processed = processed.replace(/\n{3,}/g, '\n\n');
             
@@ -28664,18 +31841,16 @@ ${recentHistory.map(msg => {
         function splitIntoMessages(text) {
             if (!text) return [];
             
-            const targetCount = Math.floor(Math.random() * 5) + 1;
-            
             let lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
             
-            if (lines.length >= targetCount) {
-                if (lines.length === targetCount) {
-                    return lines;
-                }
+            if (lines.length >= 2 && lines.length <= 8) {
+                return lines;
+            }
+            
+            if (lines.length > 8) {
                 const result = [];
-                const chunkSize = Math.ceil(lines.length / targetCount);
-                
-                for (let i = 0; i < lines.length && result.length < targetCount; i += chunkSize) {
+                const chunkSize = Math.ceil(lines.length / 5);
+                for (let i = 0; i < lines.length; i += chunkSize) {
                     const chunk = lines.slice(i, i + chunkSize).join(' ');
                     if (chunk.trim()) {
                         result.push(chunk.trim());
@@ -28686,10 +31861,14 @@ ${recentHistory.map(msg => {
             
             const sentences = text.split(/[！？\n]+/).map(s => s.trim()).filter(s => s.length > 0);
             
-            if (sentences.length >= targetCount) {
+            if (sentences.length >= 2 && sentences.length <= 8) {
+                return sentences;
+            }
+            
+            if (sentences.length > 8) {
                 const result = [];
-                const chunkSize = Math.ceil(sentences.length / targetCount);
-                for (let i = 0; i < sentences.length && result.length < targetCount; i += chunkSize) {
+                const chunkSize = Math.ceil(sentences.length / 5);
+                for (let i = 0; i < sentences.length; i += chunkSize) {
                     const chunk = sentences.slice(i, i + chunkSize).join(' ');
                     if (chunk.trim()) {
                         result.push(chunk.trim());
@@ -28698,27 +31877,18 @@ ${recentHistory.map(msg => {
                 return result;
             }
             
-            if (sentences.length > 1) {
-                return sentences.slice(0, Math.min(sentences.length, targetCount));
-            }
-            
-            const words = text.split(/\s+/).filter(w => w.length > 0);
-            
-            if (words.length <= targetCount) {
-                return [text];
-            }
-            
-            const result = [];
-            const chunkSize = Math.ceil(words.length / targetCount);
-            
-            for (let i = 0; i < words.length && result.length < targetCount; i += chunkSize) {
-                const chunk = words.slice(i, i + chunkSize).join(' ');
-                if (chunk.trim()) {
-                    result.push(chunk.trim());
+            if (sentences.length === 1 && sentences[0].length > 30) {
+                const words = sentences[0].split(/\s+/).filter(w => w.length > 0);
+                if (words.length >= 3) {
+                    const mid = Math.ceil(words.length / 2);
+                    return [
+                        words.slice(0, mid).join(' '),
+                        words.slice(mid).join(' ')
+                    ];
                 }
             }
             
-            return result.length > 0 ? result : [text];
+            return [text];
         }
 
         async function sendMultipleMessages(roleId, messages, startIndex = 0) {
@@ -28727,12 +31897,42 @@ ${recentHistory.map(msg => {
             const chatMessages = document.getElementById('chat-messages');
             
             for (let i = 0; i < messages.length; i++) {
-                const messageContent = messages[i];
+                let messageContent = messages[i];
                 
                 if (!messageContent || messageContent.trim().length === 0) continue;
                 
                 const delay = Math.random() * 800 + 400;
                 await new Promise(resolve => setTimeout(resolve, delay));
+                
+                if (Math.random() < 0.01) {
+                    const voiceText = messageContent
+                        .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+                        .replace(/[\u{1F300}-\u{1F5FF}]/gu, '')
+                        .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+                        .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, '')
+                        .replace(/[\u{2600}-\u{26FF}]/gu, '')
+                        .replace(/[\u{2700}-\u{27BF}]/gu, '')
+                        .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+                        .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+                        .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '')
+                        .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
+                        .replace(/\uD83C[\uDC00-\uDFFF]\uD83D[\uDC00-\uDFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '')
+                        .replace(/\([^)]*[^\u4e00-\u9fa5a-zA-Z0-9\s][^)]*\)/g, '')
+                        .replace(/\[[^\]]*[^\u4e00-\u9fa5a-zA-Z0-9\s][^\]]*\]/g, '')
+                        .replace(/[｡ﾟ･✧★☆♡♥❤❥❣❦❧☼☀☁☂☃♨♩♪♫♬♭♮♯†‡§¶†‡°•·…│┌┐└┘├┤┬┴┼═║╔╗╚╝╠╣╦╩╬╭╮╯╰╱╲╳▁▂▃▄▅▆▇█▉▊▋▌▍▎▏░▒▓▔▕■□▢▣▤▥▦▧▨▩▪▫▬▭▮▯▰▱▲△▴▵▶▷▸▹►▻▼▽▾▿◀◁◂◃◄◅◆◇◈◉◊○◌◍◎●◐◑◒◓◔◕◖◗◘◙◚◛◜◝◞◟◠◡◢◣◤◥◦◧◨◩◪◫◬◭◮◯◰◱◲◳◴◵◶◷◸◹◺◻◼◽◾◿]/g, '')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                    
+                    if (voiceText.length >= 2) {
+                        const voiceData = {
+                            type: 'voice',
+                            text: voiceText,
+                            duration: voiceText.length
+                        };
+                        addMessage(roleId, 'received', voiceData);
+                        continue;
+                    }
+                }
                 
                 addMessage(roleId, 'received', messageContent);
             }
@@ -29345,27 +32545,7 @@ ${recentHistory.map(msg => {
             pendingStatusRequest: null,
             STORAGE_KEY_PREFIX: 'roleStatus_',
             
-            moodClasses: {
-                '开心': 'mood-happy',
-                '高兴': 'mood-happy',
-                '兴奋': 'mood-happy',
-                '难过': 'mood-sad',
-                '伤心': 'mood-sad',
-                '疲惫': 'mood-tired',
-                '困': 'mood-tired',
-                '累': 'mood-tired',
-                '忙碌': 'busy',
-                '忙': 'busy',
-                '离开': 'away',
-                '不在': 'away'
-            },
-            
-            defaultStatuses: [
-                '在线', '在吃饭', '在追剧', '在打游戏', '在上班',
-                '在睡觉', '在发呆', '在听歌', '在逛街', '在健身',
-                '开心', '有点累', '困死了', '无聊中', '心情不错',
-                '刚醒', '准备睡了', '在外面', '在家躺平'
-            ],
+            defaultStatuses: ['在线'],
             
             getStorageKey(roleId) {
                 return this.STORAGE_KEY_PREFIX + roleId;
@@ -29416,15 +32596,6 @@ ${recentHistory.map(msg => {
                 }
             },
             
-            getStatusClass(statusText) {
-                for (const [keyword, className] of Object.entries(this.moodClasses)) {
-                    if (statusText.includes(keyword)) {
-                        return className;
-                    }
-                }
-                return '';
-            },
-            
             updateUI(statusText, roleId = null) {
                 if (roleId && statusText === this.lastStatusText[roleId]) {
                     return;
@@ -29443,11 +32614,6 @@ ${recentHistory.map(msg => {
                 if (!indicator) return;
                 
                 indicator.className = 'online-indicator';
-                
-                const statusClass = this.getStatusClass(statusText);
-                if (statusClass) {
-                    indicator.classList.add(statusClass);
-                }
                 
                 const statusTextEl = indicator.querySelector('.status-text');
                 if (statusTextEl) {
@@ -29484,12 +32650,12 @@ ${recentHistory.map(msg => {
 ${roleInfo.description ? `性格：${roleInfo.description}` : ''}
 
 最近的对话：
-${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'}：${m.content}`).join('\n')}
+${conversationContext.slice(-10).map(m => `${m.type === 'sent' ? '对方' : '我'}：${m.content}`).join('\n')}
 
-请用2-5个字描述你现在的状态或心情，比如：
-- 在吃饭、在追剧、在打游戏、在上班
-- 开心、有点累、困死了、无聊中
-- 刚醒、准备睡了、在外面、在家躺平
+请用5字以内描述你现在的状态或心情，比如：
+- 在吃饭、在追剧、在打游戏
+- 开心、有点累、无聊中
+- 刚醒、准备睡了
 
 只回复状态文字，不要加任何其他内容。`;
 
@@ -29520,8 +32686,8 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
                             if (data.choices && data.choices[0] && data.choices[0].message) {
                                 let status = data.choices[0].message.content.trim();
                                 status = status.replace(/[。！？，、]/g, '').trim();
-                                if (status.length > 10) {
-                                    status = status.substring(0, 10);
+                                if (status.length > 5) {
+                                    status = status.substring(0, 5);
                                 }
                                 return status || '在线';
                             }
@@ -29544,7 +32710,7 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
                     if (extractedStatus) {
                         newStatus = extractedStatus;
                     } else {
-                        newStatus = this.defaultStatuses[Math.floor(Math.random() * this.defaultStatuses.length)];
+                        newStatus = await this.fetchNewStatus(roleInfo, userInfo, conversationContext);
                     }
                     const targetRoleId = roleId || (roleInfo ? roleInfo.id : null);
                     this.updateUI(newStatus, targetRoleId);
@@ -30319,6 +33485,551 @@ ${conversationContext.slice(-3).map(m => `${m.type === 'sent' ? '对方' : '我'
 
         document.addEventListener('DOMContentLoaded', function() {
             FontManagementModule.init();
+        });
+
+        // ==================== Instagram 风格角色资料卡片模块 ====================
+        const InsProfileModule = (function() {
+            let clockInterval = null;
+            let is24Hour = true;
+            const STORAGE_KEY_PREFIX = 'insProfile_';
+
+            function init() {
+                initClock();
+                initOnlineIndicatorClick();
+                initModalClose();
+                initRefreshButton();
+            }
+
+            function initClock() {
+                updateClock();
+                if (clockInterval) clearInterval(clockInterval);
+                clockInterval = setInterval(updateClock, 60000);
+            }
+
+            function updateClock() {
+                const clockEl = document.getElementById('ins-main-clock');
+                const dateEl = document.getElementById('ins-date-display');
+                
+                let displayTime = new Date();
+                
+                if (typeof currentChatRole !== 'undefined' && currentChatRole && typeof messages !== 'undefined') {
+                    const roleMessages = messages[currentChatRole.id] || [];
+                    const lastReceivedMsg = [...roleMessages].reverse().find(m => m.type === 'received' && m.timestamp);
+                    if (lastReceivedMsg && lastReceivedMsg.timestamp) {
+                        displayTime = new Date(lastReceivedMsg.timestamp);
+                    }
+                }
+                
+                if (clockEl) {
+                    const h = String(displayTime.getHours()).padStart(2, '0');
+                    const m = String(displayTime.getMinutes()).padStart(2, '0');
+                    clockEl.innerText = `${h}:${m}`;
+                }
+                
+                if (dateEl) {
+                    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                                   'July', 'August', 'September', 'October', 'November', 'December'];
+                    const dayName = days[displayTime.getDay()];
+                    const monthName = months[displayTime.getMonth()];
+                    const date = displayTime.getDate();
+                    dateEl.innerText = `${dayName}, ${monthName} ${date}`;
+                }
+            }
+
+            function initOnlineIndicatorClick() {
+                document.addEventListener('click', function(e) {
+                    const indicator = e.target.closest('.online-indicator');
+                    if (indicator) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openModal();
+                    }
+                });
+            }
+
+            function initModalClose() {
+                const modal = document.getElementById('ins-profile-modal');
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === modal || e.target.classList.contains('widget-wrapper')) {
+                            closeModal();
+                        }
+                    });
+                }
+            }
+
+            function initRefreshButton() {
+                const refreshBtn = document.getElementById('ins-profile-refresh-btn');
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        refreshProfileData();
+                    });
+                }
+            }
+
+            async function refreshProfileData() {
+                const refreshBtn = document.getElementById('ins-profile-refresh-btn');
+                if (refreshBtn) {
+                    refreshBtn.classList.add('refreshing');
+                }
+
+                try {
+                    if (typeof currentChatRole !== 'undefined' && currentChatRole) {
+                        const apiUrl = localStorage.getItem('apiUrl') || '';
+                        const apiKey = localStorage.getItem('apiKey') || '';
+                        const selectedModel = localStorage.getItem('selectedModel') || '';
+
+                        if (!apiUrl || !apiKey || !selectedModel) {
+                            console.log('[InsProfile] API配置不完整，使用默认数据');
+                            updateProfileData();
+                            return;
+                        }
+
+                        const currentAffection = calculateAffection(currentChatRole.id);
+                        const conversationContext = messages[currentChatRole.id] || [];
+                        const currentUserName = typeof userName !== 'undefined' ? userName : 'User';
+                        const savedData = loadProfileData(currentChatRole.id);
+                        const previousLocation = savedData?.location || '家中';
+
+                        const cardPrompt = `你是角色"${currentChatRole.name}"，需要根据对话上下文，生成你自己的状态卡片信息。
+${currentChatRole.description ? `你的性格：${currentChatRole.description}` : ''}
+
+【最近的对话】（注意：以下对话中，"${currentUserName}"是对方，"我"是你自己）
+${conversationContext.slice(-10).map(m => m.type === 'sent' ? `${currentUserName}：${m.content}` : `我：${m.content}`).join('\n')}
+
+【当前好感度】${currentAffection}/100
+【你之前所在的位置】${previousLocation}
+
+请以你的第一人称视角，严格按照以下JSON格式回复：
+{
+    "location": "你现在所在的具体场所（只写场所名，如：家中、咖啡馆、工作室、床上）",
+    "mood": "你现在的心情（2-5个字，如：困死了、有点烦、开心、想继续睡）",
+    "thought": "你此刻内心的真实想法（10-20字，必须从你的视角出发，描述你自己的感受）",
+    "affection": 你对对方的好感度（基于当前${currentAffection}分调整：愉快对话+5到+15，争吵或不快-5到-15，普通对话保持不变，结果限制在0-100之间）
+}
+
+【极其重要的视角规则】
+1. thought必须是你（角色）自己的想法，永远不要描述对方的想法或行为
+2. 如果${currentUserName}说"你像小狗一样"，你的thought应该是"他说我像小狗..."，而不是"我说他像小狗"
+3. 如果${currentUserName}夸奖你，你的thought应该是"被夸了，好开心"或"他好像很喜欢我"，而不是"我夸了他"
+4. 如果${currentUserName}惹你生气，你的thought应该是"好生气"或"他太过分了"，而不是"我惹他生气了"
+5. 记住：你只能描述自己的感受和行为，不能描述对方的
+6. affection是你对${currentUserName}的好感度，不是${currentUserName}对你的好感度
+
+【位置变化规则】
+1. 你之前在"${previousLocation}"，位置变化必须符合现实逻辑
+2. 如果之前在家中，可以移动到家中的其他房间（卧室、浴室、厨房、客厅等）
+3. 如果之前在外面的场所，短时间内不太可能瞬间回到家中，除非对话中提到了回家
+4. 如果对话中没有提到移动或出门，通常保持原位置或附近区域
+5. 例如：之前在"咖啡馆"，不能突然变成"家中"，除非对话中提到回家了
+
+只回复JSON，不要加任何其他内容。`;
+
+                        const chatEndpoint = getChatEndpoint(apiUrl);
+
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => {
+                            controller.abort();
+                        }, 30000);
+
+                        let response;
+                        try {
+                            response = await fetch(chatEndpoint, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${apiKey}`
+                                },
+                                body: JSON.stringify({
+                                    model: selectedModel,
+                                    messages: [{ role: 'user', content: cardPrompt }],
+                                    max_tokens: 150,
+                                    temperature: 0.8
+                                }),
+                                signal: controller.signal
+                            });
+                        } catch (fetchError) {
+                            clearTimeout(timeoutId);
+                            if (fetchError.name === 'AbortError') {
+                                console.log('[InsProfile] 请求超时');
+                            } else {
+                                console.log('[InsProfile] 请求失败:', fetchError.message);
+                            }
+                            updateProfileData();
+                            return;
+                        }
+
+                        clearTimeout(timeoutId);
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.choices && data.choices[0] && data.choices[0].message) {
+                                let content = data.choices[0].message.content.trim();
+                                content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+                                
+                                try {
+                                    const cardData = JSON.parse(content);
+                                    const newAffection = Math.min(100, Math.max(0, parseInt(cardData.affection) || currentAffection));
+
+                                    saveProfileData(currentChatRole.id, {
+                                        location: cardData.location || '家中',
+                                        mood: cardData.mood || '心情不错',
+                                        thought: cardData.thought || '不必猜测隐藏的含义，<br>此刻这里只有坦诚。',
+                                        affection: newAffection
+                                    });
+
+                                    console.log('[InsProfile] 刷新成功:', cardData);
+                                    updateProfileData();
+                                } catch (parseError) {
+                                    console.log('[InsProfile] JSON解析失败:', parseError);
+                                    updateProfileData();
+                                }
+                            }
+                        } else {
+                            console.log('[InsProfile] API请求失败:', response.status);
+                            updateProfileData();
+                        }
+                    }
+                } catch (error) {
+                    console.error('[InsProfile] 刷新失败:', error);
+                    updateProfileData();
+                } finally {
+                    if (refreshBtn) {
+                        refreshBtn.classList.remove('refreshing');
+                    }
+                }
+            }
+
+            function getStorageKey(roleId) {
+                return STORAGE_KEY_PREFIX + roleId;
+            }
+
+            function saveProfileData(roleId, data) {
+                if (!roleId || !data) return;
+                try {
+                    const key = getStorageKey(roleId);
+                    const existingData = loadProfileData(roleId);
+                    const newData = {
+                        ...existingData,
+                        ...data,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem(key, JSON.stringify(newData));
+                    console.log(`[InsProfile] 已保存角色 ${roleId} 的资料:`, newData);
+                } catch (error) {
+                    console.error('[InsProfile] 保存资料失败:', error);
+                }
+            }
+
+            function loadProfileData(roleId) {
+                if (!roleId) return null;
+                try {
+                    const key = getStorageKey(roleId);
+                    const savedData = localStorage.getItem(key);
+                    if (savedData) {
+                        return JSON.parse(savedData);
+                    }
+                } catch (error) {
+                    console.error('[InsProfile] 加载资料失败:', error);
+                }
+                return null;
+            }
+
+            function openModal() {
+                const modal = document.getElementById('ins-profile-modal');
+                if (modal) {
+                    modal.classList.add('show');
+                    updateProfileData();
+                    initClock();
+                }
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('ins-profile-modal');
+                if (modal) {
+                    modal.classList.remove('show');
+                }
+            }
+
+            function updateProfileData() {
+                const avatarEl = document.getElementById('ins-profile-avatar');
+                const statusEl = document.getElementById('ins-status');
+                const locationEl = document.getElementById('ins-location');
+                const affectionNumEl = document.getElementById('ins-affection-num');
+                const progressBarEl = document.getElementById('ins-progress-bar');
+                const thoughtEl = document.getElementById('ins-thought');
+
+                if (currentChatRole) {
+                    if (avatarEl && currentChatRole.avatar) {
+                        avatarEl.style.backgroundImage = `url(${currentChatRole.avatar})`;
+                    }
+
+                    const savedData = loadProfileData(currentChatRole.id);
+
+                    if (statusEl) {
+                        if (savedData && savedData.mood) {
+                            statusEl.innerText = savedData.mood;
+                        } else {
+                            statusEl.innerText = '心情不错';
+                        }
+                    }
+
+                    if (locationEl) {
+                        if (savedData && savedData.location) {
+                            locationEl.innerText = savedData.location;
+                        } else {
+                            locationEl.innerText = '家中';
+                        }
+                    }
+
+                    const affection = savedData?.affection ?? calculateAffection(currentChatRole.id);
+                    if (affectionNumEl) {
+                        affectionNumEl.innerText = `${affection}%`;
+                    }
+                    if (progressBarEl) {
+                        progressBarEl.style.width = `${affection}%`;
+                    }
+
+                    if (thoughtEl) {
+                        if (savedData && savedData.thought) {
+                            thoughtEl.innerHTML = savedData.thought;
+                        } else {
+                            const thoughts = [
+                                '不必猜测隐藏的含义，<br>此刻这里只有坦诚。',
+                                '每一个瞬间都值得珍惜，<br>就像与你相遇的此刻。',
+                                '时光静好，<br>与你相伴便是最好的答案。',
+                                '无需多言，<br>心意已在无声中传达。',
+                                '愿所有的美好，<br>都能如期而至。'
+                            ];
+                            const randomThought = thoughts[Math.floor(Math.random() * thoughts.length)];
+                            thoughtEl.innerHTML = randomThought;
+                        }
+                    }
+                }
+            }
+
+            function updateFromAPIResponse(roleId, location, mood, thought = null) {
+                console.log('[InsProfile] updateFromAPIResponse 被调用:', { roleId, location, mood, thought });
+                if (!roleId) {
+                    console.log('[InsProfile] 错误: roleId 为空');
+                    return;
+                }
+                
+                const data = {
+                    location: location,
+                    mood: mood
+                };
+
+                if (thought) {
+                    data.thought = thought;
+                }
+
+                console.log('[InsProfile] 准备保存数据:', data);
+                saveProfileData(roleId, data);
+
+                const modal = document.getElementById('ins-profile-modal');
+                if (modal && modal.classList.contains('show')) {
+                    console.log('[InsProfile] 模态窗口已打开，更新显示');
+                    updateProfileData();
+                } else {
+                    console.log('[InsProfile] 模态窗口未打开，数据已保存');
+                }
+                
+                if (typeof currentChatRole !== 'undefined' && currentChatRole && currentChatRole.id === roleId) {
+                    const locationEl = document.getElementById('ins-location');
+                    const statusEl = document.getElementById('ins-status');
+                    const thoughtEl = document.getElementById('ins-thought');
+                    
+                    if (locationEl && location) {
+                        locationEl.innerText = location;
+                        console.log('[InsProfile] 已更新位置显示:', location);
+                    }
+                    if (statusEl && mood) {
+                        statusEl.innerText = mood;
+                        console.log('[InsProfile] 已更新心情显示:', mood);
+                    }
+                    if (thoughtEl && thought) {
+                        thoughtEl.innerHTML = thought;
+                        console.log('[InsProfile] 已更新想法显示:', thought);
+                    }
+                }
+            }
+
+            async function updateOnReply(roleId, roleName, roleDescription, userName, conversationContext) {
+                if (!roleId) return;
+
+                const apiUrl = localStorage.getItem('apiUrl') || '';
+                const apiKey = localStorage.getItem('apiKey') || '';
+                const selectedModel = localStorage.getItem('selectedModel') || '';
+
+                if (!apiUrl || !apiKey || !selectedModel) {
+                    console.log('[InsProfile] API配置不完整，跳过自动更新');
+                    return;
+                }
+
+                try {
+                    const currentAffection = calculateAffection(roleId);
+                    const savedData = loadProfileData(roleId);
+                    const previousLocation = savedData?.location || '家中';
+
+                    const cardPrompt = `你是角色"${roleName}"，需要根据对话上下文，生成你自己的状态卡片信息。
+${roleDescription ? `你的性格：${roleDescription}` : ''}
+
+【最近的对话】（注意：以下对话中，"${userName}"是对方，"我"是你自己）
+${conversationContext.slice(-10).map(m => m.type === 'sent' ? `${userName}：${m.content}` : `我：${m.content}`).join('\n')}
+
+【当前好感度】${currentAffection}/100
+【你之前所在的位置】${previousLocation}
+
+请以你的第一人称视角，严格按照以下JSON格式回复：
+{
+    "location": "你现在所在的具体场所（只写场所名，如：家中、咖啡馆、工作室、床上）",
+    "mood": "你现在的心情（2-5个字，如：困死了、有点烦、开心、想继续睡）",
+    "thought": "你此刻内心的真实想法（10-20字，必须从你的视角出发，描述你自己的感受）",
+    "affection": 你对对方的好感度（基于当前${currentAffection}分调整：愉快对话+5到+15，争吵或不快-5到-15，普通对话保持不变，结果限制在0-100之间）
+}
+
+【极其重要的视角规则】
+1. thought必须是你（角色）自己的想法，永远不要描述对方的想法或行为
+2. 如果${userName}说"你像小狗一样"，你的thought应该是"他说我像小狗..."，而不是"我说他像小狗"
+3. 如果${userName}夸奖你，你的thought应该是"被夸了，好开心"或"他好像很喜欢我"，而不是"我夸了他"
+4. 如果${userName}惹你生气，你的thought应该是"好生气"或"他太过分了"，而不是"我惹他生气了"
+5. 记住：你只能描述自己的感受和行为，不能描述对方的
+6. affection是你对${userName}的好感度，不是${userName}对你的好感度
+
+【位置变化规则】
+1. 你之前在"${previousLocation}"，位置变化必须符合现实逻辑
+2. 如果之前在家中，可以移动到家中的其他房间（卧室、浴室、厨房、客厅等）
+3. 如果之前在外面的场所，短时间内不太可能瞬间回到家中，除非对话中提到了回家
+4. 如果对话中没有提到移动或出门，通常保持原位置或附近区域
+5. 例如：之前在"咖啡馆"，不能突然变成"家中"，除非对话中提到回家了
+
+只回复JSON，不要加任何其他内容。`;
+
+                    const chatEndpoint = getChatEndpoint(apiUrl);
+
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => {
+                        controller.abort();
+                    }, 30000);
+
+                    let response;
+                    try {
+                        response = await fetch(chatEndpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${apiKey}`
+                            },
+                            body: JSON.stringify({
+                                model: selectedModel,
+                                messages: [{ role: 'user', content: cardPrompt }],
+                                max_tokens: 150,
+                                temperature: 0.8
+                            }),
+                            signal: controller.signal
+                        });
+                    } catch (fetchError) {
+                        clearTimeout(timeoutId);
+                        console.log('[InsProfile] 自动更新请求失败:', fetchError.message);
+                        return;
+                    }
+
+                    clearTimeout(timeoutId);
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.choices && data.choices[0] && data.choices[0].message) {
+                            let content = data.choices[0].message.content.trim();
+                            content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+                            
+                            try {
+                                const cardData = JSON.parse(content);
+                                const newAffection = Math.min(100, Math.max(0, parseInt(cardData.affection) || currentAffection));
+
+                                saveProfileData(roleId, {
+                                    location: cardData.location || '家中',
+                                    mood: cardData.mood || '心情不错',
+                                    thought: cardData.thought || '不必猜测隐藏的含义，<br>此刻这里只有坦诚。',
+                                    affection: newAffection
+                                });
+
+                                console.log('[InsProfile] 自动更新成功:', cardData);
+
+                                const modal = document.getElementById('ins-profile-modal');
+                                if (modal && modal.classList.contains('show')) {
+                                    updateProfileData();
+                                }
+                            } catch (parseError) {
+                                console.log('[InsProfile] 自动更新JSON解析失败:', parseError);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('[InsProfile] 自动更新失败:', error);
+                }
+            }
+
+            function calculateAffection(roleId) {
+                if (!roleId) return 50;
+                
+                const savedData = loadProfileData(roleId);
+                if (savedData && typeof savedData.affection === 'number') {
+                    return savedData.affection;
+                }
+                
+                return 50;
+            }
+
+            function clickedEffect(el) {
+                el.style.transform = "scale(0.96)";
+                el.style.backgroundColor = "#f0f0f0";
+                setTimeout(() => {
+                    el.style.transform = "scale(1)";
+                    el.style.backgroundColor = "#fafafa";
+                }, 150);
+            }
+
+            function toggleClock() {
+                const el = document.getElementById('ins-main-clock');
+                if (el) {
+                    is24Hour = !is24Hour;
+                    el.style.opacity = 0.5;
+                    setTimeout(() => el.style.opacity = 1, 200);
+                }
+            }
+
+            return {
+                init,
+                openModal,
+                closeModal,
+                updateProfileData,
+                updateFromAPIResponse,
+                updateOnReply,
+                loadProfileData,
+                saveProfileData,
+                clickedEffect,
+                toggleClock,
+                refreshProfileData
+            };
+        })();
+
+        function closeInsProfileModal() {
+            InsProfileModule.closeModal();
+        }
+
+        function insClickedEffect(el) {
+            InsProfileModule.clickedEffect(el);
+        }
+
+        function toggleInsClock() {
+            InsProfileModule.toggleClock();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            InsProfileModule.init();
         });
 
         // ==================== 桌面区域滚动和缩放限制 ====================
