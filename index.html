@@ -18785,6 +18785,26 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 for (const key of Object.keys(data)) {
                     await this.save(key, data[key]);
                 }
+            },
+            
+            async clearAll() {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.clear();
+                    
+                    request.onsuccess = () => {
+                        console.log('IndexedDB 所有数据已清除');
+                        resolve(true);
+                    };
+                    
+                    request.onerror = () => {
+                        console.error('IndexedDB 清除失败:', request.error);
+                        reject(request.error);
+                    };
+                });
             }
         };
         
@@ -21474,12 +21494,33 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             }
         }
         
-        function doClearAllData() {
+        async function doClearAllData() {
             closeFinalConfirmModal();
+            isClearingAllData = true;
+            if (typeof stopAutoSave === 'function') {
+                stopAutoSave();
+            }
+            isDataInitialized = false;
+            roles = [];
+            messages = {};
+            moments = [];
             localStorage.clear();
+            sessionStorage.clear();
+            try {
+                await ImageStorage.clearAll();
+                console.log('IndexedDB 已清除');
+            } catch (e) {
+                console.error('清除 IndexedDB 失败:', e);
+            }
+            try {
+                indexedDB.deleteDatabase('XiaoShuJiImages');
+                console.log('IndexedDB 数据库已删除');
+            } catch (e) {
+                console.error('删除 IndexedDB 数据库失败:', e);
+            }
             showStorageStatus('所有数据已清除！正在刷新页面...', 'success');
             setTimeout(() => {
-                location.reload();
+                window.location.href = window.location.href;
             }, 1500);
         }
 
@@ -22993,6 +23034,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         let isSendingMessages = false;
         let isAutoSummarizing = false;
         let isDataInitialized = false;
+        let isClearingAllData = false;
         let roles = (function() {
             try {
                 const saved = localStorage.getItem('wechatRoles');
@@ -29425,7 +29467,7 @@ ${recentHistory.map(msg => {
                 currentAbortController = new AbortController();
                 const timeoutId = setTimeout(() => {
                     if (currentAbortController) {
-                        currentAbortController.abort();
+                        currentAbortController.abort(new DOMException('请求超时', 'TimeoutError'));
                     }
                 }, 60000);
 
@@ -29599,6 +29641,27 @@ ${recentHistory.map(msg => {
                     addMessage(currentChatRole.id, 'received', errorMessage);
                 }
             } catch (error) {
+                if (error.name === 'AbortError' || error.name === 'TimeoutError') {
+                    console.log('请求已被中止:', error.message);
+                    
+                    const indicator = document.getElementById('typing-indicator');
+                    if (indicator) {
+                        indicator.remove();
+                    }
+
+                    if (envelopeIcon) {
+                        envelopeIcon.classList.remove('loading');
+                    }
+
+                    currentAbortController = null;
+                    isSendingMessages = false;
+                    
+                    if (error.name === 'TimeoutError') {
+                        addMessage(currentChatRole.id, 'received', '❌ 请求超时，请稍后重试');
+                    }
+                    return;
+                }
+                
                 ApiMonitor.recordRequest(startTime, false, error.message);
                 console.error('API调用失败:', error);
                 
@@ -29613,11 +29676,6 @@ ${recentHistory.map(msg => {
 
                 currentAbortController = null;
                 isSendingMessages = false;
-                
-                if (error.name === 'AbortError') {
-                    console.log('请求已被用户中止');
-                    return;
-                }
                 
                 let errorMessage = '抱歉，发生了一个错误';
                 
@@ -32343,6 +32401,10 @@ ${recentHistory.map(msg => {
         }
 
         function saveAllData() {
+            if (isClearingAllData) {
+                console.log('[AutoSave] 正在清除数据，跳过保存');
+                return;
+            }
             if (!isDataInitialized) {
                 console.log('[AutoSave] 数据未初始化完成，跳过保存');
                 return;
@@ -32422,7 +32484,7 @@ ${recentHistory.map(msg => {
 
         let autoSaveInterval = null;
         let lastSaveTime = 0;
-        const AUTO_SAVE_INTERVAL = 30000;
+        const AUTO_SAVE_INTERVAL = 120000;
         const MIN_SAVE_INTERVAL = 5000;
 
         function startAutoSave() {
