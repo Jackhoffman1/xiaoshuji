@@ -16344,7 +16344,7 @@
                         <div class="avatar-loading-text">上传中...</div>
                     </div>
                 </div>
-                <input type="file" id="profile-avatar-input" accept="image/jpeg,image/png,image/webp" style="display: none;" onchange="handleAvatarUpload(event)">
+                <input type="file" id="profile-avatar-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
                 <div class="avatar-toast" id="avatar-toast"></div>
                 <div class="profile-name" id="profile-name-display" onclick="openProfileNameModal()">用户</div>
                 <div class="profile-id" id="wechat-id-display" onclick="openWechatIdModal()">Wechat ID: 用户</div>
@@ -18338,7 +18338,10 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
         let simsRolesData = (function() {
             try {
                 const saved = localStorage.getItem('simsRolesData');
-                return saved ? JSON.parse(saved) : {};
+                if (saved && saved.trim() !== '') {
+                    return JSON.parse(saved);
+                }
+                return {};
             } catch {
                 return {};
             }
@@ -22048,6 +22051,16 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         document.getElementById('wallpaper-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+                const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+                
+                if (!isValidImage) {
+                    alert('请选择有效的图片文件');
+                    this.value = '';
+                    return;
+                }
+
                 const maxSizeMB = 9;
                 const maxSizeBytes = maxSizeMB * 1024 * 1024;
                 if (file.size > maxSizeBytes) {
@@ -22082,9 +22095,14 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 return;
             }
 
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
-            if (!allowedTypes.includes(file.type)) {
-                alert('请上传有效的图片文件\n支持格式: JPG, PNG, GIF, WebP, SVG');
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/heic', 'image/heif', ''];
+            const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.heic', '.heif'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const isValidType = allowedTypes.includes(file.type) || file.type.startsWith('image/');
+            const isValidExtension = allowedExtensions.includes(fileExtension);
+            
+            if (!isValidType && !isValidExtension) {
+                alert('请上传有效的图片文件\n支持格式: JPG, PNG, GIF, WebP, SVG, HEIC');
                 this.value = '';
                 return;
             }
@@ -23363,6 +23381,15 @@ ${commenterInfo}
             const file = event.target.files[0];
             if (!file) return;
 
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
+                showToast('请选择有效的图片文件');
+                return;
+            }
+
             const maxSizeMB = 9;
             const maxSizeBytes = maxSizeMB * 1024 * 1024;
             if (file.size > maxSizeBytes) {
@@ -23390,6 +23417,15 @@ ${commenterInfo}
         function handleMomentsAvatarUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
+
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
+                showToast('请选择有效的图片文件');
+                return;
+            }
 
             const maxSizeMB = 9;
             const maxSizeBytes = maxSizeMB * 1024 * 1024;
@@ -26264,6 +26300,15 @@ ${commenterInfo}
         function handleChatWallpaperUpload(event) {
             const file = event.target.files[0];
             if (!file || !currentChatRole) return;
+
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
+                showToast('请选择有效的图片文件');
+                return;
+            }
 
             const maxSizeMB = 9;
             const maxSizeBytes = maxSizeMB * 1024 * 1024;
@@ -29903,6 +29948,16 @@ ${recentHistory.map(msg => {
         function handleTempAvatar(input) {
             const file = input.files[0];
             if (!file) return;
+
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
+                alert('请选择有效的图片文件');
+                input.value = '';
+                return;
+            }
             
             const maxSizeMB = 9;
             const maxSizeBytes = maxSizeMB * 1024 * 1024;
@@ -30000,12 +30055,16 @@ ${recentHistory.map(msg => {
             console.log('wechatRoles存在:', wechatRolesBefore !== null);
             
             const savedRoles = localStorage.getItem('wechatRoles');
-            if (savedRoles) {
-                roles = JSON.parse(savedRoles);
-                console.log('从localStorage加载roles，数量:', roles.length);
+            if (savedRoles && savedRoles.trim() !== '') {
+                try {
+                    roles = JSON.parse(savedRoles);
+                    console.log('从localStorage加载roles，数量:', roles.length);
+                } catch (e) {
+                    console.error('roles解析失败:', e);
+                    roles = [];
+                }
             } else {
                 roles = [];
-                localStorage.setItem('wechatRoles', JSON.stringify(roles));
                 console.log('初始化空roles数组');
             }
             
@@ -30439,7 +30498,11 @@ ${recentHistory.map(msg => {
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
                 showToast('请选择图片文件');
                 return;
             }
@@ -30673,6 +30736,16 @@ ${recentHistory.map(msg => {
         document.getElementById('character-avatar-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
+
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
+                alert('请选择有效的图片文件');
+                this.value = '';
+                return;
+            }
 
             const maxSizeMB = 9;
             const maxSizeBytes = maxSizeMB * 1024 * 1024;
@@ -30945,9 +31018,23 @@ ${recentHistory.map(msg => {
             initCssEditorListeners();
         });
 
+        // ========== iOS兼容的图片验证辅助函数 ==========
+        function isValidImageFile(file) {
+            if (!file) return false;
+            
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif', '.bmp', '.tiff'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            const isValidType = file.type && (file.type.startsWith('image/') || file.type === '');
+            const isValidExtension = imageExtensions.includes(fileExtension);
+            
+            return isValidType || isValidExtension;
+        }
+
         // ========== 头像上传功能 ==========
         const AVATAR_MAX_SIZE = 9 * 1024 * 1024; // 9MB
-        const AVATAR_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+        const AVATAR_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', ''];
+        const AVATAR_ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif'];
 
         function triggerAvatarUpload() {
             const input = document.getElementById('profile-avatar-input');
@@ -30995,10 +31082,14 @@ ${recentHistory.map(msg => {
         }
 
         function validateAvatarFile(file) {
-            if (!AVATAR_ALLOWED_TYPES.includes(file.type)) {
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const isValidExtension = AVATAR_ALLOWED_EXTENSIONS.includes(fileExtension);
+            const isValidType = AVATAR_ALLOWED_TYPES.includes(file.type) || file.type.startsWith('image/');
+            
+            if (!isValidType && !isValidExtension) {
                 return {
                     valid: false,
-                    message: '请选择 JPG、PNG 或 WEBP 格式的图片'
+                    message: '请选择有效的图片文件（JPG、PNG、WEBP、HEIC）'
                 };
             }
 
@@ -31056,7 +31147,11 @@ ${recentHistory.map(msg => {
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
                 alert('请选择图片文件');
                 return;
             }
@@ -31129,7 +31224,11 @@ ${recentHistory.map(msg => {
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+            
+            if (!isValidImage) {
                 alert('请选择图片文件');
                 return;
             }
