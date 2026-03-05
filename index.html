@@ -425,6 +425,117 @@
             color: #EBEBF5;
         }
 
+        .dark-mode html, 
+        .dark-mode body,
+        .dark-mode .wechat-chat,
+        .dark-mode .wechat-container,
+        .dark-mode .app-container {
+            background-color: #000000 !important;
+            background-image: none !important;
+        }
+
+        .dark-mode .func-btn {
+            background: #1c1c1e !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .dark-mode .func-btn svg,
+        .dark-mode .back-btn svg,
+        .dark-mode .chat-menu-btn svg {
+            stroke: rgba(255, 255, 255, 0.6) !important;
+            fill: none !important;
+        }
+
+        .dark-mode .chat-header {
+            background: #0a0a0a !important;
+            border-bottom: 1px solid #1a1a1c !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        .dark-mode .chat-header::after {
+            display: none !important;
+        }
+
+        .dark-mode .chat-input-area {
+            background: #0a0a0a !important;
+            border-top: 1px solid #1a1a1c !important;
+            box-shadow: none !important;
+        }
+
+        .dark-mode .chat-input {
+            background: #161618 !important;
+            border: 1px solid #2c2c2e !important;
+            color: #999999 !important;
+        }
+
+        .dark-mode .add-btn svg,
+        .dark-mode .send-btn svg,
+        .dark-mode .chat-input-area .icon svg {
+            color: rgba(255, 255, 255, 0.5) !important;
+            stroke: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .dark-mode .status,
+        .dark-mode .status .online-indicator {
+            color: #4a4a4c !important;
+        }
+
+        .dark-mode .nickname,
+        .dark-mode .chat-title {
+            color: #999999 !important;
+            text-shadow: none !important;
+            font-weight: 500 !important;
+        }
+
+        .dark-mode .status {
+            color: #555558 !important;
+        }
+
+        .dark-mode .func-btn {
+            background: #121214 !important;
+            border: 1px solid rgba(255, 255, 255, 0.03) !important;
+        }
+
+        .dark-mode .func-btn svg,
+        .dark-mode .back-btn svg,
+        .dark-mode .chat-menu-btn svg {
+            stroke: #666666 !important;
+        }
+
+        .dark-mode .avatar-wrapper,
+        .dark-mode .chat-avatar {
+            background: #1a1a1c !important;
+            box-shadow: none !important;
+        }
+
+        .dark-mode .chat-messages {
+            background: #080808 !important;
+        }
+
+        .dark-mode .message.sent .message-content,
+        .dark-mode .message.sent .message-content * {
+            background: #1a1a1c !important;
+            color: #999999 !important;
+            border: 1px solid rgba(255, 255, 255, 0.03) !important;
+            box-shadow: none !important;
+        }
+
+        .dark-mode .message.received .message-content,
+        .dark-mode .message.received .message-content * {
+            background: #121214 !important;
+            color: #999999 !important;
+            border: 1px solid rgba(255, 255, 255, 0.02) !important;
+            box-shadow: none !important;
+        }
+
+        .dark-mode .message-time {
+            color: #444444 !important;
+        }
+
+        .dark-mode .chat-input {
+            color: #777777 !important;
+        }
+
         .dark-mode .chat-date-divider {
             color: #8E8E93;
         }
@@ -9198,6 +9309,18 @@
             opacity: 1;
         }
 
+        .chat-menu-category-content.scrollable.expanded {
+            max-height: 600px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            touch-action: manipulation;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #beautify-category.scrollable.expanded {
+            max-height: 80vh;
+        }
+
         .chat-menu-category-content .chat-menu-wallpaper-preview {
             margin: 12px 16px 8px;
         }
@@ -9324,6 +9447,24 @@
 
         .copy-template-btn.copied {
             background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        }
+
+        .template-tab {
+            transition: all 0.2s ease;
+        }
+
+        .template-tab:hover {
+            background: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .template-tab.active {
+            background: rgba(0, 0, 0, 0.1) !important;
+            border-color: rgba(0, 0, 0, 0.2) !important;
+            font-weight: 500;
+        }
+
+        .global-css-template-section .template-code {
+            font-family: 'Consolas', 'Monaco', monospace;
         }
 
         .css-status-indicator {
@@ -14560,7 +14701,7 @@
             <h3 style="margin: 20px 0 12px; font-size: 20px; color: #333; font-weight: 600;">导入成功</h3>
             <p id="import-success-message" style="color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 24px;"></p>
             <button class="btn-primary import-confirm-btn" onclick="confirmImportSuccess()" style="width: 100%; padding: 14px 24px; font-size: 16px; font-weight: 500;">
-                确认并刷新页面
+                确定
             </button>
         </div>
     </div>
@@ -15919,7 +16060,7 @@
                     </div>
                 </div>
                 <div class="chat-menu-category">
-                    <div class="chat-menu-category-header" onclick="toggleCategory(&#39;beautify&#39;)">
+                    <div class="chat-menu-category-header" onclick="toggleCategory('beautify')">
                         <div class="category-title-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
@@ -15930,20 +16071,34 @@
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </div>
-                    <div class="chat-menu-category-content" id="beautify-category">
+                    <div class="chat-menu-category-content scrollable" id="beautify-category">
                         <div style="padding: 12px 16px;">
-                            <div class="form-group" style="margin-bottom: 12px;">
-                                <label for="role-custom-css" style="font-size: 13px; color: #333; margin-bottom: 8px; display: block;">自定义CSS样式</label>
-                                <div class="css-editor-container" id="css-editor-container">
-                                    <textarea id="role-custom-css" placeholder="在此输入CSS代码，仅对当前角色生效" style="width: 100%; min-height: 150px; padding: 12px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 13px; font-family: &#39;Consolas&#39;, &#39;Monaco&#39;, monospace; resize: vertical; line-height: 1.5;"></textarea>
-                                    <div class="css-template-suggestion visible" id="css-template-suggestion">
-                                        <div class="template-header">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                            </svg>
-                                            <span>气泡样式模板</span>
-                                        </div>
-                                        <pre class="template-code" id="template-code">/* 气泡样式模板 - 可自定义颜色变量 */
+                            <div class="chat-menu-category" style="margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px;">
+                                <div class="chat-menu-category-header" onclick="toggleCategory('role-css')" style="padding: 10px 12px; background: rgba(0,0,0,0.02);">
+                                    <div class="category-title-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                    </div>
+                                    <span style="font-size: 13px;">自定义CSS样式</span>
+                                    <svg class="category-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="chat-menu-category-content scrollable" id="role-css-category" style="padding: 12px;">
+                                    <div class="form-group" style="margin-bottom: 12px;">
+                                        <label for="role-custom-css" style="font-size: 13px; color: #333; margin-bottom: 8px; display: block;">角色CSS样式</label>
+                                        <div class="css-editor-container" id="css-editor-container">
+                                            <textarea id="role-custom-css" placeholder="在此输入CSS代码，仅对当前角色生效" style="width: 100%; min-height: 150px; padding: 12px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 13px; font-family: 'Consolas', 'Monaco', monospace; resize: vertical; line-height: 1.5;"></textarea>
+                                            <div class="css-template-suggestion visible" id="css-template-suggestion">
+                                                <div class="template-header">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                                    </svg>
+                                                    <span>气泡样式模板</span>
+                                                </div>
+                                                <pre class="template-code" id="template-code">/* 气泡样式模板 - 可自定义颜色变量 */
 .message.sent .message-content {
     --bubble-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --bubble-text: #ffffff;
@@ -15972,31 +16127,82 @@
 .chat-messages {
     background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
 }</pre>
-                                        <button class="copy-template-btn" onclick="copyCssTemplate()">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                            </svg>
-                                            复制模板
-                                        </button>
+                                                <button class="copy-template-btn" onclick="copyCssTemplate()">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                    </svg>
+                                                    复制模板
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="css-status-indicator empty" id="css-status-indicator">
+                                            <span class="status-dot"></span>
+                                            <span class="status-text">等待输入</span>
+                                        </div>
+                                        <p style="font-size: 11px; color: #666; margin-top: 6px;">输入的CSS将仅应用于当前角色的聊天页面，样式会自动添加#wechat-chat前缀</p>
+                                    </div>
+                                    <button class="btn-primary" onclick="saveRoleCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; color: rgb(51, 51, 51);">保存样式</button>
+                                    <button class="btn-secondary" onclick="clearRoleCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">清除样式</button>
+                                    <button class="btn-preset" onclick="openSaveCssPresetModal()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">保存为预设</button>
+                                    
+                                    <div class="preset-section" style="margin-top: 16px;">
+                                        <div class="preset-header">
+                                            <span class="preset-title">📋 CSS预设列表</span>
+                                        </div>
+                                        <div class="preset-list touch-scroll-container" id="css-preset-list" style="overflow: hidden auto; touch-action: manipulation; max-height: 200px;">
+                                        <div class="scroll-indicator"></div></div>
                                     </div>
                                 </div>
-                                <div class="css-status-indicator empty" id="css-status-indicator">
-                                    <span class="status-dot"></span>
-                                    <span class="status-text">等待输入</span>
-                                </div>
-                                <p style="font-size: 11px; color: #666; margin-top: 6px;">输入的CSS将仅应用于当前角色的聊天页面，样式会自动添加#wechat-chat前缀</p>
                             </div>
-                            <button class="btn-primary" onclick="saveRoleCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; color: rgb(51, 51, 51);">保存样式</button>
-                            <button class="btn-secondary" onclick="clearRoleCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">清除样式</button>
-                            <button class="btn-preset" onclick="openSaveCssPresetModal()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">保存为预设</button>
                             
-                            <div class="preset-section" style="margin-top: 16px;">
-                                <div class="preset-header">
-                                    <span class="preset-title">📋 CSS预设列表</span>
+                            <div class="chat-menu-category" style="border: 1px solid rgba(0,0,0,0.08); border-radius: 8px;">
+                                <div class="chat-menu-category-header" onclick="toggleCategory('global-css')" style="padding: 10px 12px; background: rgba(0,0,0,0.02);">
+                                    <div class="category-title-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                        </svg>
+                                    </div>
+                                    <span style="font-size: 13px;">全局CSS样式</span>
+                                    <svg class="category-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
                                 </div>
-                                <div class="preset-list touch-scroll-container" id="css-preset-list" style="overflow: hidden auto; touch-action: manipulation; max-height: 200px;">
-                                <div class="scroll-indicator"></div></div>
+                                <div class="chat-menu-category-content scrollable" id="global-css-category" style="padding: 12px;">
+                                    <div class="form-group" style="margin-bottom: 12px;">
+                                        <label for="global-custom-css" style="font-size: 13px; color: #333; margin-bottom: 8px; display: block;">全局CSS样式</label>
+                                        <textarea id="global-custom-css" placeholder="在此输入全局CSS代码，对所有页面生效" style="width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 13px; font-family: 'Consolas', 'Monaco', monospace; resize: vertical; line-height: 1.5;"></textarea>
+                                        
+                                        <div class="global-css-template-section" style="margin-top: 12px;">
+                                            <div class="template-tabs" style="display: flex; gap: 8px; margin-bottom: 8px;">
+                                                <button class="template-tab active" onclick="switchGlobalCssTemplate('chat')" data-template="chat" style="flex: 1; padding: 8px 12px; font-size: 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; background: rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s;">聊天界面</button>
+                                                <button class="template-tab" onclick="switchGlobalCssTemplate('wechat')" data-template="wechat" style="flex: 1; padding: 8px 12px; font-size: 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; background: rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s;">微信界面</button>
+                                                <button class="template-tab" onclick="switchGlobalCssTemplate('moments')" data-template="moments" style="flex: 1; padding: 8px 12px; font-size: 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; background: rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s;">朋友圈界面</button>
+                                            </div>
+                                            
+                                            <div class="global-css-template-content" id="global-css-template-content">
+                                                <pre class="template-code" id="global-template-code" style="max-height: 200px; overflow: auto; font-size: 11px; line-height: 1.4; background: rgba(0,0,0,0.03); padding: 10px; border-radius: 6px; white-space: pre-wrap; word-break: break-all;"></pre>
+                                                <button class="copy-template-btn" onclick="copyGlobalCssTemplate()" style="margin-top: 8px; padding: 8px 12px; font-size: 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; background: rgba(0,0,0,0.05); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                    </svg>
+                                                    复制模板
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="css-status-indicator empty" id="global-css-status-indicator">
+                                            <span class="status-dot"></span>
+                                            <span class="status-text">等待输入</span>
+                                        </div>
+                                        <p style="font-size: 11px; color: #666; margin-top: 6px;">全局CSS将应用于整个应用，优先级低于角色CSS</p>
+                                    </div>
+                                    <button class="btn-primary" onclick="saveGlobalCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; color: rgb(51, 51, 51);">保存全局样式</button>
+                                    <button class="btn-secondary" onclick="clearGlobalCustomCss()" style="width: 100%; padding: 12px 16px; font-size: 14px; margin-top: 8px; color: rgb(51, 51, 51);">清除全局样式</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -17066,6 +17272,11 @@
                         
                         if (data.choices && data.choices[0] && data.choices[0].message) {
                             let reply = data.choices[0].message.content;
+                            
+                            reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '');
+                            reply = reply.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '');
+                            reply = reply.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '');
+                            reply = reply.replace(/<cot>[\s\S]*?<\/cot>/gi, '');
                             
                             let extractedLocation = null;
                             const locationMatch = reply.match(/\[LOCATION:([^\]]+)\]/);
@@ -18449,6 +18660,133 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
         
         let thoughtBubbleInterval = null;
         let needsUpdateInterval = null;
+        
+        const ImageStorage = {
+            dbName: 'XiaoShuJiImages',
+            storeName: 'images',
+            db: null,
+            
+            async init() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, 1);
+                    
+                    request.onerror = () => {
+                        console.error('IndexedDB 打开失败:', request.error);
+                        reject(request.error);
+                    };
+                    
+                    request.onsuccess = () => {
+                        this.db = request.result;
+                        console.log('IndexedDB 初始化成功');
+                        resolve(this.db);
+                    };
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        if (!db.objectStoreNames.contains(this.storeName)) {
+                            db.createObjectStore(this.storeName, { keyPath: 'key' });
+                            console.log('IndexedDB 存储创建成功');
+                        }
+                    };
+                });
+            },
+            
+            async save(key, data) {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.put({ key: key, data: data });
+                    
+                    request.onsuccess = () => {
+                        console.log('图片保存到 IndexedDB 成功:', key);
+                        resolve(true);
+                    };
+                    
+                    request.onerror = () => {
+                        console.error('图片保存到 IndexedDB 失败:', request.error);
+                        reject(request.error);
+                    };
+                });
+            },
+            
+            async load(key) {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readonly');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.get(key);
+                    
+                    request.onsuccess = () => {
+                        if (request.result) {
+                            resolve(request.result.data);
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    
+                    request.onerror = () => {
+                        console.error('从 IndexedDB 加载图片失败:', request.error);
+                        reject(request.error);
+                    };
+                });
+            },
+            
+            async remove(key) {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.delete(key);
+                    
+                    request.onsuccess = () => {
+                        console.log('从 IndexedDB 删除图片成功:', key);
+                        resolve(true);
+                    };
+                    
+                    request.onerror = () => {
+                        console.error('从 IndexedDB 删除图片失败:', request.error);
+                        reject(request.error);
+                    };
+                });
+            },
+            
+            async getAllKeys() {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readonly');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.getAllKeys();
+                    
+                    request.onsuccess = () => {
+                        resolve(request.result);
+                    };
+                    
+                    request.onerror = () => {
+                        reject(request.error);
+                    };
+                });
+            },
+            
+            async exportAll() {
+                const keys = await this.getAllKeys();
+                const data = {};
+                for (const key of keys) {
+                    data[key] = await this.load(key);
+                }
+                return data;
+            },
+            
+            async importAll(data) {
+                for (const key of Object.keys(data)) {
+                    await this.save(key, data[key]);
+                }
+            }
+        };
         
         const apps = [
             { id: 'wechat', name: '微信', svg: '<img src="" alt="微信">' },
@@ -19915,11 +20253,27 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             }
         }
 
-        function loadWidgets() {
-            const savedImage = localStorage.getItem('circleWidgetImage');
+        async function loadWidgets() {
+            await ImageStorage.init();
+            
+            let savedImage = localStorage.getItem('circleWidgetImage');
+            if (!savedImage) {
+                savedImage = await ImageStorage.load('circleWidgetImage');
+            }
+            
             if (savedImage) {
                 const widget = document.getElementById('circle-widget');
-                widget.innerHTML = `<img src="${savedImage}" alt="小组件图片" style="border-radius: 50%; box-shadow: 0 0 4px 1px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3); border: 2px solid white;">`;
+                const img = document.createElement('img');
+                img.src = savedImage;
+                img.alt = '小组件图片';
+                img.style.cssText = 'border-radius: 50%; box-shadow: 0 0 4px 1px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3); border: 2px solid white; width: 100%; height: 100%; object-fit: cover;';
+                img.onerror = function() {
+                    console.error('小组件图片加载失败');
+                    const cacheBuster = savedImage.includes('?') ? '&' : '?';
+                    img.src = savedImage + cacheBuster + '_t=' + Date.now();
+                };
+                widget.innerHTML = '';
+                widget.appendChild(img);
             }
             
             const savedText = localStorage.getItem('textWidgetText');
@@ -19927,7 +20281,6 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 document.getElementById('text-widget').textContent = savedText;
             }
             
-            // 加载便签内容
             loadNoteWidget();
         }
 
@@ -19977,10 +20330,17 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             document.getElementById('rename-icon-btn').style.display = 'inline-block';
         }
 
-        function loadAllIcons() {
-            document.querySelectorAll('[data-app]').forEach(element => {
+        async function loadAllIcons() {
+            await ImageStorage.init();
+            
+            document.querySelectorAll('[data-app]').forEach(async element => {
                 const appId = element.dataset.app;
-                const savedIcon = localStorage.getItem('icon_' + appId);
+                let savedIcon = localStorage.getItem('icon_' + appId);
+                
+                if (!savedIcon) {
+                    savedIcon = await ImageStorage.load('icon_' + appId);
+                }
+                
                 const iconContainer = element.querySelector('.icon-container, .dock-icon');
                 const appNameElement = element.querySelector('.app-name, .dock-name');
                 const app = apps.find(a => a.id === appId);
@@ -19993,6 +20353,11 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     img.src = savedIcon;
                     img.alt = app.name;
                     img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: inherit;';
+                    img.onerror = function() {
+                        console.error('图标加载失败:', appId);
+                        const cacheBuster = savedIcon.includes('?') ? '&' : '?';
+                        img.src = savedIcon + cacheBuster + '_t=' + Date.now();
+                    };
                     iconContainer.appendChild(img);
                 }
                 
@@ -20121,16 +20486,21 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             return Math.abs(hash).toString(16);
         }
 
-        function exportAllData() {
+        async function exportAllData() {
             try {
+                showStorageProgress('正在准备导出...', 0);
+                
+                await ImageStorage.init();
+                
                 var allKeys = Object.keys(localStorage);
                 var totalItems = allKeys.length;
                 
                 var exportData = {
-                    version: '2.0',
+                    version: '3.0',
                     exportDate: new Date().toISOString(),
                     appName: 'xiaoshuji',
                     data: {},
+                    indexedDBData: {},
                     metadata: {
                         itemCount: totalItems,
                         exportTimestamp: Date.now()
@@ -20144,15 +20514,21 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     'characterDetailImage_', 'detailImages_'
                 ];
 
+                showStorageProgress('正在读取 localStorage...', 20);
+                
                 for (var i = 0; i < allKeys.length; i++) {
                     var key = allKeys[i];
                     var value = localStorage.getItem(key);
                     if (value !== null) {
-                        exportData.data[key] = value;
-                        
                         var isImageKey = imagePatterns.some(function(pattern) {
                             return key.indexOf(pattern) !== -1;
                         });
+                        
+                        if (isImageKey && value.length > 100000) {
+                            exportData.indexedDBData[key] = value;
+                        } else {
+                            exportData.data[key] = value;
+                        }
                         
                         if (isImageKey || (value.indexOf('data:image') === 0)) {
                             imageKeys.push(key);
@@ -20175,6 +20551,24 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     }
                 }
 
+                showStorageProgress('正在读取 IndexedDB...', 50);
+                
+                try {
+                    var indexedDBKeys = await ImageStorage.getAllKeys();
+                    for (var j = 0; j < indexedDBKeys.length; j++) {
+                        var idbKey = indexedDBKeys[j];
+                        var idbValue = await ImageStorage.load(idbKey);
+                        if (idbValue) {
+                            exportData.indexedDBData[idbKey] = idbValue;
+                            if (imageKeys.indexOf(idbKey) === -1) {
+                                imageKeys.push(idbKey);
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error('读取 IndexedDB 失败:', e);
+                }
+
                 exportData.metadata.imageKeys = imageKeys;
                 exportData.metadata.imageCount = imageKeys.length;
 
@@ -20182,6 +20576,19 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 
                 var jsonString = JSON.stringify(exportData, null, 2);
                 var blob = new Blob([jsonString], { type: 'application/json' });
+                
+                var sizeInMB = (blob.size / (1024 * 1024)).toFixed(2);
+                console.log('导出数据大小:', sizeInMB, 'MB');
+                
+                showStorageProgress('导出完成!', 100);
+                
+                if (blob.size > 4.5 * 1024 * 1024) {
+                    var sizeWarning = '警告：导出数据大小为 ' + sizeInMB + ' MB，接近或超过 iOS Safari 的 5MB localStorage 限制！\n\n导入时可能会出现数据截断问题。建议：\n1. 删除一些不需要的图片数据\n2. 压缩图片后再上传\n\n是否继续导出？';
+                    if (!confirm(sizeWarning)) {
+                        showStorageStatus('导出已取消', 'warning');
+                        return;
+                    }
+                }
 
                 var timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
                 var fileName = 'xiaoshuji_backup_' + timestamp + '.json';
@@ -20380,6 +20787,18 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             console.log('=== 开始导入流程 ===');
             console.log('文件信息:', { name: file.name, size: file.size, type: file.type });
             
+            var fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            console.log('文件大小:', fileSizeMB, 'MB');
+            
+            if (file.size > 4.5 * 1024 * 1024) {
+                var sizeWarning = '警告：导入文件大小为 ' + fileSizeMB + ' MB，接近或超过 iOS Safari 的 5MB localStorage 限制！\n\n这可能导致数据截断或导入失败。建议：\n1. 使用较小的存档文件\n2. 在电脑浏览器上导入后同步\n\n是否继续尝试导入？';
+                if (!confirm(sizeWarning)) {
+                    showStorageStatus('导入已取消', 'warning');
+                    event.target.value = '';
+                    return;
+                }
+            }
+            
             if (typeof stopAutoSave === 'function') {
                 stopAutoSave();
                 console.log('[Import] 已停止自动保存');
@@ -20522,6 +20941,8 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 showStorageProgress('正在导入数据...', 50);
                 console.log('步骤 6/6: 正在导入数据...');
                 
+                await ImageStorage.init();
+                
                 if (conflictStrategy === 'overwrite') {
                     console.log('覆盖模式：清除所有旧数据...');
                     console.log('清除前localStorage键数:', Object.keys(localStorage).length);
@@ -20533,6 +20954,19 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 var importedCount = 0;
                 var skippedCount = 0;
                 var overwrittenCount = 0;
+                var migratedToIndexedDB = 0;
+                
+                var imagePatterns = [
+                    'icon_', 'Avatar', 'Wallpaper', 'Background', 'Image',
+                    'circleWidgetImage', 'customWallpaper', 'chatWallpaper_',
+                    'characterDetailImage_', 'detailImages_'
+                ];
+                
+                function isImageKey(key) {
+                    return imagePatterns.some(function(pattern) {
+                        return key.indexOf(pattern) !== -1;
+                    });
+                }
                 
                 var totalItems = newKeys.length;
                 var batchSize = 50;
@@ -20542,6 +20976,22 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     var value = importData.data[key];
                     
                     var exists = existingKeys.has(key);
+                    var isImage = isImageKey(key);
+                    var isLargeImage = isImage && value && value.length > 100000;
+                    
+                    if (isLargeImage) {
+                        console.log('检测到大图片数据，迁移到 IndexedDB:', key, '大小:', (value.length / 1024).toFixed(1), 'KB');
+                        try {
+                            await ImageStorage.save(key, value);
+                            migratedToIndexedDB++;
+                            importedCount++;
+                            console.log('大图片已迁移到 IndexedDB:', key);
+                        } catch (e) {
+                            console.error('IndexedDB 存储失败:', key, e);
+                            skippedCount++;
+                        }
+                        continue;
+                    }
                     
                     if (conflictStrategy === 'overwrite') {
                         try {
@@ -20551,11 +21001,37 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                                 importedCount++;
                             } else {
                                 console.error('验证失败:', key, '期望长度:', value.length, '实际长度:', verifyValue ? verifyValue.length : 0);
-                                skippedCount++;
+                                if (isImage && value.length > 50000) {
+                                    console.log('尝试将图片迁移到 IndexedDB:', key);
+                                    try {
+                                        await ImageStorage.save(key, value);
+                                        migratedToIndexedDB++;
+                                        importedCount++;
+                                        console.log('图片已迁移到 IndexedDB:', key);
+                                    } catch (e2) {
+                                        console.error('IndexedDB 迁移也失败:', key, e2);
+                                        skippedCount++;
+                                    }
+                                } else {
+                                    skippedCount++;
+                                }
                             }
                         } catch (e) {
                             console.error('存储失败:', key, e);
-                            skippedCount++;
+                            if (isImage && value.length > 50000) {
+                                console.log('localStorage 存储失败，尝试迁移到 IndexedDB:', key);
+                                try {
+                                    await ImageStorage.save(key, value);
+                                    migratedToIndexedDB++;
+                                    importedCount++;
+                                    console.log('图片已迁移到 IndexedDB:', key);
+                                } catch (e2) {
+                                    console.error('IndexedDB 迁移也失败:', key, e2);
+                                    skippedCount++;
+                                }
+                            } else {
+                                skippedCount++;
+                            }
                         }
                     } else if (exists) {
                         switch (conflictStrategy) {
@@ -20570,7 +21046,17 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                                     importedCount++;
                                 } catch (e) {
                                     console.error('存储失败:', key, e);
-                                    skippedCount++;
+                                    if (isImage && value.length > 50000) {
+                                        try {
+                                            await ImageStorage.save(key, value);
+                                            migratedToIndexedDB++;
+                                            importedCount++;
+                                        } catch (e2) {
+                                            skippedCount++;
+                                        }
+                                    } else {
+                                        skippedCount++;
+                                    }
                                 }
                                 break;
                         }
@@ -20580,7 +21066,17 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                             importedCount++;
                         } catch (e) {
                             console.error('存储失败:', key, e);
-                            skippedCount++;
+                            if (isImage && value.length > 50000) {
+                                try {
+                                    await ImageStorage.save(key, value);
+                                    migratedToIndexedDB++;
+                                    importedCount++;
+                                } catch (e2) {
+                                    skippedCount++;
+                                }
+                            } else {
+                                skippedCount++;
+                            }
                         }
                     }
                     
@@ -20592,7 +21088,30 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 }
 
                 showStorageProgress('完成！', 100);
-                console.log('导入完成！统计:', { imported: importedCount, overwritten: overwrittenCount, skipped: skippedCount });
+                console.log('导入完成！统计:', { imported: importedCount, overwritten: overwrittenCount, skipped: skippedCount, migratedToIndexedDB: migratedToIndexedDB });
+                
+                if (importData.indexedDBData && Object.keys(importData.indexedDBData).length > 0) {
+                    showStorageProgress('正在导入图片数据到 IndexedDB...', 95);
+                    console.log('检测到 IndexedDB 数据，正在导入...');
+                    
+                    try {
+                        await ImageStorage.init();
+                        var idbKeys = Object.keys(importData.indexedDBData);
+                        for (var k = 0; k < idbKeys.length; k++) {
+                            var idbKey = idbKeys[k];
+                            var idbValue = importData.indexedDBData[idbKey];
+                            try {
+                                await ImageStorage.save(idbKey, idbValue);
+                                console.log('IndexedDB 导入成功:', idbKey);
+                            } catch (e) {
+                                console.error('IndexedDB 导入失败:', idbKey, e);
+                            }
+                        }
+                        console.log('IndexedDB 数据导入完成，共', idbKeys.length, '项');
+                    } catch (e) {
+                        console.error('IndexedDB 初始化失败:', e);
+                    }
+                }
                 
                 console.log('=== 最终验证 ===');
                 console.log('localStorage总键数:', Object.keys(localStorage).length);
@@ -20604,6 +21123,20 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 console.log('simsRolesData:', simsRolesDataCheck !== null ? '存在(长度:' + simsRolesDataCheck.length + ')' : '不存在');
                 console.log('wechatMessages:', wechatMessagesCheck !== null ? '存在(长度:' + wechatMessagesCheck.length + ')' : '不存在');
                 console.log('worldbookEntries:', worldbookEntriesCheck !== null ? '存在(长度:' + worldbookEntriesCheck.length + ')' : '不存在');
+                
+                console.log('=== 壁纸和图标验证 ===');
+                var customWallpaperCheck = localStorage.getItem('customWallpaper');
+                var oldWallpaperCheck = localStorage.getItem('wallpaper');
+                var circleWidgetImageCheck = localStorage.getItem('circleWidgetImage');
+                console.log('customWallpaper:', customWallpaperCheck !== null ? '存在(长度:' + customWallpaperCheck.length + ')' : '不存在');
+                console.log('wallpaper(旧):', oldWallpaperCheck !== null ? '存在(长度:' + oldWallpaperCheck.length + ')' : '不存在');
+                console.log('circleWidgetImage:', circleWidgetImageCheck !== null ? '存在(长度:' + circleWidgetImageCheck.length + ')' : '不存在');
+                
+                var iconApps = ['wechat', 'worldbook', 'netease', 'forum', 'home', 'anniversary', 'settings'];
+                iconApps.forEach(function(appId) {
+                    var iconCheck = localStorage.getItem('icon_' + appId);
+                    console.log('icon_' + appId + ':', iconCheck !== null ? '存在(长度:' + iconCheck.length + ')' : '不存在');
+                });
                 
                 if (wechatRolesCheck) {
                     try {
@@ -20628,6 +21161,9 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 }
                 if (skippedCount > 0) {
                     resultMsg += '，跳过 ' + skippedCount + ' 项';
+                }
+                if (migratedToIndexedDB > 0) {
+                    resultMsg += '，' + migratedToIndexedDB + ' 项大图片已迁移到 IndexedDB';
                 }
                 
                 if (importData.metadata && importData.metadata.imageCount) {
@@ -20784,6 +21320,26 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 worldbookFolders = [];
             }
             
+            if (typeof loadAllIcons === 'function') {
+                loadAllIcons();
+                console.log('桌面图标重新加载完成');
+            }
+            
+            if (typeof applyWallpaper === 'function') {
+                applyWallpaper();
+                console.log('桌面壁纸重新加载完成');
+            }
+            
+            if (typeof loadWidgets === 'function') {
+                loadWidgets();
+                console.log('桌面小组件重新加载完成');
+            }
+            
+            if (typeof applyFontColors === 'function') {
+                applyFontColors();
+                console.log('字体颜色重新加载完成');
+            }
+            
             isDataInitialized = true;
             console.log('所有数据重新加载完成，isDataInitialized =', isDataInitialized);
         }
@@ -20793,7 +21349,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             if (modal) {
                 modal.style.display = 'none';
             }
-            console.log('用户确认刷新页面');
+            console.log('用户确认，正在刷新页面');
             console.log('刷新前localStorage状态:');
             console.log('- 总键数:', Object.keys(localStorage).length);
             console.log('- wechatRoles:', localStorage.getItem('wechatRoles') ? '存在' : '不存在');
@@ -22078,15 +22634,30 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
 
         function updateWallpaperPreview() {
             const preview = document.getElementById('current-wallpaper');
-            const customWallpaper = localStorage.getItem('customWallpaper');
+            let customWallpaper = localStorage.getItem('customWallpaper');
+            
+            if (!customWallpaper) {
+                customWallpaper = localStorage.getItem('wallpaper');
+            }
             
             if (customWallpaper) {
-                preview.style.backgroundImage = `url(${customWallpaper})`;
-                preview.style.backgroundSize = 'cover';
-                preview.style.backgroundPosition = 'center';
-                preview.innerHTML = '';
+                const testImg = new Image();
+                testImg.onload = function() {
+                    preview.style.backgroundImage = `url(${customWallpaper})`;
+                    preview.style.backgroundSize = 'cover';
+                    preview.style.backgroundPosition = 'center';
+                    preview.innerHTML = '';
+                };
+                testImg.onerror = function() {
+                    const cacheBuster = customWallpaper.includes('?') ? '&' : '?';
+                    const wallpaperUrl = customWallpaper + cacheBuster + '_t=' + Date.now();
+                    preview.style.backgroundImage = `url(${wallpaperUrl})`;
+                    preview.style.backgroundSize = 'cover';
+                    preview.style.backgroundPosition = 'center';
+                    preview.innerHTML = '';
+                };
+                testImg.src = customWallpaper;
             } else {
-                // 使用指定的默认壁纸链接
                 const defaultWallpaper = '';
                 preview.style.backgroundImage = `url(${defaultWallpaper})`;
                 preview.style.backgroundSize = 'cover';
@@ -22097,18 +22668,48 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
 
 
 
-        function applyWallpaper() {
+        async function applyWallpaper() {
             const body = document.body;
-            const customWallpaper = localStorage.getItem('customWallpaper');
+            let customWallpaper = localStorage.getItem('customWallpaper');
+            
+            if (!customWallpaper) {
+                const oldWallpaper = localStorage.getItem('wallpaper');
+                if (oldWallpaper) {
+                    console.log('检测到旧版本壁纸数据，正在迁移...');
+                    localStorage.setItem('customWallpaper', oldWallpaper);
+                    localStorage.removeItem('wallpaper');
+                    customWallpaper = oldWallpaper;
+                }
+            }
+            
+            if (!customWallpaper) {
+                await ImageStorage.init();
+                customWallpaper = await ImageStorage.load('customWallpaper');
+            }
             
             if (customWallpaper) {
-                body.style.background = `url(${customWallpaper}) center/cover no-repeat fixed`;
-                body.style.backgroundAttachment = 'fixed';
-                body.style.backgroundPosition = 'center';
-                body.style.backgroundSize = 'cover';
-                body.style.backgroundRepeat = 'no-repeat';
+                const cacheBuster = customWallpaper.includes('?') ? '&' : '?';
+                const wallpaperUrl = customWallpaper + cacheBuster + '_t=' + Date.now();
+                
+                const testImg = new Image();
+                testImg.onload = function() {
+                    body.style.background = `url(${customWallpaper}) center/cover no-repeat fixed`;
+                    body.style.backgroundAttachment = 'fixed';
+                    body.style.backgroundPosition = 'center';
+                    body.style.backgroundSize = 'cover';
+                    body.style.backgroundRepeat = 'no-repeat';
+                    console.log('壁纸加载成功');
+                };
+                testImg.onerror = function() {
+                    console.error('壁纸加载失败，尝试重新加载');
+                    body.style.background = `url(${wallpaperUrl}) center/cover no-repeat fixed`;
+                    body.style.backgroundAttachment = 'fixed';
+                    body.style.backgroundPosition = 'center';
+                    body.style.backgroundSize = 'cover';
+                    body.style.backgroundRepeat = 'no-repeat';
+                };
+                testImg.src = customWallpaper;
             } else {
-                // 使用指定的默认壁纸链接
                 const defaultWallpaper = '';
                 body.style.background = `url(${defaultWallpaper}) center/cover no-repeat fixed`;
                 body.style.backgroundAttachment = 'fixed';
@@ -22263,10 +22864,11 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             this.value = '';
         });
 
-        window.addEventListener('load', function() {
-            applyWallpaper();
-            loadAllIcons();
-            loadWidgets();
+        window.addEventListener('load', async function() {
+            await ImageStorage.init();
+            await applyWallpaper();
+            await loadAllIcons();
+            await loadWidgets();
             
             document.getElementById('settings-modal').addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -25530,6 +26132,8 @@ ${commenterInfo}
                 loadSummaryContent();
                 loadRoleMomentsSettings();
                 renderCssPresetList();
+                loadGlobalCustomCss();
+                initGlobalCssTemplate();
                 if (currentChatRole) {
                     loadRoleCustomCss(currentChatRole.id);
                     loadCustomPlaceholder(currentChatRole.id);
@@ -26271,6 +26875,12 @@ ${commenterInfo}
 
                 if (data.choices && data.choices[0] && data.choices[0].message) {
                     let reply = data.choices[0].message.content;
+                    
+                    reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '');
+                    reply = reply.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '');
+                    reply = reply.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '');
+                    reply = reply.replace(/<cot>[\s\S]*?<\/cot>/gi, '');
+                    
                     reply = reply.trim();
                     
                     const replyIndex = musicAddMessage(reply);
@@ -27501,6 +28111,264 @@ ${commenterInfo}
             }
         }
 
+        const GLOBAL_CSS_KEY = 'globalCustomCss';
+
+        function saveGlobalCustomCss() {
+            const cssContent = document.getElementById('global-custom-css').value;
+            
+            if (cssContent.trim()) {
+                localStorage.setItem(GLOBAL_CSS_KEY, cssContent);
+            } else {
+                localStorage.removeItem(GLOBAL_CSS_KEY);
+            }
+            
+            applyGlobalCustomCss();
+            updateGlobalCssStatusIndicator();
+            alert('全局CSS样式已保存！');
+        }
+
+        function clearGlobalCustomCss() {
+            if (confirm('确定要清除全局CSS样式吗？')) {
+                localStorage.removeItem(GLOBAL_CSS_KEY);
+                document.getElementById('global-custom-css').value = '';
+                removeGlobalCustomCss();
+                updateGlobalCssStatusIndicator();
+                alert('全局CSS样式已清除！');
+            }
+        }
+
+        function applyGlobalCustomCss() {
+            removeGlobalCustomCss();
+            
+            const cssContent = localStorage.getItem(GLOBAL_CSS_KEY);
+            
+            if (cssContent && cssContent.trim()) {
+                const styleElement = document.createElement('style');
+                styleElement.id = 'global-custom-css-style';
+                styleElement.textContent = cssContent;
+                document.head.appendChild(styleElement);
+            }
+        }
+
+        function removeGlobalCustomCss() {
+            const existingStyle = document.getElementById('global-custom-css-style');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+        }
+
+        function loadGlobalCustomCss() {
+            const cssContent = localStorage.getItem(GLOBAL_CSS_KEY) || '';
+            const textarea = document.getElementById('global-custom-css');
+            if (textarea) {
+                textarea.value = cssContent;
+            }
+            updateGlobalCssStatusIndicator();
+        }
+
+        function updateGlobalCssStatusIndicator() {
+            const textarea = document.getElementById('global-custom-css');
+            const indicator = document.getElementById('global-css-status-indicator');
+            if (!textarea || !indicator) return;
+            
+            const hasContent = textarea.value.trim().length > 0;
+            indicator.className = 'css-status-indicator ' + (hasContent ? 'has-content' : 'empty');
+            indicator.querySelector('.status-text').textContent = hasContent ? '已输入样式' : '等待输入';
+        }
+
+        const globalCssTemplates = {
+            chat: `/* ===== 聊天界面样式模板 ===== */
+
+/* 聊天消息区域背景 */
+.chat-messages {
+    background: linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 100%);
+}
+
+/* 发送的消息气泡 */
+.message.sent .message-content {
+    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+    color: #ffffff;
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+/* 接收的消息气泡 */
+.message.received .message-content {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333333;
+    border-radius: 18px 18px 18px 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 聊天输入框区域 */
+.chat-input-area {
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 聊天输入框 */
+.chat-input-area textarea {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 20px;
+}
+
+/* 聊天头部 */
+.chat-header {
+    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+    color: #ffffff;
+}`,
+
+            wechat: `/* ===== 微信界面样式模板 ===== */
+
+/* 主界面背景 */
+.wechat-container, .app-container {
+    background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+}
+
+/* 底部导航栏 */
+.bottom-nav {
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 底部导航项激活状态 */
+.bottom-nav-item.active {
+    color: #1976d2;
+}
+
+/* 消息列表 */
+.message-list {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* 消息列表项 */
+.message-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 通讯录列表 */
+.contacts-list {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* 顶部标题栏 */
+.header-title {
+    color: #1976d2;
+}
+
+/* 搜索框 */
+.search-box {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}`,
+
+            moments: `/* ===== 朋友圈界面样式模板 ===== */
+
+/* 朋友圈背景 */
+.moments-container, .moments-content {
+    background: linear-gradient(180deg, #fff3e0 0%, #ffe0b2 100%);
+}
+
+/* 朋友圈头部封面 */
+.moments-header {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+}
+
+/* 朋友圈用户名 */
+.moments-username {
+    color: #e65100;
+    font-weight: 600;
+}
+
+/* 朋友圈动态卡片 */
+.moment-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    margin: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 朋友圈内容文字 */
+.moment-content {
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* 朋友圈图片网格 */
+.moment-images {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 朋友圈点赞评论区域 */
+.moment-actions {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+}
+
+/* 朋友圈时间 */
+.moment-time {
+    color: #999999;
+    font-size: 12px;
+}
+
+/* 朋友圈评论区 */
+.moment-comments {
+    background: rgba(255, 152, 0, 0.05);
+    border-radius: 8px;
+}`
+        };
+
+        let currentGlobalCssTemplate = 'chat';
+
+        function switchGlobalCssTemplate(templateName) {
+            currentGlobalCssTemplate = templateName;
+            
+            const tabs = document.querySelectorAll('.template-tab');
+            tabs.forEach(tab => {
+                if (tab.dataset.template === templateName) {
+                    tab.classList.add('active');
+                    tab.style.background = 'rgba(0, 0, 0, 0.1)';
+                    tab.style.borderColor = 'rgba(0, 0, 0, 0.2)';
+                } else {
+                    tab.classList.remove('active');
+                    tab.style.background = 'rgba(0, 0, 0, 0.05)';
+                    tab.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+                }
+            });
+            
+            const templateCode = document.getElementById('global-template-code');
+            if (templateCode && globalCssTemplates[templateName]) {
+                templateCode.textContent = globalCssTemplates[templateName];
+            }
+        }
+
+        function copyGlobalCssTemplate() {
+            const templateCode = globalCssTemplates[currentGlobalCssTemplate];
+            if (templateCode) {
+                navigator.clipboard.writeText(templateCode).then(() => {
+                    const btn = document.querySelector('.global-css-template-section .copy-template-btn');
+                    if (btn) {
+                        const originalText = btn.innerHTML;
+                        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"></polyline></svg> 已复制';
+                        btn.style.background = 'rgba(76, 175, 80, 0.2)';
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.style.background = 'rgba(0, 0, 0, 0.05)';
+                        }, 2000);
+                    }
+                }).catch(err => {
+                    alert('复制失败，请手动复制');
+                });
+            }
+        }
+
+        function initGlobalCssTemplate() {
+            switchGlobalCssTemplate('chat');
+        }
+
         async function generateAiSummary(summaryType = 'auto') {
             if (!currentChatRole) {
                 alert('请先选择一个角色进行对话');
@@ -28597,6 +29465,11 @@ ${recentHistory.map(msg => {
                     if (data.choices && data.choices[0] && data.choices[0].message) {
                         let reply = data.choices[0].message.content;
                         console.log('[InsProfile] API 原始回复:', reply);
+                        
+                        reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '');
+                        reply = reply.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '');
+                        reply = reply.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '');
+                        reply = reply.replace(/<cot>[\s\S]*?<\/cot>/gi, '');
                         
                         let extractedStatus = null;
                         const statusMatch = reply.match(/\[STATUS:([^\]]+)\]/);
@@ -30256,6 +31129,8 @@ ${recentHistory.map(msg => {
             if (typeof AnniversaryModule !== 'undefined') {
                 AnniversaryModule.initAfterRolesLoaded();
             }
+            
+            applyGlobalCustomCss();
             
             isDataInitialized = true;
             console.log('=== initWechatData 完成，isDataInitialized =', isDataInitialized, '===');
@@ -32073,6 +32948,11 @@ ${recentHistory.map(msg => {
             if (!text) return '';
             
             let processed = text;
+            
+            processed = processed.replace(/<think>[\s\S]*?<\/think>/gi, '');
+            processed = processed.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '');
+            processed = processed.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '');
+            processed = processed.replace(/<cot>[\s\S]*?<\/cot>/gi, '');
             
             const aiPatterns = [
                 /作为(一个)?(AI|人工智能|语言模型|大语言模型|虚拟助手|智能助手)[^。！？]*[，,。：: ]*/gi,
