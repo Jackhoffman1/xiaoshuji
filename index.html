@@ -26265,6 +26265,16 @@ ${commenterInfo}
             const file = event.target.files[0];
             if (!file || !currentChatRole) return;
 
+            const fileName = file.name.toLowerCase();
+            const validExtensions = ['.png', '.jpg', '.jpeg'];
+            const hasValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
+            const isValidType = file.type && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg');
+            
+            if (!hasValidExtension && !isValidType) {
+                showToast('请选择 PNG、JPG 或 JPEG 格式的图片');
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 const wallpaperKey = 'chatWallpaper_' + currentChatRole.id;
@@ -30432,8 +30442,13 @@ ${recentHistory.map(msg => {
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showToast('请选择图片文件');
+            const fileName = file.name.toLowerCase();
+            const validExtensions = ['.png', '.jpg', '.jpeg'];
+            const hasValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
+            const isValidType = file.type && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg');
+            
+            if (!hasValidExtension && !isValidType) {
+                showToast('请选择 PNG、JPG 或 JPEG 格式的图片');
                 return;
             }
 
