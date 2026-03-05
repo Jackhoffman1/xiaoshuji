@@ -14061,6 +14061,10 @@
                         <li>🔧 系统Prompts中的提示词可以删除或编辑</li>
                         <li>🌙 增加夜间模式</li>
                         <li>🎨 增加CSS保存为预设</li>
+                        <li>🔒 锁定了屏幕不会放大啦，图片上传也修了一下</li>
+                        <li>🔧 修复了iOS图片导入问题</li>
+                        <li>🔧 修复了导入角色丢失问题</li>
+                        <li>🔧 修复图标上传问题</li>
                     </ul>
                 </div>
             </div>
@@ -18368,7 +18372,17 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
         let simsNeeds = getDefaultNeeds();
         let simsThoughtMessages = [];
         let simsUsedThoughtMessages = [];
-        let selectedSimsWorldbookIds = JSON.parse(localStorage.getItem('selectedSimsWorldbookIds')) || [];
+        let selectedSimsWorldbookIds = (function() {
+            try {
+                const saved = localStorage.getItem('selectedSimsWorldbookIds');
+                if (saved && saved.trim() !== '') {
+                    return JSON.parse(saved);
+                }
+                return [];
+            } catch {
+                return [];
+            }
+        })();
         
         const thoughtMessages = [
             "今天心情不错，想要做些什么好呢？",
@@ -19929,12 +19943,21 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 
                 const savedIcon = localStorage.getItem('icon_' + app.id);
                 const savedName = localStorage.getItem('appName_' + app.id) || app.name;
-                let iconContent = savedIcon ? `<img src="${savedIcon}" alt="${savedName}">` : app.svg;
                 
-                item.innerHTML = `
-                    <div class="preview-icon">${iconContent}</div>
-                    <span>${savedName}</span>
-                `;
+                const previewIcon = document.createElement('div');
+                previewIcon.className = 'preview-icon';
+                
+                const img = document.createElement('img');
+                img.src = savedIcon || '';
+                img.alt = savedName;
+                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: inherit;';
+                previewIcon.appendChild(img);
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = savedName;
+                
+                item.appendChild(previewIcon);
+                item.appendChild(nameSpan);
                 grid.appendChild(item);
             });
         }
@@ -19963,7 +19986,14 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 const app = apps.find(a => a.id === appId);
                 
                 if (savedIcon && iconContainer && app) {
-                    iconContainer.innerHTML = `<img src="${savedIcon}" alt="${app.name}">`;
+                    while (iconContainer.firstChild) {
+                        iconContainer.removeChild(iconContainer.firstChild);
+                    }
+                    const img = document.createElement('img');
+                    img.src = savedIcon;
+                    img.alt = app.name;
+                    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: inherit;';
+                    iconContainer.appendChild(img);
                 }
                 
                 if (appNameElement && app) {
@@ -19988,7 +20018,14 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     const iconContainer = element.querySelector('.icon-container, .dock-icon');
                     const appNameElement = element.querySelector('.app-name, .dock-name');
                     if (iconContainer) {
-                        iconContainer.innerHTML = app.svg;
+                        while (iconContainer.firstChild) {
+                            iconContainer.removeChild(iconContainer.firstChild);
+                        }
+                        const img = document.createElement('img');
+                        img.src = '';
+                        img.alt = app.name;
+                        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: inherit;';
+                        iconContainer.appendChild(img);
                     }
                     if (appNameElement) {
                         appNameElement.textContent = app.name;
@@ -20343,11 +20380,19 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             console.log('=== 开始导入流程 ===');
             console.log('文件信息:', { name: file.name, size: file.size, type: file.type });
             
+            if (typeof stopAutoSave === 'function') {
+                stopAutoSave();
+                console.log('[Import] 已停止自动保存');
+            }
+            
             if (!file.name.endsWith('.json')) {
                 var errorMsg = '文件类型错误：请选择 .json 格式的文件';
                 console.error(errorMsg);
                 showStorageStatus(errorMsg, 'error');
                 event.target.value = '';
+                if (typeof startAutoSave === 'function') {
+                    startAutoSave();
+                }
                 return;
             }
             
@@ -20399,6 +20444,9 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     console.error(detailedError);
                     showStorageStatus(detailedError, 'error');
                     event.target.value = '';
+                    if (typeof startAutoSave === 'function') {
+                        startAutoSave();
+                    }
                     return;
                 }
 
@@ -20465,6 +20513,9 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     console.log('用户取消导入');
                     showStorageStatus('导入已取消', 'warning');
                     event.target.value = '';
+                    if (typeof startAutoSave === 'function') {
+                        startAutoSave();
+                    }
                     return;
                 }
 
@@ -20583,6 +20634,13 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     resultMsg += '（含 ' + importData.metadata.imageCount + ' 项图片资源）';
                 }
                 
+                reloadAllData();
+                
+                if (typeof startAutoSave === 'function') {
+                    startAutoSave();
+                    console.log('[Import] 已重新启动自动保存');
+                }
+                
                 showStorageStatus(resultMsg, 'success');
                 hideStorageProgress();
                 
@@ -20596,6 +20654,10 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 console.error('错误信息:', error.message);
                 console.error('错误堆栈:', error.stack);
                 hideStorageProgress();
+                
+                if (typeof startAutoSave === 'function') {
+                    startAutoSave();
+                }
                 
                 var userFriendlyError = '导入失败: ';
                 
@@ -20633,7 +20695,12 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             isDataInitialized = false;
             
             try {
-                roles = JSON.parse(localStorage.getItem('wechatRoles')) || [];
+                const savedRoles = localStorage.getItem('wechatRoles');
+                if (savedRoles && savedRoles.trim() !== '') {
+                    roles = JSON.parse(savedRoles);
+                } else {
+                    roles = [];
+                }
                 console.log('roles 重新加载完成，数量:', roles.length);
             } catch (e) {
                 console.error('roles 加载失败:', e);
@@ -20641,7 +20708,12 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             }
             
             try {
-                messages = JSON.parse(localStorage.getItem('wechatMessages')) || {};
+                const savedMessages = localStorage.getItem('wechatMessages');
+                if (savedMessages && savedMessages.trim() !== '') {
+                    messages = JSON.parse(savedMessages);
+                } else {
+                    messages = {};
+                }
                 console.log('messages 重新加载完成');
             } catch (e) {
                 console.error('messages 加载失败:', e);
@@ -20649,7 +20721,12 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             }
             
             try {
-                moments = JSON.parse(localStorage.getItem('wechatMoments')) || [];
+                const savedMoments = localStorage.getItem('wechatMoments');
+                if (savedMoments && savedMoments.trim() !== '') {
+                    moments = JSON.parse(savedMoments);
+                } else {
+                    moments = [];
+                }
                 console.log('moments 重新加载完成，数量:', moments.length);
             } catch (e) {
                 console.error('moments 加载失败:', e);
@@ -20658,14 +20735,54 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             
             try {
                 const saved = localStorage.getItem('simsRolesData');
-                simsRolesData = saved ? JSON.parse(saved) : {};
+                if (saved && saved.trim() !== '') {
+                    simsRolesData = JSON.parse(saved);
+                } else {
+                    simsRolesData = {};
+                }
                 console.log('simsRolesData 重新加载完成');
             } catch (e) {
                 console.error('simsRolesData 加载失败:', e);
                 simsRolesData = {};
             }
             
-            selectedSimsWorldbookIds = JSON.parse(localStorage.getItem('selectedSimsWorldbookIds')) || [];
+            try {
+                const savedIds = localStorage.getItem('selectedSimsWorldbookIds');
+                if (savedIds && savedIds.trim() !== '') {
+                    selectedSimsWorldbookIds = JSON.parse(savedIds);
+                } else {
+                    selectedSimsWorldbookIds = [];
+                }
+            } catch (e) {
+                console.error('selectedSimsWorldbookIds 加载失败:', e);
+                selectedSimsWorldbookIds = [];
+            }
+            
+            try {
+                const savedWorldbookEntries = localStorage.getItem('worldbookEntries');
+                if (savedWorldbookEntries && savedWorldbookEntries.trim() !== '') {
+                    worldbookEntries = JSON.parse(savedWorldbookEntries);
+                } else {
+                    worldbookEntries = [];
+                }
+                console.log('worldbookEntries 重新加载完成，数量:', worldbookEntries.length);
+            } catch (e) {
+                console.error('worldbookEntries 加载失败:', e);
+                worldbookEntries = [];
+            }
+            
+            try {
+                const savedWorldbookFolders = localStorage.getItem('worldbookFolders');
+                if (savedWorldbookFolders && savedWorldbookFolders.trim() !== '') {
+                    worldbookFolders = JSON.parse(savedWorldbookFolders);
+                } else {
+                    worldbookFolders = [];
+                }
+                console.log('worldbookFolders 重新加载完成，数量:', worldbookFolders.length);
+            } catch (e) {
+                console.error('worldbookFolders 加载失败:', e);
+                worldbookFolders = [];
+            }
             
             isDataInitialized = true;
             console.log('所有数据重新加载完成，isDataInitialized =', isDataInitialized);
@@ -22125,7 +22242,14 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 document.querySelectorAll('[data-app="' + selectedApp + '"]').forEach(element => {
                     const iconContainer = element.querySelector('.icon-container, .dock-icon');
                     if (iconContainer) {
-                        iconContainer.innerHTML = `<img src="${iconUrl}" alt="自定义图标">`;
+                        while (iconContainer.firstChild) {
+                            iconContainer.removeChild(iconContainer.firstChild);
+                        }
+                        const img = document.createElement('img');
+                        img.src = iconUrl;
+                        img.alt = '自定义图标';
+                        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: inherit;';
+                        iconContainer.appendChild(img);
                     }
                 });
 
@@ -22266,10 +22390,40 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         let isSendingMessages = false;
         let isAutoSummarizing = false;
         let isDataInitialized = false;
-        let roles = JSON.parse(localStorage.getItem('wechatRoles')) || [];
-        let messages = JSON.parse(localStorage.getItem('wechatMessages')) || {};
+        let roles = (function() {
+            try {
+                const saved = localStorage.getItem('wechatRoles');
+                if (saved && saved.trim() !== '') {
+                    return JSON.parse(saved);
+                }
+                return [];
+            } catch {
+                return [];
+            }
+        })();
+        let messages = (function() {
+            try {
+                const saved = localStorage.getItem('wechatMessages');
+                if (saved && saved.trim() !== '') {
+                    return JSON.parse(saved);
+                }
+                return {};
+            } catch {
+                return {};
+            }
+        })();
         let musicMessages = {};
-        let moments = JSON.parse(localStorage.getItem('wechatMoments')) || [];
+        let moments = (function() {
+            try {
+                const saved = localStorage.getItem('wechatMoments');
+                if (saved && saved.trim() !== '') {
+                    return JSON.parse(saved);
+                }
+                return [];
+            } catch {
+                return [];
+            }
+        })();
         let visibleMessageCount = 50;
         const MESSAGES_PER_PAGE = 50;
 
@@ -32052,8 +32206,28 @@ ${recentHistory.map(msg => {
         }
 
         // ==================== 世界书应用模块 ====================
-        let worldbookFolders = JSON.parse(localStorage.getItem('worldbookFolders')) || [];
-        let worldbookEntries = JSON.parse(localStorage.getItem('worldbookEntries')) || [];
+        let worldbookFolders = (function() {
+            try {
+                const saved = localStorage.getItem('worldbookFolders');
+                if (saved && saved.trim() !== '') {
+                    return JSON.parse(saved);
+                }
+                return [];
+            } catch {
+                return [];
+            }
+        })();
+        let worldbookEntries = (function() {
+            try {
+                const saved = localStorage.getItem('worldbookEntries');
+                if (saved && saved.trim() !== '') {
+                    return JSON.parse(saved);
+                }
+                return [];
+            } catch {
+                return [];
+            }
+        })();
         let currentWorldbookFolder = 'all';
         let currentWorldbookEntry = null;
         let editingWorldbookEntry = null;
