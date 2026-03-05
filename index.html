@@ -14061,7 +14061,6 @@
                         <li>🔧 系统Prompts中的提示词可以删除或编辑</li>
                         <li>🌙 增加夜间模式</li>
                         <li>🎨 增加CSS保存为预设</li>
-                        <li>🔒 锁定了屏幕不会放大啦，图片上传也修了一下</li>
                     </ul>
                 </div>
             </div>
@@ -26266,16 +26265,13 @@ ${commenterInfo}
             const file = event.target.files[0];
             if (!file || !currentChatRole) return;
 
-            const fileName = file.name.toLowerCase();
-            const validExtensions = ['.png', '.jpg', '.jpeg'];
-            const hasValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
-            const isValidType = file.type && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg');
-            
-            if (!hasValidExtension && !isValidType) {
-                showToast('请选择 PNG、JPG 或 JPEG 格式的图片');
+            const maxSizeMB = 9;
+            const maxSizeBytes = maxSizeMB * 1024 * 1024;
+            if (file.size > maxSizeBytes) {
+                showToast(`图片大小不能超过 ${maxSizeMB}MB`);
                 return;
             }
-
+            
             const reader = new FileReader();
             reader.onload = function(e) {
                 const wallpaperKey = 'chatWallpaper_' + currentChatRole.id;
@@ -30443,13 +30439,15 @@ ${recentHistory.map(msg => {
             const file = event.target.files[0];
             if (!file) return;
 
-            const fileName = file.name.toLowerCase();
-            const validExtensions = ['.png', '.jpg', '.jpeg'];
-            const hasValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
-            const isValidType = file.type && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg');
-            
-            if (!hasValidExtension && !isValidType) {
-                showToast('请选择 PNG、JPG 或 JPEG 格式的图片');
+            if (!file.type.startsWith('image/')) {
+                showToast('请选择图片文件');
+                return;
+            }
+
+            const maxSizeMB = 9;
+            const maxSizeBytes = maxSizeMB * 1024 * 1024;
+            if (file.size > maxSizeBytes) {
+                showToast(`图片大小不能超过 ${maxSizeMB}MB`);
                 return;
             }
 
