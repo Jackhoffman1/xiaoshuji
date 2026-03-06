@@ -2616,6 +2616,228 @@
             -webkit-transform: translateZ(0);
         }
 
+        .error-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .error-log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .error-log-stats {
+            display: flex;
+            gap: 16px;
+        }
+
+        .error-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .error-stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .error-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .error-log-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .error-filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .error-filter-bar select {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .error-log-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .error-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .error-empty-state svg {
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .error-empty-text {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .error-empty-hint {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .error-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .error-item:last-child {
+            border-bottom: none;
+        }
+
+        .error-item:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .error-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .error-item-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .error-type-network { background: rgba(255, 149, 0, 0.15); color: #d35400; }
+        .error-type-api { background: rgba(155, 89, 182, 0.15); color: #8e44ad; }
+        .error-type-storage { background: rgba(52, 152, 219, 0.15); color: #2980b9; }
+        .error-type-audio { background: rgba(46, 204, 113, 0.15); color: #27ae60; }
+        .error-type-image { background: rgba(241, 196, 15, 0.15); color: #f39c12; }
+        .error-type-script { background: rgba(231, 76, 60, 0.15); color: #c0392b; }
+        .error-type-other { background: rgba(149, 165, 166, 0.15); color: #7f8c8d; }
+
+        .error-item-time {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .error-item-message {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
+        .error-item-location {
+            font-size: 12px;
+            color: #888;
+            margin-top: 6px;
+            font-family: monospace;
+        }
+
+        .error-log-footer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .error-auto-clear-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .error-auto-clear-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .error-detail-section {
+            margin-bottom: 20px;
+        }
+
+        .error-detail-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .error-detail-value {
+            font-size: 14px;
+            color: #333;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+            word-break: break-all;
+        }
+
+        .error-detail-stack {
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
         .form-group {
             margin-bottom: 24px;
         }
@@ -15215,6 +15437,106 @@
                     </div>
                 </div>
 
+                <!-- 后台报错分类 -->
+                <div class="category-wrapper">
+                    <div class="category-header" onclick="toggleCategory('error-log')">
+                        <div class="category-title" style="color: rgb(51, 51, 51);">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="white"></path>
+                                </svg>
+                            </div>
+                            后台报错
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="error-badge" id="error-count-badge" style="display: none;">0</span>
+                            <svg class="category-arrow" viewBox="0 0 24 24" fill="white">
+                                <path d="M7,10l5,5l5-5H7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="category-content" id="category-error-log">
+                        <div class="settings-section-inner">
+                            <div class="error-log-header">
+                                <div class="error-log-stats">
+                                    <div class="error-stat-item">
+                                        <span class="error-stat-label">总错误数</span>
+                                        <span class="error-stat-value" id="total-error-count">0</span>
+                                    </div>
+                                    <div class="error-stat-item">
+                                        <span class="error-stat-label">今日错误</span>
+                                        <span class="error-stat-value" id="today-error-count">0</span>
+                                    </div>
+                                </div>
+                                <div class="error-log-actions">
+                                    <button class="btn-secondary btn-small" onclick="refreshErrorLog()" style="color: rgb(51, 51, 51);">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path>
+                                        </svg>
+                                        刷新
+                                    </button>
+                                    <button class="btn-secondary btn-small" onclick="clearErrorLog()" style="color: rgb(51, 51, 51);">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                                        </svg>
+                                        清空
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="error-filter-bar">
+                                <select id="error-type-filter" onchange="filterErrorLog()">
+                                    <option value="all">全部类型</option>
+                                    <option value="network">网络错误</option>
+                                    <option value="api">API错误</option>
+                                    <option value="storage">存储错误</option>
+                                    <option value="audio">音频错误</option>
+                                    <option value="image">图片错误</option>
+                                    <option value="script">脚本错误</option>
+                                    <option value="other">其他错误</option>
+                                </select>
+                                <select id="error-time-filter" onchange="filterErrorLog()">
+                                    <option value="all">全部时间</option>
+                                    <option value="today">今天</option>
+                                    <option value="week">最近一周</option>
+                                    <option value="month">最近一月</option>
+                                </select>
+                            </div>
+                            
+                            <div class="error-log-list" id="error-log-list">
+                                <div class="error-empty-state" id="error-empty-state">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div class="error-empty-text">暂无错误记录</div>
+                                    <div class="error-empty-hint">系统运行正常</div>
+                                </div>
+                            </div>
+                            
+                            <div class="error-log-footer">
+                                <label class="error-auto-clear-label">
+                                    <input type="checkbox" id="auto-clear-errors" onchange="toggleAutoClearErrors()">
+                                    <span>自动清理30天前的错误</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        <div class="scroll-indicator"></div></div>
+    </div>
+
+    <!-- 错误详情模态窗口 -->
+    <div id="error-detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="color: rgb(51, 51, 51);">错误详情</h2>
+                <button class="close-btn" onclick="closeErrorDetailModal()">×</button>
+            </div>
+            <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
+                <div id="error-detail-content">
+                </div>
             </div>
         <div class="scroll-indicator"></div></div>
     </div>
@@ -19952,12 +20274,396 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             modal.style.display = 'flex';
             loadSettings();
             renderIconGrid();
+            refreshErrorLog();
         }
 
         function closeSettings() {
             const modal = document.getElementById('settings-modal');
             modal.style.display = 'none';
             selectedApp = null;
+        }
+
+        const ErrorLogManager = {
+            STORAGE_KEY: 'errorLog',
+            MAX_ERRORS: 500,
+
+            getErrors: function() {
+                try {
+                    const data = localStorage.getItem(this.STORAGE_KEY);
+                    return data ? JSON.parse(data) : [];
+                } catch (e) {
+                    return [];
+                }
+            },
+
+            saveErrors: function(errors) {
+                try {
+                    if (errors.length > this.MAX_ERRORS) {
+                        errors = errors.slice(-this.MAX_ERRORS);
+                    }
+                    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(errors));
+                } catch (e) {
+                    console.warn('保存错误日志失败:', e);
+                }
+            },
+
+            classifyError: function(error) {
+                const message = (error.message || '').toLowerCase();
+                const filename = (error.filename || '').toLowerCase();
+                const stack = (error.stack || '').toLowerCase();
+
+                if (message.includes('fetch') || message.includes('network') || 
+                    message.includes('networkerror') || message.includes('failed to fetch') ||
+                    message.includes('aborterror') || message.includes('timeout')) {
+                    return 'network';
+                }
+                if (message.includes('api') || message.includes('401') || message.includes('403') ||
+                    message.includes('404') || message.includes('500') || message.includes('502') ||
+                    message.includes('503') || message.includes('请求失败') || message.includes('响应')) {
+                    return 'api';
+                }
+                if (message.includes('indexeddb') || message.includes('localstorage') ||
+                    message.includes('storage') || message.includes('quota') ||
+                    message.includes('存储') || message.includes('数据库')) {
+                    return 'storage';
+                }
+                if (message.includes('audio') || message.includes('play') || message.includes('sound') ||
+                    message.includes('语音') || message.includes('播放') || message.includes('media')) {
+                    return 'audio';
+                }
+                if (message.includes('image') || message.includes('img') || message.includes('load') ||
+                    message.includes('图片') || message.includes('图标') || filename.includes('.png') ||
+                    filename.includes('.jpg') || filename.includes('.gif')) {
+                    return 'image';
+                }
+                if (error instanceof SyntaxError || error instanceof TypeError ||
+                    error instanceof ReferenceError || error instanceof RangeError) {
+                    return 'script';
+                }
+                return 'other';
+            },
+
+            logError: function(error, context = {}) {
+                const errors = this.getErrors();
+                const errorType = this.classifyError(error);
+                
+                const errorEntry = {
+                    id: Date.now() + Math.random().toString(36).substr(2, 9),
+                    type: errorType,
+                    message: error.message || '未知错误',
+                    stack: error.stack || '',
+                    filename: error.filename || context.filename || '',
+                    lineno: error.lineno || context.lineno || 0,
+                    colno: error.colno || context.colno || 0,
+                    timestamp: Date.now(),
+                    userAgent: navigator.userAgent,
+                    context: context.additionalInfo || ''
+                };
+
+                errors.push(errorEntry);
+                this.saveErrors(errors);
+                this.updateBadge();
+                
+                return errorEntry;
+            },
+
+            clearErrors: function() {
+                localStorage.removeItem(this.STORAGE_KEY);
+                this.updateBadge();
+            },
+
+            deleteError: function(id) {
+                let errors = this.getErrors();
+                errors = errors.filter(e => e.id !== id);
+                this.saveErrors(errors);
+                this.updateBadge();
+            },
+
+            getFilteredErrors: function(typeFilter, timeFilter) {
+                let errors = this.getErrors();
+                const now = Date.now();
+
+                if (typeFilter && typeFilter !== 'all') {
+                    errors = errors.filter(e => e.type === typeFilter);
+                }
+
+                if (timeFilter && timeFilter !== 'all') {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const todayStart = today.getTime();
+
+                    if (timeFilter === 'today') {
+                        errors = errors.filter(e => e.timestamp >= todayStart);
+                    } else if (timeFilter === 'week') {
+                        const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
+                        errors = errors.filter(e => e.timestamp >= weekAgo);
+                    } else if (timeFilter === 'month') {
+                        const monthAgo = now - 30 * 24 * 60 * 60 * 1000;
+                        errors = errors.filter(e => e.timestamp >= monthAgo);
+                    }
+                }
+
+                return errors.sort((a, b) => b.timestamp - a.timestamp);
+            },
+
+            getStats: function() {
+                const errors = this.getErrors();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const todayStart = today.getTime();
+
+                return {
+                    total: errors.length,
+                    today: errors.filter(e => e.timestamp >= todayStart).length
+                };
+            },
+
+            updateBadge: function() {
+                const stats = this.getStats();
+                const badge = document.getElementById('error-count-badge');
+                if (badge) {
+                    if (stats.total > 0) {
+                        badge.textContent = stats.total > 99 ? '99+' : stats.total;
+                        badge.style.display = 'inline-block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+            },
+
+            autoClearOldErrors: function() {
+                const autoClear = localStorage.getItem('autoClearErrors');
+                if (autoClear !== 'true') return;
+
+                const errors = this.getErrors();
+                const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+                const filtered = errors.filter(e => e.timestamp >= monthAgo);
+                
+                if (filtered.length !== errors.length) {
+                    this.saveErrors(filtered);
+                    this.updateBadge();
+                }
+            },
+
+            formatTime: function(timestamp) {
+                const date = new Date(timestamp);
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+
+                const timeStr = date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+                if (date >= today) {
+                    return `今天 ${timeStr}`;
+                } else if (date >= yesterday) {
+                    return `昨天 ${timeStr}`;
+                } else {
+                    return date.toLocaleDateString('zh-CN') + ' ' + timeStr;
+                }
+            },
+
+            getTypeLabel: function(type) {
+                const labels = {
+                    network: '网络错误',
+                    api: 'API错误',
+                    storage: '存储错误',
+                    audio: '音频错误',
+                    image: '图片错误',
+                    script: '脚本错误',
+                    other: '其他错误'
+                };
+                return labels[type] || '未知错误';
+            }
+        };
+
+        function refreshErrorLog() {
+            const typeFilter = document.getElementById('error-type-filter').value;
+            const timeFilter = document.getElementById('error-time-filter').value;
+            renderErrorLog(typeFilter, timeFilter);
+        }
+
+        function filterErrorLog() {
+            refreshErrorLog();
+        }
+
+        function renderErrorLog(typeFilter = 'all', timeFilter = 'all') {
+            const listContainer = document.getElementById('error-log-list');
+            const errors = ErrorLogManager.getFilteredErrors(typeFilter, timeFilter);
+            const stats = ErrorLogManager.getStats();
+
+            document.getElementById('total-error-count').textContent = stats.total;
+            document.getElementById('today-error-count').textContent = stats.today;
+
+            if (errors.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="error-empty-state" id="error-empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="error-empty-text">暂无错误记录</div>
+                        <div class="error-empty-hint">系统运行正常</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            errors.forEach(error => {
+                const typeClass = `error-type-${error.type}`;
+                const typeLabel = ErrorLogManager.getTypeLabel(error.type);
+                const timeStr = ErrorLogManager.formatTime(error.timestamp);
+                const location = error.filename ? `${error.filename}:${error.lineno}:${error.colno}` : '';
+                
+                html += `
+                    <div class="error-item" onclick="showErrorDetail('${error.id}')">
+                        <div class="error-item-header">
+                            <span class="error-item-type ${typeClass}">${typeLabel}</span>
+                            <span class="error-item-time">${timeStr}</span>
+                        </div>
+                        <div class="error-item-message">${escapeHtml(error.message)}</div>
+                        ${location ? `<div class="error-item-location">${escapeHtml(location)}</div>` : ''}
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showErrorDetail(id) {
+            const errors = ErrorLogManager.getErrors();
+            const error = errors.find(e => e.id === id);
+            if (!error) return;
+
+            const modal = document.getElementById('error-detail-modal');
+            const content = document.getElementById('error-detail-content');
+            
+            const typeLabel = ErrorLogManager.getTypeLabel(error.type);
+            const timeStr = new Date(error.timestamp).toLocaleString('zh-CN');
+            
+            content.innerHTML = `
+                <div class="error-detail-section">
+                    <div class="error-detail-label">错误类型</div>
+                    <div class="error-detail-value">
+                        <span class="error-item-type error-type-${error.type}">${typeLabel}</span>
+                    </div>
+                </div>
+                <div class="error-detail-section">
+                    <div class="error-detail-label">错误信息</div>
+                    <div class="error-detail-value">${escapeHtml(error.message)}</div>
+                </div>
+                <div class="error-detail-section">
+                    <div class="error-detail-label">发生时间</div>
+                    <div class="error-detail-value">${timeStr}</div>
+                </div>
+                ${error.filename ? `
+                <div class="error-detail-section">
+                    <div class="error-detail-label">文件位置</div>
+                    <div class="error-detail-value">${escapeHtml(error.filename)}:${error.lineno}:${error.colno}</div>
+                </div>
+                ` : ''}
+                ${error.context ? `
+                <div class="error-detail-section">
+                    <div class="error-detail-label">上下文信息</div>
+                    <div class="error-detail-value">${escapeHtml(error.context)}</div>
+                </div>
+                ` : ''}
+                ${error.stack ? `
+                <div class="error-detail-section">
+                    <div class="error-detail-label">堆栈跟踪</div>
+                    <div class="error-detail-stack">${escapeHtml(error.stack)}</div>
+                </div>
+                ` : ''}
+                <div style="margin-top: 20px; display: flex; gap: 12px;">
+                    <button class="btn-secondary" onclick="deleteError('${error.id}')" style="flex: 1; color: rgb(51, 51, 51);">删除此记录</button>
+                    <button class="btn-secondary" onclick="closeErrorDetailModal()" style="flex: 1; color: rgb(51, 51, 51);">关闭</button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeErrorDetailModal() {
+            document.getElementById('error-detail-modal').style.display = 'none';
+        }
+
+        function deleteError(id) {
+            ErrorLogManager.deleteError(id);
+            closeErrorDetailModal();
+            refreshErrorLog();
+        }
+
+        function clearErrorLog() {
+            if (confirm('确定要清空所有错误记录吗？此操作不可恢复。')) {
+                ErrorLogManager.clearErrors();
+                refreshErrorLog();
+            }
+        }
+
+        function toggleAutoClearErrors() {
+            const checkbox = document.getElementById('auto-clear-errors');
+            localStorage.setItem('autoClearErrors', checkbox.checked);
+        }
+
+        function initErrorLogging() {
+            window.onerror = function(message, filename, lineno, colno, error) {
+                ErrorLogManager.logError(error || new Error(message), {
+                    filename: filename,
+                    lineno: lineno,
+                    colno: colno
+                });
+                return false;
+            };
+
+            window.addEventListener('unhandledrejection', function(event) {
+                const error = event.reason;
+                if (error instanceof Error) {
+                    ErrorLogManager.logError(error);
+                } else {
+                    ErrorLogManager.logError(new Error(String(error)));
+                }
+            });
+
+            const autoClear = localStorage.getItem('autoClearErrors') === 'true';
+            const checkbox = document.getElementById('auto-clear-errors');
+            if (checkbox) {
+                checkbox.checked = autoClear;
+            }
+
+            if (autoClear) {
+                ErrorLogManager.autoClearOldErrors();
+            }
+
+            ErrorLogManager.updateBadge();
+        }
+
+        function logCustomError(message, type = 'other', additionalInfo = '') {
+            const error = new Error(message);
+            const errors = ErrorLogManager.getErrors();
+            
+            const errorEntry = {
+                id: Date.now() + Math.random().toString(36).substr(2, 9),
+                type: type,
+                message: message,
+                stack: '',
+                filename: '',
+                lineno: 0,
+                colno: 0,
+                timestamp: Date.now(),
+                userAgent: navigator.userAgent,
+                context: additionalInfo
+            };
+
+            errors.push(errorEntry);
+            ErrorLogManager.saveErrors(errors);
+            ErrorLogManager.updateBadge();
+            
+            return errorEntry;
         }
 
         function loadSettings() {
@@ -36041,6 +36747,8 @@ ${conversationContext.slice(-10).map(m => m.type === 'sent' ? `${userName}：${m
             NeteasePlayer.isPlaying = false;
             NeteasePlayer.updatePlayButton();
         }
+
+        initErrorLogging();
 
     </script>
 
