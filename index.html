@@ -14421,6 +14421,7 @@
                     <ul>
                         <li style="color: red; font-weight: bold;">⚠️ 导入存档失败请大退，重新开浏览器或桌面版</li>
                         <li>🔧 修复了角色更换头像后无法保存的问题</li>
+                        <li>🆕 新增了一个报错日志</li>
                     </ul>
                 </div>
             </div>
@@ -23810,9 +23811,6 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             document.addEventListener('click', function(e) {
                 if (currentPresetModal && e.target === currentPresetModal) {
                     closePresetModal();
-                }
-                if (deleteConfirmModal && e.target === deleteConfirmModal) {
-                    closeDeleteConfirmModal();
                 }
             });
             
