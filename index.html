@@ -14189,23 +14189,12 @@
                 <div class="announcement-content">
                     <p>欢迎使用小鼠机！本次更新内容如下：</p>
                     <ul>
-                        <li>💾 又修了储存机制，增加了清除废弃数据</li>
-                        <li>🎤 角色有小概率发送语音消息（声音还没实装，没有声音是正常的）</li>
-                        <li>📱 小组件可以隐藏啦</li>
-                        <li>📝 便签点击三个点，角色会给你留言</li>
-                        <li>📊 点击角色状态会弹出一个状态栏，不刷新需要等一会，还是不刷新那是bug可以汇报哦</li>
-                        <li>💬 聊天逻辑修复，并且会回复3-8条消息</li>
-                        <li>🎵 网易云可以导入txt歌词了，有时间条的话会滚动</li>
-                        <li>📈 可以看见总Tokens占用多少</li>
-                        <li>✏️ 增加编辑消息</li>
-                        <li>📋 总结逻辑大改，自动总结可以使用了，首次开启需要给角色发送一条消息来触发</li>
-                        <li>🔧 系统Prompts中的提示词可以删除或编辑</li>
+                        <li>🔧 修复了跳思维链</li>
                         <li>🌙 夜间模式美化了一些，内置了小悦的美化，大家谢谢这个小悦！</li>
-                        <li>🎨 增加CSS保存为预设</li>
-                        <li>🔒 锁定了屏幕不会放大啦，图片上传也修了一下</li>
-                        <li>🔧 修复了iOS图片导入问题</li>
-                        <li>🔧 修复了导入角色丢失问题</li>
-                        <li>🔧 修复图标上传问题</li>
+                        <li>🔧 更新了一下无法删除预设api</li>
+                        <li>🔧 更新了数据清空不生效</li>
+                        <li>🔧 更新了一些角色回复错误的问题</li>
+                        <li>🎨 增加了全局css美化</li>
                     </ul>
                 </div>
             </div>
@@ -17235,10 +17224,13 @@
                     ];
                     
                     finalHistory.forEach(msg => {
+                        const msgContent = (msg.content && typeof msg.content === 'object' && msg.content.type === 'voice') 
+                            ? `[语音消息] ${msg.content.text}` 
+                            : (msg.content || '');
                         if (msg.type === 'sent') {
-                            apiMessages.push({ role: 'user', content: msg.content });
+                            apiMessages.push({ role: 'user', content: msgContent });
                         } else if (msg.type === 'received') {
-                            apiMessages.push({ role: 'assistant', content: msg.content });
+                            apiMessages.push({ role: 'assistant', content: msgContent });
                         }
                     });
                     
@@ -22581,50 +22573,50 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
         }
 
         function deletePreset(name) {
-            showDeleteConfirmModal(name);
+            showPresetDeleteConfirmModal(name);
         }
 
-        let deleteConfirmModal = null;
+        let presetDeleteConfirmModal = null;
 
-        function showDeleteConfirmModal(name) {
-            if (deleteConfirmModal) {
-                deleteConfirmModal.remove();
+        function showPresetDeleteConfirmModal(name) {
+            if (presetDeleteConfirmModal) {
+                presetDeleteConfirmModal.remove();
             }
             
             const modal = document.createElement('div');
             modal.className = 'preset-modal';
-            modal.id = 'delete-confirm-modal';
+            modal.id = 'preset-delete-confirm-modal';
             modal.innerHTML = `
                 <div class="preset-modal-content">
                     <div class="preset-modal-title">确认删除</div>
                     <p style="text-align: center; color: #666; margin-bottom: 20px;">确定要删除预设"${name}"吗？</p>
                     <div class="preset-modal-buttons">
                         <button class="preset-modal-btn preset-modal-btn-delete-confirm" onclick="confirmDeletePreset('${name}')">确认删除</button>
-                        <button class="preset-modal-btn preset-modal-btn-cancel" onclick="closeDeleteConfirmModal()">取消</button>
+                        <button class="preset-modal-btn preset-modal-btn-cancel" onclick="closePresetDeleteConfirmModal()">取消</button>
                     </div>
                 </div>
             `;
             
             document.body.appendChild(modal);
-            deleteConfirmModal = modal;
+            presetDeleteConfirmModal = modal;
             
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
-                    closeDeleteConfirmModal();
+                    closePresetDeleteConfirmModal();
                 }
             });
             
             modal.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
-                    closeDeleteConfirmModal();
+                    closePresetDeleteConfirmModal();
                 }
             });
         }
 
-        function closeDeleteConfirmModal() {
-            if (deleteConfirmModal) {
-                deleteConfirmModal.remove();
-                deleteConfirmModal = null;
+        function closePresetDeleteConfirmModal() {
+            if (presetDeleteConfirmModal) {
+                presetDeleteConfirmModal.remove();
+                presetDeleteConfirmModal = null;
             }
         }
 
@@ -22633,7 +22625,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             const filteredPresets = presets.filter(p => p.name !== name);
             saveApiPresets(filteredPresets);
             renderPresetList();
-            closeDeleteConfirmModal();
+            closePresetDeleteConfirmModal();
             alert(`✅ 预设"${name}"已删除`);
         }
 
@@ -26880,10 +26872,13 @@ ${commenterInfo}
                 ];
                 
                 recentHistory.forEach(msg => {
+                    const msgContent = (msg.content && typeof msg.content === 'object' && msg.content.type === 'voice') 
+                        ? `[语音消息] ${msg.content.text}` 
+                        : (msg.content || '');
                     if (msg.type === 'sent') {
-                        apiMessages.push({ role: 'user', content: msg.content });
+                        apiMessages.push({ role: 'user', content: msgContent });
                     } else if (msg.type === 'received') {
-                        apiMessages.push({ role: 'assistant', content: msg.content });
+                        apiMessages.push({ role: 'assistant', content: msgContent });
                     }
                 });
                 
@@ -29450,15 +29445,24 @@ ${recentHistory.map(msg => {
                     });
                 }
                 
+                function getMessageText(msg) {
+                    if (!msg.content) return '';
+                    if (typeof msg.content === 'object' && msg.content.type === 'voice') {
+                        return `[语音消息] ${msg.content.text}`;
+                    }
+                    return msg.content;
+                }
+                
                 const apiMessages = [
                     { role: 'system', content: systemPrompt }
                 ];
                 
                 finalHistory.forEach(msg => {
+                    const msgContent = getMessageText(msg);
                     if (msg.type === 'sent') {
-                        apiMessages.push({ role: 'user', content: msg.content });
+                        apiMessages.push({ role: 'user', content: msgContent });
                     } else if (msg.type === 'received') {
-                        apiMessages.push({ role: 'assistant', content: msg.content });
+                        apiMessages.push({ role: 'assistant', content: msgContent });
                     }
                 });
                 
@@ -30337,17 +30341,23 @@ ${recentHistory.map(msg => {
                 ];
                 
                 contextMessages.forEach(msg => {
+                    const msgContent = (msg.content && typeof msg.content === 'object' && msg.content.type === 'voice') 
+                        ? `[语音消息] ${msg.content.text}` 
+                        : (msg.content || '');
                     if (msg.type === 'sent') {
-                        apiMessages.push({ role: 'user', content: msg.content });
+                        apiMessages.push({ role: 'user', content: msgContent });
                     } else if (msg.type === 'received') {
-                        apiMessages.push({ role: 'assistant', content: msg.content });
+                        apiMessages.push({ role: 'assistant', content: msgContent });
                     }
                 });
 
                 // 添加最后一条用户消息作为触发
                 const lastUserMessage = contextMessages.filter(msg => msg.type === 'sent').pop();
                 if (lastUserMessage) {
-                    apiMessages.push({ role: 'user', content: lastUserMessage.content });
+                    const lastMsgContent = (lastUserMessage.content && typeof lastUserMessage.content === 'object' && lastUserMessage.content.type === 'voice') 
+                        ? `[语音消息] ${lastUserMessage.content.text}` 
+                        : (lastUserMessage.content || '');
+                    apiMessages.push({ role: 'user', content: lastMsgContent });
                 }
 
                 const controller = new AbortController();
