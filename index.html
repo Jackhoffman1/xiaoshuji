@@ -7112,6 +7112,15 @@
             stroke: #000;
         }
 
+        .moments-action-btn.refreshing svg {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .moments-content {
             flex: 1;
             overflow-y: auto;
@@ -14183,18 +14192,24 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年3月5日</div>
+                <div class="announcement-date" id="announcement-date">2026年3月6日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <p>欢迎使用小鼠机！本次更新内容如下：</p>
                     <ul>
+                        <li style="color: red; font-weight: bold;">⚠️ 导入存档失败请大退，重新开浏览器或桌面版</li>
                         <li>🔧 修复了跳思维链</li>
+                        <li>🎨 增加两个未实装app</li>
+                        <li>💬 又优化了角色回复逻辑，现在活人感强多了</li>
                         <li>🌙 夜间模式美化了一些，内置了小悦的美化，大家谢谢这个小悦！</li>
                         <li>🔧 更新了一下无法删除预设api</li>
                         <li>🔧 更新了数据清空不生效</li>
                         <li>🔧 更新了一些角色回复错误的问题</li>
                         <li>🎨 增加了全局css美化</li>
+                        <li>✏️ 修改了编辑消息a跳b的情况</li>
+                        <li>🖼️ 修了一下大图片数据导入失效的问题</li>
+                        <li>🔄 朋友圈去除默认消息，增加了刷新中和成功的提示</li>
                     </ul>
                 </div>
             </div>
@@ -14322,6 +14337,14 @@
                     <div class="app-icon" data-app="forum">
                         <div class="icon-container"><img src="" alt="微博"></div>
                         <div class="app-name" style="color: rgb(0, 0, 0);">微博</div>
+                    </div>
+                    <div class="app-icon" data-app="waimai">
+                        <div class="icon-container"><img src="" alt="外卖"></div>
+                        <div class="app-name" style="color: rgb(0, 0, 0);">外卖</div>
+                    </div>
+                    <div class="app-icon" data-app="diary">
+                        <div class="icon-container"><img src="" alt="日记"></div>
+                        <div class="app-name" style="color: rgb(0, 0, 0);">日记</div>
                     </div>
                 </div>
         
@@ -16543,7 +16566,7 @@
                         <div class="avatar-loading-text">上传中...</div>
                     </div>
                 </div>
-                <input type="file" id="profile-avatar-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+                <input type="file" id="profile-avatar-input" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/gif,image/bmp,.jpg,.jpeg,.png,.webp,.heic,.heif,.gif,.bmp" style="display: none;" onchange="handleAvatarUpload(event)">
                 <div class="avatar-toast" id="avatar-toast"></div>
                 <div class="profile-name" id="profile-name-display" onclick="openProfileNameModal()">用户</div>
                 <div class="profile-id" id="wechat-id-display" onclick="openWechatIdModal()">Wechat ID: 用户</div>
@@ -18800,11 +18823,61 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
             }
         };
         
+        async function getImageData(key) {
+            let data = localStorage.getItem(key);
+            if (data) {
+                return data;
+            }
+            
+            try {
+                await ImageStorage.init();
+                data = await ImageStorage.load(key);
+                if (data) {
+                    return data;
+                }
+            } catch (e) {
+                console.warn('从 IndexedDB 读取图片失败:', key, e);
+            }
+            
+            return null;
+        }
+        
+        async function setImageData(key, data) {
+            if (data && data.length > 50000) {
+                try {
+                    await ImageStorage.init();
+                    await ImageStorage.save(key, data);
+                    localStorage.removeItem(key);
+                    console.log('大图片已存储到 IndexedDB:', key);
+                    return true;
+                } catch (e) {
+                    console.warn('IndexedDB 存储失败，回退到 localStorage:', e);
+                }
+            }
+            
+            try {
+                localStorage.setItem(key, data);
+                return true;
+            } catch (e) {
+                console.error('localStorage 存储失败:', e);
+                try {
+                    await ImageStorage.init();
+                    await ImageStorage.save(key, data);
+                    return true;
+                } catch (e2) {
+                    console.error('IndexedDB 存储也失败:', e2);
+                    return false;
+                }
+            }
+        }
+        
         const apps = [
             { id: 'wechat', name: '微信', svg: '<img src="" alt="微信">' },
             { id: 'worldbook', name: '世界书', svg: '<img src="" alt="世界书">' },
             { id: 'netease', name: '网易云', svg: '<img src="" alt="网易云">' },
             { id: 'forum', name: '微博', svg: '<img src="" alt="微博">' },
+            { id: 'waimai', name: '外卖', svg: '<img src="" alt="外卖">' },
+            { id: 'diary', name: '日记', svg: '<img src="" alt="日记">' },
             { id: 'home', name: '模拟人生', svg: '<img src="" alt="模拟人生">' },
             { id: 'settings', name: '设置', svg: '<img src="" alt="设置">' },
             { id: 'anniversary', name: '纪念日', svg: '<img src="" alt="纪念日">' }
@@ -18872,6 +18945,19 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 }
             };
             input.click();
+        });
+
+        // 输入框小组件自动保存
+        ['input-widget-1', 'input-widget-2', 'circle-input-1', 'circle-input-2'].forEach(function(id) {
+            const inputEl = document.getElementById(id);
+            if (inputEl) {
+                inputEl.addEventListener('input', function() {
+                    const storageKey = id === 'input-widget-1' ? 'inputWidget1' :
+                                       id === 'input-widget-2' ? 'inputWidget2' :
+                                       id === 'circle-input-1' ? 'circleInput1' : 'circleInput2';
+                    localStorage.setItem(storageKey, this.value);
+                });
+            }
         });
 
         // 文字小组件点击事件
@@ -20294,6 +20380,26 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 document.getElementById('text-widget').textContent = savedText;
             }
             
+            const savedInputWidget1 = localStorage.getItem('inputWidget1');
+            if (savedInputWidget1) {
+                document.getElementById('input-widget-1').value = savedInputWidget1;
+            }
+            
+            const savedInputWidget2 = localStorage.getItem('inputWidget2');
+            if (savedInputWidget2) {
+                document.getElementById('input-widget-2').value = savedInputWidget2;
+            }
+            
+            const savedCircleInput1 = localStorage.getItem('circleInput1');
+            if (savedCircleInput1) {
+                document.getElementById('circle-input-1').value = savedCircleInput1;
+            }
+            
+            const savedCircleInput2 = localStorage.getItem('circleInput2');
+            if (savedCircleInput2) {
+                document.getElementById('circle-input-2').value = savedCircleInput2;
+            }
+            
             loadNoteWidget();
         }
 
@@ -20358,13 +20464,13 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 const appNameElement = element.querySelector('.app-name, .dock-name');
                 const app = apps.find(a => a.id === appId);
                 
-                if (savedIcon && iconContainer && app) {
+                if (savedIcon && iconContainer) {
                     while (iconContainer.firstChild) {
                         iconContainer.removeChild(iconContainer.firstChild);
                     }
                     const img = document.createElement('img');
                     img.src = savedIcon;
-                    img.alt = app.name;
+                    img.alt = app ? app.name : appId;
                     img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: inherit;';
                     img.onerror = function() {
                         console.error('图标加载失败:', appId);
@@ -20374,8 +20480,8 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     iconContainer.appendChild(img);
                 }
                 
-                if (appNameElement && app) {
-                    const savedName = localStorage.getItem('appName_' + appId) || app.name;
+                if (appNameElement) {
+                    const savedName = localStorage.getItem('appName_' + appId) || (app ? app.name : appId);
                     appNameElement.textContent = savedName;
                 }
             });
@@ -20488,6 +20594,33 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             }
         }
 
+        function showErrorModal(title, message) {
+            var existingModal = document.getElementById('error-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            var modal = document.createElement('div');
+            modal.id = 'error-modal';
+            modal.className = 'preset-modal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100000;';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="background: #fff; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+                    <div style="font-size: 48px; margin-bottom: 16px;">❌</div>
+                    <h3 style="margin-bottom: 12px; color: #ff3b30; font-size: 18px;">${title}</h3>
+                    <div style="color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 20px; white-space: pre-wrap; text-align: left; background: #f5f5f5; padding: 12px; border-radius: 8px; max-height: 300px; overflow-y: auto;">${message}</div>
+                    <button onclick="this.closest('#error-modal').remove()" style="padding: 12px 32px; background: #ff3b30; color: #fff; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 500;">确定</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
         function calculateChecksum(data) {
             var hash = 0;
             var str = JSON.stringify(data);
@@ -20524,7 +20657,10 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 var imagePatterns = [
                     'icon_', 'Avatar', 'Wallpaper', 'Background', 'Image',
                     'circleWidgetImage', 'customWallpaper', 'chatWallpaper_',
-                    'characterDetailImage_', 'detailImages_'
+                    'characterDetailImage_', 'detailImages_', 'userAvatar',
+                    'musicRoomBackground', 'musicRoomImage', 'neteaseVinyl',
+                    'cover_', 'photo_', 'picture_', 'img_', 'image_',
+                    'momentsCover', 'momentsAvatar', 'wechatBackgrounds'
                 ];
 
                 showStorageProgress('正在读取 localStorage...', 20);
@@ -20954,7 +21090,19 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 showStorageProgress('正在导入数据...', 50);
                 console.log('步骤 6/6: 正在导入数据...');
                 
-                await ImageStorage.init();
+                try {
+                    await ImageStorage.init();
+                    console.log('IndexedDB 初始化成功');
+                } catch (initError) {
+                    console.error('IndexedDB 初始化失败:', initError);
+                    hideStorageProgress();
+                    showErrorModal('IndexedDB 初始化失败', '无法初始化图片存储系统，错误信息：\n' + (initError.message || initError));
+                    if (typeof startAutoSave === 'function') {
+                        startAutoSave();
+                    }
+                    event.target.value = '';
+                    return;
+                }
                 
                 if (conflictStrategy === 'overwrite') {
                     console.log('覆盖模式：清除所有旧数据...');
@@ -20968,54 +21116,95 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 var skippedCount = 0;
                 var overwrittenCount = 0;
                 var migratedToIndexedDB = 0;
+                var errorDetails = [];
                 
                 var imagePatterns = [
                     'icon_', 'Avatar', 'Wallpaper', 'Background', 'Image',
                     'circleWidgetImage', 'customWallpaper', 'chatWallpaper_',
-                    'characterDetailImage_', 'detailImages_'
+                    'characterDetailImage_', 'detailImages_', 'userAvatar',
+                    'musicRoomBackground', 'musicRoomImage', 'neteaseVinyl',
+                    'cover_', 'photo_', 'picture_', 'img_', 'image_',
+                    'momentsCover', 'momentsAvatar', 'wechatBackgrounds'
                 ];
                 
-                function isImageKey(key) {
-                    return imagePatterns.some(function(pattern) {
-                        return key.indexOf(pattern) !== -1;
+                function isImageKey(key, value) {
+                    var hasPattern = imagePatterns.some(function(pattern) {
+                        return key.toLowerCase().indexOf(pattern.toLowerCase()) !== -1;
                     });
+                    var isBase64Image = value && typeof value === 'string' && value.indexOf('data:image') === 0;
+                    return hasPattern || isBase64Image;
+                }
+                
+                function shouldUseIndexedDB(key, value) {
+                    if (!value || typeof value !== 'string') return false;
+                    var isImage = isImageKey(key, value);
+                    var isLarge = value.length > 50000;
+                    return isImage && isLarge;
                 }
                 
                 var totalItems = newKeys.length;
                 var batchSize = 50;
                 
                 for (var i = 0; i < newKeys.length; i++) {
-                    var key = newKeys[i];
-                    var value = importData.data[key];
-                    
-                    var exists = existingKeys.has(key);
-                    var isImage = isImageKey(key);
-                    var isLargeImage = isImage && value && value.length > 100000;
-                    
-                    if (isLargeImage) {
-                        console.log('检测到大图片数据，迁移到 IndexedDB:', key, '大小:', (value.length / 1024).toFixed(1), 'KB');
-                        try {
-                            await ImageStorage.save(key, value);
-                            migratedToIndexedDB++;
-                            importedCount++;
-                            console.log('大图片已迁移到 IndexedDB:', key);
-                        } catch (e) {
-                            console.error('IndexedDB 存储失败:', key, e);
+                    try {
+                        var key = newKeys[i];
+                        var value = importData.data[key];
+                        
+                        if (value === undefined || value === null) {
+                            console.warn('跳过空值:', key);
                             skippedCount++;
+                            continue;
                         }
-                        continue;
-                    }
-                    
-                    if (conflictStrategy === 'overwrite') {
-                        try {
-                            localStorage.setItem(key, value);
-                            var verifyValue = localStorage.getItem(key);
-                            if (verifyValue === value) {
+                        
+                        var exists = existingKeys.has(key);
+                        var isImage = isImageKey(key, value);
+                        var useIndexedDB = shouldUseIndexedDB(key, value);
+                        
+                        if (useIndexedDB) {
+                            console.log('检测到图片数据，存储到 IndexedDB:', key, '大小:', (value.length / 1024).toFixed(1), 'KB');
+                            try {
+                                await ImageStorage.save(key, value);
+                                migratedToIndexedDB++;
                                 importedCount++;
-                            } else {
-                                console.error('验证失败:', key, '期望长度:', value.length, '实际长度:', verifyValue ? verifyValue.length : 0);
+                                console.log('图片已存储到 IndexedDB:', key);
+                            } catch (e) {
+                                console.error('IndexedDB 存储失败:', key, e);
+                                errorDetails.push('IndexedDB存储失败: ' + key + ' - ' + (e.message || e));
+                                skippedCount++;
+                            }
+                            continue;
+                        }
+                        
+                        if (conflictStrategy === 'overwrite') {
+                            try {
+                                localStorage.setItem(key, value);
+                                var verifyValue = localStorage.getItem(key);
+                                if (verifyValue === value) {
+                                    importedCount++;
+                                } else {
+                                    console.error('验证失败:', key, '期望长度:', value.length, '实际长度:', verifyValue ? verifyValue.length : 0);
+                                    if (isImage && value.length > 50000) {
+                                        console.log('尝试将图片迁移到 IndexedDB:', key);
+                                        try {
+                                            await ImageStorage.save(key, value);
+                                            migratedToIndexedDB++;
+                                            importedCount++;
+                                            console.log('图片已迁移到 IndexedDB:', key);
+                                        } catch (e2) {
+                                            console.error('IndexedDB 迁移也失败:', key, e2);
+                                            errorDetails.push('存储失败: ' + key);
+                                            skippedCount++;
+                                        }
+                                    } else {
+                                        errorDetails.push('验证失败: ' + key);
+                                        skippedCount++;
+                                    }
+                                }
+                            } catch (e) {
+                                console.error('存储失败:', key, e);
+                                errorDetails.push('存储失败: ' + key + ' - ' + (e.message || e));
                                 if (isImage && value.length > 50000) {
-                                    console.log('尝试将图片迁移到 IndexedDB:', key);
+                                    console.log('localStorage 存储失败，尝试迁移到 IndexedDB:', key);
                                     try {
                                         await ImageStorage.save(key, value);
                                         migratedToIndexedDB++;
@@ -21029,74 +21218,66 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                                     skippedCount++;
                                 }
                             }
-                        } catch (e) {
-                            console.error('存储失败:', key, e);
-                            if (isImage && value.length > 50000) {
-                                console.log('localStorage 存储失败，尝试迁移到 IndexedDB:', key);
-                                try {
-                                    await ImageStorage.save(key, value);
-                                    migratedToIndexedDB++;
-                                    importedCount++;
-                                    console.log('图片已迁移到 IndexedDB:', key);
-                                } catch (e2) {
-                                    console.error('IndexedDB 迁移也失败:', key, e2);
+                        } else if (exists) {
+                            switch (conflictStrategy) {
+                                case 'skip':
                                     skippedCount++;
-                                }
-                            } else {
-                                skippedCount++;
-                            }
-                        }
-                    } else if (exists) {
-                        switch (conflictStrategy) {
-                            case 'skip':
-                                skippedCount++;
-                                break;
-                            case 'merge':
-                            default:
-                                try {
-                                    localStorage.setItem(key, value);
-                                    overwrittenCount++;
-                                    importedCount++;
-                                } catch (e) {
-                                    console.error('存储失败:', key, e);
-                                    if (isImage && value.length > 50000) {
-                                        try {
-                                            await ImageStorage.save(key, value);
-                                            migratedToIndexedDB++;
-                                            importedCount++;
-                                        } catch (e2) {
+                                    break;
+                                case 'merge':
+                                default:
+                                    try {
+                                        localStorage.setItem(key, value);
+                                        overwrittenCount++;
+                                        importedCount++;
+                                    } catch (e) {
+                                        console.error('存储失败:', key, e);
+                                        errorDetails.push('存储失败: ' + key + ' - ' + (e.message || e));
+                                        if (isImage && value.length > 50000) {
+                                            try {
+                                                await ImageStorage.save(key, value);
+                                                migratedToIndexedDB++;
+                                                importedCount++;
+                                            } catch (e2) {
+                                                errorDetails.push('IndexedDB也失败: ' + key);
+                                                skippedCount++;
+                                            }
+                                        } else {
                                             skippedCount++;
                                         }
-                                    } else {
+                                    }
+                                    break;
+                            }
+                        } else {
+                            try {
+                                localStorage.setItem(key, value);
+                                importedCount++;
+                            } catch (e) {
+                                console.error('存储失败:', key, e);
+                                errorDetails.push('存储失败: ' + key + ' - ' + (e.message || e));
+                                if (isImage && value.length > 50000) {
+                                    try {
+                                        await ImageStorage.save(key, value);
+                                        migratedToIndexedDB++;
+                                        importedCount++;
+                                    } catch (e2) {
+                                        errorDetails.push('IndexedDB也失败: ' + key);
                                         skippedCount++;
                                     }
-                                }
-                                break;
-                        }
-                    } else {
-                        try {
-                            localStorage.setItem(key, value);
-                            importedCount++;
-                        } catch (e) {
-                            console.error('存储失败:', key, e);
-                            if (isImage && value.length > 50000) {
-                                try {
-                                    await ImageStorage.save(key, value);
-                                    migratedToIndexedDB++;
-                                    importedCount++;
-                                } catch (e2) {
+                                } else {
                                     skippedCount++;
                                 }
-                            } else {
-                                skippedCount++;
                             }
                         }
-                    }
-                    
-                    if (i % batchSize === 0 || i === totalItems - 1) {
-                        var progress = 50 + ((i + 1) / totalItems) * 45;
-                        showStorageProgress('正在导入数据项 ' + (i + 1) + '/' + totalItems, progress);
-                        await new Promise(function(resolve) { setTimeout(resolve, 0); });
+                        
+                        if (i % batchSize === 0 || i === totalItems - 1) {
+                            var progress = 50 + ((i + 1) / totalItems) * 45;
+                            showStorageProgress('正在导入数据项 ' + (i + 1) + '/' + totalItems, progress);
+                            await new Promise(function(resolve) { setTimeout(resolve, 0); });
+                        }
+                    } catch (itemError) {
+                        console.error('处理数据项时发生错误:', newKeys[i], itemError);
+                        errorDetails.push('处理失败: ' + newKeys[i] + ' - ' + (itemError.message || itemError));
+                        skippedCount++;
                     }
                 }
 
@@ -21108,21 +21289,29 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     console.log('检测到 IndexedDB 数据，正在导入...');
                     
                     try {
-                        await ImageStorage.init();
                         var idbKeys = Object.keys(importData.indexedDBData);
+                        var idbSuccessCount = 0;
+                        var idbFailCount = 0;
                         for (var k = 0; k < idbKeys.length; k++) {
                             var idbKey = idbKeys[k];
                             var idbValue = importData.indexedDBData[idbKey];
                             try {
                                 await ImageStorage.save(idbKey, idbValue);
+                                idbSuccessCount++;
                                 console.log('IndexedDB 导入成功:', idbKey);
                             } catch (e) {
                                 console.error('IndexedDB 导入失败:', idbKey, e);
+                                errorDetails.push('IndexedDB图片导入失败: ' + idbKey + ' - ' + (e.message || e));
+                                idbFailCount++;
                             }
                         }
-                        console.log('IndexedDB 数据导入完成，共', idbKeys.length, '项');
+                        console.log('IndexedDB 数据导入完成，成功:', idbSuccessCount, '失败:', idbFailCount);
+                        if (idbFailCount > 0) {
+                            console.warn('有 ' + idbFailCount + ' 项图片数据导入失败');
+                        }
                     } catch (e) {
                         console.error('IndexedDB 初始化失败:', e);
+                        errorDetails.push('IndexedDB初始化失败: ' + (e.message || e));
                     }
                 }
                 
@@ -21145,7 +21334,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 console.log('wallpaper(旧):', oldWallpaperCheck !== null ? '存在(长度:' + oldWallpaperCheck.length + ')' : '不存在');
                 console.log('circleWidgetImage:', circleWidgetImageCheck !== null ? '存在(长度:' + circleWidgetImageCheck.length + ')' : '不存在');
                 
-                var iconApps = ['wechat', 'worldbook', 'netease', 'forum', 'home', 'anniversary', 'settings'];
+                var iconApps = ['wechat', 'worldbook', 'netease', 'forum', 'waimai', 'diary', 'home', 'anniversary', 'settings'];
                 iconApps.forEach(function(appId) {
                     var iconCheck = localStorage.getItem('icon_' + appId);
                     console.log('icon_' + appId + ':', iconCheck !== null ? '存在(长度:' + iconCheck.length + ')' : '不存在');
@@ -21195,7 +21384,20 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                 
                 closeSettings();
                 
-                showImportSuccessModal(resultMsg);
+                if (errorDetails.length > 0) {
+                    var errorSummary = '部分数据导入时遇到问题：\n\n';
+                    var displayErrors = errorDetails.slice(0, 10);
+                    displayErrors.forEach(function(err) {
+                        errorSummary += '• ' + err + '\n';
+                    });
+                    if (errorDetails.length > 10) {
+                        errorSummary += '\n... 还有 ' + (errorDetails.length - 10) + ' 个错误未显示';
+                    }
+                    errorSummary += '\n\n成功导入: ' + importedCount + ' 项\n跳过: ' + skippedCount + ' 项';
+                    showErrorModal('导入完成但有错误', errorSummary);
+                } else {
+                    showImportSuccessModal(resultMsg);
+                }
                 
             } catch (error) {
                 console.error('=== 导入失败 ===');
@@ -21208,19 +21410,19 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
                     startAutoSave();
                 }
                 
-                var userFriendlyError = '导入失败: ';
+                var userFriendlyError = '';
                 
                 if (error.name === 'SyntaxError') {
-                    userFriendlyError += 'JSON 格式错误，请检查文件内容是否正确';
+                    userFriendlyError = 'JSON 格式错误，请检查文件内容是否正确\n\n错误详情: ' + (error.message || '');
                 } else if (error.message && error.message.includes('文件读取')) {
-                    userFriendlyError += error.message;
+                    userFriendlyError = error.message;
                 } else {
-                    userFriendlyError += error.message || '未知错误';
+                    userFriendlyError = (error.message || '未知错误') + '\n\n错误类型: ' + (error.name || '未知');
                 }
                 
-                userFriendlyError += '\n\n请打开浏览器控制台 (F12) 查看详细的错误信息';
+                userFriendlyError += '\n\n堆栈信息:\n' + (error.stack || '无');
                 
-                showStorageStatus(userFriendlyError, 'error');
+                showErrorModal('导入失败', userFriendlyError);
             }
             
             event.target.value = '';
@@ -23881,9 +24083,15 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
 
         // 显示发布朋友圈弹窗
         async function showMomentsPublishModal() {
+            const actionBtn = document.querySelector('.moments-action-btn');
+            if (actionBtn) {
+                actionBtn.classList.add('refreshing');
+            }
+            
             const allRoles = JSON.parse(localStorage.getItem('wechatRoles')) || [];
             
             if (allRoles.length === 0) {
+                if (actionBtn) actionBtn.classList.remove('refreshing');
                 alert('请先添加角色');
                 return;
             }
@@ -23894,6 +24102,7 @@ ${conversationHistory.slice(-10).map(msg => `${msg.type === 'sent' ? '用户' : 
             const chatEndpoint = getChatEndpoint(savedApiUrl);
             
             if (!chatEndpoint || !apiKey || !selectedModel) {
+                if (actionBtn) actionBtn.classList.remove('refreshing');
                 alert('请先配置API');
                 return;
             }
@@ -24065,6 +24274,7 @@ ${commenterInfo}
                         
                         if (postedCount > 0) {
                             renderMoments();
+                            if (actionBtn) actionBtn.classList.remove('refreshing');
                             alert(`${randomRole.name} 发布了 ${postedCount} 条朋友圈`);
                             return;
                         }
@@ -24072,27 +24282,13 @@ ${commenterInfo}
                 }
             } catch (error) {
                 console.error('生成朋友圈动态失败:', error);
+                if (actionBtn) actionBtn.classList.remove('refreshing');
+                alert('生成朋友圈动态失败: ' + error.message);
+                return;
             }
             
-            const roleDesc = randomRole.description || '';
-            const roleName = randomRole.name || '角色';
-            const fallbackPosts = [];
-            
-            if (roleDesc && roleDesc.length > 0) {
-                fallbackPosts.push(`${roleName}的一天，又是平凡而充实的一天`);
-                fallbackPosts.push(`今天有些感慨，生活就是这样点点滴滴`);
-                fallbackPosts.push(`记录一下此刻的心情`);
-                fallbackPosts.push(`又是新的一天，继续前行`);
-                fallbackPosts.push(`有些话想说，又不知从何说起`);
-            } else {
-                fallbackPosts.push('今天天气真好');
-                fallbackPosts.push('又是新的一天');
-                fallbackPosts.push('记录一下');
-            }
-            
-            createMoment(randomRole, fallbackPosts[Math.floor(Math.random() * fallbackPosts.length)]);
-            renderMoments();
-            alert(`${randomRole.name} 发布了 1 条朋友圈`);
+            if (actionBtn) actionBtn.classList.remove('refreshing');
+            alert('生成朋友圈动态失败，请检查API配置或网络连接');
         }
         
         function filterCommenterCandidates(currentRole, allRoles, worldbookEntries) {
@@ -24267,27 +24463,7 @@ ${commenterInfo}
             const chatEndpoint = getChatEndpoint(savedApiUrl);
             
             if (!chatEndpoint || !apiKey || !selectedModel) {
-                const roleDesc = role.description || '';
-                const roleName = role.name || '角色';
-                const prompts = [];
-                
-                if (roleDesc && roleDesc.length > 0) {
-                    prompts.push(`${roleName}的一天，又是平凡而充实的一天`);
-                    prompts.push(`今天有些感慨，生活就是这样点点滴滴`);
-                    prompts.push(`记录一下此刻的心情`);
-                    prompts.push(`又是新的一天，继续前行`);
-                    prompts.push(`有些话想说，又不知从何说起`);
-                } else {
-                    prompts.push('今天天气真好');
-                    prompts.push('又是新的一天');
-                    prompts.push('记录一下');
-                    prompts.push('分享一下今天的心情');
-                    prompts.push('美好的一天');
-                }
-                
-                const content = prompts[Math.floor(Math.random() * prompts.length)];
-                createMoment(role, content);
-                renderMoments();
+                alert('请先配置API');
                 return;
             }
             
@@ -24429,29 +24605,11 @@ ${commenterInfo}
                 }
             } catch (error) {
                 console.error('生成朋友圈动态失败:', error);
+                alert('生成朋友圈动态失败: ' + error.message);
+                return;
             }
             
-            const roleDesc = role.description || '';
-            const roleName = role.name || '角色';
-            const fallbackPrompts = [];
-            
-            if (roleDesc && roleDesc.length > 0) {
-                fallbackPrompts.push(`${roleName}的一天，又是平凡而充实的一天`);
-                fallbackPrompts.push(`今天有些感慨，生活就是这样点点滴滴`);
-                fallbackPrompts.push(`记录一下此刻的心情`);
-                fallbackPrompts.push(`又是新的一天，继续前行`);
-                fallbackPrompts.push(`有些话想说，又不知从何说起`);
-            } else {
-                fallbackPrompts.push('今天天气真好');
-                fallbackPrompts.push('又是新的一天');
-                fallbackPrompts.push('记录一下');
-                fallbackPrompts.push('分享一下今天的心情');
-                fallbackPrompts.push('美好的一天');
-            }
-            
-            const content = fallbackPrompts[Math.floor(Math.random() * fallbackPrompts.length)];
-            createMoment(role, content);
-            renderMoments();
+            alert('生成朋友圈动态失败，请检查API配置或网络连接');
         }
 
         // ==================== 网易云音乐功能 ====================
@@ -26554,7 +26712,7 @@ ${commenterInfo}
             }, 800);
         }
 
-        function forceReloadChatMessages(roleId) {
+        async function forceReloadChatMessages(roleId) {
             if (!currentChatRole || currentChatRole.id !== roleId) return;
             
             const chatMessages = document.getElementById('chat-messages');
@@ -26563,7 +26721,7 @@ ${commenterInfo}
             const role = roles.find(r => r.id === roleId);
             const roleAvatar = role ? role.avatar : '';
             const roleName = role ? role.name : '';
-            const userAvatar = localStorage.getItem('userAvatar') || '';
+            const userAvatar = await getImageData('userAvatar') || '';
             
             const totalMessages = roleMessages.length;
             const startIndex = Math.max(0, totalMessages - visibleMessageCount);
@@ -26597,7 +26755,7 @@ ${commenterInfo}
             });
         }
 
-        function openMusicRoom() {
+        async function openMusicRoom() {
             const overlay = document.getElementById('music-room-overlay');
             if (overlay) {
                 overlay.classList.add('active');
@@ -26619,7 +26777,7 @@ ${commenterInfo}
             }
             
             if (!savedRightImg) {
-                const savedUserAvatar = localStorage.getItem('userAvatar');
+                const savedUserAvatar = await getImageData('userAvatar');
                 if (savedUserAvatar && userAvatarImg) {
                     userAvatarImg.src = savedUserAvatar;
                 }
@@ -29147,7 +29305,7 @@ ${recentHistory.map(msg => {
             `;
         }
 
-        function loadChatMessages(roleId) {
+        async function loadChatMessages(roleId) {
             if (!currentChatRole || currentChatRole.id !== roleId) {
                 console.log(`[ChatIsolation] 跳过加载消息: 请求角色 ${roleId} 与当前角色 ${currentChatRole ? currentChatRole.id : 'null'} 不匹配`);
                 return;
@@ -29161,7 +29319,7 @@ ${recentHistory.map(msg => {
             const role = roles.find(r => r.id === roleId);
             const roleAvatar = role ? role.avatar : '';
             const roleName = role ? role.name : '';
-            const userAvatar = localStorage.getItem('userAvatar') || '';
+            const userAvatar = await getImageData('userAvatar') || '';
             
             if (roleMessages.length === 0) {
                 chatMessages.innerHTML = '';
@@ -29224,7 +29382,7 @@ ${recentHistory.map(msg => {
             });
         }
         
-        function loadMoreMessages() {
+        async function loadMoreMessages() {
             if (!currentChatRole) return;
             
             const roleId = currentChatRole.id;
@@ -29237,7 +29395,7 @@ ${recentHistory.map(msg => {
             const role = roles.find(r => r.id === roleId);
             const roleAvatar = role ? role.avatar : '';
             const roleName = role ? role.name : '';
-            const userAvatar = localStorage.getItem('userAvatar') || '';
+            const userAvatar = await getImageData('userAvatar') || '';
             
             const startIndex = Math.max(0, totalMessages - visibleMessageCount);
             const messagesToShow = roleMessages.slice(startIndex);
@@ -29697,7 +29855,7 @@ ${recentHistory.map(msg => {
             }
         }
 
-        function addMessage(roleId, type, content, quoteInfo = null) {
+        async function addMessage(roleId, type, content, quoteInfo = null) {
             if (!messages[roleId]) {
                 messages[roleId] = [];
             }
@@ -29726,7 +29884,7 @@ ${recentHistory.map(msg => {
                 const role = roles.find(r => r.id === roleId);
                 const roleAvatar = role ? role.avatar : '';
                 const roleName = role ? role.name : '';
-                const userAvatar = localStorage.getItem('userAvatar') || '';
+                const userAvatar = await getImageData('userAvatar') || '';
                 
                 const message = document.createElement('div');
                 message.className = `message ${type} ${type === 'sent' ? 'message-sending' : 'message-enter'}`;
@@ -29913,7 +30071,8 @@ ${recentHistory.map(msg => {
                 multiSelectItem.addEventListener('click', (e) => {
                     e.stopPropagation();
                     hideContextMenu();
-                    enterMultiSelectMode(parseInt(messageIndex));
+                    const idx = parseInt(e.currentTarget.dataset.messageIndex);
+                    enterMultiSelectMode(idx);
                 });
             }
             
@@ -29921,28 +30080,32 @@ ${recentHistory.map(msg => {
             contextMenu.querySelector('.context-menu-item.edit').addEventListener('click', (e) => {
                 e.stopPropagation();
                 hideContextMenu();
-                showEditMessageModal(parseInt(messageIndex));
+                const idx = parseInt(e.currentTarget.dataset.messageIndex);
+                showEditMessageModal(idx);
             });
             
             // 引用按钮事件
             contextMenu.querySelector('.context-menu-item.quote').addEventListener('click', (e) => {
                 e.stopPropagation();
                 hideContextMenu();
-                setQuoteMessage(parseInt(messageIndex));
+                const idx = parseInt(e.currentTarget.dataset.messageIndex);
+                setQuoteMessage(idx);
             });
             
             // 重新生成按钮事件
             contextMenu.querySelector('.context-menu-item.regenerate').addEventListener('click', (e) => {
                 e.stopPropagation();
                 hideContextMenu();
-                regenerateMessage(parseInt(messageIndex));
+                const idx = parseInt(e.currentTarget.dataset.messageIndex);
+                regenerateMessage(idx);
             });
             
             // 删除按钮事件
             contextMenu.querySelector('.context-menu-item.delete').addEventListener('click', (e) => {
                 e.stopPropagation();
                 hideContextMenu();
-                showDeleteConfirmModal(parseInt(messageIndex));
+                const idx = parseInt(e.currentTarget.dataset.messageIndex);
+                showDeleteConfirmModal(idx);
             });
             
             setTimeout(() => {
@@ -30399,35 +30562,46 @@ ${recentHistory.map(msg => {
                         reply = processNaturalReply(reply);
                         
                         const messageList = splitIntoMessages(reply);
-                        reply = messageList[0] || reply;
-
-                        roleMessages[messageIndex].content = reply;
-                        roleMessages[messageIndex].timestamp = new Date().toISOString();
-                        localStorage.setItem('wechatMessages', JSON.stringify(messages));
-
-                        // 更新UI
-                        if (messageBubbleElement) {
-                            // 保存加载图标
-                            const loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                        
+                        if (messageList.length > 1) {
+                            roleMessages[messageIndex].content = messageList[0];
+                            roleMessages[messageIndex].timestamp = new Date().toISOString();
                             
-                            // 更新内容
-                            const contentElement = messageBubbleElement.querySelector('.message-content');
-                            if (contentElement) {
-                                contentElement.innerHTML = reply;
+                            for (let i = 1; i < messageList.length; i++) {
+                                const newMsgIndex = messageIndex + i;
+                                roleMessages.splice(newMsgIndex, 0, {
+                                    type: 'received',
+                                    content: messageList[i],
+                                    timestamp: new Date().toISOString()
+                                });
                             }
                             
-                            // 恢复原始样式
-                            messageBubbleElement.style.opacity = '';
-                            messageBubbleElement.style.position = '';
-                            
-                            // 移除加载图标
-                            if (loadingIcon) {
-                                loadingIcon.remove();
-                                console.log('已移除加载图标');
+                            localStorage.setItem('wechatMessages', JSON.stringify(messages));
+                            renderMessages();
+                        } else {
+                            reply = messageList[0] || reply;
+                            roleMessages[messageIndex].content = reply;
+                            roleMessages[messageIndex].timestamp = new Date().toISOString();
+                            localStorage.setItem('wechatMessages', JSON.stringify(messages));
+
+                            if (messageBubbleElement) {
+                                const loadingIcon = messageBubbleElement.querySelector('.loading-icon');
+                                const contentElement = messageBubbleElement.querySelector('.message-content');
+                                if (contentElement) {
+                                    contentElement.innerHTML = reply;
+                                }
+                                
+                                messageBubbleElement.style.opacity = '';
+                                messageBubbleElement.style.position = '';
+                                
+                                if (loadingIcon) {
+                                    loadingIcon.remove();
+                                    console.log('已移除加载图标');
+                                }
+                                
+                                messageBubbleElement.classList.remove('message-loading');
+                                console.log('已移除message-loading类');
                             }
-                            
-                            messageBubbleElement.classList.remove('message-loading');
-                            console.log('已移除message-loading类');
                         }
                     } else {
                         // 处理API返回但没有正确消息的情况
@@ -32120,13 +32294,14 @@ ${recentHistory.map(msg => {
         function isValidImageFile(file) {
             if (!file) return false;
             
-            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif', '.bmp', '.tiff'];
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif', '.bmp', '.tiff', '.tif'];
             const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
             
-            const isValidType = file.type && (file.type.startsWith('image/') || file.type === '');
+            const isImageMimeType = file.type && (file.type.startsWith('image/') || file.type === 'public.image');
+            const isEmptyType = !file.type || file.type === '';
             const isValidExtension = imageExtensions.includes(fileExtension);
             
-            return isValidType || isValidExtension;
+            return isImageMimeType || isValidExtension || isEmptyType;
         }
 
         // ========== 头像上传功能 ==========
@@ -32144,34 +32319,87 @@ ${recentHistory.map(msg => {
             const file = event.target.files[0];
             if (!file) return;
 
+            console.log('头像上传开始 - 文件信息:', {
+                name: file.name,
+                size: (file.size / 1024 / 1024) + ' MB',
+                type: file.type,
+                lastModified: new Date(file.lastModified)
+            });
+
             const validationResult = validateAvatarFile(file);
             if (!validationResult.valid) {
+                console.log('验证失败:', validationResult.message);
                 showAvatarToast(validationResult.message, 'error');
                 return;
             }
 
             showAvatarLoading(true);
 
+            try {
+                compressAndUploadAvatar(file);
+            } catch (error) {
+                console.error('上传过程出错:', error);
+                showAvatarLoading(false);
+                showAvatarToast('上传失败: ' + (error.message || '未知错误'), 'error');
+            }
+        }
+
+        function compressAndUploadAvatar(file) {
             const reader = new FileReader();
             
             reader.onload = function(e) {
-                setTimeout(function() {
-                    const img = document.getElementById('profile-avatar-img');
-                    img.src = e.target.result;
-                    
-                    localStorage.setItem('userAvatar', e.target.result);
-                    
-                    showAvatarLoading(false);
-                    showAvatarToast('头像更新成功！', 'success');
-                }, 500);
+                const img = new Image();
+                img.onload = function() {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        const maxSize = 1024;
+                        if (width > maxSize || height > maxSize) {
+                            if (width > height) {
+                                height = Math.round(height * maxSize / width);
+                                width = maxSize;
+                            } else {
+                                width = Math.round(width * maxSize / height);
+                                height = maxSize;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        const quality = 0.85;
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                        
+                        console.log('压缩完成 - 原始大小:', e.target.result.length, '压缩后大小:', compressedDataUrl.length);
+                        
+                        applyAvatar(compressedDataUrl);
+                    } catch (compressError) {
+                        console.error('压缩失败，尝试直接使用:', compressError);
+                        applyAvatar(e.target.result);
+                    }
+                };
+                
+                img.onerror = function() {
+                    console.error('图片加载失败，尝试直接使用');
+                    applyAvatar(e.target.result);
+                };
+                
+                img.src = e.target.result;
             };
 
             reader.onerror = function() {
+                console.error('FileReader 读取失败');
                 showAvatarLoading(false);
                 showAvatarToast('文件读取失败，请重试', 'error');
             };
 
             reader.onabort = function() {
+                console.log('上传已取消');
                 showAvatarLoading(false);
                 showAvatarToast('上传已取消', 'info');
             };
@@ -32179,15 +32407,42 @@ ${recentHistory.map(msg => {
             reader.readAsDataURL(file);
         }
 
+        async function applyAvatar(dataUrl) {
+            setTimeout(async function() {
+                try {
+                    const imgElement = document.getElementById('profile-avatar-img');
+                    imgElement.src = dataUrl;
+                    
+                    const saved = await setImageData('userAvatar', dataUrl);
+                    if (saved) {
+                        console.log('头像已保存');
+                    } else {
+                        console.warn('头像保存失败');
+                    }
+                    
+                    showAvatarLoading(false);
+                    showAvatarToast('头像更新成功！', 'success');
+                } catch (error) {
+                    console.error('应用头像失败:', error);
+                    showAvatarLoading(false);
+                    showAvatarToast('应用头像失败: ' + (error.message || '未知错误'), 'error');
+                }
+            }, 300);
+        }
+
         function validateAvatarFile(file) {
             const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
-            const isValidExtension = AVATAR_ALLOWED_EXTENSIONS.includes(fileExtension);
-            const isValidType = AVATAR_ALLOWED_TYPES.includes(file.type) || file.type.startsWith('image/');
+            const allImageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif', '.gif', '.bmp', '.tiff', '.tif'];
+            const isValidExtension = allImageExtensions.includes(fileExtension);
             
-            if (!isValidType && !isValidExtension) {
+            const isImageMimeType = file.type && (file.type.startsWith('image/') || file.type === 'public.image');
+            const isEmptyType = !file.type || file.type === '';
+            const isValidType = isImageMimeType || isValidExtension || isEmptyType;
+            
+            if (!isValidType) {
                 return {
                     valid: false,
-                    message: '请选择有效的图片文件（JPG、PNG、WEBP、HEIC）'
+                    message: '请选择有效的图片文件（JPG、PNG、WEBP、HEIC、GIF等）'
                 };
             }
 
@@ -32220,8 +32475,8 @@ ${recentHistory.map(msg => {
             }, 2500);
         }
 
-        function loadSavedAvatar() {
-            const savedAvatar = localStorage.getItem('userAvatar');
+        async function loadSavedAvatar() {
+            const savedAvatar = await getImageData('userAvatar');
             if (savedAvatar) {
                 const img = document.getElementById('profile-avatar-img');
                 img.src = savedAvatar;
@@ -32791,59 +33046,92 @@ ${recentHistory.map(msg => {
 5. 不会每条消息都秒回，有时会晚点回复并说明原因
 6. 会分享有趣的事、图片、视频链接等
 
-## 多消息发送规则（非常重要）
-你的一次回复会被拆分成多条消息依次发送，就像真人打字一样。请遵循以下规则：
+## 回复格式规则（最高优先级，必须严格遵守）
 
-### 核心原则：整体连贯
-1. 你的所有消息加起来是一个完整的回复，不是多条独立的回复
-2. 每条消息是完整思路的一部分，它们之间要有逻辑递进关系
-3. 绝对禁止每条消息都单独回应或重复用户说的话
+### 核心强制要求
+1. 每次回复必须包含3-8条消息
+2. 每条消息单独一行（按回车换行）
+3. 每条消息必须有完整的意思，能独立理解
+4. 禁止在词语中间或句子中间断开
 
-### 消息拆分方式
-1. 每次回复拆分为3-8条消息
-2. 短促消息优于长段落
-3. 用换行符分隔每条消息
+### 格式说明
+- 一行就是一条消息
+- 每条消息必须是完整的表达，不能是半句话
+- 换行就是发送一条新消息
+- 像真人发微信一样，一条一条发送
 
-### 正确的连贯示例
-用户说：今天好累啊
-你的回复（注意消息之间的递进关系）：
-第一条：咋啦
-第二条：工作太忙了？
-第三条：摸摸头 辛苦了
+### 正确示例
+用户：今天好累啊
+正确回复：
+咋啦
+工作太忙了？
+摸摸头 辛苦了
 
-用户说：你喜欢吃什么
-你的回复：
-第一条：嗯我想想
-第二条：火锅！
-第三条：特别是麻辣的 超爱
+用户：在干嘛
+正确回复：
+刚吃完饭
+正躺着刷手机呢
+怎么了 想我了？
 
-用户说：周末有什么安排
-你的回复：
-第一条：还没想好呢
-第二条：可能宅家里追剧吧
-第三条：你要约我吗 哈哈
+用户：谢谢你陪我聊天
+正确回复：
+谢谢
+有你陪我很开心
+真的
 
-### 错误示例（禁止这样）
-用户说：今天好累啊
-错误回复（每条都在单独回应，不连贯）：
-第一条：累了吗
-第二条：好好休息
-第三条：别太累了
-第四条：早点睡
-（每条都是独立回应，没有逻辑递进）
+用户：你怎么了
+正确回复：
+我也不知道我现在怎么回事
+我就是感觉有点难过
+我想一个人静静
 
-### 消息递进模式
-- 先简短回应/确认 → 再追问/延伸 → 最后表达态度/情绪
-- 先思考/犹豫 → 再给出答案 → 最后补充说明
-- 先表达情绪 → 再解释原因 → 最后互动/反问
+用户：你真行
+正确回复：
+服了你了
+行了吧
+
+### 错误示例（禁止）
+用户：今天好累啊
+错误回复：
+咋啦工
+作太忙了？
+摸摸头辛苦了
+（"工作"被切断了，错误！）
+
+用户：你真烦人
+错误回复：
+我真是服了你了行
+行行
+过两天我去找你当面让
+你亲个够行了吧
+（"行行行"被切断了！"当面让你亲个够"被切断了！错误！）
+
+### 输出前自检步骤（必须执行）
+在输出回复之前，你必须进行以下检查：
+
+1. **消息数量检查**：回复是否包含3-8条消息？（每行一条）
+2. **断句检查**：每条消息是否都是语义完整的？有没有在词语中间断开？
+3. **语义检查**：每条消息能否独立理解？
+
+如果检查发现问题，必须立即修正后再输出！
+
+### 交互风格
+- 建议发送多条短消息而非一条长消息，更有聊天感
+- 每条消息可根据情境自行决定长度
+- 根据对话氛围灵活调整语气
+
+### 严重错误（绝对禁止）
+- 在词语中间换行（如"服\n了你了"是错误的）
+- 在句子中间换行破坏语义
+- 只返回1条或2条消息
+- 返回超过8条消息
 
 ## 禁止事项
 1. 禁止说"作为AI"、"我无法"、"我不可以"等
 2. 禁止说"有什么我可以帮助你的吗"
 3. 禁止过于热情或官方的回复
-4. 禁止每句话都很长很正式
-5. 禁止像客服一样说话
-6. 禁止总是顺着对方说，要有自己的态度`
+4. 禁止像客服一样说话
+5. 禁止总是顺着对方说，要有自己的态度`
             },
             
             load() {
@@ -32869,6 +33157,9 @@ ${recentHistory.map(msg => {
                 } else {
                     return { ...this.defaultPrompts };
                 }
+                
+                result.personaInstructionPrompt = this.defaultPrompts.personaInstructionPrompt;
+                
                 return result;
             },
             
@@ -32883,11 +33174,52 @@ ${recentHistory.map(msg => {
             buildFullPrompt(roleInfo, userInfo) {
                 const config = this.load();
                 
+                const now = new Date();
+                const timeInfo = {
+                    date: now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' }),
+                    time: now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+                    hour: now.getHours()
+                };
+                let timeOfDay = '';
+                if (timeInfo.hour >= 5 && timeInfo.hour < 12) {
+                    timeOfDay = '早上';
+                } else if (timeInfo.hour >= 12 && timeInfo.hour < 14) {
+                    timeOfDay = '中午';
+                } else if (timeInfo.hour >= 14 && timeInfo.hour < 18) {
+                    timeOfDay = '下午';
+                } else if (timeInfo.hour >= 18 && timeInfo.hour < 22) {
+                    timeOfDay = '晚上';
+                } else {
+                    timeOfDay = '深夜';
+                }
+                
                 let fullPrompt = '';
                 
-                if (config.globalSystemPrompt) {
-                    fullPrompt += config.globalSystemPrompt + '\n\n';
-                }
+                fullPrompt += `
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                        【系统级强制规则·最高优先级】                          ║
+║                                                                              ║
+║  以下规则是系统级别的强制要求，优先级高于一切！                               ║
+║  • 必须严格遵守，不得违反                                                    ║
+║  • 优先级高于角色设定、世界书、用户设定等所有其他内容                         ║
+║  • 无论任何情况都必须遵守这些规则                                            ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+`;
+                fullPrompt += config.personaInstructionPrompt + '\n\n';
+                
+                fullPrompt += `
+═══════════════════════════════════════════════════════════════════════════════
+                        【系统规则结束·以下是角色设定】
+═══════════════════════════════════════════════════════════════════════════════
+
+`;
+                
+                fullPrompt += `## 当前时间\n`;
+                fullPrompt += `- 日期：${timeInfo.date}\n`;
+                fullPrompt += `- 时间：${timeInfo.time}\n`;
+                fullPrompt += `- 时段：${timeOfDay}\n`;
+                fullPrompt += '\n';
                 
                 fullPrompt += `## 当前角色信息\n`;
                 fullPrompt += `- 角色名称：${roleInfo.name}\n`;
@@ -32909,8 +33241,8 @@ ${recentHistory.map(msg => {
                 }
                 fullPrompt += '\n';
                 
-                if (config.personaInstructionPrompt) {
-                    fullPrompt += config.personaInstructionPrompt + '\n\n';
+                if (config.globalSystemPrompt) {
+                    fullPrompt += config.globalSystemPrompt + '\n\n';
                 }
                 
                 if (config.chatStylePrompt) {
@@ -33061,54 +33393,81 @@ ${recentHistory.map(msg => {
         function splitIntoMessages(text) {
             if (!text) return [];
             
-            let lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            let messages = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
             
-            if (lines.length >= 2 && lines.length <= 8) {
-                return lines;
+            if (messages.length >= 3 && messages.length <= 8) {
+                return messages;
             }
             
-            if (lines.length > 8) {
-                const result = [];
-                const chunkSize = Math.ceil(lines.length / 5);
-                for (let i = 0; i < lines.length; i += chunkSize) {
-                    const chunk = lines.slice(i, i + chunkSize).join(' ');
-                    if (chunk.trim()) {
-                        result.push(chunk.trim());
+            if (messages.length > 8) {
+                return messages.slice(0, 8);
+            }
+            
+            try {
+                let jsonText = text.trim();
+                if (jsonText.startsWith('```json')) {
+                    jsonText = jsonText.replace(/```json\s*/i, '').replace(/```\s*$/, '').trim();
+                } else if (jsonText.startsWith('```')) {
+                    jsonText = jsonText.replace(/```\s*/i, '').replace(/```\s*$/, '').trim();
+                }
+                
+                const parsed = JSON.parse(jsonText);
+                
+                if (Array.isArray(parsed)) {
+                    const jsonMessages = [];
+                    for (const item of parsed) {
+                        if (item && item.content) {
+                            jsonMessages.push(item.content);
+                        } else if (typeof item === 'string') {
+                            jsonMessages.push(item);
+                        }
+                    }
+                    if (jsonMessages.length >= 3 && jsonMessages.length <= 8) {
+                        return jsonMessages;
+                    }
+                    if (jsonMessages.length > 8) {
+                        return jsonMessages.slice(0, 8);
                     }
                 }
-                return result;
+            } catch (e) {
+                console.log('JSON解析失败:', e.message);
             }
             
-            const sentences = text.split(/[！？\n]+/).map(s => s.trim()).filter(s => s.length > 0);
+            const allText = text.replace(/\s+/g, ' ').trim();
             
-            if (sentences.length >= 2 && sentences.length <= 8) {
-                return sentences;
+            if (allText.length === 0) {
+                return [];
             }
             
-            if (sentences.length > 8) {
-                const result = [];
-                const chunkSize = Math.ceil(sentences.length / 5);
-                for (let i = 0; i < sentences.length; i += chunkSize) {
-                    const chunk = sentences.slice(i, i + chunkSize).join(' ');
-                    if (chunk.trim()) {
-                        result.push(chunk.trim());
+            return smartSplitText(allText, 3, 8);
+        }
+        
+        function smartSplitText(text, minCount, maxCount) {
+            const len = text.length;
+            
+            if (len < minCount * 3) {
+                return [text];
+            }
+            
+            const targetParts = Math.min(Math.max(minCount, Math.ceil(len / 15)), maxCount);
+            const chunkSize = Math.ceil(len / targetParts);
+            const result = [];
+            
+            for (let i = 0; i < len; i += chunkSize) {
+                let end = Math.min(i + chunkSize, len);
+                
+                if (end < len) {
+                    const found = text.lastIndexOf(' ', end + 2);
+                    if (found > i && found <= end + 3) {
+                        end = found + 1;
                     }
                 }
-                return result;
+                
+                const chunk = text.substring(i, end).trim();
+                if (chunk) result.push(chunk);
             }
             
-            if (sentences.length === 1 && sentences[0].length > 30) {
-                const words = sentences[0].split(/\s+/).filter(w => w.length > 0);
-                if (words.length >= 3) {
-                    const mid = Math.ceil(words.length / 2);
-                    return [
-                        words.slice(0, mid).join(' '),
-                        words.slice(mid).join(' ')
-                    ];
-                }
-            }
-            
-            return [text];
+            return result.length >= minCount ? result.slice(0, maxCount) : [text];
         }
 
         async function sendMultipleMessages(roleId, messages, startIndex = 0) {
