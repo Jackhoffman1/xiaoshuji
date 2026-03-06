@@ -14196,20 +14196,9 @@
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
-                    <p>欢迎使用小鼠机！本次更新内容如下：</p>
                     <ul>
                         <li style="color: red; font-weight: bold;">⚠️ 导入存档失败请大退，重新开浏览器或桌面版</li>
-                        <li>🔧 修复了跳思维链</li>
-                        <li>🎨 增加两个未实装app</li>
-                        <li>💬 又优化了角色回复逻辑，现在活人感强多了</li>
-                        <li>🌙 夜间模式美化了一些，内置了小悦的美化，大家谢谢这个小悦！</li>
-                        <li>🔧 更新了一下无法删除预设api</li>
-                        <li>🔧 更新了数据清空不生效</li>
-                        <li>🔧 更新了一些角色回复错误的问题</li>
-                        <li>🎨 增加了全局css美化</li>
-                        <li>✏️ 修改了编辑消息a跳b的情况</li>
-                        <li>🖼️ 修了一下大图片数据导入失效的问题</li>
-                        <li>🔄 朋友圈去除默认消息，增加了刷新中和成功的提示</li>
+                        <li>🔧 修复了角色更换头像后无法保存的问题</li>
                     </ul>
                 </div>
             </div>
@@ -32005,37 +31994,49 @@ ${recentHistory.map(msg => {
         }
 
         // 处理角色头像上传
-        document.getElementById('character-avatar-input').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
-            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
-            const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+        function initCharacterAvatarUpload() {
+            const avatarInput = document.getElementById('character-avatar-input');
+            if (!avatarInput) return;
             
-            if (!isValidImage) {
-                alert('请选择有效的图片文件');
-                this.value = '';
-                return;
-            }
+            avatarInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
 
-            const maxSizeMB = 9;
-            const maxSizeBytes = maxSizeMB * 1024 * 1024;
-            if (file.size > maxSizeBytes) {
-                alert(`图片大小不能超过 ${maxSizeMB}MB`);
-                this.value = '';
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                tempCharacterAvatar = event.target.result;
-                const preview = document.getElementById('character-avatar-preview');
-                preview.innerHTML = `<img src="${tempCharacterAvatar}" alt="头像"><div class="upload-hint">更换头像</div>`;
-                preview.classList.add('has-image');
-            };
-            reader.readAsDataURL(file);
-        });
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'];
+                const isValidImage = file.type.startsWith('image/') || imageExtensions.includes(fileExtension);
+                
+                if (!isValidImage) {
+                    alert('请选择有效的图片文件');
+                    this.value = '';
+                    return;
+                }
+
+                const maxSizeMB = 9;
+                const maxSizeBytes = maxSizeMB * 1024 * 1024;
+                if (file.size > maxSizeBytes) {
+                    alert(`图片大小不能超过 ${maxSizeMB}MB`);
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    tempCharacterAvatar = event.target.result;
+                    const preview = document.getElementById('character-avatar-preview');
+                    preview.innerHTML = `<img src="${tempCharacterAvatar}" alt="头像"><div class="upload-hint">更换头像</div>`;
+                    preview.classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // 初始化角色头像上传
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCharacterAvatarUpload);
+        } else {
+            initCharacterAvatarUpload();
+        }
 
         // 保存角色
         function saveCharacter() {
