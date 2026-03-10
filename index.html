@@ -7739,6 +7739,80 @@
         .icon-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.2); }
         .icon-btn svg { width: 22px; height: 22px; stroke-width: 1.5; stroke-linecap: round; stroke: #fff; }
 
+        .contact-detail-dropdown {
+            position: relative;
+        }
+
+        .contact-detail-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            min-width: 140px;
+            padding: 6px 0;
+            display: none;
+            z-index: 1000;
+            opacity: 0;
+            transform: scale(0.95) translateY(-8px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .contact-detail-menu.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .contact-detail-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.15s;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .contact-detail-menu-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-detail-menu-item:active {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-detail-menu-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: #666;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .contact-detail-menu {
+                background: rgba(44, 44, 46, 0.95);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            }
+
+            .contact-detail-menu-item {
+                color: #EBEBF5;
+            }
+
+            .contact-detail-menu-item:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .contact-detail-menu-item svg {
+                stroke: #EBEBF5;
+            }
+        }
+
         .contact-detail-title {
             flex: 1;
             font-size: 16px;
@@ -18779,12 +18853,33 @@
                     </svg>
                 </div>
                 <div class="contact-detail-title">详细资料</div>
-                <div class="icon-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <circle cx="12" cy="5" r="1"></circle>
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="12" cy="19" r="1"></circle>
-                    </svg>
+                <div class="contact-detail-dropdown">
+                    <div class="icon-btn" onclick="toggleContactDetailMenu(event)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                    </div>
+                    <div class="contact-detail-menu" id="contact-detail-menu">
+                        <div class="contact-detail-menu-item" onclick="exportRoleData(event)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            <span>导出角色</span>
+                        </div>
+                        <div class="contact-detail-menu-item" onclick="triggerImportRoleData(event)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <span>导入角色</span>
+                        </div>
+                    </div>
+                    <input type="file" id="import-role-file-input" accept=".json" style="display: none;" onchange="handleImportRoleData(event)">
                 </div>
             </div>
 
@@ -33061,6 +33156,270 @@ ${recentHistory.map(msg => {
             currentDetailRole = null;
             localStorage.removeItem('currentCharacterId');
             closeGroupSelector();
+            closeContactDetailMenu();
+        }
+
+        // 切换详细资料下拉菜单
+        function toggleContactDetailMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('contact-detail-menu');
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+            } else {
+                menu.classList.add('show');
+            }
+        }
+
+        // 关闭详细资料下拉菜单
+        function closeContactDetailMenu() {
+            const menu = document.getElementById('contact-detail-menu');
+            if (menu) {
+                menu.classList.remove('show');
+            }
+        }
+
+        // 点击其他地方关闭菜单
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.contact-detail-dropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                closeContactDetailMenu();
+            }
+        });
+
+        // 导出角色数据
+        async function exportRoleData(event) {
+            event.stopPropagation();
+            
+            if (!currentDetailRole) {
+                alert('无法获取角色信息');
+                return;
+            }
+            
+            closeContactDetailMenu();
+            
+            const roleId = currentDetailRole.id;
+            const roleName = currentDetailRole.remark || currentDetailRole.name;
+            
+            try {
+                const exportData = {
+                    version: '1.0',
+                    exportDate: new Date().toISOString(),
+                    exportType: 'role',
+                    role: null,
+                    messages: [],
+                    moments: [],
+                    images: {}
+                };
+                
+                // 获取角色基本信息
+                const role = roles.find(r => r.id === roleId);
+                if (role) {
+                    exportData.role = { ...role };
+                }
+                
+                // 获取聊天记录
+                if (messages[roleId]) {
+                    exportData.messages = [...messages[roleId]];
+                }
+                
+                // 获取朋友圈记录
+                exportData.moments = moments.filter(m => m.roleId === roleId);
+                
+                // 获取头像
+                if (role && role.avatar) {
+                    exportData.images.avatar = role.avatar;
+                }
+                
+                // 获取背景图
+                const backgroundKey = `characterBackground_${roleId}`;
+                const savedBackground = localStorage.getItem(backgroundKey);
+                if (savedBackground) {
+                    exportData.images.background = savedBackground;
+                }
+                
+                // 获取照片墙图片
+                for (let i = 0; i < 3; i++) {
+                    const imageKey = `characterDetailImage_${roleId}_${i}`;
+                    const savedImage = localStorage.getItem(imageKey);
+                    if (savedImage) {
+                        exportData.images[`photo_${i}`] = savedImage;
+                    }
+                }
+                
+                // 获取聊天壁纸
+                const wallpaperKey = `chatWallpaper_${roleId}`;
+                const savedWallpaper = localStorage.getItem(wallpaperKey);
+                if (savedWallpaper) {
+                    exportData.images.chatWallpaper = savedWallpaper;
+                }
+                
+                // 生成文件名
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+                const safeName = roleName.replace(/[<>:"/\\|?*]/g, '_');
+                const fileName = `role_${safeName}_${timestamp}.json`;
+                
+                // 创建并下载文件
+                const jsonString = JSON.stringify(exportData, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                
+                const sizeInMB = (blob.size / (1024 * 1024)).toFixed(2);
+                console.log('角色导出数据大小:', sizeInMB, 'MB');
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+                
+                // 显示成功提示
+                const msgCount = exportData.messages.length;
+                const momentCount = exportData.moments.length;
+                const imageCount = Object.keys(exportData.images).length;
+                
+                alert(`导出成功！\n\n角色: ${roleName}\n聊天记录: ${msgCount} 条\n朋友圈: ${momentCount} 条\n图片资源: ${imageCount} 个\n文件大小: ${sizeInMB} MB`);
+                
+            } catch (error) {
+                console.error('导出角色失败:', error);
+                alert('导出失败: ' + (error.message || '未知错误'));
+            }
+        }
+
+        // 触发导入角色文件选择
+        function triggerImportRoleData(event) {
+            event.stopPropagation();
+            closeContactDetailMenu();
+            
+            if (!currentDetailRole) {
+                alert('无法获取角色信息');
+                return;
+            }
+            
+            const input = document.getElementById('import-role-file-input');
+            if (input) {
+                input.value = '';
+                input.click();
+            }
+        }
+
+        // 处理导入角色数据
+        async function handleImportRoleData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!currentDetailRole) {
+                alert('无法获取角色信息');
+                return;
+            }
+            
+            const roleId = currentDetailRole.id;
+            const roleName = currentDetailRole.remark || currentDetailRole.name;
+            
+            try {
+                const fileContent = await file.text();
+                const importData = JSON.parse(fileContent);
+                
+                // 验证导入数据格式
+                if (!importData.exportType || importData.exportType !== 'role') {
+                    alert('无效的角色数据文件！请选择通过"导出角色"功能生成的JSON文件。');
+                    return;
+                }
+                
+                if (!importData.role) {
+                    alert('角色数据文件缺少角色信息！');
+                    return;
+                }
+                
+                // 确认导入操作
+                const confirmMsg = `确定要将导入的数据覆盖当前角色"${roleName}"吗？\n\n此操作将覆盖：\n- 角色基本信息\n- 聊天记录\n- 朋友圈记录\n- 图片资源\n\n此操作无法撤销！`;
+                if (!confirm(confirmMsg)) {
+                    return;
+                }
+                
+                // 获取导入的角色数据
+                const importedRole = importData.role;
+                
+                // 更新角色基本信息（保留原ID）
+                const roleIndex = roles.findIndex(r => r.id === roleId);
+                if (roleIndex !== -1) {
+                    roles[roleIndex] = {
+                        ...importedRole,
+                        id: roleId
+                    };
+                    saveRoles();
+                }
+                
+                // 更新聊天记录
+                if (importData.messages && Array.isArray(importData.messages)) {
+                    messages[roleId] = importData.messages.map(msg => ({
+                        ...msg,
+                        roleId: roleId
+                    }));
+                    saveMessages();
+                }
+                
+                // 更新朋友圈记录
+                if (importData.moments && Array.isArray(importData.moments)) {
+                    // 先删除该角色的旧朋友圈
+                    moments = moments.filter(m => m.roleId !== roleId);
+                    // 添加导入的朋友圈
+                    const importedMoments = importData.moments.map(m => ({
+                        ...m,
+                        roleId: roleId
+                    }));
+                    moments = moments.concat(importedMoments);
+                    saveMoments();
+                }
+                
+                // 导入图片资源
+                if (importData.images) {
+                    // 导入头像
+                    if (importData.images.avatar && roleIndex !== -1) {
+                        roles[roleIndex].avatar = importData.images.avatar;
+                        saveRoles();
+                    }
+                    
+                    // 导入背景图
+                    if (importData.images.background) {
+                        const backgroundKey = `characterBackground_${roleId}`;
+                        localStorage.setItem(backgroundKey, importData.images.background);
+                    }
+                    
+                    // 导入照片墙图片
+                    for (let i = 0; i < 3; i++) {
+                        const photoKey = `photo_${i}`;
+                        if (importData.images[photoKey]) {
+                            const imageKey = `characterDetailImage_${roleId}_${i}`;
+                            localStorage.setItem(imageKey, importData.images[photoKey]);
+                        }
+                    }
+                    
+                    // 导入聊天壁纸
+                    if (importData.images.chatWallpaper) {
+                        const wallpaperKey = `chatWallpaper_${roleId}`;
+                        localStorage.setItem(wallpaperKey, importData.images.chatWallpaper);
+                    }
+                }
+                
+                // 刷新界面显示
+                openContactDetail(roles[roleIndex]);
+                
+                // 显示成功提示
+                const msgCount = importData.messages ? importData.messages.length : 0;
+                const momentCount = importData.moments ? importData.moments.length : 0;
+                const imageCount = importData.images ? Object.keys(importData.images).length : 0;
+                
+                alert(`导入成功！\n\n角色: ${importedRole.name || roleName}\n聊天记录: ${msgCount} 条\n朋友圈: ${momentCount} 条\n图片资源: ${imageCount} 个`);
+                
+            } catch (error) {
+                console.error('导入角色失败:', error);
+                if (error instanceof SyntaxError) {
+                    alert('导入失败: 文件格式错误，请确保选择有效的JSON文件');
+                } else {
+                    alert('导入失败: ' + (error.message || '未知错误'));
+                }
+            }
         }
 
         let deleteFriendConfirmModal = null;
