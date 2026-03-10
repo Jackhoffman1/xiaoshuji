@@ -645,7 +645,7 @@
         }
 
         .dark-mode .status-text {
-            color: var(--text-tertiary);
+            color: inherit;
         }
 
         .dark-mode .plus-icon {
@@ -940,6 +940,14 @@
 
         .dark-mode .contact-detail-header .back-btn svg {
             stroke: #fff;
+        }
+
+        .dark-mode .contact-detail-header .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .contact-detail-header .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .dark-mode .contact-detail-title {
@@ -2401,7 +2409,7 @@
             
             .message-content {
                 padding: 6px 10px;
-                font-size: 11px;
+                font-size: 13px;
             }
             
             .chat-header {
@@ -4548,8 +4556,8 @@
             padding: 10px 14px;
             border-radius: 20px;
             line-height: 1.45;
-            font-size: 12px;
-            font-weight: 450;
+            font-size: 14px;
+            font-weight: 500;
             display: inline-block;
             width: fit-content;
             max-width: 100%;
@@ -7154,7 +7162,7 @@
             --border-bottom: rgba(200, 200, 205, 0.4);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: 11px;
-            color: #86868b;
+            color: inherit;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -7724,6 +7732,19 @@
 
         .contact-detail-header .back-btn svg {
             stroke: #fff;
+        }
+
+        .contact-detail-header .icon-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+        }
+
+        .contact-detail-header .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .contact-detail-header .icon-btn:active {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .icon-btn {
@@ -10797,6 +10818,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            color: inherit;
         }
 
         .typing-indicator-dots {
@@ -16328,6 +16350,24 @@
             scrollbar-width: none;
         }
         .list-section-new::-webkit-scrollbar { display: none; }
+        .list-section-new.touch-scroll-container {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        .list-section-new.touch-scroll-container::-webkit-scrollbar { display: none; width: 0; height: 0; }
+        .contacts-list.touch-scroll-container {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        .contacts-list.touch-scroll-container::-webkit-scrollbar { display: none; width: 0; height: 0; }
+        .character-settings-content.touch-scroll-container {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        .character-settings-content.touch-scroll-container::-webkit-scrollbar { display: none; width: 0; height: 0; }
         .section-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .section-title-new { font-size: 11px; font-weight: 700; color: #A0A0A8; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -16400,12 +16440,7 @@
                 <div class="announcement-content">
                     <ul>
                         <li style="color: red; font-weight: bold;">⚠️ 导入存档失败请大退，重新开浏览器或桌面版</li>
-                        <li>✨ 修改了消息页和联系人页</li>
-                        <li>🔧 提示词什么的还是修修修</li>
-                        <li>✨ 朋友圈文风改了一下</li>
-                        <li>🔧 多选模式优化了一下</li>
-                        <li>🛡️ 储存导入增加了报错和储存机制改了</li>
-                        <li>🔧 修复了照片调格式问题以及别的一些掉格式问题，AI听话的话就不会有什么问题了</li>
+                        <li>✨ 增加了角色导出导入在详细资料内</li>
                     </ul>
                 </div>
             </div>
