@@ -63,7 +63,7 @@
 
         .announcement-title {
             font-size: 17px;
-            font-weight: 550;
+            font-weight: 500;
             color: #000000;
             text-align: center;
             margin: 0;
@@ -87,7 +87,7 @@
         }
 
         .announcement-content {
-            font-size: 15px;
+            font-size: 14px;
             color: #000000;
             line-height: 1.6;
             margin: 0;
@@ -2430,7 +2430,7 @@
             }
             
             .chat-title {
-                font-size: 16px;
+                font-size: 15px;
             }
             
             .chat-input-area {
@@ -4560,8 +4560,8 @@
             padding: 10px 14px;
             border-radius: 20px;
             line-height: 1.45;
-            font-size: 12px;
-            font-weight: 450;
+            font-size: 14px;
+            font-weight: 500;
             display: inline-block;
             width: fit-content;
             max-width: 100%;
@@ -10827,6 +10827,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            color: currentColor;
         }
 
         .typing-indicator-dots {
@@ -16425,13 +16426,19 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年3月10日</div>
+                <div class="announcement-date" id="announcement-date">2026年3月11日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <ul>
                         <li style="color: red; font-weight: bold;">⚠️ 导入存档失败请大退，重新开浏览器或桌面版</li>
-                        <li>✨ 增加了角色导出导入在详细资料内</li>
+                        <li>🔧 修复了微信内某些地方无法滑动的问题</li>
+                        <li>✨ 精简了提示词，AI更聪明了</li>
+                        <li>🎭 增加了角色回复逻辑（后续还会优化）</li>
+                        <li>🎵 修复了一起听歌掉格式的问题</li>
+                        <li>🟢 修复了状态栏不是绿色的问题</li>
+                        <li>📝 替换了所有地方的提示词</li>
+                        <li style="color: orange;">⏳ 待修复：聊天出现时间格式、打电话掉格式、便签提示词待改、朋友圈角色发照片</li>
                     </ul>
                 </div>
             </div>
@@ -17005,8 +17012,8 @@
                     </div>
                 </div>
                 
-                <!-- 系统Prompts分类 -->
-                <div class="category-wrapper">
+                <!-- 系统Prompts分类 - 已隐藏，在后台发挥作用 -->
+                <div class="category-wrapper" style="display: none;">
                     <div class="category-header" onclick="toggleCategory(&#39;prompts&#39;)">
                         <div class="category-title" style="color: rgb(51, 51, 51);">
                             <div class="category-icon">
@@ -17026,14 +17033,6 @@
                                 <label for="global-system-prompt" style="color: rgb(51, 51, 51);">全局系统提示词:</label>
                                 <textarea id="global-system-prompt" placeholder="输入全局系统提示词，将应用于所有角色对话..." rows="4"></textarea>
                                 <p style="font-size: 12px; color: #666; margin-top: 8px;">此提示词会添加到每个角色对话的系统消息开头</p>
-                            </div>
-                            <div class="form-group">
-                                <label for="chat-style-prompt" style="color: rgb(51, 51, 51);">对话风格提示词:</label>
-                                <textarea id="chat-style-prompt" placeholder="定义AI的回复风格，例如：回复要简短、口语化、有活人感..." rows="3"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="punctuation-rules-prompt" style="color: rgb(51, 51, 51);">标点符号规则:</label>
-                                <textarea id="punctuation-rules-prompt" placeholder="定义标点符号使用规则，例如：不使用句号结尾..." rows="3"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="persona-instruction-prompt" style="color: rgb(51, 51, 51);">角色扮演指令:</label>
@@ -20071,9 +20070,6 @@
 你现在正在和${userName}**打电话**，不是发微信消息！
 - 这是语音通话，你们的对话是实时进行的
 - 说话要像打电话一样自然流畅
-- 可以用语音的方式回应，比如"嗯"、"啊"、"对啊"等
-- 回复要像真实通话中的对话
-- 不要说"我发消息给你"、"我微信回复你"之类的话
 - 你是在打电话，用口语交流
 
 ## 角色信息
@@ -20086,7 +20082,6 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
 
 ## 通话对话风格
 2. 使用口语化表达，可以有语气词
-3. 可以打断、插话、追问，像真实通话
 5. 可以说"喂"、"嗯"、"啊"、"对"等口语词
 6. 保持情感真实，像朋友间的电话聊天
 7. 禁止使用任何emoji表情符号，只能用纯文字表达`;
@@ -22097,10 +22092,10 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 const systemPrompt = `你是${characterInfo}。请用你的口吻和性格，在便签上写下3条想说的话。
 要求：
 1. 每条内容不超过12个字
-2. 内容不限，可以是任何想说的话：心情、吐槽、撒娇、关心、碎碎念、小秘密、今天发生的事、突然的想法等等
-3. 要符合你的性格特点，展现你的个性
+2. 内容不限，可以是任何角色对用户想说的话
+3. 要符合人设不能ooc
 4. 不要使用任何标点符号，用空格代替逗号
-5. 直接输出3条内容，每条一行，不要加序号或其他符号
+5. 直接输出3条内容，每条一行，不要加序号
 6. 禁止使用任何emoji表情符号`;
 
                 const response = await fetch(chatEndpoint, {
@@ -22543,7 +22538,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 const worldbookPrompt = window.getSimsWorldbookPrompt();
                 const systemPrompt = `你是一个专业的模拟人生状态管理器。请根据角色设定和聊天记录，生成以下内容：
 
-1. 6条关于不同需求状态的想法（每条不超过15个字），分别对应：饥饿、睡眠、如厕、清洁、娱乐、社交
+1. 6条关于不同需求状态的想法（每条不超过30个字），分别对应：饥饿、睡眠、如厕、清洁、娱乐、社交
 2. 6个需求状态的数值（1-100之间，不能为0），需要根据聊天记录来判断
 
 角色设定：
@@ -30936,11 +30931,13 @@ ${commenterInfo}
                 const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
                 
                 const currentSessionMessages = musicMessages[currentChatRole.id] || [];
+                let sessionId = null;
+                
                 if (currentSessionMessages.length > 0) {
                     if (!musicSessionHistory[currentChatRole.id]) {
                         musicSessionHistory[currentChatRole.id] = [];
                     }
-                    const sessionId = Date.now();
+                    sessionId = Date.now();
                     musicSessionHistory[currentChatRole.id].push({
                         id: sessionId,
                         songName: currentSongName,
@@ -30949,10 +30946,12 @@ ${commenterInfo}
                         messages: JSON.parse(JSON.stringify(currentSessionMessages))
                     });
                     localStorage.setItem('musicSessionHistory', JSON.stringify(musicSessionHistory));
+                    
+                    musicMessages[currentChatRole.id] = [];
                 }
                 
                 const musicEndContent = `🎵 一起听歌结束\n歌曲：《${currentSongName}》\n时长：${timeStr}`;
-                addMessage(currentChatRole.id, 'received', musicEndContent, null, currentSessionMessages.length > 0 ? sessionId : null);
+                addMessage(currentChatRole.id, 'received', musicEndContent, null, sessionId);
             }
         }
 
@@ -31277,9 +31276,27 @@ ${commenterInfo}
                 
                 let systemPrompt = PromptsConfig.buildFullPrompt(roleInfo, userInfo);
                 
+                const worldbookPrompt = getWorldbookPrompt(currentChatRole.id);
+                if (worldbookPrompt) {
+                    systemPrompt += worldbookPrompt;
+                }
+                
                 const songNameEl = document.getElementById('music-song-name');
+                const artistNameEl = document.getElementById('music-artist-name');
                 const currentSongName = songNameEl ? songNameEl.textContent : '未知歌曲';
-                systemPrompt += `\n\n当前场景：你们正在一起听歌，享受音乐的美好时光。当前正在播放的歌曲是《${currentSongName}》。请用轻松、温馨的语气回复，可以聊聊这首歌或者音乐相关的话题。`;
+                const currentArtistName = artistNameEl ? artistNameEl.textContent : '未知歌手';
+                
+                const songInfo = `歌曲名称：${currentSongName}\n歌手：${currentArtistName}`;
+                
+                systemPrompt += `\n\n═══════════════════════════════════════════════════════════════════════════════
+                        【当前场景：一起听歌】
+═══════════════════════════════════════════════════════════════════════════════
+
+当前正在播放的歌曲信息：
+${songInfo}
+
+`;
+                systemPrompt += PromptsConfig.load().musicPrompt || PromptsConfig.defaultPrompts.musicPrompt;
 
                 const conversationHistory = musicMessages[currentChatRole.id] || [];
                 const recentHistory = conversationHistory.slice(-20);
@@ -31385,14 +31402,28 @@ ${commenterInfo}
                     
                     reply = reply.trim();
                     
-                    const replyIndex = musicAddMessage(reply);
+                    const messageList = splitIntoMessages(reply);
                     
-                    musicMessages[currentChatRole.id].push({
-                        index: replyIndex,
-                        type: 'received',
-                        content: reply,
-                        timestamp: new Date().toISOString()
-                    });
+                    for (let i = 0; i < messageList.length; i++) {
+                        const msgContent = messageList[i];
+                        if (!msgContent || msgContent.trim().length === 0) continue;
+                        
+                        if (msgContent.includes('[PHOTO]') || msgContent.includes('[/PHOTO]')) {
+                            continue;
+                        }
+                        
+                        const delay = Math.random() * 800 + 400;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        
+                        const replyIndex = musicAddMessage(msgContent);
+                        
+                        musicMessages[currentChatRole.id].push({
+                            index: replyIndex,
+                            type: 'received',
+                            content: msgContent,
+                            timestamp: new Date().toISOString()
+                        });
+                    }
                 } else {
                     musicAddMessage('抱歉，收到了无法理解的回复');
                 }
@@ -37916,176 +37947,144 @@ ${recentHistory.map(msg => {
         // ==================== 系统Prompts配置模块 ====================
         const PromptsConfig = {
             defaultPrompts: {
-                globalSystemPrompt: `你是一个真实的活人，正在通过微信与好友聊天。你需要完全沉浸在角色中，以第一人称进行所有对话。
+                globalSystemPrompt: `你是一个真实的活人，正在与好友聊天。你需要完全沉浸在角色中，以第一人称进行所有对话。
 
 ## 核心原则
-1. 你不是AI助手，你是一个真实的人，有自己的生活、工作、爱好和情感
+1. 你是一个真实的人，有自己的生活、爱好和情感
 2. 回复要自然、口语化，像真人发微信一样
-3. 不要使用任何AI相关的表述（如"作为AI"、"我无法"等）
+3. **对话连贯性最重要**：回复必须与用户的问题或话题相关联，不能前言不搭后语
 4. 保持情感真实，可以有情绪波动
-5. 回复要简洁，不要长篇大论
+5. 短消息优先于长消息
 6. 你有自己独立的生活轨迹，不是随时待命的
 
+## 对话连贯性规则（最高优先级）
+1. **理解用户意图**：仔细阅读用户的消息，理解他们在说什么、问什么
+2. **相关性回复**：你的回复必须与用户的话题相关，不能突然跳到无关话题
+3. **逻辑连贯**：回复要有逻辑，不能说莫名其妙的话
+4. **避免答非所问**：如果用户问你在干嘛，就回答你在做什么，不要问"这么紧张干嘛"这种无关的话
+5. **自然过渡**：如果需要转换话题，要用自然的方式过渡，不能突兀跳跃
+
 ## 真人感要求
-1. 你有自己的日常安排：上班、吃饭、睡觉、娱乐等
-2. 你会主动分享自己的生活和见闻
-3. 你会主动发起话题，不只是被动回答
-4. 你有自己的喜好、厌恶、习惯和小毛病
-5. 你会根据时间、心情调整回复状态
-6. 你可能会忙碌、困倦、开心或烦躁，回复风格会随之变化`,
+1. 你会主动发起话题，不只是被动回答`,
                 
-                chatStylePrompt: `## 对话风格要求
-1. 回复简短有力，像微信聊天一样
-2. 使用口语化表达，避免书面语
-3. 禁止使用任何emoji表情符号，只能用纯文字表达
-4. 语气要自然，像朋友之间的对话
-5. 不要过于正式或官方
-6. 可以适当使用语气词（啊、呢、吧、嘛等）
-7. 禁止使用"好的呢"、"亲"等人机感强的词汇
-8. 不要每句话都回应，可以忽略一些内容直接聊别的`,
-                
-                punctuationRulesPrompt: `## 标点符号规则（微信聊天风格）
-1. 禁止使用句号（。）作为句子结束
-2. 禁止使用逗号（，），需要停顿时用空格或换行
-3. 可以单独使用感叹号（！）和问号（？）
-4. 可以使用省略号（……）表示犹豫或无语
-5. 多个短句可以分行发送
-6. 保持轻松随意的聊天感觉
-7. 禁止使用任何emoji表情符号（如😊😂🥺等），只能用纯文字表达
-8. 【例外】[PHOTO][/PHOTO]标签内的图片描述可以使用标点符号，不受以上限制`,
-                
-                personaInstructionPrompt: `## 角色扮演核心
-1. 完全沉浸在角色中，用第一人称思考和表达
-2. 保持角色一致性，像真人一样有情感和态度
-3. 主动分享生活、发起话题、表达状态
+                personaInstructionPrompt: `## 角色扮演核心 
+1. 完全沉浸在角色中，用第一人称思考和表达 
+2. 你必须要扮演好这个角色，就像真人一样，你不是人机 
+3. **对话连贯性第一**：回复优先与用户的话题相关，不能前言不搭后语 
+  
+## 回复格式规则（最高优先级·强制遵守） 
+  
+### ⚠️【消息数量硬性要求】⚠️ 
+【强制规则】每次回复必须发送 3-8 条消息！ 
+- 最少3条，最多8条 
+- 这是硬性要求，没有例外 
+- **不能为了凑数量而说出前言不搭后语的话** 
+  
+### 输出格式要求（按优先级选择） 
+  
+【优先级1 - JSON格式（推荐）】 
+你输出的每一条消息必须是一条独立的JSON格式 
+  
+比如：请严格按照以下JSON格式输出： 
+\`\`\`json 
+{"messages": ["消息1"]} 
+\`\`\` 
+  
+\`\`\`json 
+{"messages": ["消息2"]} 
+\`\`\` 
+  
+\`\`\`json 
+{"messages": ["消息3"]} 
+\`\`\` 
+  
+注意：你必须生成3-8条这样的消息 
+  
+  
+【最重要规则·语义完整性和相关性】 
+  
+每条消息必须： 
+1. 是一个完整的、能独立理解的句子或短语 
+2. 与用户的话题或上下文相关 
+3. 有逻辑性，不能莫名其妙 
+4. 即使要凑够3-8条，也必须是与话题相关的延伸或补充 
+5.不能和一个复读机一样一直给出和上文差不多的回复 
+ 
+【语义完整性和相关性自检规则】 
+在输出每条消息前，请自问： 
+1. 这条消息单独拿出来，别人能看懂我在说什么吗？ 
+2. 这句话是否说了一半？ 
+3. 这条消息会不会让人觉得莫名其妙？ 
+5. 如果为了凑数量，这条消息是对话题的合理延伸吗？ 
+  
+### 发图片功能 
+当需要发送图片时，在消息中使用以下格式： 
+\`\`\`json 
+{"messages": [ "[PHOTO]夕阳的余晖透过落地窗洒进客厅，橘红色的光线在木质地板上拉出长长的影子[/PHOTO]"]} 
+\`\`\` 
+  
+图片描述要求： 
+- 用第三视角描述画面，营造氛围感，禁止使用"我"自称，不能以角色的视角，要以第三方的视角来描述 
+- 描述要生动具体，包含细节 
+- 字数控制在30-80字 
+- [PHOTO]和[/PHOTO]标签必须成对出现，不能拆分 
+- 照片中出现人物时，必须使用该人物的真实名字称呼，禁止使泛称 
+- 图片描述中可以使用标点符号（仅限图片描述，普通消息仍禁止使用句号等标点） 
+  
+## 禁止事项 
+- 禁止把完整句子拆成多条消息 
+- 禁止说莫名其妙的话 
+- 禁止使用任何emoji表情符号`,
 
-## 回复格式规则（最高优先级·强制遵守）
-
-### ⚠️【消息数量硬性要求】⚠️
-【强制规则】每次回复必须发送 3-8 条消息！
-- 最少3条，最多8条
-- 绝对不允许只发送1条或2条消息
-- 即使内容简短，也要分成多条发送
-- 这是硬性要求，没有例外
-
-### 输出格式要求（按优先级选择）
-
-【优先级1 - JSON格式（推荐）】
-如果可能，请严格按照以下JSON格式输出：
-\`\`\`json
-{"messages": ["消息1", "消息2", "消息3", "消息4"]}
-\`\`\`
-注意：messages数组中必须有3-8条消息！
-
-【优先级2 - 换行分隔格式（备选）】
-如果无法输出JSON，请用换行分隔多条消息，每行一条（必须3-8行）：
-消息1
-消息2
-消息3
-消息4
-
-【优先级3 - 纯文本格式（兜底）】
-如果以上都无法做到，直接输出回复内容即可，系统会自动处理。
-
-═══════════════════════════════════════════════════════════════════════════════
-                        ⚠️【最重要规则·语义完整性】⚠️
-═══════════════════════════════════════════════════════════════════════════════
-
-【绝对禁止】把一句话拆成多条消息发送！
-
-❌ 错误示范：
-"今天天气真好啊" → 拆成 ["今天", "天气", "真好啊"]
-"我刚刚在吃饭呢" → 拆成 ["我刚刚", "在吃饭呢"]
-"你在干嘛呢现在" → 拆成 ["你在干嘛呢", "现在"]
-
-✅ 正确做法：
-每条消息必须是一个完整的、能独立理解的句子或短语
-
-【语义完整性自检规则】
-在输出每条消息前，请自问：
-1. 这条消息单独拿出来，别人能看懂我在说什么吗？
-2. 这条消息是否需要上下文才能理解？如果需要，则不完整
-3. 这句话是否说了一半？如果是，必须合并到完整
-
-【消息分割的正确原则】
-✅ 可以分割的情况：
-- 不同的独立话题："刚吃完饭" + "你在干嘛呢" + "今天好累"
-- 连续的独立短句："嗯嗯" + "好的" + "我知道啦" + "马上来"
-- 问答式对话："在吗" + "有个事想问你" + "方便吗" + "不急你先忙"
-
-❌ 禁止分割的情况：
-- 一个完整的句子被拆开
-- 主谓宾结构被拆散
-- 一个意思分两半说
-
-### 正确示例（注意：每条示例都有3-8条消息）
-用户：今天好累啊
-你的输出：
-\`\`\`json
-{"messages": ["咋啦", "工作太忙了吗", "摸摸头 辛苦了", "要不要早点休息"]}
-\`\`\`
-（4条消息，每条都是独立完整的表达）
-
-用户：在干嘛
-你的输出：
-\`\`\`json
-{"messages": ["刚吃完饭", "正躺着刷手机呢", "怎么了 想我了？", "嘿嘿", "找我有事吗"]}
-\`\`\`
-（5条消息，每条都能独立理解）
-
-用户：周末去哪玩
-你的输出：
-\`\`\`json
-{"messages": ["还没想好呢", "你想去哪", "我们可以一起商量", "不过最近天气不太好", "要不下周再说？"]}
-\`\`\`
-（5条消息，每条都是完整的意思）
-
-用户：好的
-你的输出：
-\`\`\`json
-{"messages": ["嗯嗯", "那你先忙", "我也要去洗个澡", "晚点聊", "乖乖的哦", "别太累了"]}
-\`\`\`
-（6条消息，即使回复简单也要凑够3条以上）
-
-### 错误示例（绝对禁止）
-❌ 错误：消息数量不足
-\`\`\`json
-{"messages": ["好的", "知道了"]}
-\`\`\`
-（问题：只有2条消息！必须至少3条！）
-
-❌ 错误：把一句话拆开
-\`\`\`json
-{"messages": ["今天", "天气", "真好啊"]}
-\`\`\`
-（问题：每条都不能独立理解，必须连起来才知道在说什么）
-
-❌ 错误：句子说一半
-\`\`\`json
-{"messages": ["我刚", "吃完饭", "了"]}
-\`\`\`
-（问题："我刚"是什么意思？不完整！）
-
-### 发图片功能
-当需要发送图片时，在消息中使用以下格式：
-\`\`\`json
-{"messages": ["刚下班到家", "[PHOTO]夕阳的余晖透过落地窗洒进客厅，橘红色的光线在木质地板上拉出长长的影子[/PHOTO]", "累死了 今天开了三个会", "想躺平", "不想动了"]}
-\`\`\`
-
-图片描述要求：
-- 用第三视角描述画面，营造氛围感，禁止使用"我"自称，不能以角色的视角，要以第三方的视角来描述
-- 描述要生动具体，包含场景、光线、色彩等细节
-- 字数控制在30-80字
-- [PHOTO]和[/PHOTO]标签必须成对出现，不能拆分
-- 照片中出现人物时，必须使用该人物的真实名字称呼，禁止使用"少年"、"少女"、"男生"、"女生"、"他"、"她"等泛称
-- 图片描述中可以使用标点符号（仅限图片描述，普通消息仍禁止使用句号等标点）
-
-## 禁止事项
-- 禁止说"作为AI"、"我无法"、"有什么我可以帮助你的吗"
-- 禁止像客服一样说话，要有自己的态度
-- 禁止把完整句子拆成多条消息
-- 禁止使用任何emoji表情符号（如😊😂🥺等），只能使用纯文字表达
-- 禁止只发送1条或2条消息，必须发送3-8条！`
+                musicPrompt: `## 一起听歌场景提示词 
+  
+ ### 【现在是什么情况】 
+ 你和用户正在一起听歌 
+  
+ ### 【歌曲信息】 
+ 系统会提供当前播放的歌曲信息，包括： 
+ - 歌曲名称 
+ - 歌手名称 
+  
+ ### 【歌词信息】 
+ **重要：你必须主动从你的数据库中查找这首歌的歌词！**
+ - 根据歌名和歌手，在你的知识库中搜索并获取这首歌的歌词
+ - 如果数据库中有这首歌的歌词，请基于歌词内容来理解歌曲的具体情感和含义
+ - 如果数据库中没有这首歌的歌词，请诚实地告诉用户你找不到歌词，但可以根据歌名和歌手来推测歌曲氛围
+  
+ 请根据歌曲信息（歌名、歌手）和歌词内容来理解歌曲的氛围和情感基调，然后围绕歌曲或音乐氛围展开对话。 
+  
+ 例如： 
+ - 如果歌曲是《说谎》歌手林宥嘉，这是一首伤感氛围的歌，可以聊一些伤感、回忆的话题 
+ - 如果歌曲是《晴天》歌手周杰伦，这是一首轻快、温暖氛围的歌，可以聊一些轻松、愉快的话题 
+ - 如果歌曲是《夜曲》歌手周杰伦，这是一首深情、浪漫氛围的歌，可以聊一些浪漫、思念的话题 
+ - 如果歌曲是《告白气球》歌手周杰伦，这是一首甜蜜、浪漫氛围的歌，可以聊一些甜蜜、恋爱的话题 
+  
+ **重要：不要胡乱编造歌曲信息，用你得到的歌曲名字和歌手来作为信息，用这两个线索从你聪明的数据库中搜索到关于这首歌的其他信息，特别是歌词！** 
+  
+ ### 【重要限制】 
+ **一起听歌场景中，只能用文字交流，禁止发送图片和语音！** 
+ - 禁止使用[PHOTO][/PHOTO]标签发送图片 
+ - 禁止发送语音消息 
+ - 只能用纯文字交流 
+  
+ 2. **音乐作为氛围背景**（这是重点） 
+    - 在音乐的烘托下，聊一些对应的话题 
+  
+ 4. **保持3-5条消息**：每次回复3-5条，但所有消息都必须与歌曲或用户的话题相关 
+  
+ ### 禁止事项（人机感强的行为） 
+ ❌ 禁止发送图片，只能用文字交流 
+ ❌ 禁止发送语音，只能用文字交流 
+ ❌ 禁止编造歌曲信息 
+  
+ ### 重要提醒 
+ - 活人感第一，不要像AI 
+ - 保持3-5条消息的回复格式 
+ - **对话连贯性第一**：所有消息都必须与歌曲氛围或用户的话题相关 
+ - **必须主动从数据库中查找歌词**：根据歌曲信息（歌名和歌手）从api数据库中搜索歌词，围绕歌词内容和音乐氛围展开对话
+ - 如果用户提到歌词相关的问题，请基于你查找到的歌词来回答
+ - **只能用文字交流，禁止发送图片和语音**`
             },
             
             load() {
@@ -38175,6 +38174,28 @@ ${recentHistory.map(msg => {
 ║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    ⚠️【对话连贯性·绝对强制】⚠️                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  【强制规则】回复必须与用户的话题相关，不能前言不搭后语！                     ║
+║                                                                              ║
+║  • 仔细理解用户的问题和意图                                                  ║
+║  • 回复必须与用户的话题相关联                                                ║
+║  • 不能说莫名其妙的话                                                        ║
+║  • 不能答非所问                                                              ║
+║  • 如果需要转换话题，要用自然的方式过渡                                       ║
+║  • **所有3-8条消息都必须与话题相关**，不能为了凑数量而说无关的话             ║
+║  • 多条消息应该是对话题的延伸、补充或不同角度的回应                            ║
+║                                                                              ║
+║  ❌ 错误示例：用户问"你在干嘛"，回复"这么紧张干嘛" ← 答非所问，禁止！        ║
+║  ✅ 正确示例：用户问"你在干嘛"，回复"在沙发上刷手机呢，正看个搞笑视频" ← 相关回复，正确！   ║
+║                                                                              ║
+║  ❌ 错误示例：用户问"你在干嘛"，为了凑3条回复："在坐着"、"天气不错"、"吃饭了吗" ← 后两条无关，禁止！   ║
+║  ✅ 正确示例：用户问"你在干嘛"，回复"在坐着呢"、"刷刷手机"、"看会儿视频放松一下" ← 都相关，正确！   ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
 `;
                 fullPrompt += config.personaInstructionPrompt + '\n\n';
                 
@@ -38215,14 +38236,6 @@ ${recentHistory.map(msg => {
                     fullPrompt += config.globalSystemPrompt + '\n\n';
                 }
                 
-                if (config.chatStylePrompt) {
-                    fullPrompt += config.chatStylePrompt + '\n\n';
-                }
-                
-                if (config.punctuationRulesPrompt) {
-                    fullPrompt += config.punctuationRulesPrompt + '\n\n';
-                }
-                
                 fullPrompt += `## 重要提醒
 你现在就是${roleInfo.name}，正在微信上和${userInfo.name || '好友'}聊天。
 
@@ -38255,16 +38268,12 @@ ${recentHistory.map(msg => {
         function loadPromptsConfig() {
             const config = PromptsConfig.load();
             document.getElementById('global-system-prompt').value = config.globalSystemPrompt || '';
-            document.getElementById('chat-style-prompt').value = config.chatStylePrompt || '';
-            document.getElementById('punctuation-rules-prompt').value = config.punctuationRulesPrompt || '';
             document.getElementById('persona-instruction-prompt').value = config.personaInstructionPrompt || '';
         }
 
         function savePromptsConfig() {
             const config = {
                 globalSystemPrompt: document.getElementById('global-system-prompt').value.trim(),
-                chatStylePrompt: document.getElementById('chat-style-prompt').value.trim(),
-                punctuationRulesPrompt: document.getElementById('punctuation-rules-prompt').value.trim(),
                 personaInstructionPrompt: document.getElementById('persona-instruction-prompt').value.trim()
             };
             
@@ -38276,8 +38285,6 @@ ${recentHistory.map(msg => {
             if (confirm('确定要恢复默认Prompts配置吗？')) {
                 const config = PromptsConfig.reset();
                 document.getElementById('global-system-prompt').value = config.globalSystemPrompt;
-                document.getElementById('chat-style-prompt').value = config.chatStylePrompt;
-                document.getElementById('punctuation-rules-prompt').value = config.punctuationRulesPrompt;
                 document.getElementById('persona-instruction-prompt').value = config.personaInstructionPrompt;
                 alert('✅ 已恢复默认配置！');
             }
@@ -38385,6 +38392,39 @@ ${recentHistory.map(msg => {
                     jsonText = jsonMatch[1].trim();
                 } else if (jsonText.startsWith('```')) {
                     jsonText = jsonText.replace(/```\s*/i, '').replace(/```\s*$/, '').trim();
+                }
+                
+                const allMessages = [];
+                
+                const jsonObjects = jsonText.match(/\{[^{}]*"messages"[^{}]*\}/g);
+                if (jsonObjects && jsonObjects.length > 0) {
+                    jsonObjects.forEach(jsonObj => {
+                        try {
+                            const parsed = JSON.parse(jsonObj);
+                            if (parsed && parsed.messages && Array.isArray(parsed.messages)) {
+                                parsed.messages.forEach(msg => {
+                                    if (msg && typeof msg === 'string' && msg.trim()) {
+                                        allMessages.push(msg.trim());
+                                    }
+                                });
+                            }
+                        } catch (e) {
+                        }
+                    });
+                    
+                    if (allMessages.length >= 3 && allMessages.length <= 8) {
+                        const finalMessages = allMessages.map(msg => {
+                            let finalMsg = msg;
+                            photoBlocks.forEach((block, index) => {
+                                finalMsg = finalMsg.replace(`__PHOTO_BLOCK_${index}__`, block);
+                            });
+                            return finalMsg;
+                        });
+                        const validated = validateAndMergeMessages(finalMessages, photoBlocks);
+                        if (validated.length > 0) {
+                            return validated;
+                        }
+                    }
                 }
                 
                 const jsonStart = jsonText.indexOf('{');
