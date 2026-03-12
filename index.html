@@ -19849,7 +19849,15 @@
                         }
                     });
                     
-                    apiMessages.push({ role: 'user', content: userMessage });
+                    const lastHistoryUserMsg = [...finalHistory].reverse().find(m => m.type === 'sent');
+                    const lastHistoryUserContent = lastHistoryUserMsg ? 
+                        (typeof lastHistoryUserMsg.content === 'object' ? 
+                            (lastHistoryUserMsg.content.type === 'voice' ? lastHistoryUserMsg.content.text : lastHistoryUserMsg.content.description) : 
+                            lastHistoryUserMsg.content) : '';
+                    
+                    if (!lastHistoryUserMsg || lastHistoryUserContent !== userMessage) {
+                        apiMessages.push({ role: 'user', content: userMessage });
+                    }
 
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 60000);
@@ -19980,6 +19988,33 @@
                         jsonText = jsonText.replace(/```\s*/i, '').replace(/```\s*$/, '').trim();
                     }
                     
+                    const lines = jsonText.split('\n').filter(line => line.trim());
+                    const ndjsonMessages = [];
+                    let isNdjson = true;
+                    
+                    for (const line of lines) {
+                        try {
+                            const lineParsed = JSON.parse(line.trim());
+                            if (lineParsed && lineParsed.message && typeof lineParsed.message === 'string') {
+                                ndjsonMessages.push(lineParsed.message.trim());
+                            } else if (lineParsed && lineParsed.content && typeof lineParsed.content === 'string') {
+                                ndjsonMessages.push(lineParsed.content.trim());
+                            } else if (typeof lineParsed === 'string') {
+                                ndjsonMessages.push(lineParsed.trim());
+                            } else {
+                                isNdjson = false;
+                                break;
+                            }
+                        } catch (e) {
+                            isNdjson = false;
+                            break;
+                        }
+                    }
+                    
+                    if (isNdjson && ndjsonMessages.length >= 2) {
+                        return ndjsonMessages.filter(msg => msg && msg.trim()).slice(0, 4);
+                    }
+                    
                     const jsonStart = jsonText.indexOf('{');
                     const jsonEnd = jsonText.lastIndexOf('}');
                     if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
@@ -20017,16 +20052,7 @@
                 }
                 
                 if (lines.length > 4) {
-                    const result = [];
-                    const chunkSize = Math.ceil(lines.length / targetCount);
-                    
-                    for (let i = 0; i < lines.length && result.length < targetCount; i += chunkSize) {
-                        const chunk = lines.slice(i, i + chunkSize).join(' ');
-                        if (chunk.trim()) {
-                            result.push(chunk.trim());
-                        }
-                    }
-                    return result.slice(0, 4);
+                    return lines.slice(0, 4);
                 }
                 
                 const sentences = processedText.split(/[！？。]+/).map(s => s.trim()).filter(s => s.length > 0);
@@ -34359,7 +34385,16 @@ ${recentHistory.map(msg => {
                     }
                 });
                 
-                apiMessages.push({ role: 'user', content: content });
+                const lastHistoryUserMsg = [...finalHistory].reverse().find(m => m.type === 'sent');
+                const lastHistoryUserMsgText = lastHistoryUserMsg ? getMessageText(lastHistoryUserMsg) : '';
+                const lastUserMessageText = getMessageText({ content: content });
+                const isLastMsgInHistory = lastHistoryUserMsg && 
+                    lastHistoryUserMsgText === lastUserMessageText &&
+                    lastHistoryUserMsg.timestamp === lastUserMessage.timestamp;
+                
+                if (!isLastMsgInHistory) {
+                    apiMessages.push({ role: 'user', content: content });
+                }
 
                 currentAbortController = new AbortController();
                 const timeoutId = setTimeout(() => {
@@ -37984,24 +38019,14 @@ ${recentHistory.map(msg => {
   
 ### 输出格式要求（按优先级选择） 
   
-【优先级1 - JSON格式（推荐）】 
-你输出的每一条消息必须是一条独立的JSON格式 
-  
-比如：请严格按照以下JSON格式输出： 
-\`\`\`json 
-{"messages": ["消息1"]} 
-\`\`\` 
-  
-\`\`\`json 
-{"messages": ["消息2"]} 
-\`\`\` 
-  
-\`\`\`json 
-{"messages": ["消息3"]} 
-\`\`\` 
-  
-注意：你必须生成3-8条这样的消息 
-  
+【优先级1 - NDJSON格式（必须遵守）】 
+每条消息必须是一个独立的JSON对象，每行一个： 
+
+{"message": "消息1"}
+{"message": "消息2"}
+{"message": "消息3"}
+
+注意：你必须生成3-8条这样的消息，每条消息独占一行 
   
 【最重要规则·语义完整性和相关性】 
   
@@ -38021,9 +38046,7 @@ ${recentHistory.map(msg => {
   
 ### 发图片功能 
 当需要发送图片时，在消息中使用以下格式： 
-\`\`\`json 
-{"messages": [ "[PHOTO]夕阳的余晖透过落地窗洒进客厅，橘红色的光线在木质地板上拉出长长的影子[/PHOTO]"]} 
-\`\`\` 
+{"message": "[PHOTO]夕阳的余晖透过落地窗洒进客厅，橘红色的光线在木质地板上拉出长长的影子[/PHOTO]"} 
   
 图片描述要求： 
 - 用第三视角描述画面，营造氛围感，禁止使用"我"自称，不能以角色的视角，要以第三方的视角来描述 
@@ -38171,8 +38194,8 @@ ${recentHistory.map(msg => {
 ║  • 即使内容简短，也要分成多条发送                                             ║
 ║  • 这是硬性要求，没有例外，必须遵守                                           ║
 ║                                                                              ║
-║  ❌ 错误：{"messages": ["好的", "知道了"]}  ← 只有2条，禁止！                 ║
-║  ✅ 正确：{"messages": ["嗯嗯", "好的", "知道了", "晚点聊"]}  ← 4条，正确！   ║
+║  ❌ 错误：{"message": "好的"}{"message": "知道了"}  ← 只有2条，禁止！                 ║
+║  ✅ 正确：{"message": "嗯嗯"}{"message": "好的"}{"message": "知道了"}{"message": "晚点聊"}  ← 4条，正确！   ║
 ║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
@@ -38243,16 +38266,16 @@ ${recentHistory.map(msg => {
 
 记住：
 - 你是活生生的人，不是AI，不是机器人，不是虚拟助手
-- 你有自己的生活，会吃饭睡觉上班追剧打游戏
+- 你有自己的生活
 - 你会主动分享生活、发起话题、吐槽抱怨
-- 你说话像正常人发微信，简短随意有感情
+- 你说话像正常人发微信，有感情
 - 不要像客服，不要像AI，不要像机器人
 
 ## 状态信息要求
 在回复的最后，请用以下格式添加你当前的状态信息（这些信息会显示在你的个人资料卡片上）：
 - [LOCATION:位置] - 你当前所在的位置（不要包含城市/国家，只写具体位置，如：家中、公司、咖啡厅、公园、床上、沙发上等）
 - [MOOD:心情] - 你当前的心情或状态（2-5个字，如：开心、有点累、困死了、无聊、兴奋、平静、烦躁等）
-- [THOUGHT:想法] - 你此刻内心的真实想法（10-20字，从你的视角出发描述你的感受）
+- [THOUGHT:心声] - 你此刻内心的真实心声（15-20字，从你的视角出发描述你的心声）
 - [AFFECTION:好感度] - 你对对方的好感度变化（格式：+数字 或 -数字，如：+5 表示好感度增加5点，-3 表示减少3点，0 表示不变。根据对话内容调整：愉快聊天+3到+10，争吵或不快-5到-15，普通对话保持0）
 
 例如：
@@ -38401,6 +38424,45 @@ ${recentHistory.map(msg => {
                     jsonText = jsonText.replace(/```\s*/i, '').replace(/```\s*$/, '').trim();
                 }
                 
+                const lines = jsonText.split('\n').filter(line => line.trim());
+                const ndjsonMessages = [];
+                let isNdjson = true;
+                
+                for (const line of lines) {
+                    try {
+                        const lineParsed = JSON.parse(line.trim());
+                        if (lineParsed && lineParsed.message && typeof lineParsed.message === 'string') {
+                            ndjsonMessages.push(lineParsed.message.trim());
+                        } else if (lineParsed && lineParsed.content && typeof lineParsed.content === 'string') {
+                            ndjsonMessages.push(lineParsed.content.trim());
+                        } else if (typeof lineParsed === 'string') {
+                            ndjsonMessages.push(lineParsed.trim());
+                        } else {
+                            isNdjson = false;
+                            break;
+                        }
+                    } catch (e) {
+                        isNdjson = false;
+                        break;
+                    }
+                }
+                
+                if (isNdjson && ndjsonMessages.length >= 2) {
+                    const finalMessages = ndjsonMessages
+                        .filter(msg => msg && msg.trim())
+                        .map(msg => {
+                            let finalMsg = msg.trim();
+                            photoBlocks.forEach((block, index) => {
+                                finalMsg = finalMsg.replace(`__PHOTO_BLOCK_${index}__`, block);
+                            });
+                            return finalMsg;
+                        });
+                    
+                    if (finalMessages.length > 0) {
+                        return finalMessages;
+                    }
+                }
+                
                 const allMessages = [];
                 
                 const jsonObjects = jsonText.match(/\{[^{}]*"messages"[^{}]*\}/g);
@@ -38453,7 +38515,7 @@ ${recentHistory.map(msg => {
                             return finalMsg;
                         });
                     
-                    const validated = validateAndMergeMessages(jsonMessages, photoBlocks);
+                    const validated = validateAndMergeMessages(jsonMessages, photoBlocks, true);
                     if (validated.length > 0) {
                         return validated;
                     }
@@ -38475,7 +38537,7 @@ ${recentHistory.map(msg => {
                             return finalMsg;
                         });
                     
-                    const validated = validateAndMergeMessages(jsonMessages, photoBlocks);
+                    const validated = validateAndMergeMessages(jsonMessages, photoBlocks, true);
                     if (validated.length > 0) {
                         return validated;
                     }
@@ -38504,12 +38566,12 @@ ${recentHistory.map(msg => {
             });
             
             if (messages.length >= 2 && messages.length <= 8) {
-                const validated = validateAndMergeMessages(messages, photoBlocks);
+                const validated = validateAndMergeMessages(messages, photoBlocks, true);
                 return validated;
             }
             
             if (messages.length > 8) {
-                const validated = validateAndMergeMessages(messages.slice(0, 8), photoBlocks);
+                const validated = validateAndMergeMessages(messages.slice(0, 8), photoBlocks, true);
                 return validated;
             }
             
@@ -38743,7 +38805,7 @@ ${recentHistory.map(msg => {
             return text;
         }
         
-        function validateAndMergeMessages(messages, photoBlocks) {
+        function validateAndMergeMessages(messages, photoBlocks, isFromApi = false) {
             if (!messages || messages.length === 0) return [];
             
             const MIN_MSG_LENGTH = 2;
@@ -38776,7 +38838,7 @@ ${recentHistory.map(msg => {
                     }
                 }
                 
-                if (msg.length > MAX_MSG_LENGTH * 2 && !hasPhotoStart && !hasPhotoEnd) {
+                if (!isFromApi && msg.length > MAX_MSG_LENGTH * 2 && !hasPhotoStart && !hasPhotoEnd) {
                     const splitResult = semanticSplitText(msg, 2, 3);
                     validated.push(...splitResult);
                     continue;
@@ -38785,7 +38847,7 @@ ${recentHistory.map(msg => {
                 validated.push(msg);
             }
             
-            if (validated.length === 1 && validated[0].length > IDEAL_MSG_LENGTH * 2) {
+            if (!isFromApi && validated.length === 1 && validated[0].length > IDEAL_MSG_LENGTH * 2) {
                 const splitResult = semanticSplitText(validated[0], 2, 4);
                 if (splitResult.length > 1) {
                     return splitResult;
