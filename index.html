@@ -16426,7 +16426,7 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年3月11日</div>
+                <div class="announcement-date" id="announcement-date">2026年3月12日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
@@ -16438,7 +16438,9 @@
                         <li>🎵 修复了一起听歌掉格式的问题</li>
                         <li>🟢 修复了状态栏不是绿色的问题</li>
                         <li>📝 替换了所有地方的提示词</li>
-                        <li style="color: orange;">⏳ 待修复：聊天出现时间格式、打电话掉格式、便签提示词待改、朋友圈角色发照片</li>
+                        <li>⏰ 修复了角色回复时间的问题</li>
+                        <li>📸 新增朋友圈角色有概率发照片</li>
+                        <li style="color: orange;">⏳ 待修复：打电话掉格式、语音未实装</li>
                     </ul>
                 </div>
             </div>
@@ -22089,10 +22091,10 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 const chatEndpoint = getChatEndpoint(savedApiUrl);
 
                 const characterInfo = character.name + (character.description ? `，${character.description}` : '');
-                const systemPrompt = `你是${characterInfo}。请用你的口吻和性格，在便签上写下3条想说的话。
+                const systemPrompt = `你是${characterInfo}。请用角色的口吻和性格，自称"我"称用户为"你"，在便签上写下3条想说的话。
 要求：
 1. 每条内容不超过12个字
-2. 内容不限，可以是任何角色对用户想说的话
+2. 内容不限，可以是任何角色对用户想说的三句独立的话
 3. 要符合人设不能ooc
 4. 不要使用任何标点符号，用空格代替逗号
 5. 直接输出3条内容，每条一行，不要加序号
@@ -38337,6 +38339,11 @@ ${recentHistory.map(msg => {
             processed = processed.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '');
             processed = processed.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '');
             processed = processed.replace(/<cot>[\s\S]*?<\/cot>/gi, '');
+            
+            processed = processed.replace(/\[今天\s*\d{1,2}\s*:\s*\d{2}\]/g, '');
+            processed = processed.replace(/\[昨天\s*\d{1,2}\s*:\s*\d{2}\]/g, '');
+            processed = processed.replace(/\[\d{1,2}月\d{1,2}日\s*\d{1,2}\s*:\s*\d{2}\]/g, '');
+            processed = processed.replace(/\[\d{4}年\d{1,2}月\d{1,2}日\s*\d{1,2}\s*:\s*\d{2}\]/g, '');
             
             const aiPatterns = [
                 /作为(一个)?(AI|人工智能|语言模型|大语言模型|虚拟助手|智能助手)[^。！？]*[，,。：: ]*/gi,
