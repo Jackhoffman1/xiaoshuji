@@ -13320,20 +13320,20 @@
             fill: currentColor;
         }
 
-        /* ==================== 模拟人生4角色状态栏 - iOS风格 ==================== */
+        /* ==================== 模拟人生4角色状态栏 - 玻璃面板风格 ==================== */
         .sims-panel {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f5f5f7;
+            background: #E8E6E1;
             z-index: 3000;
             display: none;
             overflow-y: auto;
             overflow-x: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            animation: panelFadeIn 0.3s ease-out;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            animation: simsPanelFadeIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -13341,112 +13341,528 @@
             display: block;
         }
 
-        @keyframes panelFadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        @keyframes simsPanelFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .sims-header {
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 20px;
-            padding-top: calc(12px + env(safe-area-inset-top));
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* 玻璃面板核心样式 - 全屏 */
+        .glass-panel {
             position: relative;
-            min-height: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px 20px 20px 20px;
-            margin: 12px 12px 0 12px;
-            background-clip: padding-box;
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: none;
+            border-radius: 0;
+            padding: 50px 24px 32px;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+            animation: glassPanelIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        .sims-header::before {
+        .glass-panel::before {
             content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            height: env(safe-area-inset-top);
-            background: transparent;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            z-index: -1;
             pointer-events: none;
         }
 
-        .sims-title {
-            color: #000000;
-            font-size: 17px;
+        @keyframes glassPanelIn {
+            from { opacity: 0; transform: scale(0.97) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* 顶部信息区 */
+        .hero-section {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* CSS 水晶 (Plumbob) */
+        .sims-plumbob {
+            width: 20px;
+            height: 36px;
+            position: absolute;
+            top: -45px;
+            z-index: 10;
+            animation: plumbobFloat 3s ease-in-out infinite;
+        }
+
+        .plumbob-top {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 22px solid #75D48A;
+            position: absolute;
+            top: 0;
+        }
+
+        .plumbob-top::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 22px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 14px solid #4AB765;
+        }
+
+        .plumbob-glow {
+            position: absolute;
+            top: 10px;
+            left: -4px;
+            width: 28px;
+            height: 28px;
+            background: #A3FFB8;
+            filter: blur(10px);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes plumbobFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulseGlow {
+            20% { opacity: 0.5; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* 头像环 */
+        .avatar-ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(145deg, #ffffff, #e8e8e8);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: ringBreathe 4s ease-in-out infinite;
+        }
+
+        .avatar-ring:active {
+            transform: scale(0.92);
+        }
+
+        @keyframes ringBreathe {
+            0%, 100% { 
+                box-shadow: 
+                    0 8px 24px rgba(0, 0, 0, 0.08),
+                    0 2px 8px rgba(0, 0, 0, 0.04),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            }
+            50% { 
+                box-shadow: 
+                    0 12px 32px rgba(0, 0, 0, 0.12),
+                    0 4px 12px rgba(0, 0, 0, 0.06),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        .sims-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            background: white;
+        }
+
+        .sims-avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            border: 4px solid white;
+        }
+
+        /* 思想气泡 */
+        .thought-bubble {
+            position: absolute;
+            top: -20px;
+            right: 0px;
+            max-width: 130px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #2C2C2E;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 12px 16px;
+            line-height: 1.4;
+            border-radius: 20px 20px 20px 4px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+            opacity: 0;
+            transform-origin: bottom left;
+            animation: popBubble 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+            z-index: 20;
+        }
+
+        .thought-bubble.visible {
+            opacity: 1;
+            top: 3px;
+        }
+
+        @keyframes popBubble {
+            0% { opacity: 0; transform: translateY(10px) scale(0.6); }
+            60% { transform: translateY(-4px) scale(1.05); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes bubbleDisappear {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-10px) scale(0.9); }
+        }
+
+        /* 角色名字 */
+        .sims-character-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: #2C2C2E;
+            margin: 20px 0 8px 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* 心情徽章 */
+        .mood-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 6px 18px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #4AB765;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease;
+        }
+
+        .mood-icon {
+            margin-right: 4px;
+        }
+
+        /* 标题与按钮 */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 6px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #B5AFA1;
+            letter-spacing: 2px;
+        }
+
+        /* 设置按钮 */
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #B5AFA1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #2C2C2E;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 需求网格 */
+        .needs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 16px;
+            flex: 1;
+        }
+
+        /* 需求卡片 */
+        .need-card {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            padding: 20px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .need-card:nth-child(1) { animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards; }
+        .need-card:nth-child(2) { animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards; }
+        .need-card:nth-child(3) { animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards; }
+        .need-card:nth-child(4) { animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s forwards; }
+        .need-card:nth-child(5) { animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards; }
+        .need-card:nth-child(6) { animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards; }
+
+        .need-card:active {
+            transform: scale(0.92) !important;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 涟漪效果 */
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleAnim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* 卡片头部 */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: auto;
+        }
+
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .icon-box svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .percent-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #2C2C2E;
+            font-variant-numeric: tabular-nums;
+            transition: color 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* 卡片内容 */
+        .card-body {
+            margin-top: 18px;
+        }
+
+        .need-label-cn {
+            font-size: 15px;
+            font-weight: 800;
+            color: #2C2C2E;
+            margin-bottom: 2px;
+        }
+
+        .need-label-en {
+            font-size: 11px;
+            color: #8E8E93;
+            text-transform: capitalize;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        /* 进度条 */
+        .bar-track {
+            height: 8px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+
+        .bar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            border-radius: 10px;
+            width: 0;
+            transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* 需求卡片配色 */
+        .card-hunger .icon-box svg path { fill: #FF9B93; }
+        .card-hunger .bar-fill { background: #FF9B93; box-shadow: 0 0 8px #FF9B93; }
+
+        .card-energy .icon-box svg path { fill: #F6CD6B; }
+        .card-energy .bar-fill { background: #F6CD6B; box-shadow: 0 0 8px #F6CD6B; }
+
+        .card-bladder .icon-box svg path { fill: #8ADCD2; }
+        .card-bladder .bar-fill { background: #8ADCD2; box-shadow: 0 0 8px #8ADCD2; }
+
+        .card-hygiene .icon-box svg path { fill: #9BB8EA; }
+        .card-hygiene .bar-fill { background: #9BB8EA; box-shadow: 0 0 8px #9BB8EA; }
+
+        .card-fun .icon-box svg path { fill: #BC9BE0; }
+        .card-fun .bar-fill { background: #BC9BE0; box-shadow: 0 0 8px #BC9BE0; }
+
+        .card-social .icon-box svg path { fill: #F4AE7C; }
+        .card-social .bar-fill { background: #F4AE7C; box-shadow: 0 0 8px #F4AE7C; }
+
+        /* 需求详情弹窗 - 保留原有功能 */
+        .need-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            z-index: 4000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top));
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+
+        .need-detail-modal.visible {
+            display: flex;
+        }
+
+        .need-detail-content {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 24px;
+            padding: 28px 24px;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08), 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .need-detail-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .need-detail-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .need-detail-name {
+            color: #333333;
+            font-size: 20px;
             font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.4px;
+        }
+
+        .need-detail-value {
+            color: #34C759;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .need-detail-desc {
+            color: #8E8E93;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 20px;
             letter-spacing: -0.2px;
         }
 
-        .sims-close-btn {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-top: calc(env(safe-area-inset-top) / 2);
-            width: 30px;
-            height: 30px;
-            border-radius: 15px;
-            background: rgba(0, 0, 0, 0.05);
+        .need-detail-close {
+            background: #007AFF;
+            color: #FFFFFF;
             border: none;
-            color: #007AFF;
-            font-size: 24px;
-            font-weight: 400;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.2px;
         }
 
-        .sims-close-btn:hover {
-            background: rgba(0, 0, 0, 0.1);
+        .need-detail-close:hover {
+            background: #0066CC;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
         }
 
-        .sims-close-btn:active {
-            transform: translateY(-50%) scale(0.92);
-            background: rgba(0, 0, 0, 0.15);
+        .need-detail-close:active {
+            transform: translateY(0) scale(0.96);
+            background: #0055BB;
         }
 
-        .sims-options-btn {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-top: calc(env(safe-area-inset-top) / 2);
-            width: 30px;
-            height: 30px;
-            border-radius: 15px;
-            background: rgba(0, 0, 0, 0.05);
-            border: none;
-            color: #007AFF;
-            font-size: 24px;
-            font-weight: 400;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-        }
-
-        .sims-options-btn:hover {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .sims-options-btn:active {
-            transform: translateY(-50%) scale(0.92);
-            background: rgba(0, 0, 0, 0.15);
-        }
-
+        /* 下拉菜单 - 保留 */
         .sims-dropdown-menu {
             position: fixed;
             right: 16px;
@@ -13508,610 +13924,102 @@
             fill: #007AFF;
         }
 
-        .sims-main {
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            padding: 12px 12px;
-            padding-bottom: calc(20px + env(safe-area-inset-bottom));
-            position: relative;
-            background: #f5f5f7;
-            gap: 16px;
-        }
-
-        .sims-characters-list {
-            display: flex;
-            gap: 12px;
-            padding: 12px;
-            background: #FFFFFF;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .sims-characters-list::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .sims-characters-list::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 2px;
-        }
-
-        .sims-characters-list::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 2px;
-        }
-
-        .sims-character-item {
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
+        /* 关闭按钮 */
+        .sims-close-btn {
+            position: absolute;
+            left: 16px;
+            top: 28px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            color: #B5AFA1;
+            font-size: 18px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 10px;
-            transition: all 0.2s ease;
-            min-width: 70px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
         }
 
-        .sims-character-item:hover {
-            background: rgba(0, 0, 0, 0.05);
+        .sims-close-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #2C2C2E;
             transform: translateY(-2px);
         }
 
-        .sims-character-item.active {
-            background: rgba(102, 126, 234, 0.1);
+        .sims-close-btn svg {
+            width: 18px;
+            height: 18px;
         }
 
-        .sims-character-item-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            background: #F2F2F7;
-            border: 2px solid transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            font-size: 24px;
-            transition: all 0.2s ease;
-        }
-
-        .sims-character-item.active .sims-character-item-avatar {
-            border-color: #667eea;
-        }
-
-        .sims-character-item-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .sims-character-item-name {
-            font-size: 12px;
-            color: #333;
-            text-align: center;
-            max-width: 70px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-weight: 500;
-        }
-
-        .sims-character-item.active .sims-character-item-name {
-            color: #667eea;
-        }
-
-        .sims-character-section {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 24px;
-            position: relative;
-            padding: 20px 16px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 0;
-        }
-
-        .sims-character-section:hover {
-            transform: translateY(-0.5px);
-            background: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .sims-avatar-container {
-            width: 72px;
-            height: 72px;
-            border-radius: 14px;
-            background: #F2F2F7;
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sims-avatar-container:hover {
-            transform: scale(1.03);
-        }
-
-        .sims-avatar {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .sims-avatar-placeholder {
-            font-size: 30px;
-        }
-
-        .sims-avatar-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .sims-plumbob {
-            width: 26px;
-            height: 44px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: plumbobBreath 2.5s ease-in-out infinite;
-        }
-
-        .sims-plumbob::before {
-            content: '';
+        /* 选项按钮 */
+        .sims-options-btn {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #98FB98 0%, #00FF00 30%, #00CD00 60%, #008B00 100%);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.7));
-        }
-
-        .plumbob-inner {
-            position: absolute;
-            width: 35%;
-            height: 25%;
-            top: 18%;
-            left: 32.5%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.1) 100%);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            z-index: 1;
-        }
-
-        @keyframes plumbobBreath {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                filter: drop-shadow(0 0 8px rgba(124, 252, 0, 0.6));
-            }
-            50% {
-                transform: translateY(-3px) scale(1.05);
-                filter: drop-shadow(0 0 16px rgba(124, 252, 0, 0.9));
-            }
-        }
-
-        .sims-left-section {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            width: 100%;
-        }
-
-        .sims-character-info {
-            flex: 1;
-            padding-top: 4px;
-            padding-left: 0;
-        }
-
-        .sims-character-name {
-            color: #000000;
-            font-size: 21px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            letter-spacing: -0.4px;
-            transition: all 0.2s ease;
-        }
-
-        .sims-character-section:hover .sims-character-name {
-            color: #007AFF;
-        }
-
-        .sims-character-mood {
-            color: #8E8E93;
-            font-size: 15px;
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .mood-icon {
-            font-size: 17px;
-        }
-
-        /* 思想气泡 - iOS短信风格 */
-        .thought-bubble-container {
-            position: relative;
-            z-index: 10;
-        }
-
-        .thought-bubble {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 10px 16px;
-            border-radius: 20px;
-            border-top-left-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            max-width: 260px;
-            position: relative;
-            animation: bubbleAppear 0.4s ease-out forwards;
-            opacity: 0;
-            transform: translateY(10px) scale(0.95);
-            color: #000000;
-            font-size: 15px;
-            line-height: 1.4;
-        }
-
-        .thought-bubble.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-
-
-        .thought-text {
-            color: #333333;
-            font-size: 14px;
-            line-height: 1.45;
-            font-style: italic;
-        }
-
-        @keyframes bubbleAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(10px) scale(0.9);
-            }
-            50% {
-                opacity: 1;
-                transform: translateY(-5px) scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes bubbleDisappear {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.9);
-            }
-        }
-
-        /* 需求状态条 - iOS风格 */
-        .needs-container {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .needs-title {
-            color: #000000;
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-align: left;
-            letter-spacing: -0.2px;
-        }
-
-        .need-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.35);
-            border-radius: 12px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            right: 16px;
+            top: 28px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            color: #B5AFA1;
             cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .need-item:hover {
-            background: rgba(255, 255, 255, 0.45);
-            transform: translateY(-0.5px);
-        }
-
-        .need-item:active {
-            transform: translateY(0) scale(0.99);
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .need-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .need-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: #FFFFFF;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 14px;
-            flex-shrink: 0;
-            box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+            z-index: 100;
         }
 
-        .need-icon svg {
-            width: 24px;
-            height: 24px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        .sims-options-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #2C2C2E;
+            transform: translateY(-2px);
         }
 
-        .need-item:hover .need-icon {
-            transform: scale(1.05);
-        }
-
-        .need-item:hover .need-icon svg {
-            transform: scale(1.05);
-        }
-
-        .need-info {
-            flex: 1;
-            margin-right: 12px;
-        }
-
-        .need-name {
-            color: #000000;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            letter-spacing: -0.2px;
-        }
-
-        .need-bar-container {
-            position: relative;
-            height: 7px;
-            background: #E5E5EA;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .need-bar {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .need-bar.high {
-            background: #34C759;
-        }
-
-        .need-bar.medium {
-            background: #FF9500;
-        }
-
-        .need-bar.low {
-            background: #FF3B30;
-            animation: pulseLow 1.2s ease-in-out infinite;
-        }
-
-        @keyframes pulseLow {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
-
-        .need-percentage {
-            color: #000000;
-            font-size: 15px;
-            font-weight: 700;
-            min-width: 44px;
-            text-align: right;
-            letter-spacing: -0.2px;
-        }
-
-        .need-percentage.high {
-            color: #34C759;
-        }
-
-        .need-percentage.medium {
-            color: #FF9500;
-        }
-
-        .need-percentage.low {
-            color: #FF3B30;
-        }
-
-        /* 需求详情弹窗 - iOS风格 */
-        .need-detail-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            z-index: 4000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
+        /* 角色选择弹窗 - 保留 */
+        #character-selector-modal .need-detail-content {
+            max-width: 400px;
             padding: 20px;
-            padding-top: calc(20px + env(safe-area-inset-top));
-            padding-bottom: calc(20px + env(safe-area-inset-bottom));
         }
 
-        .need-detail-modal.visible {
+        #character-selector-list {
             display: flex;
-        }
-
-        .need-detail-content {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border-radius: 24px;
-            padding: 28px 24px;
-            max-width: 320px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08), 0 10px 40px rgba(0, 0, 0, 0.15);
-            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .need-detail-icon {
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
             justify-content: center;
-            margin: 0 auto 16px;
-            background: rgba(0, 0, 0, 0.03);
-            border-radius: 16px;
-            transition: transform 0.3s ease;
-        }
-
-        .need-detail-icon svg {
-            width: 40px;
-            height: 40px;
-        }
-
-        .need-detail-modal.visible .need-detail-icon {
-            animation: iconBounce 0.5s ease 0.1s;
-        }
-
-        @keyframes iconBounce {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.15);
-            }
-        }
-
-        .need-detail-name {
-            color: #333333;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: -0.4px;
-        }
-
-        .need-detail-value {
-            color: #34C759;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        .need-detail-desc {
-            color: #8E8E93;
-            font-size: 15px;
-            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
             margin-bottom: 20px;
-            letter-spacing: -0.2px;
-        }
-
-        .need-detail-close {
-            background: #007AFF;
-            color: #FFFFFF;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: -0.2px;
-        }
-
-        .need-detail-close:hover {
-            background: #0066CC;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
-        }
-
-        .need-detail-close:active {
-            transform: translateY(0) scale(0.96);
-            background: #0055BB;
         }
 
         /* 响应式设计 */
         @media (max-width: 480px) {
-            .sims-character-section {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .sims-left-section {
-                flex-direction: row;
-                width: 100%;
-                justify-content: flex-start;
-            }
-
-            .thought-bubble-container {
-                width: 100%;
-            }
-
-            .thought-bubble {
+            .glass-panel {
                 max-width: 100%;
+                border-radius: 0;
+                padding: 40px 16px 24px;
             }
 
-            .need-item {
-                padding: 10px 12px;
+            .needs-grid {
+                gap: 12px;
             }
 
-            .need-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 18px;
+            .need-card {
+                padding: 16px 14px;
+                border-radius: 24px;
+            }
+
+            .avatar-ring {
+                width: 100px;
+                height: 100px;
+            }
+
+            .sims-character-name {
+                font-size: 22px;
             }
         }
 
@@ -16772,140 +16680,160 @@
         </div>
     </div>
 
-    <!-- 模拟人生4角色状态栏 -->
+    <!-- 模拟人生4角色状态栏 - 玻璃面板风格 -->
     <div id="sims-panel" class="sims-panel">
-        <div class="sims-header">
+        <div class="glass-panel">
+            <!-- 关闭按钮 -->
             <button class="sims-close-btn" onclick="closeSimsPanel()">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px;">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.5 19L8.5 12L15.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </button>
-            <div class="sims-title">模拟人生</div>
+            
+            <!-- 选项按钮 -->
             <button class="sims-options-btn" onclick="toggleSimsDropdown(event)">
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px;">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="6" r="2"></circle>
                     <circle cx="12" cy="12" r="2"></circle>
                     <circle cx="12" cy="18" r="2"></circle>
                 </svg>
             </button>
-        </div>
-        <div class="sims-main">
-            <div class="sims-character-section">
-                <div class="sims-left-section">
-                    <div class="sims-avatar-wrapper">
-                        <div class="sims-plumbob">
-                            <div class="plumbob-inner"></div>
-                        </div>
-                        <div class="sims-avatar-container" id="sims-avatar-container" onclick="openCharacterSelector()" style="cursor: pointer;">
-                            <div class="sims-avatar-placeholder" id="sims-avatar">🧑</div>
-                        </div>
-                    </div>
-                    <div class="sims-character-info" style="cursor: pointer;" onclick="openCharacterSelector()">
-                        <div class="sims-character-name" id="sims-character-name">模拟市民</div>
-                        <div class="sims-character-mood">
-                            <span class="mood-icon" id="mood-icon">😊</span>
-                            <span id="mood-text">心情愉悦</span>
-                        </div>
-                    </div>
+            
+            <!-- 顶部信息区 -->
+            <div class="hero-section">
+                <!-- CSS 水晶 -->
+                <div class="sims-plumbob">
+                    <div class="plumbob-top"></div>
+                    <div class="plumbob-glow"></div>
                 </div>
-                <div class="thought-bubble-container">
-                    <div id="thought-bubble" class="thought-bubble">
-                        <div class="thought-text" id="thought-text">今天心情不错，想要做些什么好呢？</div>
-                    </div>
+                
+                <!-- 头像环 -->
+                <div class="avatar-ring" id="sims-avatar-container" onclick="openCharacterSelector()">
+                    <div class="sims-avatar-placeholder" id="sims-avatar">🧑</div>
+                </div>
+                
+                <!-- 思想气泡 -->
+                <div class="thought-bubble" id="thought-bubble">
+                    <span id="thought-text">今天心情不错，想要做些什么好呢？</span>
+                </div>
+                
+                <!-- 角色名字 -->
+                <div class="sims-character-name" id="sims-character-name">模拟市民</div>
+                
+                <!-- 心情徽章 -->
+                <div class="mood-badge">
+                    <span class="mood-icon" id="mood-icon">✨</span>
+                    <span id="mood-text">心情愉悦</span>
                 </div>
             </div>
             
-            <div class="needs-container">
-                <div class="needs-title">需求状态</div>
-                
-                <div class="need-item" onclick="showNeedDetail(&#39;hunger&#39;)">
-                    <div class="need-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.88 9.29L12 13.17L8.12 9.29C7.73 8.9 7.1 8.9 6.71 9.29C6.32 9.68 6.32 10.31 6.71 10.7L11.3 15.29C11.69 15.68 12.32 15.68 12.71 15.29L17.3 10.7C17.69 10.31 17.69 9.68 17.3 9.29C16.91 8.9 16.27 8.9 15.88 9.29Z" fill="#FF3B30"></path>
-                        </svg>
+            <!-- 标题与按钮 -->
+            <div class="section-header">
+                <span class="section-title">Status</span>
+            </div>
+            
+            <!-- 网格卡片区 -->
+            <div class="needs-grid">
+                <!-- 饥饿 -->
+                <div class="need-card card-hunger" onclick="showNeedDetail('hunger')">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15.88 9.29L12 13.17L8.12 9.29C7.73 8.9 7.1 8.9 6.71 9.29C6.32 9.68 6.32 10.31 6.71 10.7L11.3 15.29C11.69 15.68 12.32 15.68 12.71 15.29L17.3 10.7C17.69 10.31 17.69 9.68 17.3 9.29C16.91 8.9 16.27 8.9 15.88 9.29Z"/></svg>
+                        </div>
+                        <div class="percent-text" id="percentage-hunger">0%</div>
                     </div>
-                    <div class="need-info">
-                        <div class="need-name">饥饿值</div>
-                        <div class="need-bar-container">
-                            <div id="need-hunger" class="need-bar high" style="width: 75%;"></div>
+                    <div class="card-body">
+                        <div class="need-label-cn">饥饿</div>
+                        <div class="need-label-en">hunger</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="need-hunger"></div>
                         </div>
                     </div>
-                    <div id="percentage-hunger" class="need-percentage high">75%</div>
                 </div>
                 
-                <div class="need-item" onclick="showNeedDetail(&#39;energy&#39;)">
-                    <div class="need-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 2C8.62 2 8.27 2.2 8.1 2.57L4.1 11.57C3.85 12.14 4.05 12.82 4.57 13.11L9 15.67L9 22C9 22.55 9.45 23 10 23C10.38 23 10.73 22.8 10.9 22.43L14.9 13.43C15.15 12.86 14.95 12.18 14.43 11.89L10 9.33L10 2C10 1.45 9.55 1 9 1V2Z" fill="#FF9500"></path>
-                        </svg>
+                <!-- 睡眠 -->
+                <div class="need-card card-energy" onclick="showNeedDetail('energy')">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M9 2C8.62 2 8.27 2.2 8.1 2.57L4.1 11.57C3.85 12.14 4.05 12.82 4.57 13.11L9 15.67L9 22C9 22.55 9.45 23 10 23C10.38 23 10.73 22.8 10.9 22.43L14.9 13.43C15.15 12.86 14.95 12.18 14.43 11.89L10 9.33L10 2C10 1.45 9.55 1 9 1V2Z"/></svg>
+                        </div>
+                        <div class="percent-text" id="percentage-energy">0%</div>
                     </div>
-                    <div class="need-info">
-                        <div class="need-name">睡眠值</div>
-                        <div class="need-bar-container">
-                            <div id="need-energy" class="need-bar high" style="width: 60%;"></div>
+                    <div class="card-body">
+                        <div class="need-label-cn">睡眠</div>
+                        <div class="need-label-en">energy</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="need-energy"></div>
                         </div>
                     </div>
-                    <div id="percentage-energy" class="need-percentage high">60%</div>
                 </div>
                 
-                <div class="need-item" onclick="showNeedDetail(&#39;bladder&#39;)">
-                    <div class="need-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM11 7H13V13H11V7ZM11 15H13V17H11V15Z" fill="#007AFF"></path>
-                        </svg>
+                <!-- 如厕 -->
+                <div class="need-card card-bladder" onclick="showNeedDetail('bladder')">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM11 7H13V13H11V7ZM11 15H13V17H11V15Z"/></svg>
+                        </div>
+                        <div class="percent-text" id="percentage-bladder">0%</div>
                     </div>
-                    <div class="need-info">
-                        <div class="need-name">如厕需求</div>
-                        <div class="need-bar-container">
-                            <div id="need-bladder" class="need-bar high" style="width: 85%;"></div>
+                    <div class="card-body">
+                        <div class="need-label-cn">如厕</div>
+                        <div class="need-label-en">bladder</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="need-bladder"></div>
                         </div>
                     </div>
-                    <div id="percentage-bladder" class="need-percentage high">85%</div>
                 </div>
                 
-                <div class="need-item" onclick="showNeedDetail(&#39;hygiene&#39;)">
-                    <div class="need-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z" fill="#5AC8FA"></path>
-                        </svg>
+                <!-- 清洁 -->
+                <div class="need-card card-hygiene" onclick="showNeedDetail('hygiene')">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z"/></svg>
+                        </div>
+                        <div class="percent-text" id="percentage-hygiene">0%</div>
                     </div>
-                    <div class="need-info">
-                        <div class="need-name">清洁度</div>
-                        <div class="need-bar-container">
-                            <div id="need-hygiene" class="need-bar medium" style="width: 45%;"></div>
+                    <div class="card-body">
+                        <div class="need-label-cn">清洁</div>
+                        <div class="need-label-en">hygiene</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="need-hygiene"></div>
                         </div>
                     </div>
-                    <div id="percentage-hygiene" class="need-percentage medium">45%</div>
                 </div>
                 
-                <div class="need-item" onclick="showNeedDetail(&#39;fun&#39;)">
-                    <div class="need-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 6H3C1.9 6 1 6.9 1 8V16C1 17.1 1.9 18 3 18H10V20H8V22H16V20H14V18H21C22.1 18 23 17.1 23 16V8C23 6.9 22.1 6 21 6ZM21 16H3V8H21V16ZM9 12C9 13.1 8.1 14 7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12ZM19 12C19 13.1 18.1 14 17 14C15.9 14 15 13.1 15 12C15 10.9 15.9 10 17 10C18.1 10 19 10.9 19 12Z" fill="#5856D6"></path>
-                        </svg>
+                <!-- 娱乐 -->
+                <div class="need-card card-fun" onclick="showNeedDetail('fun')">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M21 6H3C1.9 6 1 6.9 1 8V16C1 17.1 1.9 18 3 18H10V20H8V22H16V20H14V18H21C22.1 18 23 17.1 23 16V8C23 6.9 22.1 6 21 6ZM21 16H3V8H21V16ZM9 12C9 13.1 8.1 14 7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12ZM19 12C19 13.1 18.1 14 17 14C15.9 14 15 13.1 15 12C15 10.9 15.9 10 17 10C18.1 10 19 10.9 19 12Z"/></svg>
+                        </div>
+                        <div class="percent-text" id="percentage-fun">0%</div>
                     </div>
-                    <div class="need-info">
-                        <div class="need-name">娱乐值</div>
-                        <div class="need-bar-container">
-                            <div id="need-fun" class="need-bar high" style="width: 70%;"></div>
+                    <div class="card-body">
+                        <div class="need-label-cn">娱乐</div>
+                        <div class="need-label-en">fun</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="need-fun"></div>
                         </div>
                     </div>
-                    <div id="percentage-fun" class="need-percentage high">70%</div>
                 </div>
                 
-                <div class="need-item" onclick="showNeedDetail(&#39;social&#39;)">
-                    <div class="need-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 11C17.66 11 19 9.66 19 8C19 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM6 11C7.66 11 9 9.66 9 8C9 6.34 7.66 5 6 5C4.34 5 3 6.34 3 8C3 9.66 4.34 11 6 11ZM16 13C13.33 13 8 14.34 8 17V19H24V17C24 14.34 18.67 13 16 13ZM6 13C3.33 13 1 14.34 1 17V19H11V17C11 14.34 8.67 13 6 13Z" fill="#34C759"></path>
-                        </svg>
+                <!-- 社交 -->
+                <div class="need-card card-social" onclick="showNeedDetail('social')">
+                    <div class="card-header">
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M16 11C17.66 11 19 9.66 19 8C19 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM6 11C7.66 11 9 9.66 9 8C9 6.34 7.66 5 6 5C4.34 5 3 6.34 3 8C3 9.66 4.34 11 6 11ZM16 13C13.33 13 8 14.34 8 17V19H24V17C24 14.34 18.67 13 16 13ZM6 13C3.33 13 1 14.34 1 17V19H11V17C11 14.34 8.67 13 6 13Z"/></svg>
+                        </div>
+                        <div class="percent-text" id="percentage-social">0%</div>
                     </div>
-                    <div class="need-info">
-                        <div class="need-name">社交值</div>
-                        <div class="need-bar-container">
-                            <div id="need-social" class="need-bar low" style="width: 30%;"></div>
+                    <div class="card-body">
+                        <div class="need-label-cn">社交</div>
+                        <div class="need-label-en">social</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="need-social"></div>
                         </div>
                     </div>
-                    <div id="percentage-social" class="need-percentage low">30%</div>
                 </div>
             </div>
         </div>
@@ -22193,12 +22121,16 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
             
             const savedBackground = localStorage.getItem('simsBackground');
             if (savedBackground) {
-                const simsMain = panel.querySelector('.sims-main');
-                simsMain.style.background = savedBackground;
+                const glassPanel = panel.querySelector('.glass-panel');
+                if (glassPanel) {
+                    glassPanel.style.background = savedBackground;
+                }
             }
             
             const thoughtBubble = document.getElementById('thought-bubble');
-            thoughtBubble.classList.add('visible');
+            if (thoughtBubble) {
+                thoughtBubble.classList.add('visible');
+            }
             
             if (roles.length > 0 && !currentSelectedRoleId) {
                 selectSimsCharacter(roles[0].id);
@@ -22292,7 +22224,7 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
             if (role.avatar) {
                 avatarContainer.innerHTML = `<img src="${role.avatar}" class="sims-avatar" alt="${role.name}">`;
             } else {
-                avatarContainer.innerHTML = `<div class="sims-avatar-placeholder">🧑</div>`;
+                avatarContainer.innerHTML = `<div class="sims-avatar-placeholder" id="sims-avatar">🧑</div>`;
             }
             
             nameEl.textContent = role.name;
@@ -22365,9 +22297,11 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const simsPanel = document.getElementById('sims-panel');
-                        const simsMain = simsPanel.querySelector('.sims-main');
+                        const glassPanel = simsPanel.querySelector('.glass-panel');
                         const backgroundStyle = `url('${event.target.result}') center/cover no-repeat`;
-                        simsMain.style.background = backgroundStyle;
+                        if (glassPanel) {
+                            glassPanel.style.background = backgroundStyle;
+                        }
                         localStorage.setItem('simsBackground', backgroundStyle);
                     };
                     reader.readAsDataURL(file);
@@ -22705,6 +22639,8 @@ ${conversationHistory.slice(-10).map(msg => {
             const thoughtBubble = document.getElementById('thought-bubble');
             const thoughtText = document.getElementById('thought-text');
             
+            if (!thoughtBubble || !thoughtText) return;
+            
             thoughtBubble.style.animation = 'bubbleDisappear 0.3s ease-in forwards';
             
             setTimeout(() => {
@@ -22717,7 +22653,7 @@ ${conversationHistory.slice(-10).map(msg => {
                 
                 thoughtBubble.style.animation = 'none';
                 void thoughtBubble.offsetWidth;
-                thoughtBubble.style.animation = 'bubbleAppear 0.4s ease-out forwards';
+                thoughtBubble.style.animation = 'popBubble 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
             }, 300);
         }
         
@@ -22763,43 +22699,30 @@ ${conversationHistory.slice(-10).map(msg => {
             
             if (bar && percentage) {
                 bar.style.width = value + '%';
-                
-                bar.classList.remove('high', 'medium', 'low');
-                percentage.classList.remove('high', 'medium', 'low');
-                
-                if (value >= 60) {
-                    bar.classList.add('high');
-                    percentage.classList.add('high');
-                } else if (value >= 30) {
-                    bar.classList.add('medium');
-                    percentage.classList.add('medium');
-                } else {
-                    bar.classList.add('low');
-                    percentage.classList.add('low');
-                }
-                
                 percentage.textContent = value + '%';
             }
         }
         
         function updateMood() {
             const moodText = document.getElementById('mood-text');
-            const moodIcon = document.querySelector('.mood-icon');
+            const moodIcon = document.getElementById('mood-icon');
+            
+            if (!moodText || !moodIcon) return;
             
             const avgNeed = Object.values(simsNeeds).reduce((a, b) => a + b, 0) / 6;
             
             if (avgNeed >= 70) {
                 moodText.textContent = '心情愉悦';
-                moodIcon.textContent = '😊';
+                moodIcon.textContent = '✨';
             } else if (avgNeed >= 50) {
                 moodText.textContent = '状态一般';
-                moodIcon.textContent = '😐';
+                moodIcon.textContent = '💫';
             } else if (avgNeed >= 30) {
                 moodText.textContent = '有点不舒服';
-                moodIcon.textContent = '😟';
+                moodIcon.textContent = '💤';
             } else {
                 moodText.textContent = '非常不开心';
-                moodIcon.textContent = '😢';
+                moodIcon.textContent = '💭';
             }
         }
         
