@@ -7673,11 +7673,305 @@
             display: inline-block;
         }
 
+        .tf-pending-badge {
+            font-size: 9px;
+            color: #FF9800;
+            margin-top: 4px;
+            padding: 2px 8px;
+            background: rgba(255, 152, 0, 0.1);
+            border-radius: 10px;
+            display: inline-block;
+        }
+
         .dark-mode .tf-claimed-badge {
             background: rgba(255, 255, 255, 0.1);
             color: #888;
         }
 
+        .dark-mode .tf-pending-badge {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FFB74D;
+        }
+
+        .pay-request-card {
+            width: 200px;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #FCE4EC;
+            box-shadow: 0 8px 24px rgba(250, 150, 175, 0.15);
+            padding: 18px 12px 12px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+            font-family: 'Quicksand', 'Noto Sans SC', sans-serif;
+        }
+
+        .pay-request-card:active {
+            transform: scale(0.95) rotate(-1deg);
+            box-shadow: 0 4px 12px rgba(250, 150, 175, 0.12);
+        }
+
+        .pr-tape {
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%) rotate(2deg);
+            width: 50px;
+            height: 12px;
+            background-color: #FFCBE6;
+            opacity: 0.9;
+            border-radius: 2px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            z-index: 10;
+        }
+
+        .pr-header {
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        .pr-tag-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3px;
+            margin-bottom: 2px;
+        }
+
+        .pr-mood-tag {
+            font-size: 8px;
+            font-weight: 700;
+            color: #CFA6B6;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .pr-hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-style: italic;
+            color: #5D4B53;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .pr-hero-title span {
+            font-style: normal;
+            font-size: 14px;
+            margin-left: 2px;
+        }
+
+        .pr-content-box {
+            background-color: #FFFBFB;
+            border-radius: 8px;
+            padding: 8px;
+            background-image: 
+                linear-gradient(rgba(250, 134, 167, 0.05) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(250, 134, 167, 0.05) 1px, transparent 1px);
+            background-size: 8px 8px;
+            border: 1px solid #FFF0F4;
+        }
+
+        .pr-item-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .pr-checkbox {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1.5px solid #FA86A7;
+            margin-top: 2px;
+            flex-shrink: 0;
+            background-color: #FFF;
+        }
+
+        .pr-item-info {
+            flex-grow: 1;
+        }
+
+        .pr-item-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: #5D4B53;
+            margin-bottom: 1px;
+            line-height: 1.3;
+        }
+
+        .pr-item-desc {
+            font-size: 9px;
+            color: #B3A4A9;
+            font-weight: 600;
+        }
+
+        .pr-divider {
+            border: none;
+            border-top: 1px dashed #FCE4EC;
+            margin: 8px 0;
+            position: relative;
+        }
+
+        .pr-divider::after {
+            content: '♡';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFFBFB;
+            padding: 0 4px;
+            color: #F8BBD0;
+            font-size: 10px;
+        }
+
+        .pr-message {
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .pr-highlight-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 12px;
+            color: #F06292;
+            background: linear-gradient(transparent 55%, #FFE4EB 55%);
+            padding: 0 2px;
+            display: inline-block;
+            transform: rotate(-2deg);
+        }
+
+        .pr-sub-message {
+            display: block;
+            font-size: 8px;
+            color: #CFA6B6;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        .pr-price-badge {
+            background: linear-gradient(135deg, #FF9FB5 0%, #FA759A 100%);
+            color: white;
+            border-radius: 100px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 6px 16px rgba(250, 117, 154, 0.25);
+        }
+
+        .pr-price-label {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .pr-price-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: baseline;
+            gap: 1px;
+            letter-spacing: -0.5px;
+        }
+
+        .pr-currency {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            margin-right: 1px;
+        }
+
+        .pr-status-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 7px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .pr-status-pending {
+            background: #FFF3E0;
+            color: #F57C00;
+        }
+
+        .pr-status-paid {
+            background: #E8F5E9;
+            color: #4CAF50;
+        }
+
+        .dark-mode .pay-request-card {
+            background-color: #2C2C2E;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .pr-tape {
+            background-color: rgba(255, 150, 180, 0.3);
+        }
+
+        .dark-mode .pr-hero-title {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .pr-content-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .pr-item-name {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .pr-item-desc {
+            color: #888;
+        }
+
+        .dark-mode .pr-divider {
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .pr-divider::after {
+            background: transparent;
+            color: rgba(255, 150, 180, 0.5);
+        }
+
+        .dark-mode .pr-highlight-text {
+            background: linear-gradient(transparent 55%, rgba(255, 150, 180, 0.3) 55%);
+            color: #FF9FB5;
+        }
+
+        .dark-mode .pr-sub-message {
+            color: #888;
+        }
+
+        .pay-request-bubble {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            min-width: auto !important;
+        }
+
+        .pay-request-bubble .message-content {
+            background: transparent !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .pay-request-bubble .message-time {
+            margin-top: 6px;
+        }
 
 
         @keyframes spin {
@@ -17828,6 +18122,31 @@
         .payment-result-desc { font-size: 14px; color: #888; margin-bottom: 28px; }
         .payment-result-btn { background: #000; color: #FFF; padding: 16px; border-radius: 16px; font-size: 17px; font-weight: 800; }
         
+        .payment-character-modal { width: 85%; max-width: 320px; background: #FFF; border-radius: 28px; padding: 28px 20px 24px; text-align: center; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2); box-shadow: 0 40px 80px rgba(0,0,0,0.25); }
+        .payment-result-overlay.show .payment-character-modal { transform: scale(1); }
+        .payment-character-title { font-size: 20px; font-weight: 900; color: #000; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .payment-character-desc { font-size: 13px; color: #888; margin-bottom: 20px; }
+        .payment-character-list { max-height: 280px; overflow-y: auto; margin-bottom: 20px; }
+        .payment-character-list::-webkit-scrollbar { width: 4px; }
+        .payment-character-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 2px; }
+        .payment-character-item { display: flex; align-items: center; padding: 12px 14px; border-radius: 14px; cursor: pointer; transition: all 0.2s; margin-bottom: 6px; background: #F8F8F8; border: 2px solid transparent; }
+        .payment-character-item:hover { background: #F0F0F0; }
+        .payment-character-item:active { transform: scale(0.98); }
+        .payment-character-item.selected { background: #FFF; border-color: #000; }
+        .payment-character-avatar { width: 44px; height: 44px; border-radius: 50%; background: #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: #666; margin-right: 12px; overflow: hidden; flex-shrink: 0; }
+        .payment-character-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .payment-character-info { flex: 1; text-align: left; }
+        .payment-character-name { font-size: 15px; font-weight: 700; color: #000; }
+        .payment-character-item.selected .payment-character-name { color: #000; }
+        .payment-character-check { width: 22px; height: 22px; border-radius: 50%; background: #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 11px; color: transparent; transition: all 0.2s; }
+        .payment-character-item.selected .payment-character-check { background: #000; color: #FFF; }
+        .payment-character-actions { display: flex; gap: 10px; }
+        .payment-character-btn { flex: 1; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 800; cursor: pointer; }
+        .payment-character-btn.cancel { background: #F2F4F7; color: #666; }
+        .payment-character-btn.confirm { background: #000; color: #FFF; }
+        .payment-character-btn.confirm.disabled { background: #CCC; pointer-events: none; }
+        .payment-character-empty { padding: 30px 20px; color: #999; font-size: 14px; }
+        
         .city-modal-overlay { position: absolute; inset: 0; z-index: 99; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .city-modal-overlay.show { opacity: 1; pointer-events: auto; }
         .city-modal-box { width: 85%; max-width: 320px; background: #FFF; border-radius: 24px; padding: 28px 24px 24px; text-align: center; transform: scale(0.9) translateY(20px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2); box-shadow: 0 40px 80px rgba(0,0,0,0.25); }
@@ -18048,7 +18367,7 @@
                         <li>✨ 新加了表情功能，角色会发表情包了</li>
                         <li>💰 增加了转账功能</li>
                         <li>🎮 模拟人生页面重做</li>
-                        <li style="color: orange;">⏳ 待修复：代付功能还没做、语音接入待实装、日记待实装</li>
+                        <li style="color: orange;">⏳ 待修复：语音接入待实装、日记待实装</li>
                     </ul>
                 </div>
             </div>
@@ -21873,7 +22192,9 @@
                                     const amount = msg.content.amount;
                                     const remark = msg.content.remark || '转账';
                                     if (msg.type === 'sent') {
-                                        if (msg.content.claimed) {
+                                        if (msg.content.paid === false) {
+                                            msgContent = `[转账请求] 用户向你发起转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，请回复确认是否接收这笔转账（回复后会自动收款）`;
+                                        } else if (msg.content.claimed) {
                                             msgContent = `[转账消息] 你已领取了用户给你转账的 ¥${amount.toFixed(2)}，转账说明: "${remark}"`;
                                         } else {
                                             msgContent = `[转账消息] 用户给你转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，请回复确认领取这笔转账`;
@@ -21884,6 +22205,18 @@
                                         } else {
                                             msgContent = `[转账消息] 你给用户转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，等待用户领取`;
                                         }
+                                    }
+                                } else if (msg.content.type === 'payRequest') {
+                                    const payRequest = msg.content;
+                                    const shopName = payRequest.shopName || '店铺';
+                                    const totalPrice = payRequest.totalPrice ? payRequest.totalPrice.toFixed(2) : '0.00';
+                                    const items = payRequest.items || [];
+                                    const status = payRequest.status || 'pending';
+                                    const itemNames = items.map(i => i.name).join('、');
+                                    if (status === 'paid') {
+                                        msgContent = `[代付消息] 你已帮用户代付了 ${shopName} 的订单，商品：${itemNames}，金额：¥${totalPrice}`;
+                                    } else {
+                                        msgContent = `[代付请求] 用户请求你帮忙代付 ${shopName} 的订单，商品：${itemNames}，金额：¥${totalPrice}，请回复确认是否帮忙代付（回复后会自动支付）`;
                                     }
                                 }
                             } else {
@@ -33800,17 +34133,12 @@ ${commenterInfo}
                 return;
             }
             
-            const deducted = await deductBalance(amount);
-            if (!deducted) {
-                alert('转账失败，请稍后重试');
-                return;
-            }
-            
             const transferData = {
                 type: 'transfer',
                 amount: amount,
                 remark: remark || '转账',
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                paid: false
             };
             
             addMessage(currentChatRole.id, 'sent', transferData);
@@ -33840,6 +34168,36 @@ ${commenterInfo}
             const amountStr = amount.toFixed(2);
             const remark = msg.content.remark || '转账';
             showSwipeToast(`✓ 已领取 ¥${amountStr}（${remark}）`);
+        }
+
+        async function handlePayRequest(orderId, messageIndex) {
+            if (!currentChatRole || !messages[currentChatRole.id]) return;
+            
+            const roleMessages = messages[currentChatRole.id].filter(msg => msg.context !== 'call');
+            const msg = roleMessages[messageIndex];
+            
+            if (!msg || !msg.content || msg.content.type !== 'payRequest') return;
+            if (msg.content.status === 'paid') return;
+            
+            const payRequest = msg.content;
+            const amount = payRequest.totalPrice;
+            
+            msg.content.status = 'paid';
+            saveMessages();
+            
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const orderIndex = orders.findIndex(o => o.id.toString() === orderId);
+            if (orderIndex !== -1) {
+                orders[orderIndex].status = '已代付';
+                orders[orderIndex].paidAt = new Date().toLocaleString();
+                orders[orderIndex].paidBy = currentChatRole.name;
+                localStorage.setItem('orders', JSON.stringify(orders));
+            }
+            
+            renderMessages();
+            
+            const amountStr = amount.toFixed(2);
+            showSwipeToast(`✓ 代付成功！角色已帮你支付 ¥${amountStr}`);
         }
 
         const transferModalOverlay = document.getElementById('transfer-modal-overlay');
@@ -37120,6 +37478,7 @@ ${recentHistory.map(msg => {
                 const amount = transferMsg.amount.toFixed(2);
                 const remark = transferMsg.remark || '转账';
                 const isClaimed = transferMsg.claimed || false;
+                const isPaid = transferMsg.paid !== false;
                 let tfAvatarUrl = '';
                 let tfFallbackText = '';
                 const canClaim = msg.type === 'received' && !isClaimed;
@@ -37136,6 +37495,7 @@ ${recentHistory.map(msg => {
                 const claimedClass = isClaimed ? 'claimed' : '';
                 const clickHandler = canClaim ? `onclick="claimTransfer(${messageIndex})"` : '';
                 const claimedBadge = isClaimed ? '<div class="tf-claimed-badge">已领取</div>' : '';
+                const pendingBadge = (msg.type === 'sent' && !isPaid) ? '<div class="tf-pending-badge">待接收</div>' : '';
                 contentHTML = `
                     <div class="transfer-message ${claimedClass}" ${clickHandler}>
                         <div class="tf-icon-circle">${tfAvatarHTML}</div>
@@ -37143,11 +37503,67 @@ ${recentHistory.map(msg => {
                             <div class="tf-text">
                                 <div class="tf-amount"><span>¥</span>${amount}</div>
                                 <div class="tf-note">${remark}</div>
+                                ${pendingBadge}
                                 ${claimedBadge}
                             </div>
                         </div>
                         <div class="tf-divider"></div>
                         <div class="tf-footer">WeChat Pay</div>
+                    </div>
+                `;
+            } else if (msg.content && typeof msg.content === 'object' && msg.content.type === 'payRequest') {
+                const payRequest = msg.content;
+                const shopName = payRequest.shopName || '店铺';
+                const totalPrice = payRequest.totalPrice ? payRequest.totalPrice.toFixed(2) : '0.00';
+                const items = payRequest.items || [];
+                const status = payRequest.status || 'pending';
+                const orderId = payRequest.orderId || '';
+                
+                let itemsHtml = items.slice(0, 2).map(item => `
+                    <div class="pr-item-box">
+                        <div class="pr-checkbox"></div>
+                        <div class="pr-item-info">
+                            <div class="pr-item-name">${item.name || '商品'}</div>
+                            <div class="pr-item-desc">x${item.count || 1}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                if (items.length > 2) {
+                    itemsHtml += `<div style="font-size: 10px; color: #B3A4A9; text-align: center; margin-top: 4px;">还有 ${items.length - 2} 件商品...</div>`;
+                }
+                
+                const statusBadge = status === 'pending' 
+                    ? '<div class="pr-status-badge pr-status-pending">待支付</div>'
+                    : '<div class="pr-status-badge pr-status-paid">已支付</div>';
+                
+                const clickHandler = status === 'pending' ? `onclick="handlePayRequest('${orderId}', ${messageIndex})"` : '';
+                
+                contentHTML = `
+                    <div class="pay-request-card" ${clickHandler}>
+                        <div class="pr-tape"></div>
+                        ${statusBadge}
+                        <div class="pr-header">
+                            <div class="pr-tag-wrap">
+                                <span class="pr-mood-tag">Pay For Me</span>
+                                <span style="color: #FA86A7; font-size: 10px;">✨</span>
+                            </div>
+                            <h1 class="pr-hero-title">Treat Me</h1>
+                        </div>
+                        <div class="pr-content-box">
+                            ${itemsHtml}
+                            <hr class="pr-divider">
+                            <div class="pr-message">
+                                <span class="pr-highlight-text">Feed me, please~</span>
+                                <span class="pr-sub-message">来自 ${shopName} 的订单</span>
+                            </div>
+                        </div>
+                        <div class="pr-price-badge">
+                            <span class="pr-price-label">PAY TO UNLOCK</span>
+                            <div class="pr-price-value">
+                                <span class="pr-currency">¥</span>${totalPrice}
+                            </div>
+                        </div>
                     </div>
                 `;
             } else {
@@ -37190,6 +37606,18 @@ ${recentHistory.map(msg => {
                 return `
                     <div class="chat-avatar">${avatarHTML}</div>
                     <div class="message-bubble transfer-message-bubble" data-message-index="${messageIndex}" style="position: relative;">
+                        <div class="message-content">
+                            ${contentHTML}
+                        </div>
+                        ${messageTime ? `<div class="message-time">${messageTime}</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            if (msg.content && typeof msg.content === 'object' && msg.content.type === 'payRequest') {
+                return `
+                    <div class="chat-avatar">${avatarHTML}</div>
+                    <div class="message-bubble pay-request-bubble" data-message-index="${messageIndex}" style="position: relative;">
                         <div class="message-content">
                             ${contentHTML}
                         </div>
@@ -37535,7 +37963,9 @@ ${recentHistory.map(msg => {
                             const amount = msg.content.amount;
                             const remark = msg.content.remark || '转账';
                             if (msg.type === 'sent') {
-                                if (msg.content.claimed) {
+                                if (msg.content.paid === false) {
+                                    return `[转账请求] 用户向你发起转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，请回复确认是否接收这笔转账（回复后会自动收款）`;
+                                } else if (msg.content.claimed) {
                                     return `[转账消息] 你已领取了用户给你转账的 ¥${amount.toFixed(2)}，转账说明: "${remark}"`;
                                 } else {
                                     return `[转账消息] 用户给你转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，请回复确认领取这笔转账`;
@@ -37546,6 +37976,19 @@ ${recentHistory.map(msg => {
                                 } else {
                                     return `[转账消息] 你给用户转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，等待用户领取`;
                                 }
+                            }
+                        }
+                        if (msg.content.type === 'payRequest') {
+                            const payRequest = msg.content;
+                            const shopName = payRequest.shopName || '店铺';
+                            const totalPrice = payRequest.totalPrice ? payRequest.totalPrice.toFixed(2) : '0.00';
+                            const items = payRequest.items || [];
+                            const status = payRequest.status || 'pending';
+                            const itemNames = items.map(i => i.name).join('、');
+                            if (status === 'paid') {
+                                return `[代付消息] 你已帮用户代付了 ${shopName} 的订单，商品：${itemNames}，金额：¥${totalPrice}`;
+                            } else {
+                                return `[代付请求] 用户请求你帮忙代付 ${shopName} 的订单，商品：${itemNames}，金额：¥${totalPrice}，请回复确认是否帮忙代付（回复后会自动支付）`;
                             }
                         }
                         return '';
@@ -37888,6 +38331,49 @@ ${recentHistory.map(msg => {
                 const userAvatar = await getImageData('userAvatar') || '';
                 
                 if (type === 'received') {
+                    const unpaidTransfer = messages[roleId].find(msg => 
+                        msg.type === 'sent' && 
+                        msg.content && 
+                        typeof msg.content === 'object' && 
+                        msg.content.type === 'transfer' && 
+                        msg.content.paid === false
+                    );
+                    
+                    if (unpaidTransfer) {
+                        const amount = unpaidTransfer.content.amount;
+                        if (userBalance >= amount) {
+                            userBalance -= amount;
+                            await saveUserBalance();
+                            updateBalanceDisplay();
+                            unpaidTransfer.content.paid = true;
+                            unpaidTransfer.content.paidAt = Date.now();
+                            saveMessages();
+                        }
+                    }
+                    
+                    const pendingPayRequest = messages[roleId].find(msg => 
+                        msg.type === 'sent' && 
+                        msg.content && 
+                        typeof msg.content === 'object' && 
+                        msg.content.type === 'payRequest' && 
+                        msg.content.status !== 'paid'
+                    );
+                    
+                    if (pendingPayRequest) {
+                        pendingPayRequest.content.status = 'paid';
+                        saveMessages();
+                        
+                        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                        const orderId = pendingPayRequest.content.orderId;
+                        const orderIndex = orders.findIndex(o => o.id.toString() === orderId?.toString());
+                        if (orderIndex !== -1) {
+                            orders[orderIndex].status = '已代付';
+                            orders[orderIndex].paidAt = new Date().toLocaleString();
+                            orders[orderIndex].paidBy = currentChatRole?.name || '角色';
+                            localStorage.setItem('orders', JSON.stringify(orders));
+                        }
+                    }
+                    
                     const hadUnclaimedTransfer = messages[roleId].some(msg => 
                         msg.type === 'sent' && 
                         msg.content && 
@@ -37898,7 +38384,7 @@ ${recentHistory.map(msg => {
                         Date.now() - msg.content.claimedAt < 5000
                     );
                     
-                    if (hadUnclaimedTransfer) {
+                    if (hadUnclaimedTransfer || unpaidTransfer || pendingPayRequest) {
                         renderMessages();
                     }
                 }
@@ -37966,8 +38452,9 @@ ${recentHistory.map(msg => {
                 bubble.style.cursor = 'pointer';
                 
                 const isEmojiBubble = bubble.classList.contains('emoji-message-bubble');
+                const isTransferBubble = bubble.classList.contains('transfer-message-bubble');
                 
-                if (isEmojiBubble) {
+                if (isEmojiBubble || isTransferBubble) {
                     let longPressTimer = null;
                     let longPressTriggered = false;
                     
@@ -37990,18 +38477,20 @@ ${recentHistory.map(msg => {
                         }
                     }
                     
-                    function handleEmojiBubbleClick(e) {
+                    function handleSpecialBubbleClick(e) {
                         if (longPressTriggered) {
                             e.preventDefault();
                             e.stopPropagation();
                             return;
                         }
-                        const emojiImg = e.target.closest('.emoji-message-img');
-                        if (emojiImg) {
-                            const url = emojiImg.dataset.emojiUrl;
-                            const desc = emojiImg.dataset.emojiDesc || '自定义表情';
-                            showEmojiPreview(url, desc);
-                            return;
+                        if (isEmojiBubble) {
+                            const emojiImg = e.target.closest('.emoji-message-img');
+                            if (emojiImg) {
+                                const url = emojiImg.dataset.emojiUrl;
+                                const desc = emojiImg.dataset.emojiDesc || '自定义表情';
+                                showEmojiPreview(url, desc);
+                                return;
+                            }
                         }
                     }
                     
@@ -38011,7 +38500,7 @@ ${recentHistory.map(msg => {
                     bubble.addEventListener('mousedown', handleLongPressStart);
                     bubble.addEventListener('mouseup', handleLongPressEnd);
                     bubble.addEventListener('mouseleave', handleLongPressEnd);
-                    bubble.addEventListener('click', handleEmojiBubbleClick, true);
+                    bubble.addEventListener('click', handleSpecialBubbleClick, true);
                 } else {
                     bubble.addEventListener('click', handleBubbleClick);
                 }
@@ -41355,15 +41844,16 @@ ${recentHistory.map(msg => {
 
 ### 【转账消息格式说明】
 你会在对话历史中看到转账消息，格式如下：
-1. 用户给你转账（未领取）：[转账消息] 用户给你转账 ¥520.00，转账说明: "转账说明内容"，请回复确认领取这笔转账
-2. 用户给你转账（已领取）：[转账消息] 你已领取了用户给你转账的 ¥520.00，转账说明: "转账说明内容"
-3. 你给用户转账（未领取）：[转账消息] 你给用户转账 ¥520.00，转账说明: "转账说明内容"，等待用户领取
-4. 你给用户转账（已领取）：[转账消息] 用户已领取了你转账的 ¥520.00，转账说明: "转账说明内容"
+1. 用户向你发起转账请求（待接收）：[转账请求] 用户向你发起转账 ¥520.00，转账说明: "转账说明内容"，请回复确认是否接收这笔转账（回复后会自动收款）
+2. 用户给你转账（未领取）：[转账消息] 用户给你转账 ¥520.00，转账说明: "转账说明内容"，请回复确认领取这笔转账
+3. 用户给你转账（已领取）：[转账消息] 你已领取了用户给你转账的 ¥520.00，转账说明: "转账说明内容"
+4. 你给用户转账（未领取）：[转账消息] 你给用户转账 ¥520.00，转账说明: "转账说明内容"，等待用户领取
+5. 你给用户转账（已领取）：[转账消息] 用户已领取了你转账的 ¥520.00，转账说明: "转账说明内容"
 
-### 【收到转账后的反应】
-当用户给你转账时：
-- 你会自动领取转账（系统会在你回复时自动处理）
-- 你应该在回复中表达对转账说明的回应，并且需要符合角色的人设
+### 【收到转账请求后的反应】
+当用户向你发起转账请求时：
+- 你需要在回复中表达对转账说明的回应
+- 系统会在你回复时自动收款，你不需要做任何额外操作
 - 根据转账金额和说明做出符合人设的反应
 - 例如：收到520元可以说"我也爱你哦~"、收到小金额可以调侃、收到大金额可以惊讶等等，但不可以出现角色ooc的情况
 
@@ -41394,6 +41884,26 @@ ${recentHistory.map(msg => {
 - 转账说明是对这笔钱的描述或想说的话
 - 要简洁有趣，符合你的人设
 - 例如："请你喝奶茶"、"给你买零食"、"生日快乐"、"爱你"
+
+## 代付功能
+
+### 【代付消息格式说明】
+你会在对话历史中看到代付消息，格式如下：
+1. 用户请求代付（待支付）：[代付请求] 用户请求你帮忙代付 店铺名称 的订单，商品：商品1、商品2，金额：¥50.00，请回复确认是否帮忙代付（回复后会自动支付）
+2. 已代付：[代付消息] 你已帮用户代付了 店铺名称 的订单，商品：商品1、商品2，金额：¥50.00
+
+### 【收到代付请求后的反应】
+当用户请求你帮忙代付时：
+- 你需要在回复中表达对代付请求的回应，反应要符合角色的人设
+- 系统会在你回复时自动完成代付，你不需要做任何额外操作
+- 根据订单内容和金额做出符合人设的反应
+- 例如：用户点外卖请求代付，可以调侃"又让我请客呀~"或者大方答应
+
+### 【代付注意事项】
+- 代付是角色帮用户付钱，不需要从你的"余额"中扣除
+- 代付金额没有限制，角色可以随意代付
+- 代付商品数量没有上限，无论用户点了多少商品都可以代付
+- 代付后订单会自动变为"已代付"状态
 
 ## 禁止事项 
 - 禁止把完整句子拆成多条消息 
@@ -45937,6 +46447,11 @@ ${conversationContext.slice(-10).map(m => {
                 return;
             }
             
+            if (currentPayMethod === 'other') {
+                showCharacterSelectorForPayment(orderItems, finalPrice, totalCount, address, remark);
+                return;
+            }
+            
             const order = {
                 id: Date.now(),
                 shopName: currentShopName,
@@ -45957,17 +46472,143 @@ ${conversationContext.slice(-10).map(m => {
             await saveUserBalance();
             updateBalanceDisplay();
             
-            showPaymentResult(currentPayMethod === 'self' ? '支付成功！' : '代付请求已发送！');
+            showPaymentResult('支付成功！');
         }
         
-        function showPaymentResult(message) {
+        let selectedPaymentCharacterId = null;
+        let pendingPaymentData = null;
+        
+        function showCharacterSelectorForPayment(orderItems, finalPrice, totalCount, address, remark) {
+            pendingPaymentData = { orderItems, finalPrice, totalCount, address, remark };
+            selectedPaymentCharacterId = null;
+            
+            const characters = typeof roles !== 'undefined' ? roles : [];
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'payment-result-overlay';
+            
+            let charactersHtml = '';
+            if (characters.length === 0) {
+                charactersHtml = '<div class="payment-character-empty">暂无角色，请先在微信中添加角色</div>';
+            } else {
+                charactersHtml = characters.map(char => `
+                    <div class="payment-character-item mt-tap" data-id="${char.id}" onclick="selectPaymentCharacter('${char.id}')">
+                        <div class="payment-character-avatar">
+                            ${char.avatar ? `<img src="${char.avatar}" alt="${char.name}">` : (char.name ? char.name.charAt(0) : 'T')}
+                        </div>
+                        <div class="payment-character-info">
+                            <div class="payment-character-name">${char.remark || char.name}</div>
+                        </div>
+                        <div class="payment-character-check"><i class="fa-solid fa-check"></i></div>
+                    </div>
+                `).join('');
+            }
+            
+            overlay.innerHTML = `
+                <div class="payment-character-modal">
+                    <div class="payment-character-title">选择代付对象</div>
+                    <div class="payment-character-desc">选择一位好友帮你支付 ¥${finalPrice.toFixed(2)}</div>
+                    <div class="payment-character-list">${charactersHtml}</div>
+                    <div class="payment-character-actions">
+                        <div class="payment-character-btn cancel mt-tap" onclick="cancelPaymentCharacterSelect()">取消</div>
+                        <div class="payment-character-btn confirm disabled mt-tap" id="confirm-payment-character" onclick="confirmPaymentCharacter()">发送请求</div>
+                    </div>
+                </div>`;
+            document.querySelector('.checkout-page').appendChild(overlay);
+            setTimeout(() => overlay.classList.add('show'), 10);
+        }
+        
+        function selectPaymentCharacter(characterId) {
+            selectedPaymentCharacterId = characterId;
+            
+            document.querySelectorAll('.payment-character-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            const selectedItem = document.querySelector(`.payment-character-item[data-id="${characterId}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+            }
+            
+            const confirmBtn = document.getElementById('confirm-payment-character');
+            if (confirmBtn) {
+                confirmBtn.classList.remove('disabled');
+            }
+        }
+        
+        function cancelPaymentCharacterSelect() {
+            const overlay = document.querySelector('.payment-result-overlay');
+            if (overlay) overlay.remove();
+            pendingPaymentData = null;
+            selectedPaymentCharacterId = null;
+        }
+        
+        async function confirmPaymentCharacter() {
+            if (!selectedPaymentCharacterId || !pendingPaymentData) return;
+            
+            const character = (typeof roles !== 'undefined' ? roles : []).find(c => c.id === selectedPaymentCharacterId);
+            if (!character) return;
+            
+            const { orderItems, finalPrice, totalCount, address, remark } = pendingPaymentData;
+            
+            const orderId = Date.now();
+            const order = {
+                id: orderId,
+                shopName: currentShopName,
+                shopIcon: '🏪',
+                items: orderItems,
+                totalPrice: finalPrice,
+                totalCount: totalCount,
+                status: '待代付',
+                address: address,
+                remark: remark,
+                payMethod: 'other',
+                payFrom: character.name,
+                payFromId: character.id,
+                createTime: new Date().toLocaleString()
+            };
+            
+            saveOrder(order);
+            
+            const payRequestMessage = {
+                type: 'payRequest',
+                shopName: currentShopName,
+                totalPrice: finalPrice,
+                items: orderItems,
+                status: 'pending',
+                orderId: orderId.toString()
+            };
+            
+            if (!messages[character.id]) {
+                messages[character.id] = [];
+            }
+            
+            messages[character.id].push({
+                type: 'sent',
+                content: payRequestMessage,
+                timestamp: new Date().toISOString(),
+                roleId: character.id
+            });
+            
+            saveMessages();
+            
+            const overlay = document.querySelector('.payment-result-overlay');
+            if (overlay) overlay.remove();
+            
+            showPaymentResult('代付请求已发送！', `已向 ${character.remark || character.name} 发送代付请求`);
+            
+            pendingPaymentData = null;
+            selectedPaymentCharacterId = null;
+        }
+        
+        function showPaymentResult(message, desc = '订单已提交，请等待配送') {
             const overlay = document.createElement('div');
             overlay.className = 'payment-result-overlay';
             overlay.innerHTML = `
                 <div class="payment-result-modal">
                     <div class="payment-result-icon"><i class="fa-solid fa-check"></i></div>
                     <div class="payment-result-title">${message}</div>
-                    <div class="payment-result-desc">订单已提交，请等待配送</div>
+                    <div class="payment-result-desc">${desc}</div>
                     <div class="payment-result-btn mt-tap" onclick="confirmPaymentResult()">确定</div>
                 </div>`;
             document.querySelector('.checkout-page').appendChild(overlay);
