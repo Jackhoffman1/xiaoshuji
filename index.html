@@ -8,6 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#667eea">
     <title>小鼠机</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <style>
         /* 公告窗口样式 - iOS备忘录风格 */
@@ -528,7 +529,7 @@
         .dark-mode .message.sent .message-content * {
             background: #1a1a1c !important;
             color: #999999 !important;
-            border: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border: none !important;
             box-shadow: none !important;
         }
 
@@ -536,7 +537,7 @@
         .dark-mode .message.received .message-content * {
             background: #121214 !important;
             color: #999999 !important;
-            border: 1px solid rgba(255, 255, 255, 0.02) !important;
+            border: none !important;
             box-shadow: none !important;
         }
 
@@ -5447,6 +5448,307 @@
             transform: scale(0.98);
         }
 
+        .transfer-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .transfer-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .transfer-modal {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 24px;
+            width: 340px;
+            max-width: 90vw;
+            box-shadow: 
+                20px 20px 60px rgba(0, 0, 0, 0.15),
+                -20px -20px 60px rgba(255, 255, 255, 0.9),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.8),
+                inset -1px -1px 2px rgba(0, 0, 0, 0.05);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+
+        .transfer-modal-overlay.active .transfer-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .transfer-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+        }
+
+        .transfer-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .transfer-modal-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(180deg, #FF6B8A, #FF8E9E);
+            border-radius: 2px;
+        }
+
+        .transfer-modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: linear-gradient(145deg, #e6e6e6, #ffffff);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 
+                3px 3px 6px rgba(0, 0, 0, 0.1),
+                -3px -3px 6px rgba(255, 255, 255, 0.8);
+        }
+
+        .transfer-modal-close:hover {
+            box-shadow: 
+                4px 4px 8px rgba(0, 0, 0, 0.12),
+                -4px -4px 8px rgba(255, 255, 255, 0.9);
+        }
+
+        .transfer-modal-close:active {
+            transform: scale(0.95);
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        .transfer-modal-close svg {
+            width: 16px;
+            height: 16px;
+            stroke: #666;
+        }
+
+        .transfer-modal-body {
+            padding: 24px;
+        }
+
+        .transfer-amount-section {
+            margin-bottom: 20px;
+        }
+
+        .transfer-amount-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .transfer-amount-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(145deg, #e8e8e8, #ffffff);
+            border-radius: 16px;
+            padding: 16px 20px;
+            box-shadow: 
+                inset 4px 4px 8px rgba(0, 0, 0, 0.08),
+                inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+            transition: all 0.2s ease;
+        }
+
+        .transfer-amount-input-wrapper:focus-within {
+            box-shadow: 
+                inset 4px 4px 8px rgba(0, 0, 0, 0.1),
+                inset -4px -4px 8px rgba(255, 255, 255, 0.9),
+                0 0 0 2px rgba(255, 107, 138, 0.3);
+        }
+
+        .transfer-currency {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-right: 8px;
+        }
+
+        .transfer-amount-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 32px;
+            font-weight: 600;
+            color: #1a1a1a;
+            outline: none;
+            min-width: 0;
+        }
+
+        .transfer-amount-input::placeholder {
+            color: #ccc;
+            font-weight: 400;
+        }
+
+        .transfer-amount-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+            padding-left: 4px;
+        }
+
+        .transfer-quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .transfer-quick-amount {
+            padding: 10px 0;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: #555;
+            background: linear-gradient(145deg, #f5f5f5, #ffffff);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 
+                3px 3px 6px rgba(0, 0, 0, 0.08),
+                -3px -3px 6px rgba(255, 255, 255, 0.9);
+        }
+
+        .transfer-quick-amount:hover {
+            color: #FF6B8A;
+            box-shadow: 
+                4px 4px 8px rgba(0, 0, 0, 0.1),
+                -4px -4px 8px rgba(255, 255, 255, 0.95);
+        }
+
+        .transfer-quick-amount:active {
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.08),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+            transform: scale(0.98);
+        }
+
+        .transfer-remark-section {
+            margin-bottom: 8px;
+        }
+
+        .transfer-remark-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .transfer-remark-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            background: linear-gradient(145deg, #e8e8e8, #ffffff);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            box-sizing: border-box;
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.06),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease;
+        }
+
+        .transfer-remark-input:focus {
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.08),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.8),
+                0 0 0 2px rgba(255, 107, 138, 0.3);
+        }
+
+        .transfer-remark-input::placeholder {
+            color: #aaa;
+        }
+
+        .transfer-modal-footer {
+            display: flex;
+            gap: 12px;
+            padding: 16px 24px 24px;
+        }
+
+        .transfer-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .transfer-btn.cancel {
+            background: linear-gradient(145deg, #e6e6e6, #ffffff);
+            color: #666;
+            box-shadow: 
+                4px 4px 8px rgba(0, 0, 0, 0.1),
+                -4px -4px 8px rgba(255, 255, 255, 0.9);
+        }
+
+        .transfer-btn.cancel:hover {
+            color: #333;
+            box-shadow: 
+                5px 5px 10px rgba(0, 0, 0, 0.12),
+                -5px -5px 10px rgba(255, 255, 255, 0.95);
+        }
+
+        .transfer-btn.cancel:active {
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+        }
+
+        .transfer-btn.confirm {
+            background: linear-gradient(145deg, #FF6B8A, #FF8E9E);
+            color: white;
+            box-shadow: 
+                4px 4px 12px rgba(255, 107, 138, 0.35),
+                -2px -2px 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .transfer-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                6px 6px 16px rgba(255, 107, 138, 0.4),
+                -2px -2px 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .transfer-btn.confirm:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 
+                2px 2px 8px rgba(255, 107, 138, 0.3),
+                inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
         .photo-modal-overlay {
             position: fixed;
             top: 0;
@@ -5806,6 +6108,169 @@
             }
         }
 
+        .dark-mode .transfer-modal {
+            background: linear-gradient(145deg, #2C2C2E, #1C1C1E);
+            box-shadow: 
+                20px 20px 60px rgba(0, 0, 0, 0.5),
+                -20px -20px 60px rgba(60, 60, 65, 0.3),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.05),
+                inset -1px -1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode .transfer-modal-header {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+        }
+
+        .dark-mode .transfer-modal-title {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .transfer-modal-title::before {
+            background: linear-gradient(180deg, #FF6B8A, #FF8E9E);
+        }
+
+        .dark-mode .transfer-modal-close {
+            background: linear-gradient(145deg, #3A3A3C, #2C2C2E);
+            box-shadow: 
+                3px 3px 6px rgba(0, 0, 0, 0.3),
+                -3px -3px 6px rgba(60, 60, 65, 0.2);
+        }
+
+        .dark-mode .transfer-modal-close:hover {
+            box-shadow: 
+                4px 4px 8px rgba(0, 0, 0, 0.35),
+                -4px -4px 8px rgba(60, 60, 65, 0.25);
+        }
+
+        .dark-mode .transfer-modal-close:active {
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+                inset -2px -2px 4px rgba(60, 60, 65, 0.2);
+        }
+
+        .dark-mode .transfer-modal-close svg {
+            stroke: #EBEBF5;
+        }
+
+        .dark-mode .transfer-amount-label {
+            color: #999;
+        }
+
+        .dark-mode .transfer-amount-input-wrapper {
+            background: linear-gradient(145deg, #2C2C2E, #1C1C1E);
+            box-shadow: 
+                inset 4px 4px 8px rgba(0, 0, 0, 0.3),
+                inset -4px -4px 8px rgba(60, 60, 65, 0.15);
+        }
+
+        .dark-mode .transfer-amount-input-wrapper:focus-within {
+            box-shadow: 
+                inset 4px 4px 8px rgba(0, 0, 0, 0.35),
+                inset -4px -4px 8px rgba(60, 60, 65, 0.15),
+                0 0 0 2px rgba(255, 107, 138, 0.3);
+        }
+
+        .dark-mode .transfer-currency {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .transfer-amount-input {
+            color: #FFFFFF;
+        }
+
+        .dark-mode .transfer-amount-input::placeholder {
+            color: #555;
+        }
+
+        .dark-mode .transfer-amount-hint {
+            color: #666;
+        }
+
+        .dark-mode .transfer-quick-amount {
+            color: #EBEBF5;
+            background: linear-gradient(145deg, #3A3A3C, #2C2C2E);
+            box-shadow: 
+                3px 3px 6px rgba(0, 0, 0, 0.3),
+                -3px -3px 6px rgba(60, 60, 65, 0.2);
+        }
+
+        .dark-mode .transfer-quick-amount:hover {
+            color: #FF6B8A;
+            box-shadow: 
+                4px 4px 8px rgba(0, 0, 0, 0.35),
+                -4px -4px 8px rgba(60, 60, 65, 0.25);
+        }
+
+        .dark-mode .transfer-quick-amount:active {
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+                inset -2px -2px 4px rgba(60, 60, 65, 0.15);
+        }
+
+        .dark-mode .transfer-remark-label {
+            color: #999;
+        }
+
+        .dark-mode .transfer-remark-input {
+            color: #EBEBF5;
+            background: linear-gradient(145deg, #2C2C2E, #1C1C1E);
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.25),
+                inset -3px -3px 6px rgba(60, 60, 65, 0.15);
+        }
+
+        .dark-mode .transfer-remark-input:focus {
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.3),
+                inset -3px -3px 6px rgba(60, 60, 65, 0.15),
+                0 0 0 2px rgba(255, 107, 138, 0.3);
+        }
+
+        .dark-mode .transfer-remark-input::placeholder {
+            color: #666;
+        }
+
+        .dark-mode .transfer-btn.cancel {
+            background: linear-gradient(145deg, #3A3A3C, #2C2C2E);
+            color: #EBEBF5;
+            box-shadow: 
+                4px 4px 8px rgba(0, 0, 0, 0.3),
+                -4px -4px 8px rgba(60, 60, 65, 0.2);
+        }
+
+        .dark-mode .transfer-btn.cancel:hover {
+            color: #FFFFFF;
+            box-shadow: 
+                5px 5px 10px rgba(0, 0, 0, 0.35),
+                -5px -5px 10px rgba(60, 60, 65, 0.25);
+        }
+
+        .dark-mode .transfer-btn.cancel:active {
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.3),
+                inset -3px -3px 6px rgba(60, 60, 65, 0.15);
+        }
+
+        .dark-mode .transfer-btn.confirm {
+            background: linear-gradient(145deg, #FF6B8A, #FF8E9E);
+            box-shadow: 
+                4px 4px 12px rgba(255, 107, 138, 0.25),
+                -2px -2px 8px rgba(60, 60, 65, 0.2);
+        }
+
+        .dark-mode .transfer-btn.confirm:hover {
+            box-shadow: 
+                6px 6px 16px rgba(255, 107, 138, 0.3),
+                -2px -2px 8px rgba(60, 60, 65, 0.2);
+        }
+
+        .dark-mode .transfer-btn.confirm:active {
+            box-shadow: 
+                2px 2px 8px rgba(255, 107, 138, 0.2),
+                inset 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
         .dark-mode .photo-modal {
             background: rgba(44, 44, 46, 0.98);
         }
@@ -5968,6 +6433,27 @@
 
         .emoji-message-bubble .message-time {
             margin-top: 4px;
+        }
+
+        .transfer-message-bubble {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            min-width: auto !important;
+        }
+
+        .transfer-message-bubble .message-content {
+            background: transparent !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .transfer-message-bubble .message-time {
+            margin-top: 6px;
         }
 
         .emoji-message-content {
@@ -7005,6 +7491,191 @@
             border-top-color: #999;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
+        }
+
+        .transfer-message {
+            background-color: #FFFFFF;
+            width: 200px;
+            border-radius: 10px;
+            padding: 14px 18px 12px 18px;
+            position: relative;
+            box-shadow: 0 8px 24px -6px rgba(200, 160, 170, 0.25);
+            border: 1px solid #F8E5E8;
+        }
+
+        .transfer-message::before {
+            content: 'Record of Transfer.';
+            position: absolute;
+            top: 8px;
+            left: 18px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 9px;
+            color: #C2A3A8;
+            letter-spacing: 0.3px;
+        }
+
+        .tf-icon-circle {
+            position: absolute;
+            top: 8px;
+            right: 18px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: rgba(241, 198, 207, 0.1);
+            border: 1px solid #F1C6CF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #7A5C61;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .tf-icon-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .tf-icon-circle span {
+            font-size: 11px;
+            font-weight: 500;
+            color: #7A5C61;
+        }
+
+        .tf-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .tf-amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 26px;
+            font-weight: 500;
+            color: #7A5C61;
+            line-height: 1.1;
+            margin-bottom: 1px;
+        }
+
+        .tf-amount span {
+            font-size: 14px;
+            margin-right: 2px;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-style: normal;
+            font-weight: 300;
+            color: #C2A3A8;
+        }
+
+        .tf-note {
+            font-size: 11px;
+            font-weight: 400;
+            color: #C2A3A8;
+            letter-spacing: 0.5px;
+        }
+
+        .tf-divider {
+            border-top: 1px dashed #F8E5E8;
+            margin: 0 -18px 8px -18px;
+        }
+
+        .tf-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9px;
+            color: #C2A3A8;
+            font-weight: 300;
+        }
+
+        .tf-footer::after {
+            content: 'Completed';
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 10px;
+            color: #7A5C61;
+        }
+
+        .dark-mode .transfer-message {
+            background-color: #2C2C2E;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .transfer-message::before {
+            color: #666;
+        }
+
+        .dark-mode .tf-icon-circle {
+            background-color: rgba(255, 107, 138, 0.1);
+            border-color: rgba(255, 107, 138, 0.3);
+        }
+
+        .dark-mode .tf-icon-circle span {
+            color: #FF8E9E;
+        }
+
+        .dark-mode .tf-amount {
+            color: #EBEBF5;
+        }
+
+        .dark-mode .tf-amount span {
+            color: #888;
+        }
+
+        .dark-mode .tf-note {
+            color: #888;
+        }
+
+        .dark-mode .tf-divider {
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .tf-footer {
+            color: #666;
+        }
+
+        .dark-mode .tf-footer::after {
+            color: #EBEBF5;
+        }
+
+        .transfer-message:not(.claimed) {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .transfer-message:not(.claimed):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -6px rgba(200, 160, 170, 0.35);
+        }
+
+        .transfer-message:not(.claimed):active {
+            transform: translateY(0);
+        }
+
+        .transfer-message.claimed {
+            opacity: 0.7;
+        }
+
+        .tf-claimed-badge {
+            font-size: 9px;
+            color: #999;
+            margin-top: 4px;
+            padding: 2px 8px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .dark-mode .tf-claimed-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
         }
 
 
@@ -12474,27 +13145,9 @@
             padding-right: 20px;
         }
 
-        #detail-group::after {
-            content: '›';
-            position: absolute;
-            right: 0;
-            color: #ccc;
-            font-size: 18px;
-            font-weight: 300;
-        }
-
         #detail-remark {
             position: relative;
             padding-right: 20px;
-        }
-
-        #detail-remark::after {
-            content: '›';
-            position: absolute;
-            right: 0;
-            color: #ccc;
-            font-size: 18px;
-            font-weight: 300;
         }
 
         /* 世界书应用样式 - iOS黑白灰风格 */
@@ -14087,13 +14740,13 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* 顶部信息区 */
-        .hero-section {
+        /* 模拟人生页面顶部信息区 */
+        .sims-panel .hero-section {
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 24px;
+            margin-top: 44px;
             margin-bottom: 30px;
         }
 
@@ -14102,7 +14755,7 @@
             width: 20px;
             height: 36px;
             position: absolute;
-            top: -45px;
+            top: -26px;
             z-index: 10;
             animation: plumbobFloat 3s ease-in-out infinite;
         }
@@ -14630,7 +15283,7 @@
         .sims-close-btn {
             position: absolute;
             left: 16px;
-            top: 28px;
+            top: 48px;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -14661,7 +15314,7 @@
         .sims-options-btn {
             position: absolute;
             right: 16px;
-            top: 28px;
+            top: 48px;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -17027,6 +17680,357 @@
                 opacity: 0.2;
             }
         }
+
+        /* ========================================================= */
+        /*                  外卖应用样式                              */
+        /* ========================================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
+        .mt-ins-app * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .mt-tap {
+            cursor: pointer;
+            transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1.2), opacity .2s ease;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        .mt-tap:active { transform: scale(.93); opacity: .75; }
+
+        .mt-ins-app {
+            width: 100%; height: 100%;
+            background: #FFF;
+            border: none; border-radius: 0;
+            overflow: hidden; position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            box-shadow: none; color: #111;
+        }
+
+        #mt-router, #mt-loc-route, #mt-order-route, #mt-me-route, #mt-alert-route { display: none; }
+
+        .mt-page {
+            position: absolute; inset: 0; display: flex; flex-direction: column;
+            transition: none;
+            background: #F2F4F7;
+            will-change: transform;
+        }
+
+        .page-home { z-index: 10; background: #FFFFFF; transform: translateX(0); }
+        .page-orders { z-index: 15; background: #F2F4F7; transform: translateX(100%); }
+        .page-me { z-index: 15; background: #F2F4F7; transform: translateX(100%); }
+        .page-shop { z-index: 20; transform: translateX(100%); background: #FFF; }
+        .page-location { z-index: 30; transform: translateY(100%); background: #FFF; display: flex; flex-direction: column; opacity: 0; pointer-events: none; }
+
+        #mt-router:checked ~ .page-home, #mt-router:checked ~ .page-orders, #mt-router:checked ~ .page-me { transform: translateX(-100%); }
+        #mt-router:checked ~ .page-shop { transform: translateX(0); }
+        #mt-loc-route:checked ~ .page-home { transform: scale(0.94); filter: brightness(0.75); border-radius: 40px; overflow: hidden; }
+        #mt-loc-route:checked ~ .page-location { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        #mt-order-route:checked ~ .page-home { transform: translateX(-100%); }
+        #mt-order-route:checked ~ .page-orders { transform: translateX(0); }
+        #mt-me-route:checked ~ .page-home { transform: translateX(-100%); }
+        #mt-me-route:checked ~ .page-me { transform: translateX(0); }
+
+        .alert-overlay {
+            position: absolute; inset: 0; z-index: 99; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        }
+        .alert-box {
+            width: 82%; background: #FFF; border-radius: 32px; padding: 32px 24px 24px; text-align: center;
+            transform: scale(0.9) translateY(20px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.25);
+        }
+        #mt-alert-route:checked ~ .alert-overlay { opacity: 1; pointer-events: auto; }
+        #mt-alert-route:checked ~ .alert-overlay .alert-box { transform: scale(1) translateY(0); }
+        .alert-icon { font-size: 38px; color: #111; margin-bottom: 16px; }
+        .alert-title { font-size: 20px; font-weight: 900; color: #000; margin-bottom: 12px; letter-spacing: -0.8px;}
+        .alert-desc { font-size: 14px; font-weight: 500; color: #666; line-height: 1.6; margin-bottom: 30px; padding: 0 10px;}
+        .alert-actions { display: flex; gap: 14px; justify-content: space-between; }
+        .alert-btn { flex: 1; padding: 16px 0; border-radius: 20px; font-size: 15px; font-weight: 800; cursor: pointer; text-align: center;}
+        .alert-btn.cancel { background: #F2F4F7; color: #666; } .alert-btn.confirm { background: #111; color: #FFF; }
+        
+        .checkout-page { position: absolute; inset: 0; z-index: 100; background: #F2F4F7; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .checkout-page.show { transform: translateX(0); }
+        .checkout-header { background: #FFF; padding: 48px 20px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F0F0F0; }
+        .checkout-back { width: 44px; height: 44px; border-radius: 50%; background: #F2F4F7; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .checkout-title { font-size: 20px; font-weight: 900; color: #000; letter-spacing: -0.5px; }
+        .checkout-scroll { flex: 1; overflow-y: auto; padding: 16px 16px 120px; }
+        .checkout-section { background: #FFF; border-radius: 20px; padding: 20px; margin-bottom: 12px; }
+        .checkout-section-title { font-size: 15px; font-weight: 800; color: #000; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .checkout-section-title i { color: #666; font-size: 14px; }
+        .checkout-address { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+        .checkout-addr-text { font-size: 15px; font-weight: 600; color: #333; flex: 1; }
+        .checkout-address i { color: #CCC; font-size: 14px; }
+        .checkout-goods-list { }
+        .checkout-goods-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F5F5F5; }
+        .checkout-goods-item:last-child { border-bottom: none; }
+        .checkout-goods-info { flex: 1; }
+        .checkout-goods-name { font-size: 15px; font-weight: 700; color: #000; margin-bottom: 4px; }
+        .checkout-goods-price { font-size: 13px; color: #888; }
+        .checkout-goods-count { font-size: 14px; color: #666; margin-right: 16px; }
+        .checkout-goods-subtotal { font-size: 16px; font-weight: 800; color: #000; }
+        .checkout-pay-methods { }
+        .checkout-pay-item { display: flex; align-items: center; padding: 16px; border-radius: 16px; margin-bottom: 10px; background: #F8F8F8; border: 2px solid transparent; transition: all 0.2s; }
+        .checkout-pay-item:last-child { margin-bottom: 0; }
+        .checkout-pay-item.active { background: #FFF; border-color: #000; }
+        .checkout-pay-icon { width: 44px; height: 44px; border-radius: 12px; background: #F2F4F7; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 14px; }
+        .checkout-pay-item.active .checkout-pay-icon { background: #000; color: #FFF; }
+        .checkout-pay-info { flex: 1; }
+        .checkout-pay-name { font-size: 16px; font-weight: 800; color: #000; margin-bottom: 2px; }
+        .checkout-pay-desc { font-size: 13px; color: #888; }
+        .checkout-pay-check { width: 24px; height: 24px; border-radius: 50%; background: #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.2s; }
+        .checkout-pay-item.active .checkout-pay-check { background: #000; color: #FFF; }
+        .checkout-remark { width: 100%; height: 80px; border: none; background: #F8F8F8; border-radius: 12px; padding: 14px; font-size: 15px; color: #333; resize: none; outline: none; font-family: inherit; }
+        .checkout-remark::placeholder { color: #AAA; }
+        .checkout-detail-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 15px; color: #666; }
+        .checkout-detail-row.discount { color: #FF6B00; }
+        .checkout-footer { position: absolute; bottom: 0; left: 0; right: 0; background: #FFF; padding: 16px 20px 32px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
+        .checkout-total-info { }
+        .checkout-total-label { font-size: 13px; color: #888; margin-bottom: 4px; }
+        .checkout-total-price { font-size: 26px; font-weight: 900; color: #FF4D00; letter-spacing: -1px; }
+        .checkout-submit { background: #000; color: #FFF; padding: 16px 40px; border-radius: 30px; font-size: 17px; font-weight: 900; }
+        
+        .address-modal-overlay { position: absolute; inset: 0; z-index: 101; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .address-modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .address-modal { width: 100%; background: #FFF; border-radius: 32px 32px 0 0; padding: 24px 20px 40px; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1); max-height: 70vh; display: flex; flex-direction: column; }
+        .address-modal-overlay.show .address-modal { transform: translateY(0); }
+        .address-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .address-modal-title { font-size: 20px; font-weight: 900; color: #000; letter-spacing: -0.5px; }
+        .address-modal-close { width: 36px; height: 36px; border-radius: 50%; background: #F2F4F7; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .address-modal-list { flex: 1; overflow-y: auto; }
+        .address-item { display: flex; align-items: flex-start; padding: 16px; border-radius: 16px; margin-bottom: 10px; background: #F8F8F8; border: 2px solid transparent; transition: all 0.2s; }
+        .address-item.selected { background: #FFF; border-color: #000; }
+        .address-item-icon { width: 40px; height: 40px; border-radius: 12px; background: #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 14px; flex-shrink: 0; }
+        .address-item.selected .address-item-icon { background: #000; color: #FFF; }
+        .address-item-info { flex: 1; }
+        .address-item-name { font-size: 16px; font-weight: 800; color: #000; margin-bottom: 4px; }
+        .address-item-tag { font-size: 11px; font-weight: 700; color: #FFF; background: #FF6B00; padding: 2px 8px; border-radius: 6px; margin-left: 8px; }
+        .address-item-detail { font-size: 14px; color: #666; line-height: 1.4; }
+        .address-modal-add { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 18px; border-radius: 16px; background: #F2F4F7; font-size: 16px; font-weight: 800; color: #000; margin-top: 12px; }
+        
+        .add-address-modal-overlay { position: absolute; inset: 0; z-index: 102; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .add-address-modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .add-address-modal { width: 85%; max-width: 320px; background: #FFF; border-radius: 24px; padding: 28px 24px 24px; transform: scale(0.9) translateY(20px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2); box-shadow: 0 40px 80px rgba(0,0,0,0.25); }
+        .add-address-modal-overlay.show .add-address-modal { transform: scale(1) translateY(0); }
+        .add-address-modal-title { font-size: 20px; font-weight: 900; color: #000; margin-bottom: 24px; text-align: center; letter-spacing: -0.5px; }
+        .add-address-input { width: 100%; height: 48px; border-radius: 16px; border: 2px solid #E5E7EB; padding: 0 16px; font-size: 16px; font-weight: 600; color: #000; outline: none; margin-bottom: 16px; box-sizing: border-box; }
+        .add-address-input:focus { border-color: #111; }
+        .add-address-input::placeholder { color: #999; }
+        .add-address-actions { display: flex; gap: 12px; margin-top: 8px; }
+        .add-address-btn { flex: 1; height: 48px; border-radius: 16px; font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .add-address-btn.cancel { background: #F2F4F7; color: #666; }
+        .add-address-btn.confirm { background: #111; color: #FFF; }
+        
+        .payment-result-overlay { position: absolute; inset: 0; z-index: 103; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: auto; transition: opacity 0.3s; }
+        .payment-result-overlay.show { opacity: 1; }
+        .payment-result-modal { width: 85%; max-width: 300px; background: #FFF; border-radius: 28px; padding: 40px 24px 28px; text-align: center; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2); box-shadow: 0 40px 80px rgba(0,0,0,0.25); }
+        .payment-result-overlay.show .payment-result-modal { transform: scale(1); }
+        .payment-result-icon { width: 64px; height: 64px; border-radius: 50%; background: #000; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 20px; }
+        .payment-result-title { font-size: 22px; font-weight: 900; color: #000; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .payment-result-desc { font-size: 14px; color: #888; margin-bottom: 28px; }
+        .payment-result-btn { background: #000; color: #FFF; padding: 16px; border-radius: 16px; font-size: 17px; font-weight: 800; }
+        
+        .city-modal-overlay { position: absolute; inset: 0; z-index: 99; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .city-modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .city-modal-box { width: 85%; max-width: 320px; background: #FFF; border-radius: 24px; padding: 28px 24px 24px; text-align: center; transform: scale(0.9) translateY(20px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2); box-shadow: 0 40px 80px rgba(0,0,0,0.25); }
+        .city-modal-overlay.show .city-modal-box { transform: scale(1) translateY(0); }
+        .city-modal-title { font-size: 20px; font-weight: 900; color: #000; margin-bottom: 20px; letter-spacing: -0.5px; }
+        .city-modal-input { width: 100%; height: 48px; border-radius: 16px; border: 2px solid #E5E7EB; padding: 0 16px; font-size: 16px; font-weight: 600; color: #000; outline: none; margin-bottom: 20px; box-sizing: border-box; }
+        .city-modal-input:focus { border-color: #111; }
+        .city-modal-input::placeholder { color: #999; }
+        .city-modal-actions { display: flex; gap: 12px; }
+        .city-modal-btn { flex: 1; height: 48px; border-radius: 16px; font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .city-modal-btn.cancel { background: #F2F4F7; color: #666; }
+        .city-modal-btn.confirm { background: #111; color: #FFF; }
+
+        .mt-scroll { flex: 1; overflow-y: auto; scrollbar-width: none; scroll-behavior: smooth;}
+        .mt-scroll::-webkit-scrollbar { display: none; }
+
+        .hp-header { background: #FFFFFF; padding: 50px 24px 10px 24px; }
+        .hp-addr-line { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 24px; }
+        .hp-addr-trigger { flex: 1; display: flex; align-items: flex-start; font-size: 22px; font-weight: 900; color: #000; line-height: 1.2; letter-spacing: -0.6px;}
+        .hp-close-btn { width: 36px; height: 36px; border-radius: 50%; background: #F2F4F7; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #666; transition: 0.2s; }
+        .hp-close-btn:active { background: #E5E7EB; color: #333; }
+        #user-addr-text { white-space: normal; word-break: break-all; display: inline-block; }
+
+        .hp-search { height: 48px; border-radius: 24px; background: #F2F4F7; color: #999; font-size: 15px; font-weight: 600; display: flex; align-items: center; padding: 0 20px; transition: 0.2s; border: none; }
+        .hp-search:active { background: #E5E7EB; }
+
+        .hp-feature-strip { padding: 10px 0 20px; margin: 0 0 10px; }
+        .hp-strip-scroll { display: flex; gap: 20px; padding: 0 24px; overflow-x: auto; scrollbar-width: none; }
+        .hp-strip-item { width: 58px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; }
+        .hp-icon-box {
+            width: 58px; height: 58px; border-radius: 22px;
+            background: #F2F4F7; color: #111; font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .hp-strip-label { font-size: 12px; font-weight: 700; color: #555; letter-spacing: -0.3px; transition: all 0.3s;}
+        .hp-strip-item.active .hp-icon-box { background: #fff; color: #111; box-shadow: 0 12px 24px rgba(0,0,0,0.1); transform: translateY(-4px);}
+        .hp-strip-item.active .hp-strip-label { font-weight: 900; color: #000; transform: translateY(-2px);}
+
+        .hp-shop-list { padding: 0 20px 120px; }
+        .hp-list-title { font-size: 22px; font-weight: 900; margin: 10px 0 20px; display: flex; justify-content: space-between; align-items: baseline; color: #000; letter-spacing: -1px; padding: 0 4px;}
+        .shop-item { display: block; }
+        .hp-shop-card {
+            background: #FFFFFF; border-radius: 32px; padding: 16px; margin-bottom: 20px;
+            display: flex; gap: 18px; border: none;
+            box-shadow: 0 16px 40px rgba(0,0,0,.04);
+        }
+        .hp-card-img { width: 90px; height: 90px; border-radius: 24px; background: #F2F4F7; color: #000; font-size: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);}
+        .hp-card-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 0; }
+        .hp-card-name { font-size: 18px; font-weight: 900; color: #000; letter-spacing: -0.6px; }
+        .hp-card-meta { font-size: 13px; color: #888; font-weight: 600; margin-top:2px;}
+        .hp-card-score { color: #000; font-weight: 900; font-size: 15px;}
+        .hp-card-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+        .hp-tag { font-size: 10px; font-weight: 800; color: #111; border-radius: 100px; padding: 6px 12px; background: #F2F4F7; letter-spacing: 0; }
+        .hp-card-time { font-size: 13px; color: #111; font-weight: 800; }
+        
+        .hp-shop-card-featured { background: linear-gradient(135deg, #FFF9E6 0%, #FFF5F5 50%, #F0F8FF 100%); border: 2px solid #FFD700; box-shadow: 0 8px 24px rgba(255, 215, 0, 0.25); position: relative; overflow: hidden; }
+        .hp-shop-card-featured::before { content: '🔥'; position: absolute; top: 12px; right: 16px; font-size: 18px; animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.8; } }
+        .hp-card-img-featured { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); box-shadow: 0 4px 16px rgba(255, 215, 0, 0.5); animation: glow 2s ease-in-out infinite; }
+        @keyframes glow { 0%, 100% { box-shadow: 0 4px 16px rgba(255, 215, 0, 0.5); } 50% { box-shadow: 0 4px 24px rgba(255, 215, 0, 0.8); } }
+        .hp-card-name-featured { font-size: 20px; color: #B8860B; }
+        .hp-tag-featured { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #FFF; font-weight: 900; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4); }
+        .hp-card-time-featured { color: #B8860B; }
+
+        .hp-tabbar { height: 80px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: none; box-shadow: 0 -10px 30px rgba(0,0,0,0.03); display: flex; align-items: center; flex-shrink: 0; padding-bottom: 16px; position:absolute; bottom:0; width:100%; z-index:100;}
+        .hp-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #C4C4C4; font-size: 11px; font-weight:700; height: 100%; cursor: pointer;}
+        .hp-tab i { font-size: 22px; margin-bottom: 6px; }
+        .hp-tab.active { color: #000; font-weight: 900; }
+
+        .page-orders { padding-bottom:80px; }
+        .od-header { background: transparent; padding: 50px 24px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .od-title { font-size: 28px; font-weight: 900; color: #000; letter-spacing: -1px;}
+        .od-list { padding: 0 20px 40px; }
+        .od-card { background: #FFF; border-radius: 32px; padding: 24px; margin-bottom: 20px; box-shadow: 0 16px 40px rgba(0,0,0,.03); border: none; }
+        .od-head { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .od-shop-row { display: flex; gap: 12px; align-items: center; font-weight: 900; font-size: 17px; color:#000; letter-spacing: -0.4px;}
+        .od-shop-img { width: 34px; height: 34px; background: #F2F4F7; border-radius: 12px; color:#000; display:flex; align-items:center; justify-content:center; font-size: 16px;}
+        .od-status { font-size: 14px; font-weight: 700; color: #999; } .od-status.bold { color: #000; font-weight: 900; }
+        .od-body { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .od-pic { width: 62px; height: 62px; background: #F2F4F7; border-radius: 18px; display:flex; align-items:center; justify-content:center; font-size:28px; }
+        .od-price { font-size: 22px; font-weight: 900; color: #000; letter-spacing: -0.5px;}
+        .od-foot { display: flex; justify-content: flex-end; gap: 12px; }
+        .od-btn { padding: 12px 20px; border-radius: 100px; font-size: 13px; font-weight: 700; background: #F2F4F7; color: #111; letter-spacing: 0.2px;}
+        .od-btn.dark { background: #111; color: #FFF; }
+        .od-card { background: #FFF; border-radius: 32px; padding: 24px; margin-bottom: 20px; box-shadow: 0 16px 40px rgba(0,0,0,.03); border: none; }
+        .od-head { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .od-shop-row { display: flex; gap: 12px; align-items: center; font-weight: 900; font-size: 17px; color:#000; letter-spacing: -0.4px;}
+        .od-shop-img { width: 34px; height: 34px; background: #F2F4F7; border-radius: 12px; color:#000; display:flex; align-items:center; justify-content:center; font-size: 16px;}
+        .od-status { font-size: 14px; font-weight: 700; color: #999; } .od-status.bold { color: #000; font-weight: 900; }
+        .od-body { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .od-pic { width: 62px; height: 62px; background: #F2F4F7; border-radius: 18px; display:flex; align-items:center; justify-content:center; font-size:28px; }
+        .od-price { font-size: 22px; font-weight: 900; color: #000; letter-spacing: -0.5px;}
+        .od-foot { display: flex; justify-content: flex-end; gap: 12px; }
+
+        .page-me { padding-bottom:80px; }
+        .me-header { padding: 50px 24px 10px; display: flex; justify-content: space-between; align-items: center; background:transparent;}
+        .me-title { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+        .me-icons { display: flex; gap: 24px; font-size: 22px; color: #000; }
+        .me-profile { padding: 16px 24px 28px; display: flex; align-items: center; gap: 20px; }
+        .me-avatar { width: 80px; height: 80px; border-radius: 50%; background: #E5E7EB; border:2px solid #FFF; box-shadow:0 8px 24px rgba(0,0,0,0.06); display: flex; justify-content: center; align-items: center; font-size: 36px; color: #FFF; overflow: hidden;}
+        .me-info { flex: 1; }
+        .me-name { font-size: 24px; font-weight: 900; color: #000; margin-bottom: 6px; letter-spacing: -0.6px;}
+        .me-phone { font-size: 14px; font-weight: 700; color: #888; display: flex; align-items: center; gap: 6px; }
+
+        .me-wallet-card { margin: 0 20px 30px; background: #000000; border-radius: 36px; padding: 36px 30px; color: #FFF; box-shadow: 0 20px 48px rgba(0,0,0,0.2); position: relative; overflow: hidden;}
+        .me-wallet-card::before { content: ''; position: absolute; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%; top: -80px; right: -80px; }
+        .me-w-title { font-size: 14px; font-weight: 600; color: #999; margin-bottom: 16px; display: flex; justify-content: space-between;}
+        .me-w-balance { font-size: 44px; font-weight: 900; margin-bottom: 32px; display: flex; align-items: baseline; gap: 4px; letter-spacing: -1.5px;}
+        .me-w-currency { font-size: 20px; font-weight: 700;}
+        .me-w-actions { display: flex; justify-content: space-between; position: relative;}
+        .me-w-btn { flex: 1; text-align: left; font-size: 16px; font-weight: 800; color: #FFF; display:flex; align-items:center; gap:10px; cursor: pointer;}
+        .me-w-btn i { font-size: 16px; color: #888; }
+        .me-menu-box { background: #FFF; border-radius: 32px; margin: 0 20px; padding: 12px 0; box-shadow: 0 16px 40px rgba(0,0,0,.03); border: none;}
+        .me-menu-item { padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; font-size: 16px; font-weight: 800; color: #000; letter-spacing: -0.3px;}
+        .me-m-left { display: flex; align-items: center; gap: 16px; }
+
+        .loc-header { background: #FFF; padding: 50px 20px 15px; border-bottom: none; display: flex; align-items: center; gap: 12px; }
+        .loc-search { flex: 1; height: 48px; background: #F2F4F7; border-radius: 24px; display: flex; align-items: center; padding: 0 20px; font-size: 15px; font-weight:600; color: #000; border: none; outline: none; }
+        .loc-search::placeholder { color: #999; }
+        .loc-close-btn { font-size: 16px; font-weight: 900; padding: 10px; color: #000; cursor: pointer; letter-spacing: -0.3px;}
+        .loc-body { padding: 0 24px 20px; }
+        .loc-title { font-size: 14px; font-weight: 800; color: #999; margin: 28px 0 16px; }
+        .loc-current { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #111; border-radius: 100px; font-size: 15px; font-weight: 800; color: #FFF; box-shadow: 0 10px 20px rgba(0,0,0,0.15);}
+        .loc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .loc-box { background: #F2F4F7; border-radius: 16px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #000; }
+        .loc-list { display: flex; flex-direction: column; }
+        .loc-row { padding: 20px 0; border-bottom: 1px solid #F5F6F8; font-size: 17px; font-weight: 700; color: #000; }
+
+        .sp-navbar { position: absolute; top: 0; left: 0; width: 100%; padding: 48px 24px 18px; display: flex; justify-content: space-between; z-index: 50; pointer-events: none;}
+        .sp-nav-btn { pointer-events: auto; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.95); backdrop-filter: blur(10px); box-shadow: 0 12px 24px rgba(0,0,0,.1); display: flex; align-items: center; justify-content: center; color: #000; font-size: 20px; cursor: pointer;}
+        .sp-banner { height: 200px; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); position: relative; overflow: hidden; }
+        .sp-banner::before { content: ''; position: absolute; width: 300px; height: 300px; background: linear-gradient(45deg, #2d2d2d 0%, #4a4a4a 100%); border-radius: 50%; top: -150px; right: -50px; opacity: 0.15; }
+        .sp-banner::after { content: ''; position: absolute; width: 250px; height: 250px; background: linear-gradient(45deg, #6b6b6b 0%, #9a9a9a 100%); border-radius: 50%; bottom: -100px; left: -30px; opacity: 0.12; }
+        .sp-shop-head { margin: -40px 24px 0; background: #FFF; border-radius: 32px; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,.05); position: relative; z-index: 10; border: none; }
+        .sp-shop-name { font-size: 26px; font-weight: 900; color: #000; margin-bottom: 12px; letter-spacing: -1px;}
+        .sp-shop-desc { font-size: 14px; font-weight: 700; color: #888; }
+        .sp-shop-notice { margin: 20px 24px; padding: 20px; background: #F2F4F7; border-radius: 24px; border: none; }
+        .sp-notice-title { font-size: 14px; font-weight: 900; color: #111; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .sp-notice-text { font-size: 14px; line-height: 1.6; color: #555; font-weight: 600; white-space: pre-wrap; }
+
+        .sp-menu-area { flex: 1; display: flex; align-items: flex-start; }
+        .sp-side { width: 100px; background: #FFF; padding-top: 10px; position: sticky; top: 0px; z-index: 20; max-height: 800px; }
+        .sp-side-item { padding: 20px 10px; text-align: center; font-size: 13px; font-weight: 700; color: #999; position: relative;}
+        .sp-side-item.active { color: #000; font-weight: 900; }
+        .sp-side-item.active::before { content: ''; position: absolute; left: 14px; top: 12px; bottom: 12px; width: 6px; background: #000; border-radius: 100px;}
+
+        .sp-dish-list { flex: 1; padding: 10px 24px 0 10px; display: flex; flex-direction: column; }
+        .sp-cat-title { font-size: 15px; font-weight: 900; color: #111; margin: 10px 0 20px; padding-left: 4px; scroll-margin-top: 20px; letter-spacing: -0.5px;}
+
+        .sp-dish { display: flex; gap: 18px; border-bottom: none; padding-bottom: 24px; margin-bottom: 24px;}
+        .sp-dish-img { width: 100px; height: 100px; border-radius: 24px; background: #F2F4F7; color: #000; font-size: 36px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink:0; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);}
+        .sp-dish-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 0;}
+        .sp-dish-name { font-size: 18px; font-weight: 900; color: #000; margin-bottom: 6px; letter-spacing: -0.5px;}
+        .sp-dish-desc { font-size: 13px; font-weight: 600; color: #888; line-height: 1.4;}
+        .sp-dish-foot { display: flex; justify-content: space-between; align-items: center; margin-top: auto;}
+        .sp-dish-price { font-size: 19px; font-weight: 900; color: #000; letter-spacing: -0.5px;}
+        .sp-add-btn { width: 32px; height: 32px; border-radius: 50%; background: #000; color: #FFF; font-weight: 900; font-size: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0,0,0,0.15);}
+
+        .sp-checkout { position: absolute; bottom: 0; left: 0; width: 100%; padding: 12px 24px 30px; z-index: 60; pointer-events: none; }
+        .sp-cart { pointer-events: auto; height: 72px; border-radius: 36px; background: #111; color: #FFF; display: flex; align-items: center; padding: 0 10px 0 28px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,.25); }
+        .sp-cart-inner { width: 100%; display: flex; align-items: center; justify-content: space-between; position: relative;}
+        .sp-cart-left { display: flex; align-items: center;}
+        .sp-cart-icon { position: absolute; left: 8px; top: -18px; width: 64px; height: 64px; border-radius: 50%; background: #FFF; border: 4px solid #111; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #000; box-shadow: 0 10px 20px rgba(0,0,0,0.1);}
+        .sp-cart-badge { position: absolute; top: -4px; right: -8px; background: #FF3344; color: #FFF; font-size: 12px; font-weight: 900; height: 24px; min-width: 24px; padding: 0 8px; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 2px solid #111; opacity: 0; transform: scale(0); transition: 0.25s cubic-bezier(0.2, 1.5, 0.3, 1); }
+        .sp-cart-badge.show { opacity: 1; transform: scale(1); }
+        .sp-cart-txt { margin-left: 78px; flex: 1; font-weight: 900; font-size: 22px; letter-spacing: -0.8px;}
+        .sp-cart-empty { font-size: 15px; font-weight: 700; color: #888; letter-spacing: 0; }
+        .sp-pay-btn { height: 52px; border-radius: 26px; padding: 0 28px; font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .sp-pay-btn.disabled { background: transparent; color: #666; pointer-events: none; }
+        .sp-pay-btn.active { background: #FFF; color: #000; }
+
+        .cart-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 55; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+        .cart-overlay.show { opacity: 1; pointer-events: auto; }
+        .cart-panel { position: absolute; left: 0; right: 0; bottom: 0; background: #FFF; border-radius: 40px 40px 0 0; padding: 36px 28px 130px; z-index: 56; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.3s; box-shadow: 0 -20px 60px rgba(0,0,0,0.15); opacity: 0; pointer-events: none; }
+        .cart-panel.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .cart-panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+        .cart-title { font-size: 18px; font-weight: 900; color: #000; letter-spacing: -0.5px;}
+        .cart-clear { font-size: 14px; font-weight: 700; color: #888; display: flex; align-items: center; gap: 6px;}
+        .cart-list { max-height: 400px; overflow-y: auto; }
+        .cart-list::-webkit-scrollbar { display: none; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+        .cart-item-name { font-size: 17px; font-weight: 800; color: #000; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 16px; letter-spacing: -0.3px;}
+        .cart-item-price { font-size: 19px; font-weight: 900; color: #000; margin-right: 24px; letter-spacing: -0.5px;}
+        .cart-item-ctrl { display: flex; align-items: center; gap: 16px; }
+        .cart-ctrl-btn { width: 30px; height: 30px; border-radius: 50%; font-size: 18px; font-weight: 900; display: flex; align-items: center; justify-content: center;}
+        .cart-ctrl-minus { border: 2px solid #E5E7EB; color: #888; background: #FFF; }
+        .cart-ctrl-plus { background: #111; color: #FFF; }
+        .cart-ctrl-num { font-size: 17px; font-weight: 800; width: 16px; text-align: center; }
+
+        .waimai-app-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FFF;
+            display: none;
+            z-index: 10000;
+        }
+        .waimai-app-container.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -17035,13 +18039,16 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年3月12日</div>
+                <div class="announcement-date" id="announcement-date">2026年3月14日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <ul>
+                        <li>🍜 外卖功能实装</li>
                         <li>✨ 新加了表情功能，角色会发表情包了</li>
-                        <li style="color: orange;">⏳ 待修复：打电话掉格式、语音未实装</li>
+                        <li>💰 增加了转账功能</li>
+                        <li>🎮 模拟人生页面重做</li>
+                        <li style="color: orange;">⏳ 待修复：代付功能还没做、语音接入待实装、日记待实装</li>
                     </ul>
                 </div>
             </div>
@@ -18402,6 +19409,293 @@
         </div>
     </div>
 
+    <!-- 外卖应用界面 -->
+    <div id="waimai-app" class="waimai-app-container" onclick="closeWaimai(event)">
+        <div class="mt-ins-app" onclick="event.stopPropagation()">
+            <div id="ai-shop-data" style="display:none;">
+                <div id="ai-name">$3</div>
+                <div id="ai-rating">$4</div>
+                <div id="ai-desc">$5</div>
+                <div id="ai-m1-name">$6</div><div id="ai-m1-price">$7</div><div id="ai-m1-desc">$8</div>
+                <div id="ai-m2-name">$9</div><div id="ai-m2-price">$10</div><div id="ai-m2-desc">$11</div>
+                <div id="ai-m3-name">$12</div><div id="ai-m3-price">$13</div><div id="ai-m3-desc">$14</div>
+                <div id="ai-m4-name">$15</div><div id="ai-m4-price">$16</div><div id="ai-m4-desc">$17</div>
+                <div id="ai-m5-name">$18</div><div id="ai-m5-price">$19</div><div id="ai-m5-desc">$20</div>
+            </div>
+
+            <input type="checkbox" id="mt-router">
+            <input type="checkbox" id="mt-loc-route">
+            <input type="checkbox" id="mt-order-route">
+            <input type="checkbox" id="mt-me-route">
+            <input type="checkbox" id="mt-alert-route">
+
+            <div class="mt-page page-home">
+                <div class="hp-header">
+                    <div class="hp-addr-line">
+                        <label for="mt-loc-route" class="hp-addr-trigger mt-tap">
+                            <i class="fa-solid fa-location-dot" style="margin-right:10px; font-size:24px; margin-top:2px;"></i>
+                            <span id="user-addr-text">定位中...</span>
+                            <i class="fa-solid fa-angle-down" style="font-size:14px; margin-left:10px; color:#111; margin-top:6px;"></i>
+                        </label>
+                        <div class="hp-close-btn mt-tap" onclick="closePage()"><i class="fa-solid fa-xmark"></i></div>
+                    </div>
+                    <div class="hp-search mt-tap"><i class="fa-solid fa-magnifying-glass" style="margin-right:10px; font-size:18px;"></i> 好饿</div>
+                </div>
+
+                <div class="mt-scroll">
+                    <div class="hp-feature-strip">
+                        <div class="hp-strip-scroll">
+                            <div class="hp-strip-item active mt-tap" onclick="filterShops('all', this)"><div class="hp-icon-box"><i class="fa-solid fa-border-all"></i></div><div class="hp-strip-label">全部</div></div>
+                            <div class="hp-strip-item mt-tap" onclick="filterShops('food', this)"><div class="hp-icon-box"><i class="fa-solid fa-burger"></i></div><div class="hp-strip-label">美食</div></div>
+                            <div class="hp-strip-item mt-tap" onclick="filterShops('drinks', this)"><div class="hp-icon-box"><i class="fa-solid fa-mug-hot"></i></div><div class="hp-strip-label">下午茶</div></div>
+                            <div class="hp-strip-item mt-tap" onclick="filterShops('fresh', this)"><div class="hp-icon-box"><i class="fa-solid fa-fish"></i></div><div class="hp-strip-label">生鲜</div></div>
+                            <div class="hp-strip-item mt-tap" onclick="filterShops('med', this)"><div class="hp-icon-box"><i class="fa-solid fa-capsules"></i></div><div class="hp-strip-label">送药</div></div>
+                            <div class="hp-strip-item mt-tap" onclick="filterShops('night', this)"><div class="hp-icon-box"><i class="fa-solid fa-wine-glass"></i></div><div class="hp-strip-label">夜宵</div></div>
+                            <div class="hp-strip-item mt-tap" onclick="filterShops('grocery', this)"><div class="hp-icon-box"><i class="fa-solid fa-bag-shopping"></i></div><div class="hp-strip-label">超市</div></div>
+                        </div>
+                    </div>
+
+                    <div class="hp-shop-list" id="main-shop-list">
+                        <div class="hp-list-title"><span>为您严选</span><i class="fa-solid fa-rotate mt-tap" style="font-size:18px; color:#888; cursor:pointer; margin-right:-200px;" onclick="refreshShopListAPI()"></i><span style="font-size:13px; color:#888; font-weight:800;">综合排序 ▼</span></div>
+
+                        <div class="mt-tap shop-item" data-category="food" onclick="openShop('ai_shop')">
+                            <div class="hp-shop-card hp-shop-card-featured">
+                                <div class="hp-card-img hp-card-img-featured">⭐</div>
+                                <div class="hp-card-info">
+                                    <div><div class="hp-card-name hp-card-name-featured">$3</div><div class="hp-card-meta"><span class="hp-card-score">★ $4</span>&nbsp;&nbsp;月售2000+</div></div>
+                                    <div class="hp-card-bottom"><div class="hp-tag hp-tag-featured">✨ 主线推荐</div><div class="hp-card-time hp-card-time-featured">约30分钟</div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-tap shop-item" data-category="drinks" onclick="openShop('starbucks')">
+                            <div class="hp-shop-card">
+                                <div class="hp-card-img">☕</div>
+                                <div class="hp-card-info"><div><div class="hp-card-name">星巴克(万象城店)</div><div class="hp-card-meta"><span class="hp-card-score">★ 4.9</span>&nbsp;&nbsp;月售3500+</div></div><div class="hp-card-bottom"><div class="hp-tag">退款极速</div><div class="hp-card-time">约25分钟</div></div></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-tap shop-item" data-category="food night" onclick="openShop('mcdonalds')">
+                            <div class="hp-shop-card">
+                                <div class="hp-card-img">🍔</div>
+                                <div class="hp-card-info"><div><div class="hp-card-name">麦当劳(市中心店)</div><div class="hp-card-meta"><span class="hp-card-score">★ 4.9</span>&nbsp;&nbsp;月售9999+</div></div><div class="hp-card-bottom"><div class="hp-tag">超时必赔</div><div class="hp-card-time">约28分钟</div></div></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-tap shop-item" data-category="food night" onclick="openShop('kfc')">
+                            <div class="hp-shop-card">
+                                <div class="hp-card-img">🍗</div>
+                                <div class="hp-card-info"><div><div class="hp-card-name">肯德基(天河城店)</div><div class="hp-card-meta"><span class="hp-card-score">★ 4.8</span>&nbsp;&nbsp;月售6800+</div></div><div class="hp-card-bottom"><div class="hp-tag">极速达</div><div class="hp-card-time">约30分钟</div></div></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-tap shop-item" data-category="fresh" onclick="openShop('dingdong')">
+                            <div class="hp-shop-card">
+                                <div class="hp-card-img">🥬</div>
+                                <div class="hp-card-info"><div><div class="hp-card-name">叮咚买菜(前置仓)</div><div class="hp-card-meta"><span class="hp-card-score">★ 4.9</span>&nbsp;&nbsp;月售8000+</div></div><div class="hp-card-bottom"><div class="hp-tag">活鲜优选</div><div class="hp-card-time">约29分钟</div></div></div>
+                            </div>
+                        </div>
+
+                        <div id="empty-state" style="display:none; text-align:center; padding:60px 20px; color:#999;">
+                            <div style="font-size:48px; margin-bottom:16px;">🔍</div>
+                            <div style="font-size:16px; font-weight:700;">暂无相关商家</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hp-tabbar">
+                    <div class="hp-tab active mt-tap" onclick="switchNav('home')"><i class="fa-solid fa-utensils"></i><span>探索</span></div>
+                    <div class="hp-tab mt-tap" onclick="switchNav('orders')"><i class="fa-solid fa-file-lines"></i><span>订单</span></div>
+                    <div class="hp-tab mt-tap" onclick="switchNav('me')"><i class="fa-regular fa-user"></i><span>我的</span></div>
+                </div>
+            </div>
+
+            <div class="mt-page page-orders">
+                <div class="od-header"><div class="od-title">历史订单</div><div style="font-size:20px; color:#000;"><i class="fa-solid fa-magnifying-glass"></i></div></div>
+                <div class="mt-scroll od-list" id="order-list">
+                    </div>
+                <div class="hp-tabbar"><div class="hp-tab mt-tap" onclick="switchNav('home')"><i class="fa-solid fa-utensils"></i><span>探索</span></div><div class="hp-tab active mt-tap" onclick="switchNav('orders')"><i class="fa-solid fa-file-lines"></i><span>订单</span></div><div class="hp-tab mt-tap" onclick="switchNav('me')"><i class="fa-solid fa-user"></i><span>我的</span></div></div>
+            </div>
+
+            <div class="mt-page page-me">
+                <div class="me-header"><div class="me-icons"><i class="fa-solid fa-headset mt-tap"></i><i class="fa-solid fa-gear mt-tap"></i></div></div>
+                <div class="mt-scroll">
+                    <div class="me-profile"><div class="me-avatar mt-tap" id="waimai-avatar"><i class="fa-solid fa-user"></i></div><div class="me-info"><div class="me-name" id="waimai-username">User_8892</div><div class="me-phone" id="waimai-wechat-id">138 **** 9211</div></div></div>
+                    <div class="me-wallet-card"><div class="me-w-title">总资产 <i class="fa-regular fa-eye-slash mt-tap"></i></div><div class="me-w-balance"><span class="me-w-currency">¥</span><span id="user-balance">1,000.00</span></div><div class="me-w-actions"><label for="mt-alert-route" class="me-w-btn mt-tap"><i class="fa-solid fa-plus-circle"></i> 充值</label><label for="mt-alert-route" class="me-w-btn mt-tap"><i class="fa-solid fa-wallet"></i> 提现</label><label for="mt-alert-route" class="me-w-btn mt-tap"><i class="fa-solid fa-ticket"></i> 券包</label></div></div>
+                    <div class="me-menu-box"><div class="me-menu-item mt-tap"><div class="me-m-left"><i class="fa-regular fa-star"></i> 收藏夹</div></div><div class="me-menu-item mt-tap"><div class="me-m-left"><i class="fa-solid fa-location-dot"></i> 地址极速管</div></div><div class="me-menu-item mt-tap"><div class="me-m-left"><i class="fa-solid fa-shield-halved"></i> 账号隐盾</div></div><div class="me-menu-item mt-tap"><div class="me-m-left"><i class="fa-regular fa-circle-question"></i> 客服智库</div></div></div>
+                </div>
+                <div class="hp-tabbar"><div class="hp-tab mt-tap" onclick="switchNav('home')"><i class="fa-solid fa-utensils"></i><span>探索</span></div><div class="hp-tab mt-tap" onclick="switchNav('orders')"><i class="fa-solid fa-file-lines"></i><span>订单</span></div><div class="hp-tab active mt-tap" onclick="switchNav('me')"><i class="fa-solid fa-user"></i><span>我的</span></div></div>
+            </div>
+
+            <div class="mt-page page-location">
+                <div class="loc-header">
+                    <input type="text" class="loc-search" placeholder="搜索城市..." id="loc-search-input">
+                    <label for="mt-loc-route" class="loc-close-btn mt-tap">返回</label>
+                </div>
+                <div class="mt-scroll loc-body">
+                    <div class="loc-title">自定义城市/国家</div>
+                    <div class="loc-current mt-tap" onclick="showCustomCityInput()"><i class="fa-solid fa-pen"></i> 输入城市名称</div>
+                    <div class="loc-title">常去选择</div>
+                    <div class="loc-grid">
+                        <div class="loc-box mt-tap" onclick="pickAddr('北京市')">北京</div>
+                        <div class="loc-box mt-tap" onclick="pickAddr('上海市')">上海</div>
+                        <div class="loc-box mt-tap" onclick="pickAddr('深圳市')">深圳</div>
+                        <div class="loc-box mt-tap" onclick="pickAddr('广州市')">广州</div>
+                        <div class="loc-box mt-tap" onclick="pickAddr('杭州市')">杭州</div>
+                        <div class="loc-box mt-tap" onclick="pickAddr('成都市')">成都</div>
+                    </div>
+                    <div class="loc-title">热门城市</div>
+                    <div class="loc-list" id="loc-city-list">
+                        <div class="loc-row mt-tap" onclick="pickAddr('武汉市')">武汉</div>
+                        <div class="loc-row mt-tap" onclick="pickAddr('南京市')">南京</div>
+                        <div class="loc-row mt-tap" onclick="pickAddr('西安市')">西安</div>
+                        <div class="loc-row mt-tap" onclick="pickAddr('重庆市')">重庆</div>
+                        <div class="loc-row mt-tap" onclick="pickAddr('苏州市')">苏州</div>
+                        <div class="loc-row mt-tap" onclick="pickAddr('天津市')">天津</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-page page-shop">
+                <div class="sp-navbar">
+                    <label for="mt-router" class="sp-nav-btn mt-tap"><i class="fa-solid fa-angle-left"></i></label>
+                    <div class="sp-nav-btn sp-share-btn mt-tap" style="width:auto; padding:0 20px; border-radius: 20px; font-size:14px; font-weight:800;">共享</div>
+                </div>
+                <div class="mt-scroll" id="shop-scroll-area" style="padding-bottom:120px;">
+                    <div class="sp-banner"></div>
+                    <div class="sp-shop-head"><div class="sp-shop-name" id="sp-shop-name">加载中...</div><div class="sp-shop-desc" id="sp-shop-desc">加载中...</div></div>
+                    <div class="sp-shop-notice"><div class="sp-notice-title"><i class="fa-solid fa-bullhorn" style="color:#000;"></i> 公告</div><div class="sp-notice-text" id="sp-shop-notice-text">加载中...</div></div>
+
+                    <div class="sp-menu-area">
+                        <div class="sp-side" id="sp-side-container"></div>
+                        <div class="sp-dish-list" id="sp-menu-container"></div>
+                    </div>
+                </div>
+
+                <div class="cart-overlay mt-tap" id="cart-overlay" onclick="toggleCartPopup()"></div>
+                <div class="cart-panel" id="cart-panel"><div class="cart-panel-head"><div class="cart-title">选购清单</div><div class="cart-clear mt-tap" onclick="clearCart()"><i class="fa-solid fa-trash-can"></i> 完全清除</div></div><div class="cart-list" id="cart-list"></div></div>
+
+                <div class="sp-checkout"><div class="sp-cart mt-tap" onclick="toggleCartPopup()"><div class="sp-cart-inner"><div class="sp-cart-left"><div class="sp-cart-icon"><i class="fa-solid fa-bag-shopping"></i><div class="sp-cart-badge" id="cart-badge">0</div></div><div class="sp-cart-txt"><span id="cart-price" style="display:none; color:#FFF;">¥0</span><span id="cart-empty" class="sp-cart-empty">暂无装载</span></div></div><div class="sp-pay-btn disabled mt-tap" id="cart-pay-btn" onclick="checkout(event)">未点</div></div></div></div>
+            </div>
+
+            <div class="alert-overlay">
+                <div class="alert-box">
+                    <div class="alert-icon"><i class="fa-solid fa-shield-halved" style="color:#000;"></i></div>
+                    <div class="alert-title">支付安保开启</div>
+                    <div class="alert-desc">为了极高规格保护您的账户资产，触发结算前网络会自动核验「国家反诈中心」App。</div>
+                    <div class="alert-actions"><label for="mt-alert-route" class="alert-btn cancel mt-tap">中止</label><div class="alert-btn confirm mt-tap" onclick="alert('怎么又被骗了')">即刻下载</div></div>
+                </div>
+            </div>
+            
+            <div class="checkout-page" id="checkout-page">
+                <div class="checkout-header">
+                    <div class="checkout-back mt-tap" onclick="closeCheckout()"><i class="fa-solid fa-arrow-left"></i></div>
+                    <div class="checkout-title">确认订单</div>
+                    <div style="width:44px;"></div>
+                </div>
+                <div class="checkout-scroll">
+                    <div class="checkout-section">
+                        <div class="checkout-section-title"><i class="fa-solid fa-location-dot"></i> 配送地址</div>
+                        <div class="checkout-address mt-tap" onclick="showAddressList()">
+                            <div class="checkout-addr-text" id="checkout-address">点击选择配送地址</div>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-section">
+                        <div class="checkout-section-title"><i class="fa-solid fa-store"></i> <span id="checkout-shop-name">店铺名称</span></div>
+                        <div class="checkout-goods-list" id="checkout-goods-list"></div>
+                    </div>
+                    
+                    <div class="checkout-section">
+                        <div class="checkout-section-title"><i class="fa-solid fa-wallet"></i> 支付方式</div>
+                        <div class="checkout-pay-methods">
+                            <div class="checkout-pay-item mt-tap active" onclick="selectPayMethod(this, 'self')">
+                                <div class="checkout-pay-icon"><i class="fa-solid fa-credit-card"></i></div>
+                                <div class="checkout-pay-info">
+                                    <div class="checkout-pay-name">立即支付</div>
+                                    <div class="checkout-pay-desc">使用余额支付</div>
+                                </div>
+                                <div class="checkout-pay-check"><i class="fa-solid fa-check"></i></div>
+                            </div>
+                            <div class="checkout-pay-item mt-tap" onclick="selectPayMethod(this, 'other')">
+                                <div class="checkout-pay-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                                <div class="checkout-pay-info">
+                                    <div class="checkout-pay-name">发送代付</div>
+                                    <div class="checkout-pay-desc">让好友帮你付款</div>
+                                </div>
+                                <div class="checkout-pay-check"><i class="fa-solid fa-check"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-section">
+                        <div class="checkout-section-title"><i class="fa-solid fa-pen"></i> 订单备注</div>
+                        <textarea class="checkout-remark" id="checkout-remark" placeholder="口味、偏好等要求（选填）" maxlength="100"></textarea>
+                    </div>
+                    
+                    <div class="checkout-section">
+                        <div class="checkout-section-title"><i class="fa-solid fa-receipt"></i> 订单明细</div>
+                        <div class="checkout-detail-row">
+                            <span>商品总价</span>
+                            <span id="checkout-subtotal">¥0.00</span>
+                        </div>
+                        <div class="checkout-detail-row">
+                            <span>配送费</span>
+                            <span id="checkout-delivery">¥5.00</span>
+                        </div>
+                        <div class="checkout-detail-row discount">
+                            <span>优惠金额</span>
+                            <span id="checkout-discount">-¥3.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-footer">
+                    <div class="checkout-total-info">
+                        <div class="checkout-total-label">实付款</div>
+                        <div class="checkout-total-price" id="checkout-total">¥0.00</div>
+                    </div>
+                    <div class="checkout-submit mt-tap" onclick="submitOrder()">提交订单</div>
+                </div>
+                
+                <div class="address-modal-overlay" id="address-modal-overlay" onclick="closeAddressList(event)">
+                    <div class="address-modal" onclick="event.stopPropagation()">
+                        <div class="address-modal-header">
+                            <div class="address-modal-title">选择配送地址</div>
+                            <div class="address-modal-close mt-tap" onclick="closeAddressList()"><i class="fa-solid fa-xmark"></i></div>
+                        </div>
+                        <div class="address-modal-list" id="address-modal-list"></div>
+                        <div class="address-modal-add mt-tap" onclick="showAddAddressModal()">
+                            <i class="fa-solid fa-plus"></i> 新增收货地址
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-address-modal-overlay" id="add-address-modal-overlay" onclick="closeAddAddressModal(event)">
+                    <div class="add-address-modal" onclick="event.stopPropagation()">
+                        <div class="add-address-modal-title">新增收货地址</div>
+                        <input type="text" class="add-address-input" id="new-address-name" placeholder="地址名称（如：家、公司）">
+                        <input type="text" class="add-address-input" id="new-address-detail" placeholder="详细地址">
+                        <div class="add-address-actions">
+                            <div class="add-address-btn cancel mt-tap" onclick="closeAddAddressModal()">取消</div>
+                            <div class="add-address-btn confirm mt-tap" onclick="saveNewAddress()">保存</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="city-modal-overlay" id="city-modal-overlay" onclick="closeCityModal(event)">
+                <div class="city-modal-box" onclick="event.stopPropagation()">
+                    <div class="city-modal-title">输入城市名称</div>
+                    <input type="text" class="city-modal-input" id="city-input" placeholder="例如：北京市、上海市、广州市...">
+                    <div class="city-modal-actions">
+                        <div class="city-modal-btn cancel mt-tap" onclick="closeCityModal()">取消</div>
+                        <div class="city-modal-btn confirm mt-tap" onclick="confirmCityInput()">确认</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 世界书应用界面 -->
     <div id="worldbook-app" class="worldbook-container">
         <div class="worldbook-header">
@@ -18762,6 +20056,13 @@
                             </svg>
                             <span>发送表情</span>
                         </div>
+                        <div class="add-menu-item" onclick="handleAddMenuClick('transfer')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                            <span>转账</span>
+                        </div>
                     </div>
                 </div>
                 <input type="text" id="chat-input" placeholder="ˡ▹𝗜𝘁&#39;𝘀 𝗮𝗹𝗹 𝗮𝗯𝗼𝘂𝘁 𝘆𝗼𝘂" class="chat-input">
@@ -18874,6 +20175,44 @@
                 <div class="voice-modal-buttons">
                     <button class="voice-modal-btn cancel" onclick="closeVoiceModal()">取消</button>
                     <button class="voice-modal-btn send" onclick="sendVoiceMessage()">发送</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="transfer-modal-overlay" id="transfer-modal-overlay">
+            <div class="transfer-modal">
+                <div class="transfer-modal-header">
+                    <div class="transfer-modal-title">转账</div>
+                    <button class="transfer-modal-close" onclick="closeTransferModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="transfer-modal-body">
+                    <div class="transfer-amount-section">
+                        <div class="transfer-amount-label">转账金额</div>
+                        <div class="transfer-amount-input-wrapper">
+                            <span class="transfer-currency">¥</span>
+                            <input type="text" class="transfer-amount-input" id="transfer-amount-input" placeholder="0.00" inputmode="decimal">
+                        </div>
+                        <div class="transfer-amount-hint">请输入转账金额，最多支持小数点后两位</div>
+                    </div>
+                    <div class="transfer-quick-amounts">
+                        <div class="transfer-quick-amount" onclick="setTransferAmount(10)">10元</div>
+                        <div class="transfer-quick-amount" onclick="setTransferAmount(50)">50元</div>
+                        <div class="transfer-quick-amount" onclick="setTransferAmount(100)">100元</div>
+                        <div class="transfer-quick-amount" onclick="setTransferAmount(200)">200元</div>
+                    </div>
+                    <div class="transfer-remark-section">
+                        <div class="transfer-remark-label">转账说明（可选）</div>
+                        <input type="text" class="transfer-remark-input" id="transfer-remark-input" placeholder="添加转账说明...">
+                    </div>
+                </div>
+                <div class="transfer-modal-footer">
+                    <button class="transfer-btn cancel" onclick="closeTransferModal()">取消</button>
+                    <button class="transfer-btn confirm" onclick="confirmTransfer()">确认转账</button>
                 </div>
             </div>
         </div>
@@ -20530,6 +21869,22 @@
                                     msgContent = `[图片消息] ${msg.content.description}`;
                                 } else if (msg.content.type === 'emoji') {
                                     msgContent = `[发送了表情包: "${msg.content.desc || '自定义表情'}"]`;
+                                } else if (msg.content.type === 'transfer') {
+                                    const amount = msg.content.amount;
+                                    const remark = msg.content.remark || '转账';
+                                    if (msg.type === 'sent') {
+                                        if (msg.content.claimed) {
+                                            msgContent = `[转账消息] 你已领取了用户给你转账的 ¥${amount.toFixed(2)}，转账说明: "${remark}"`;
+                                        } else {
+                                            msgContent = `[转账消息] 用户给你转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，请回复确认领取这笔转账`;
+                                        }
+                                    } else {
+                                        if (msg.content.claimed) {
+                                            msgContent = `[转账消息] 用户已领取了你转账的 ¥${amount.toFixed(2)}，转账说明: "${remark}"`;
+                                        } else {
+                                            msgContent = `[转账消息] 你给用户转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，等待用户领取`;
+                                        }
+                                    }
                                 }
                             } else {
                                 msgContent = msg.content;
@@ -20565,7 +21920,9 @@
                     const lastHistoryUserMsg = [...finalHistory].reverse().find(m => m.type === 'sent');
                     const lastHistoryUserContent = lastHistoryUserMsg ? 
                         (typeof lastHistoryUserMsg.content === 'object' ? 
-                            (lastHistoryUserMsg.content.type === 'voice' ? lastHistoryUserMsg.content.text : lastHistoryUserMsg.content.description) : 
+                            (lastHistoryUserMsg.content.type === 'voice' ? lastHistoryUserMsg.content.text : 
+                             lastHistoryUserMsg.content.type === 'transfer' ? `转账 ¥${lastHistoryUserMsg.content.amount.toFixed(2)}` :
+                             lastHistoryUserMsg.content.description) : 
                             lastHistoryUserMsg.content) : '';
                     
                     if (!lastHistoryUserMsg || lastHistoryUserContent !== userMessage) {
@@ -22271,6 +23628,122 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
             }
         };
         
+        const ShopStorage = {
+            dbName: 'XiaoShuJiShops',
+            storeName: 'shops',
+            db: null,
+            
+            async init() {
+                if (this.db) return this.db;
+                
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, 1);
+                    
+                    request.onerror = () => {
+                        console.error('ShopStorage IndexedDB 打开失败:', request.error);
+                        reject(request.error);
+                    };
+                    
+                    request.onsuccess = () => {
+                        this.db = request.result;
+                        console.log('ShopStorage IndexedDB 初始化成功');
+                        resolve(this.db);
+                    };
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        if (!db.objectStoreNames.contains(this.storeName)) {
+                            db.createObjectStore(this.storeName, { keyPath: 'key' });
+                            console.log('ShopStorage 存储创建成功');
+                        }
+                    };
+                });
+            },
+            
+            async saveShops(shops) {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    try {
+                        const transaction = this.db.transaction([this.storeName], 'readwrite');
+                        const store = transaction.objectStore(this.storeName);
+                        
+                        store.put({ key: 'shopList', data: shops });
+                        store.put({ key: 'shopDatabase', data: shopDatabase });
+                        
+                        transaction.oncomplete = () => {
+                            console.log('店铺数据保存到 IndexedDB 成功');
+                            resolve(true);
+                        };
+                        
+                        transaction.onerror = () => {
+                            console.error('店铺数据保存失败:', transaction.error);
+                            reject(transaction.error);
+                        };
+                    } catch (e) {
+                        console.error('店铺数据保存异常:', e);
+                        reject(e);
+                    }
+                });
+            },
+            
+            async loadShops() {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    try {
+                        const transaction = this.db.transaction([this.storeName], 'readonly');
+                        const store = transaction.objectStore(this.storeName);
+                        const request = store.get('shopList');
+                        
+                        request.onsuccess = () => {
+                            if (request.result) {
+                                resolve(request.result.data);
+                            } else {
+                                resolve(null);
+                            }
+                        };
+                        
+                        request.onerror = () => {
+                            console.error('加载店铺数据失败:', request.error);
+                            reject(request.error);
+                        };
+                    } catch (e) {
+                        console.error('加载店铺数据异常:', e);
+                        reject(e);
+                    }
+                });
+            },
+            
+            async loadShopDatabase() {
+                if (!this.db) await this.init();
+                
+                return new Promise((resolve, reject) => {
+                    try {
+                        const transaction = this.db.transaction([this.storeName], 'readonly');
+                        const store = transaction.objectStore(this.storeName);
+                        const request = store.get('shopDatabase');
+                        
+                        request.onsuccess = () => {
+                            if (request.result) {
+                                resolve(request.result.data);
+                            } else {
+                                resolve(null);
+                            }
+                        };
+                        
+                        request.onerror = () => {
+                            console.error('加载店铺数据库失败:', request.error);
+                            reject(request.error);
+                        };
+                    } catch (e) {
+                        console.error('加载店铺数据库异常:', e);
+                        reject(e);
+                    }
+                });
+            }
+        };
+        
         const DataStorage = {
             dbName: 'XiaoShuJiData',
             storeName: 'data',
@@ -22649,6 +24122,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                         openWorldbook();
                     } else if (appData === 'home' || appName === '模拟人生') {
                         openSimsPanel();
+                    } else if (appData === 'waimai' || appName === '外卖') {
+                        openWaimai();
                     } else {
                         alert(`打开应用: ${appName}`);
                     }
@@ -24902,6 +26377,34 @@ ${conversationHistory.slice(-10).map(msg => {
                 } catch (e) {
                     console.error('读取大数据存储失败:', e);
                 }
+                
+                showStorageProgress('正在读取外卖数据...', 70);
+                
+                try {
+                    await ShopStorage.init();
+                    exportData.shopStorageData = {};
+                    
+                    var shopDataKeys = ['shopList', 'shopDatabase', 'userBalance', 'orderList', 'savedAddress', 'savedShops'];
+                    for (var s = 0; s < shopDataKeys.length; s++) {
+                        var sdKey = shopDataKeys[s];
+                        try {
+                            var sdValue = await new Promise(function(resolve, reject) {
+                                var transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readonly');
+                                var store = transaction.objectStore(ShopStorage.storeName);
+                                var request = store.get(sdKey);
+                                request.onsuccess = function() { resolve(request.result ? request.result.data : null); };
+                                request.onerror = function() { resolve(null); };
+                            });
+                            if (sdValue !== null && sdValue !== undefined) {
+                                exportData.shopStorageData[sdKey] = sdValue;
+                            }
+                        } catch (sdErr) {
+                            console.warn('读取 ShopStorage 键失败:', sdKey, sdErr);
+                        }
+                    }
+                } catch (e) {
+                    console.error('读取 ShopStorage 失败:', e);
+                }
 
                 exportData.metadata.imageKeys = imageKeys;
                 exportData.metadata.imageCount = imageKeys.length;
@@ -25528,6 +27031,40 @@ ${conversationHistory.slice(-10).map(msg => {
                     } catch (e) {
                         console.error('IndexedDB 初始化失败:', e);
                         errorDetails.push('IndexedDB初始化失败: ' + (e.message || e));
+                    }
+                }
+                
+                if (importData.shopStorageData && Object.keys(importData.shopStorageData).length > 0) {
+                    showStorageProgress('正在导入外卖数据...', 97);
+                    console.log('检测到 ShopStorage 数据，正在导入...');
+                    
+                    try {
+                        await ShopStorage.init();
+                        var shopKeys = Object.keys(importData.shopStorageData);
+                        var shopSuccessCount = 0;
+                        
+                        for (var sk = 0; sk < shopKeys.length; sk++) {
+                            var shopKey = shopKeys[sk];
+                            var shopValue = importData.shopStorageData[shopKey];
+                            try {
+                                await new Promise(function(resolve, reject) {
+                                    var transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readwrite');
+                                    var store = transaction.objectStore(ShopStorage.storeName);
+                                    var request = store.put({ key: shopKey, data: shopValue });
+                                    request.onsuccess = function() { resolve(); };
+                                    request.onerror = function() { reject(request.error); };
+                                });
+                                shopSuccessCount++;
+                                console.log('ShopStorage 导入成功:', shopKey);
+                            } catch (e) {
+                                console.error('ShopStorage 导入失败:', shopKey, e);
+                                errorDetails.push('ShopStorage导入失败: ' + shopKey + ' - ' + (e.message || e));
+                            }
+                        }
+                        console.log('ShopStorage 数据导入完成，成功:', shopSuccessCount);
+                    } catch (e) {
+                        console.error('ShopStorage 初始化失败:', e);
+                        errorDetails.push('ShopStorage初始化失败: ' + (e.message || e));
                     }
                 }
                 
@@ -31299,6 +32836,9 @@ ${commenterInfo}
                 case 'emoji':
                     toggleEmojiPicker();
                     break;
+                case 'transfer':
+                    openTransferModal();
+                    break;
             }
         }
 
@@ -32167,6 +33707,176 @@ ${commenterInfo}
             
             closeVoiceModal();
         }
+
+        function openTransferModal() {
+            const overlay = document.getElementById('transfer-modal-overlay');
+            const amountInput = document.getElementById('transfer-amount-input');
+            const remarkInput = document.getElementById('transfer-remark-input');
+            if (overlay) {
+                overlay.classList.add('active');
+                if (amountInput) {
+                    amountInput.value = '';
+                }
+                if (remarkInput) {
+                    remarkInput.value = '';
+                }
+                setTimeout(() => {
+                    if (amountInput) amountInput.focus();
+                }, 100);
+            }
+        }
+
+        function closeTransferModal() {
+            const overlay = document.getElementById('transfer-modal-overlay');
+            const amountInput = document.getElementById('transfer-amount-input');
+            const remarkInput = document.getElementById('transfer-remark-input');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+            if (amountInput) {
+                amountInput.value = '';
+            }
+            if (remarkInput) {
+                remarkInput.value = '';
+            }
+        }
+
+        function setTransferAmount(amount) {
+            const input = document.getElementById('transfer-amount-input');
+            if (input) {
+                input.value = amount.toFixed(2);
+                input.focus();
+            }
+        }
+
+        function formatTransferAmount(value) {
+            value = value.replace(/[^\d.]/g, '');
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts.slice(1).join('');
+            }
+            if (parts.length === 2 && parts[1].length > 2) {
+                value = parts[0] + '.' + parts[1].substring(0, 2);
+            }
+            if (value.startsWith('.')) {
+                value = '0' + value;
+            }
+            if (value.length > 1 && value[0] === '0' && value[1] !== '.') {
+                value = value.substring(1);
+            }
+            return value;
+        }
+
+        async function confirmTransfer() {
+            const amountInput = document.getElementById('transfer-amount-input');
+            const remarkInput = document.getElementById('transfer-remark-input');
+            
+            const amountStr = amountInput ? amountInput.value.trim() : '';
+            const remark = remarkInput ? remarkInput.value.trim() : '';
+            
+            if (!amountStr) {
+                alert('请输入转账金额');
+                return;
+            }
+            
+            const amount = parseFloat(amountStr);
+            if (isNaN(amount) || amount <= 0) {
+                alert('请输入有效的转账金额');
+                return;
+            }
+            
+            if (amount > 100000) {
+                alert('转账金额不能超过100000元');
+                return;
+            }
+            
+            if (!currentChatRole) {
+                alert('请先选择一个角色进行对话');
+                return;
+            }
+            
+            if (userBalance < amount) {
+                alert('余额不足，当前余额：¥' + userBalance.toFixed(2));
+                return;
+            }
+            
+            const deducted = await deductBalance(amount);
+            if (!deducted) {
+                alert('转账失败，请稍后重试');
+                return;
+            }
+            
+            const transferData = {
+                type: 'transfer',
+                amount: amount,
+                remark: remark || '转账',
+                timestamp: Date.now()
+            };
+            
+            addMessage(currentChatRole.id, 'sent', transferData);
+            
+            closeTransferModal();
+        }
+
+        async function claimTransfer(messageIndex) {
+            if (!currentChatRole || !messages[currentChatRole.id]) return;
+            
+            const roleMessages = messages[currentChatRole.id].filter(msg => msg.context !== 'call');
+            const msg = roleMessages[messageIndex];
+            
+            if (!msg || !msg.content || msg.content.type !== 'transfer') return;
+            if (msg.content.claimed) return;
+            
+            const amount = msg.content.amount;
+            await addBalance(amount);
+            
+            msg.content.claimed = true;
+            msg.content.claimedAt = Date.now();
+            
+            saveMessages();
+            
+            renderMessages();
+            
+            const amountStr = amount.toFixed(2);
+            const remark = msg.content.remark || '转账';
+            showSwipeToast(`✓ 已领取 ¥${amountStr}（${remark}）`);
+        }
+
+        const transferModalOverlay = document.getElementById('transfer-modal-overlay');
+        if (transferModalOverlay) {
+            transferModalOverlay.addEventListener('click', function(e) {
+                if (e.target === transferModalOverlay) {
+                    closeTransferModal();
+                }
+            });
+        }
+
+        const transferAmountInput = document.getElementById('transfer-amount-input');
+        if (transferAmountInput) {
+            transferAmountInput.addEventListener('input', function(e) {
+                const cursorPos = e.target.selectionStart;
+                const oldLength = e.target.value.length;
+                e.target.value = formatTransferAmount(e.target.value);
+                const newLength = e.target.value.length;
+                const newCursorPos = cursorPos - (oldLength - newLength);
+                e.target.setSelectionRange(newCursorPos, newCursorPos);
+            });
+            
+            transferAmountInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    confirmTransfer();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const transferOverlay = document.getElementById('transfer-modal-overlay');
+                if (transferOverlay && transferOverlay.classList.contains('active')) {
+                    closeTransferModal();
+                }
+            }
+        });
 
         const voiceModalOverlay = document.getElementById('voice-modal-overlay');
         if (voiceModalOverlay) {
@@ -35405,6 +37115,41 @@ ${recentHistory.map(msg => {
                         <img src="${emojiMsg.url}" alt="${emojiDesc}" class="emoji-message-img" data-emoji-url="${emojiMsg.url}" data-emoji-desc="${emojiDesc.replace(/"/g, '&quot;')}">
                     </div>
                 `;
+            } else if (msg.content && typeof msg.content === 'object' && msg.content.type === 'transfer') {
+                const transferMsg = msg.content;
+                const amount = transferMsg.amount.toFixed(2);
+                const remark = transferMsg.remark || '转账';
+                const isClaimed = transferMsg.claimed || false;
+                let tfAvatarUrl = '';
+                let tfFallbackText = '';
+                const canClaim = msg.type === 'received' && !isClaimed;
+                if (msg.type === 'sent') {
+                    tfAvatarUrl = roleAvatar || '';
+                    tfFallbackText = roleName ? roleName.charAt(0) : 'TA';
+                } else {
+                    tfAvatarUrl = userAvatar || '';
+                    tfFallbackText = '我';
+                }
+                const tfAvatarHTML = tfAvatarUrl 
+                    ? `<img src="${tfAvatarUrl}" alt="头像" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span style="display:none">${tfFallbackText}</span>`
+                    : `<span>${tfFallbackText}</span>`;
+                const claimedClass = isClaimed ? 'claimed' : '';
+                const clickHandler = canClaim ? `onclick="claimTransfer(${messageIndex})"` : '';
+                const claimedBadge = isClaimed ? '<div class="tf-claimed-badge">已领取</div>' : '';
+                contentHTML = `
+                    <div class="transfer-message ${claimedClass}" ${clickHandler}>
+                        <div class="tf-icon-circle">${tfAvatarHTML}</div>
+                        <div class="tf-content">
+                            <div class="tf-text">
+                                <div class="tf-amount"><span>¥</span>${amount}</div>
+                                <div class="tf-note">${remark}</div>
+                                ${claimedBadge}
+                            </div>
+                        </div>
+                        <div class="tf-divider"></div>
+                        <div class="tf-footer">WeChat Pay</div>
+                    </div>
+                `;
             } else {
                 const wrappedContent = wrapText(msg.content, 15);
                 contentHTML = wrappedContent;
@@ -35433,6 +37178,18 @@ ${recentHistory.map(msg => {
                 return `
                     <div class="chat-avatar">${avatarHTML}</div>
                     <div class="message-bubble emoji-message-bubble" data-message-index="${messageIndex}" style="position: relative;">
+                        <div class="message-content">
+                            ${contentHTML}
+                        </div>
+                        ${messageTime ? `<div class="message-time">${messageTime}</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            if (msg.content && typeof msg.content === 'object' && msg.content.type === 'transfer') {
+                return `
+                    <div class="chat-avatar">${avatarHTML}</div>
+                    <div class="message-bubble transfer-message-bubble" data-message-index="${messageIndex}" style="position: relative;">
                         <div class="message-content">
                             ${contentHTML}
                         </div>
@@ -35774,6 +37531,23 @@ ${recentHistory.map(msg => {
                         if (msg.content.type === 'emoji') {
                             return `[发送了表情包: "${msg.content.desc || '自定义表情'}"]`;
                         }
+                        if (msg.content.type === 'transfer') {
+                            const amount = msg.content.amount;
+                            const remark = msg.content.remark || '转账';
+                            if (msg.type === 'sent') {
+                                if (msg.content.claimed) {
+                                    return `[转账消息] 你已领取了用户给你转账的 ¥${amount.toFixed(2)}，转账说明: "${remark}"`;
+                                } else {
+                                    return `[转账消息] 用户给你转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，请回复确认领取这笔转账`;
+                                }
+                            } else {
+                                if (msg.content.claimed) {
+                                    return `[转账消息] 用户已领取了你转账的 ¥${amount.toFixed(2)}，转账说明: "${remark}"`;
+                                } else {
+                                    return `[转账消息] 你给用户转账 ¥${amount.toFixed(2)}，转账说明: "${remark}"，等待用户领取`;
+                                }
+                            }
+                        }
                         return '';
                     }
                     return msg.content;
@@ -35816,13 +37590,15 @@ ${recentHistory.map(msg => {
                 
                 const lastHistoryUserMsg = [...finalHistory].reverse().find(m => m.type === 'sent');
                 const lastHistoryUserMsgText = lastHistoryUserMsg ? getMessageText(lastHistoryUserMsg) : '';
-                const lastUserMessageText = getMessageText({ content: content });
+                const lastUserMessageText = getMessageText({ content: content, type: 'sent' });
                 const isLastMsgInHistory = lastHistoryUserMsg && 
                     lastHistoryUserMsgText === lastUserMessageText &&
                     lastHistoryUserMsg.timestamp === lastUserMessage.timestamp;
                 
                 if (!isLastMsgInHistory) {
-                    apiMessages.push({ role: 'user', content: content });
+                    const timePrefix = formatMsgTime(new Date().toISOString());
+                    const fullContent = timePrefix + lastUserMessageText;
+                    apiMessages.push({ role: 'user', content: fullContent });
                 }
 
                 currentAbortController = new AbortController();
@@ -36062,6 +37838,25 @@ ${recentHistory.map(msg => {
                 messages[roleId] = [];
             }
 
+            if (type === 'received') {
+                const unclaimedTransfers = messages[roleId].filter(msg => 
+                    msg.type === 'sent' && 
+                    msg.content && 
+                    typeof msg.content === 'object' && 
+                    msg.content.type === 'transfer' && 
+                    !msg.content.claimed
+                );
+                
+                unclaimedTransfers.forEach(msg => {
+                    msg.content.claimed = true;
+                    msg.content.claimedAt = Date.now();
+                });
+                
+                if (unclaimedTransfers.length > 0) {
+                    saveMessages();
+                }
+            }
+
             const newMessage = {
                 type: type,
                 content: content,
@@ -36091,6 +37886,22 @@ ${recentHistory.map(msg => {
                 const roleAvatar = role ? role.avatar : '';
                 const roleName = role ? role.name : '';
                 const userAvatar = await getImageData('userAvatar') || '';
+                
+                if (type === 'received') {
+                    const hadUnclaimedTransfer = messages[roleId].some(msg => 
+                        msg.type === 'sent' && 
+                        msg.content && 
+                        typeof msg.content === 'object' && 
+                        msg.content.type === 'transfer' && 
+                        msg.content.claimed && 
+                        msg.content.claimedAt && 
+                        Date.now() - msg.content.claimedAt < 5000
+                    );
+                    
+                    if (hadUnclaimedTransfer) {
+                        renderMessages();
+                    }
+                }
                 
                 const message = document.createElement('div');
                 message.className = `message ${type} ${type === 'sent' ? 'message-sending' : 'message-enter'}`;
@@ -39539,7 +41350,51 @@ ${recentHistory.map(msg => {
 - [PHOTO]和[/PHOTO]标签必须成对出现，不能拆分 
 - 照片中出现人物时，必须使用该人物的真实名字称呼，禁止使泛称 
 - 图片描述中可以使用标点符号（仅限图片描述，普通消息仍禁止使用句号等标点） 
-  
+
+## 转账功能
+
+### 【转账消息格式说明】
+你会在对话历史中看到转账消息，格式如下：
+1. 用户给你转账（未领取）：[转账消息] 用户给你转账 ¥520.00，转账说明: "转账说明内容"，请回复确认领取这笔转账
+2. 用户给你转账（已领取）：[转账消息] 你已领取了用户给你转账的 ¥520.00，转账说明: "转账说明内容"
+3. 你给用户转账（未领取）：[转账消息] 你给用户转账 ¥520.00，转账说明: "转账说明内容"，等待用户领取
+4. 你给用户转账（已领取）：[转账消息] 用户已领取了你转账的 ¥520.00，转账说明: "转账说明内容"
+
+### 【收到转账后的反应】
+当用户给你转账时：
+- 你会自动领取转账（系统会在你回复时自动处理）
+- 你应该在回复中表达对转账说明的回应，并且需要符合角色的人设
+- 根据转账金额和说明做出符合人设的反应
+- 例如：收到520元可以说"我也爱你哦~"、收到小金额可以调侃、收到大金额可以惊讶等等，但不可以出现角色ooc的情况
+
+### 【主动转账的时机】
+你可以在以下情况下主动给用户转账：
+- 用户生日、纪念日等特殊日子节日等
+- 哄对方开心，或者到了需要转账的氛围
+- 想要表达心意时
+- 节日红包（新年、情人节等）
+- 根据你的人设，可能有其他转账理由
+
+### 【如何发送转账】
+当你想给用户转账时，使用以下格式：
+{"message": "[TRANSFER:金额|转账说明]"}
+
+例如：
+- {"message": "[TRANSFER:520|给你的小惊喜]"}
+- {"message": "[TRANSFER:66.66|请你喝奶茶]"}
+- {"message": "[TRANSFER:1314|情人节快乐]"}
+
+### 【转账金额建议】
+- 小额（1-50元）：奶茶钱、一顿外卖
+- 中额（50-500元）：生日礼物、节日红包、感谢
+- 大额（500元以上）：特殊纪念日、重要心意表达
+- 根据你的经济能力和与用户的关系决定金额，需要考虑角色人设经济能力如何，转账金额没有上限
+
+### 【转账说明】
+- 转账说明是对这笔钱的描述或想说的话
+- 要简洁有趣，符合你的人设
+- 例如："请你喝奶茶"、"给你买零食"、"生日快乐"、"爱你"
+
 ## 禁止事项 
 - 禁止把完整句子拆成多条消息 
 - 禁止说莫名其妙的话 
@@ -40719,6 +42574,25 @@ ${recentHistory.map(msg => {
                             desc: matchedEmoji.desc
                         };
                         await addMessage(roleId, 'received', emojiContent);
+                    }
+                    
+                    if (!messageContent) continue;
+                }
+                
+                const transferMatch = messageContent.match(/\[TRANSFER:([\d.]+)\|([^\]]+)\]/);
+                if (transferMatch) {
+                    const transferAmount = parseFloat(transferMatch[1]);
+                    const transferRemark = transferMatch[2].trim();
+                    messageContent = messageContent.replace(/\[TRANSFER:[^\]]+\]/, '').trim();
+                    
+                    if (!isNaN(transferAmount) && transferAmount > 0) {
+                        const transferContent = {
+                            type: 'transfer',
+                            amount: transferAmount,
+                            remark: transferRemark,
+                            timestamp: Date.now()
+                        };
+                        await addMessage(roleId, 'received', transferContent);
                     }
                     
                     if (!messageContent) continue;
@@ -42300,8 +44174,59 @@ ${conversationContext.slice(-10).map(m => {
                     .need-name,
                     .font-item-name,
                     .font-preview-text,
-                    .netease-lyric-line {
+                    .netease-lyric-line,
+                    .mt-ins-app,
+                    .hp-addr-trigger,
+                    .hp-strip-label,
+                    .hp-list-title,
+                    .hp-card-name,
+                    .hp-card-meta,
+                    .hp-card-time,
+                    .hp-tab span,
+                    .od-title,
+                    .od-shop-row,
+                    .od-status,
+                    .od-price,
+                    .od-btn,
+                    .me-title,
+                    .me-name,
+                    .me-phone,
+                    .me-w-title,
+                    .me-w-balance,
+                    .me-w-btn,
+                    .me-menu-item,
+                    .sp-shop-name,
+                    .sp-shop-desc,
+                    .sp-notice-title,
+                    .sp-notice-text,
+                    .sp-cat-title,
+                    .sp-dish-name,
+                    .sp-dish-desc,
+                    .sp-dish-price,
+                    .sp-cart-txt,
+                    .sp-cart-empty,
+                    .sp-pay-btn,
+                    .cart-title,
+                    .cart-clear,
+                    .cart-item-name,
+                    .cart-item-price,
+                    .cart-ctrl-num,
+                    .alert-title,
+                    .alert-desc,
+                    .alert-btn,
+                    .loc-title,
+                    .loc-current,
+                    .loc-box,
+                    .loc-row,
+                    .loc-close-btn {
                         font-family: '${fontFamily}', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+                    }
+                    
+                    .fa, .fas, .far, .fal, .fad, .fab, .fa-solid, .fa-regular, .fa-light, .fa-duotone, .fa-brands,
+                    .mt-ins-app .fa, .mt-ins-app .fas, .mt-ins-app .far, .mt-ins-app .fal, 
+                    .mt-ins-app .fad, .mt-ins-app .fab, .mt-ins-app .fa-solid, .mt-ins-app .fa-regular,
+                    .mt-ins-app .fa-light, .mt-ins-app .fa-duotone, .mt-ins-app .fa-brands {
+                        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
                     }
                 `;
             }
@@ -43416,6 +45341,912 @@ ${conversationContext.slice(-10).map(m => {
             NeteasePlayer.stopProgress();
             NeteasePlayer.isPlaying = false;
             NeteasePlayer.updatePlayButton();
+        }
+
+        // ==================== 外卖应用模块 ====================
+        const shopDatabase = {
+            'starbucks': {
+                name: '星巴克(万象城店)', rating: '4.9', time: '约25分钟', sales: '3500', desc: '星巴克为您提供高品质的咖啡与温馨的环境。',
+                menu: [ { icon: '☕', name: '特浓拿铁组', desc: '更优品质的萃取咖啡液', price: '32' }, { icon: '🍮', name: '琥珀焦糖玛奇朵', desc: '深度烘焙，香甜不腻', price: '35' }, { icon: '🍰', name: '重塑纽约芝士', desc: '口感致密，极致享受', price: '28' }]
+            },
+            'mcdonalds': {
+                name: '麦当劳(市中心店)', rating: '4.9', time: '约28分钟', sales: '9999', desc: '更多热爱，更多欢笑。全天候现做美味，热气腾腾！',
+                menu: [ { icon: '🍔', name: '经典巨无霸汉堡', desc: '100%纯牛肉排大满足', price: '24' }, { icon: '🍟', name: '至尊大薯', desc: '金黄酥脆 根本停不下来', price: '14' }, { icon: '🍗', name: '麦辣鸡翅对装', desc: '外酥里嫩 香辣多汁', price: '13' }]
+            },
+            'kfc': {
+                name: '肯德基(天河城店)', rating: '4.8', time: '约30分钟', sales: '6800', desc: '极速送达，每一口都是原汁原味的肯德基。',
+                menu: [ { icon: '🍔', name: '香辣鸡腿堡', desc: '大块香辣肌肉夹层', price: '21' }, { icon: '🥚', name: '葡式蛋挞', desc: '奶香扑鼻，外皮起酥', price: '9' }, { icon: '🥤', name: '冰可乐(大)', desc: '快乐神仙水', price: '11' }]
+            },
+            'dingdong': {
+                name: '叮咚买菜(前置仓)', rating: '4.9', time: '约29分钟', sales: '8000', desc: '29分钟产地直采到家，新鲜肉禽蛋一网打尽。',
+                menu: [{ icon: '🥩', name: '黑猪前腿丝250g', desc: '生态黑猪 纹理清晰', price: '22' }, { icon: '🥬', name: '有机上海青', desc: '无农耕残留', price: '8' }, { icon: '🍅', name: '圣女果沙拉盒', desc: '甜度14+，果香浓郁', price: '14' }]
+            },
+            'pharmacy': {
+                name: '大参林大药房(24h)', rating: '4.7', time: '约25分钟', sales: '1200', desc: '全天候专业药师在线，感冒发烧极速同城配送。',
+                menu: [{ icon: '💊', name: '布洛芬缓释胶囊', desc: '原研品质，快速镇痛', price: '25' }, { icon: '🩹', name: '防水创可贴盒装', desc: '加速伤口愈合', price: '15' }, { icon: '🌡️', name: '高精度体温计', desc: '秒级测温，数据准确', price: '39' }]
+            },
+            'walmart': {
+                name: '沃尔玛(购物广场)', rating: '4.8', time: '约45分钟', sales: '4500', desc: '大型商超直送，生活百货一键补齐。',
+                menu: [{ icon: '🧻', name: '4层纸巾提装', desc: '柔韧不易破', price: '35' }, { icon: '🥛', name: '定制纯牛奶 x12', desc: '进口奶源，高钙蛋白', price: '68' }, { icon: '🧴', name: '洗衣液 3kg', desc: '强效去渍不伤衣', price: '45' }]
+            },
+            'chagee': {
+                name: '霸王茶姬(万达广场)', rating: '4.8', time: '约32分钟', sales: '5200', desc: '把茶做到极致。绝无奶精，选用天然优质鲜奶。',
+                menu: [{ icon: '🥤', name: '伯牙绝弦', desc: '必点！茉莉初雪奶茶', price: '20' }, { icon: '🍵', name: '寻香山茶', desc: '高山野茶独特香气', price: '18' }, { icon: '🌸', name: '青青糯山', desc: '回味自带糯米香甜', price: '22' }]
+            },
+            'heytea': {
+                name: '喜茶(HEYTEA)', rating: '4.9', time: '约35分钟', sales: '4800', desc: '喜茶，给你灵感之茶。每日新鲜水果手工处理。',
+                menu: [{ icon: '🍇', name: '多肉葡萄', desc: '全网爆款，果肉巨多', price: '28' }, { icon: '🥭', name: '芝芝芒芒', desc: '咸香芝士盖叠芒果泥', price: '29' }, { icon: '🍓', name: '多肉莓莓', desc: '大果粒草莓冰沙', price: '28' }]
+            },
+            'bbq': {
+                name: '胖哥俩深夜烧烤', rating: '4.6', time: '约40分钟', sales: '3000', desc: '烟火气抚慰凡人心，精选优质食材大火快烤。',
+                menu: [{ icon: '🍢', name: '招牌羊肉串(10串)', desc: '肥瘦相间，纯真肉质', price: '38' }, { icon: '🦑', name: '秘制烤鱿鱼须', desc: '刷满祖传酱料', price: '20' }, { icon: '🍆', name: '蒜蓉大茄子', desc: '蒜香四溢，极其下饭', price: '12' }]
+            }
+        };
+
+        const catNames = ["热销必点", "店长私藏", "周边搭配", "人气推荐", "特色好物"];
+        let cartObj = {};
+        let cartVisible = false;
+        let generatedShopNames = [];
+
+        function openWaimai() {
+            document.getElementById('waimai-app').classList.add('show');
+            loadWaimaiAvatar();
+            loadWaimaiUsername();
+            loadWaimaiWechatId();
+            loadSavedShops();
+            loadSavedAddress();
+            loadUserBalance();
+        }
+        
+        let userBalance = 1000;
+        
+        async function loadUserBalance() {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readonly');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                const request = store.get('userBalance');
+                
+                request.onsuccess = () => {
+                    if (request.result && typeof request.result.data === 'number') {
+                        userBalance = request.result.data;
+                    } else {
+                        userBalance = 1000;
+                    }
+                    updateBalanceDisplay();
+                };
+            } catch (e) {
+                console.error('加载余额失败:', e);
+                userBalance = 1000;
+                updateBalanceDisplay();
+            }
+        }
+        
+        function updateBalanceDisplay() {
+            const el = document.getElementById('user-balance');
+            if (el) {
+                el.innerText = userBalance.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        }
+        
+        async function saveUserBalance() {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readwrite');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                store.put({ key: 'userBalance', data: userBalance });
+            } catch (e) {
+                console.error('保存余额失败:', e);
+            }
+        }
+        
+        async function deductBalance(amount) {
+            if (userBalance < amount) {
+                return false;
+            }
+            userBalance -= amount;
+            await saveUserBalance();
+            updateBalanceDisplay();
+            return true;
+        }
+        
+        async function addBalance(amount) {
+            userBalance += amount;
+            await saveUserBalance();
+            updateBalanceDisplay();
+            return true;
+        }
+        async function loadWaimaiAvatar() {
+            const savedAvatar = await getImageData('userAvatar');
+            const avatarEl = document.getElementById('waimai-avatar');
+            if (savedAvatar && avatarEl) {
+                avatarEl.innerHTML = '<img src="' + savedAvatar + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+            }
+        }
+        function loadWaimaiUsername() {
+            const savedName = localStorage.getItem('profileName') || 'User_8892';
+            const nameEl = document.getElementById('waimai-username');
+            if (nameEl) {
+                nameEl.textContent = savedName;
+            }
+        }
+        function loadWaimaiWechatId() {
+            const savedWechatId = localStorage.getItem('wechatId') || 'wxid_123456';
+            const idEl = document.getElementById('waimai-wechat-id');
+            if (idEl) {
+                idEl.textContent = savedWechatId;
+            }
+        }
+
+        function closeWaimai(e) {
+            if (e && e.target !== document.getElementById('waimai-app')) return;
+            document.getElementById('waimai-app').classList.remove('show');
+        }
+
+        function openShop(id) {
+            let db = null;
+            if(id === 'ai_shop') {
+                db = {
+                    name: document.getElementById('ai-name').innerText, rating: document.getElementById('ai-rating').innerText, time: '约30分钟', sales: '2000', desc: document.getElementById('ai-desc').innerText,
+                    menu: [ { icon: '🔥', name: document.getElementById('ai-m1-name').innerText, desc: document.getElementById('ai-m1-desc').innerText, price: document.getElementById('ai-m1-price').innerText },
+                            { icon: '⭐', name: document.getElementById('ai-m2-name').innerText, desc: document.getElementById('ai-m2-desc').innerText, price: document.getElementById('ai-m2-price').innerText },
+                            { icon: '✨', name: document.getElementById('ai-m3-name').innerText, desc: document.getElementById('ai-m3-desc').innerText, price: document.getElementById('ai-m3-price').innerText },
+                            { icon: '🌟', name: document.getElementById('ai-m4-name').innerText, desc: document.getElementById('ai-m4-desc').innerText, price: document.getElementById('ai-m4-price').innerText },
+                            { icon: '💫', name: document.getElementById('ai-m5-name').innerText, desc: document.getElementById('ai-m5-desc').innerText, price: document.getElementById('ai-m5-price').innerText }]
+                };
+            } else { db = shopDatabase[id]; }
+
+            if(!db) return;
+
+            currentShopName = db.name;
+            document.getElementById('sp-shop-name').innerText = db.name;
+            document.getElementById('sp-shop-desc').innerHTML = `<b style="color:#000;">★ ${db.rating}</b> ｜ ${db.time}送达 ｜ 销 ${db.sales}+`;
+            document.getElementById('sp-shop-notice-text').innerText = db.desc;
+
+            let sideHtml = ''; let menuHtml = '';
+
+            db.menu.forEach((item, index) => {
+                sideHtml += `<div class="sp-side-item mt-tap ${index===0?'active':''}" onclick="scrollToCat(${index}, this)">${catNames[index]}</div>`;
+                menuHtml += `
+                    <div class="sp-cat-title" id="dish-cat-${index}">${catNames[index]}</div>
+                    <div class="sp-dish">
+                        <div class="sp-dish-img mt-tap">${item.icon}</div>
+                        <div class="sp-dish-info">
+                            <div><div class="sp-dish-name">${item.name}</div><div class="sp-dish-desc">${item.desc}</div></div>
+                            <div class="sp-dish-foot"><div class="sp-dish-price">¥${item.price}</div><div class="sp-add-btn mt-tap" onclick="addDishToCart(this, event)"><i class="fa-solid fa-plus" style="font-size:14px;"></i></div></div>
+                        </div>
+                    </div>
+                `;
+            });
+            menuHtml += '<div style="height:350px; text-align:center; color:#bbb; font-size:14px; font-weight:800; padding-top:40px;">— End —</div>';
+
+            document.getElementById('sp-side-container').innerHTML = sideHtml;
+            document.getElementById('sp-menu-container').innerHTML = menuHtml;
+
+            clearCart();
+            document.getElementById('mt-router').checked = true;
+            document.getElementById('shop-scroll-area').scrollTop = 0;
+        }
+
+        function scrollToCat(index, btnElem) {
+            document.querySelectorAll('.sp-side-item').forEach(i => i.classList.remove('active'));
+            btnElem.classList.add('active');
+            let target = document.getElementById('dish-cat-' + index);
+            if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function pickAddr(n) { 
+            document.getElementById('user-addr-text').innerText = n; 
+            document.getElementById('mt-loc-route').checked = false;
+            saveAddress(n);
+            generatedShopNames = [];
+        }
+        
+        function showCustomCityInput() {
+            const currentAddr = document.getElementById('user-addr-text').innerText;
+            const input = document.getElementById('city-input');
+            input.value = currentAddr === '定位中...' ? '' : currentAddr;
+            document.getElementById('city-modal-overlay').classList.add('show');
+            setTimeout(() => {
+                input.focus();
+                input.select();
+            }, 100);
+        }
+        
+        function closeCityModal(event) {
+            if (event && event.target !== document.getElementById('city-modal-overlay')) return;
+            document.getElementById('city-modal-overlay').classList.remove('show');
+        }
+        
+        function confirmCityInput() {
+            const city = document.getElementById('city-input').value.trim();
+            if (city) {
+                pickAddr(city);
+                closeCityModal();
+            }
+        }
+        
+        document.getElementById('city-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmCityInput();
+            }
+        });
+        
+        async function saveAddress(address) {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readwrite');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                store.put({ key: 'userAddress', data: address });
+            } catch (e) {
+                console.error('保存地址失败:', e);
+            }
+        }
+        
+        async function loadSavedAddress() {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readonly');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                const request = store.get('userAddress');
+                
+                request.onsuccess = () => {
+                    const addrEl = document.getElementById('user-addr-text');
+                    if (request.result && request.result.data) {
+                        addrEl.innerText = request.result.data;
+                    } else {
+                        addrEl.innerText = '定位中...';
+                    }
+                };
+                
+                request.onerror = () => {
+                    document.getElementById('user-addr-text').innerText = '定位中...';
+                };
+            } catch (e) {
+                console.error('加载地址失败:', e);
+                document.getElementById('user-addr-text').innerText = '定位中...';
+            }
+        }
+        function switchNav(t) { 
+            document.getElementById('mt-order-route').checked = (t === 'orders'); 
+            document.getElementById('mt-me-route').checked = (t === 'me');
+            if (t === 'orders') {
+                loadOrders();
+            }
+        }
+        function filterShops(c, e) {
+            document.querySelectorAll('.hp-strip-item').forEach(i => i.classList.remove('active')); e.classList.add('active');
+            document.querySelectorAll('.shop-item').forEach(s => {
+                let cats = s.getAttribute('data-category');
+                if(c==='all' || (cats && cats.includes(c))) { s.style.display='block'; } else s.style.display='none';
+            });
+        }
+
+        function addDishToCart(el, ev) {
+            ev.stopPropagation();
+            let div = el.parentElement.parentElement;
+            let name = div.querySelector('.sp-dish-name').innerText.trim();
+            let price = parseFloat(div.querySelector('.sp-dish-price').innerText.replace(/[^\d.]/g, '')) || 0;
+            if(!cartObj[name]) cartObj[name]={ price, count:1 }; else cartObj[name].count++;
+            updateCartUI();
+        }
+        function updateCartQuantity(name, delta, ev) {
+            if(ev) ev.stopPropagation();
+            if(!cartObj[name]) return;
+            cartObj[name].count += delta;
+            if(cartObj[name].count <= 0) delete cartObj[name];
+            if(Object.keys(cartObj).length === 0) cartVisible = false;
+            updateCartUI();
+        }
+        function clearCart() { cartObj = {}; cartVisible = false; updateCartUI(); }
+        function toggleCartPopup() { if(Object.keys(cartObj).length===0) return; cartVisible = !cartVisible; updateCartUI(); }
+        function closePage() { document.getElementById('waimai-app').classList.remove('show'); }
+        function refreshShopList() { location.reload(); }
+        
+        let isRefreshingShops = false;
+        
+        async function refreshShopListAPI() {
+            if (isRefreshingShops) return;
+            isRefreshingShops = true;
+            
+            const refreshIcon = document.querySelector('.fa-rotate');
+            if (refreshIcon) {
+                refreshIcon.style.animation = 'spin 1s linear infinite';
+            }
+            
+            try {
+                const savedApiUrl = localStorage.getItem('apiUrl') || '';
+                const apiKey = localStorage.getItem('apiKey') || '';
+                const selectedModel = localStorage.getItem('selectedModel') || '';
+                
+                if (!savedApiUrl || !apiKey || !selectedModel) {
+                    alert('请先在设置中配置API');
+                    return;
+                }
+                
+                const currentAddress = document.getElementById('user-addr-text').innerText;
+                const cityMatch = currentAddress.match(/(北京|上海|广州|深圳|杭州|成都|武汉|南京|西安|重庆|苏州|天津|长沙|郑州|东莞|青岛|沈阳|宁波|昆明|福州|哈尔滨|合肥|厦门|大连|石家庄|济南|长春|太原|南宁|南昌|贵阳|兰州|海口|珠海|中山|佛山|东莞|惠州|无锡|常州|南通|徐州|扬州|镇江|泰州|淮安|盐城|连云港|宿迁|绍兴|温州|嘉兴|金华|台州|湖州|衢州|丽水|舟山)/);
+                const city = cityMatch ? cityMatch[1] : currentAddress.split(/[市区县]/)[0];
+                
+                const previousShopsStr = generatedShopNames.length > 0 ? `\n\n注意：以下店铺名称已经生成过，请勿重复使用：\n${generatedShopNames.join('、')}` : '';
+                
+                const chatEndpoint = getChatEndpoint(savedApiUrl);
+                
+                const systemPrompt = `你是一个外卖平台的数据生成助手。用户当前定位在【${city}】，需要生成该城市真实可点的外卖店铺信息，共24家，分布在6个分类中。${previousShopsStr}
+
+【超级重要】如果定位城市是外国城市（如东京、纽约、巴黎、伦敦等），生成的所有内容必须全部翻译成中文！包括：
+- 店铺名称（如"McDonald's"要翻译成"麦当劳"）
+- 菜品名称（如"Big Mac"要翻译成"巨无霸"）
+- 描述文字
+- 标签文字
+- 分店名（如"Times Square"要翻译成"时代广场"）
+禁止出现任何外文！所有文字必须是中文！
+
+请严格按照以下JSON格式返回，不要包含任何其他文字：
+{
+  "shops": [
+    {
+      "name": "店家名称",
+      "rating": "4.8",
+      "desc": "店家简短描述",
+      "icon": "🍔",
+      "tag": "标签文字",
+      "time": "约25分钟",
+      "category": "food",
+      "menu": [
+        {"name": "菜品1名称", "desc": "菜品1描述", "price": "25", "icon": "🍔"},
+        {"name": "菜品2名称", "desc": "菜品2描述", "price": "18", "icon": "🍟"},
+        {"name": "菜品3名称", "desc": "菜品3描述", "price": "12", "icon": "🥤"},
+        {"name": "菜品4名称", "desc": "菜品4描述", "price": "15", "icon": "🍕"},
+        {"name": "菜品5名称", "desc": "菜品5描述", "price": "20", "icon": "🍜"}
+      ]
+    }
+  ]
+}
+
+要求：
+1. 必须生成24个店家，每个分类4家：
+   - "food"（美食）4家
+   - "drinks"（下午茶）4家
+   - "fresh"（生鲜）4家
+   - "med"（送药）4家
+   - "night"（夜宵）4家
+   - "grocery"（超市）4家
+2. 店铺要符合【${city}】当地特色，可以是当地知名连锁或本地特色店
+3. 每个店家要有5个菜品
+4. name要包含分店名，如"星巴克(万象城店)"，分店名要符合【${city}】的真实地标
+5. rating范围4.5-5.0
+6. icon使用合适的emoji
+7. tag要简短有力，如"极速达"、"超时必赔"、"退款极速"等
+8. price是数字字符串
+9. category必须是以下之一：food, drinks, fresh, med, night, grocery
+10. 只返回JSON，不要有其他内容
+11. 【强制】外国城市的店铺名、菜品名、描述、标签、分店名等所有文字必须翻译成中文，禁止出现任何外文！`;
+
+                const response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: `请为【${city}】生成24个外卖店家信息，每个分类4家，确保店铺名称不与之前重复` }
+                        ],
+                        temperature: 0.9
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    let reply = data.choices[0].message.content;
+                    
+                    reply = reply.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+                    
+                    const jsonMatch = reply.match(/\{[\s\S]*\}/);
+                    if (jsonMatch) {
+                        const shopData = JSON.parse(jsonMatch[0]);
+                        const newShopNames = shopData.shops.map(s => s.name);
+                        generatedShopNames = [...generatedShopNames, ...newShopNames].slice(-100);
+                        updateShopList(shopData.shops);
+                        alert(`${city} 店家列表已刷新！`);
+                    }
+                }
+            } catch (error) {
+                console.error('刷新店家列表失败:', error);
+            } finally {
+                if (refreshIcon) {
+                    refreshIcon.style.animation = '';
+                }
+                isRefreshingShops = false;
+            }
+        }
+        
+        function updateShopList(shops) {
+            const shopList = document.getElementById('main-shop-list');
+            const titleHtml = shopList.querySelector('.hp-list-title').outerHTML;
+            
+            let shopsHtml = '';
+            shops.forEach((shop, index) => {
+                const shopId = 'api_shop_' + index;
+                const category = shop.category || 'food';
+                shopDatabase[shopId] = {
+                    name: shop.name,
+                    rating: shop.rating,
+                    time: shop.time,
+                    sales: Math.floor(Math.random() * 9000 + 1000).toString(),
+                    desc: shop.desc,
+                    menu: shop.menu,
+                    icon: shop.icon,
+                    tag: shop.tag,
+                    category: category
+                };
+                
+                shopsHtml += `
+                <div class="mt-tap shop-item" data-category="${category}" onclick="openShop('${shopId}')">
+                    <div class="hp-shop-card">
+                        <div class="hp-card-img">${shop.icon}</div>
+                        <div class="hp-card-info">
+                            <div><div class="hp-card-name">${shop.name}</div><div class="hp-card-meta"><span class="hp-card-score">★ ${shop.rating}</span>&nbsp;&nbsp;月售${shopDatabase[shopId].sales}+</div></div>
+                            <div class="hp-card-bottom"><div class="hp-tag">${shop.tag}</div><div class="hp-card-time">${shop.time}</div></div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            
+            shopList.innerHTML = titleHtml + shopsHtml;
+            
+            const newRefreshIcon = shopList.querySelector('.fa-rotate');
+            if (newRefreshIcon) {
+                newRefreshIcon.style.animation = '';
+                newRefreshIcon.onclick = refreshShopListAPI;
+            }
+            
+            ShopStorage.saveShops(shops).catch(e => console.error('保存店铺数据失败:', e));
+        }
+        
+        async function loadSavedShops() {
+            try {
+                const savedShops = await ShopStorage.loadShops();
+                const savedDatabase = await ShopStorage.loadShopDatabase();
+                
+                if (savedShops && savedShops.length > 0) {
+                    if (savedDatabase) {
+                        Object.assign(shopDatabase, savedDatabase);
+                    }
+                    renderShopList(savedShops);
+                    return true;
+                }
+            } catch (e) {
+                console.error('加载已保存的店铺数据失败:', e);
+            }
+            return false;
+        }
+        
+        function renderShopList(shops) {
+            const shopList = document.getElementById('main-shop-list');
+            if (!shopList) return;
+            
+            const titleHtml = shopList.querySelector('.hp-list-title').outerHTML;
+            
+            let shopsHtml = '';
+            shops.forEach((shop, index) => {
+                const shopId = 'api_shop_' + index;
+                const category = shop.category || 'food';
+                const dbShop = shopDatabase[shopId] || shop;
+                
+                shopsHtml += `
+                <div class="mt-tap shop-item" data-category="${category}" onclick="openShop('${shopId}')">
+                    <div class="hp-shop-card">
+                        <div class="hp-card-img">${shop.icon}</div>
+                        <div class="hp-card-info">
+                            <div><div class="hp-card-name">${shop.name}</div><div class="hp-card-meta"><span class="hp-card-score">★ ${shop.rating}</span>&nbsp;&nbsp;月售${dbShop.sales || '2000'}+</div></div>
+                            <div class="hp-card-bottom"><div class="hp-tag">${shop.tag}</div><div class="hp-card-time">${shop.time}</div></div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            
+            shopList.innerHTML = titleHtml + shopsHtml;
+            
+            const newRefreshIcon = shopList.querySelector('.fa-rotate');
+            if (newRefreshIcon) {
+                newRefreshIcon.onclick = refreshShopListAPI;
+            }
+        }
+        function checkout(ev) { 
+            if(Object.keys(cartObj).length===0) return; 
+            ev.stopPropagation(); 
+            openCheckoutPage();
+        }
+        
+        let currentPayMethod = 'self';
+        let currentShopName = '';
+        
+        function openCheckoutPage() {
+            const checkoutPage = document.getElementById('checkout-page');
+            checkoutPage.classList.add('show');
+            
+            document.getElementById('checkout-shop-name').innerText = currentShopName || '店铺';
+            document.getElementById('checkout-address').innerText = document.getElementById('user-addr-text').innerText;
+            
+            let goodsHtml = '';
+            let subtotal = 0;
+            for(let name in cartObj) {
+                let item = cartObj[name];
+                let itemTotal = item.price * item.count;
+                subtotal += itemTotal;
+                goodsHtml += `
+                    <div class="checkout-goods-item">
+                        <div class="checkout-goods-info">
+                            <div class="checkout-goods-name">${name}</div>
+                            <div class="checkout-goods-price">¥${item.price.toFixed(2)}/份</div>
+                        </div>
+                        <div class="checkout-goods-count">x${item.count}</div>
+                        <div class="checkout-goods-subtotal">¥${itemTotal.toFixed(2)}</div>
+                    </div>`;
+            }
+            document.getElementById('checkout-goods-list').innerHTML = goodsHtml;
+            
+            const delivery = 5;
+            const discount = 3;
+            const total = subtotal + delivery - discount;
+            
+            document.getElementById('checkout-subtotal').innerText = `¥${subtotal.toFixed(2)}`;
+            document.getElementById('checkout-delivery').innerText = `¥${delivery.toFixed(2)}`;
+            document.getElementById('checkout-discount').innerText = `-¥${discount.toFixed(2)}`;
+            document.getElementById('checkout-total').innerText = `¥${total.toFixed(2)}`;
+        }
+        
+        function closeCheckout() {
+            document.getElementById('checkout-page').classList.remove('show');
+        }
+        
+        function selectPayMethod(el, method) {
+            document.querySelectorAll('.checkout-pay-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
+            currentPayMethod = method;
+        }
+        
+        async function submitOrder() {
+            const remark = document.getElementById('checkout-remark').value;
+            const address = document.getElementById('checkout-address').innerText;
+            
+            let orderItems = [];
+            let totalPrice = 0;
+            let totalCount = 0;
+            for(let name in cartObj) {
+                let item = cartObj[name];
+                let itemTotal = item.price * item.count;
+                totalPrice += itemTotal;
+                totalCount += item.count;
+                orderItems.push({
+                    name: name,
+                    price: item.price,
+                    count: item.count,
+                    icon: item.icon || '🍽️'
+                });
+            }
+            
+            const finalPrice = totalPrice + 5 - 3;
+            
+            if (userBalance < finalPrice) {
+                showPaymentResult('余额不足！');
+                return;
+            }
+            
+            const order = {
+                id: Date.now(),
+                shopName: currentShopName,
+                shopIcon: '🏪',
+                items: orderItems,
+                totalPrice: finalPrice,
+                totalCount: totalCount,
+                status: '配送中',
+                address: address,
+                remark: remark,
+                payMethod: currentPayMethod,
+                createTime: new Date().toLocaleString()
+            };
+            
+            saveOrder(order);
+            
+            userBalance -= finalPrice;
+            await saveUserBalance();
+            updateBalanceDisplay();
+            
+            showPaymentResult(currentPayMethod === 'self' ? '支付成功！' : '代付请求已发送！');
+        }
+        
+        function showPaymentResult(message) {
+            const overlay = document.createElement('div');
+            overlay.className = 'payment-result-overlay';
+            overlay.innerHTML = `
+                <div class="payment-result-modal">
+                    <div class="payment-result-icon"><i class="fa-solid fa-check"></i></div>
+                    <div class="payment-result-title">${message}</div>
+                    <div class="payment-result-desc">订单已提交，请等待配送</div>
+                    <div class="payment-result-btn mt-tap" onclick="confirmPaymentResult()">确定</div>
+                </div>`;
+            document.querySelector('.checkout-page').appendChild(overlay);
+            setTimeout(() => overlay.classList.add('show'), 10);
+        }
+        
+        function confirmPaymentResult() {
+            const overlay = document.querySelector('.payment-result-overlay');
+            if (overlay) overlay.remove();
+            clearCart();
+            closeCheckout();
+            switchNav('orders');
+        }
+        
+        let pendingOrderTotal = 0;
+        
+        async function processPayment() {
+            const totalPrice = pendingOrderTotal;
+            
+            if (userBalance < totalPrice) {
+                showPaymentResult('余额不足！');
+                return;
+            }
+            
+            userBalance -= totalPrice;
+            await saveUserBalance();
+            updateBalanceDisplay();
+            
+            showPaymentResult('支付成功！');
+        }
+        
+        async function saveOrder(order) {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readwrite');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                
+                const getRequest = store.get('orderList');
+                getRequest.onsuccess = () => {
+                    let orderList = getRequest.result ? getRequest.result.data : [];
+                    orderList.unshift(order);
+                    store.put({ key: 'orderList', data: orderList });
+                };
+            } catch (e) {
+                console.error('保存订单失败:', e);
+            }
+        }
+        
+        async function loadOrders() {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readonly');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                const request = store.get('orderList');
+                
+                request.onsuccess = () => {
+                    const list = document.getElementById('order-list');
+                    if (!list) return;
+                    
+                    if (request.result && request.result.data && request.result.data.length > 0) {
+                        list.innerHTML = request.result.data.map(order => renderOrderCard(order)).join('');
+                    } else {
+                        list.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#999; font-size:15px; font-weight:700;">暂无历史订单</div>';
+                    }
+                };
+            } catch (e) {
+                console.error('加载订单失败:', e);
+            }
+        }
+        
+        function renderOrderCard(order) {
+            const itemsHtml = order.items.map(item => `<div class="od-pic">${item.icon}</div>`).join('');
+            const statusClass = order.status === '配送中' ? 'bold' : '';
+            const btnText = order.status === '配送中' ? '确认收货' : '再来一单';
+            
+            return `
+                <div class="od-card">
+                    <div class="od-head">
+                        <div class="od-shop-row">
+                            <div class="od-shop-img">${order.shopIcon}</div>
+                            ${order.shopName}
+                        </div>
+                        <div class="od-status ${statusClass}">${order.status}</div>
+                    </div>
+                    <div class="od-body">
+                        <div style="display:flex; gap:12px;">${itemsHtml}</div>
+                        <div style="text-align:right;">
+                            <div class="od-price">¥${order.totalPrice.toFixed(1)}</div>
+                            <div style="font-size:13px; color:#888; font-weight:700;">共${order.totalCount}件</div>
+                        </div>
+                    </div>
+                    <div class="od-foot">
+                        <div class="od-btn mt-tap" onclick="deleteOrder(${order.id})">删单</div>
+                        <div class="od-btn dark mt-tap" onclick="orderAction(${order.id}, '${order.status}')">${btnText}</div>
+                    </div>
+                </div>`;
+        }
+        
+        async function deleteOrder(orderId) {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readwrite');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                
+                const getRequest = store.get('orderList');
+                getRequest.onsuccess = () => {
+                    let orderList = getRequest.result ? getRequest.result.data : [];
+                    orderList = orderList.filter(o => o.id !== orderId);
+                    store.put({ key: 'orderList', data: orderList });
+                    loadOrders();
+                };
+            } catch (e) {
+                console.error('删除订单失败:', e);
+            }
+        }
+        
+        async function orderAction(orderId, currentStatus) {
+            if (currentStatus === '配送中') {
+                try {
+                    await ShopStorage.init();
+                    const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readwrite');
+                    const store = transaction.objectStore(ShopStorage.storeName);
+                    
+                    const getRequest = store.get('orderList');
+                    getRequest.onsuccess = () => {
+                        let orderList = getRequest.result ? getRequest.result.data : [];
+                        const order = orderList.find(o => o.id === orderId);
+                        if (order) {
+                            order.status = '已完结';
+                            store.put({ key: 'orderList', data: orderList });
+                            loadOrders();
+                        }
+                    };
+                } catch (e) {
+                    console.error('更新订单失败:', e);
+                }
+            } else {
+                alert('再来一单功能开发中');
+            }
+        }
+        
+        function showAddressList() {
+            loadSavedAddresses();
+            document.getElementById('address-modal-overlay').classList.add('show');
+        }
+        
+        function closeAddressList(event) {
+            if (event && event.target !== document.getElementById('address-modal-overlay')) return;
+            document.getElementById('address-modal-overlay').classList.remove('show');
+        }
+        
+        function selectAddress(el, address) {
+            document.querySelectorAll('.address-item').forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('checkout-address').innerText = address;
+            setTimeout(() => closeAddressList(), 200);
+        }
+        
+        function addNewAddress() {
+            const newAddr = prompt('请输入新地址：');
+            if (newAddr && newAddr.trim()) {
+                const list = document.getElementById('address-modal-list');
+                const newItem = document.createElement('div');
+                newItem.className = 'address-item mt-tap';
+                newItem.onclick = function() { selectAddress(this, newAddr.trim()); };
+                newItem.innerHTML = `
+                    <div class="address-item-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="address-item-info">
+                        <div class="address-item-name">新地址</div>
+                        <div class="address-item-detail">${newAddr.trim()}</div>
+                    </div>`;
+                list.appendChild(newItem);
+                selectAddress(newItem, newAddr.trim());
+            }
+        }
+        
+        function showAddAddressModal() {
+            document.getElementById('add-address-modal-overlay').classList.add('show');
+            document.getElementById('new-address-name').value = '';
+            document.getElementById('new-address-detail').value = '';
+            setTimeout(() => document.getElementById('new-address-name').focus(), 100);
+        }
+        
+        document.getElementById('new-address-detail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                saveNewAddress();
+            }
+        });
+        
+        function closeAddAddressModal(event) {
+            if (event && event.target !== document.getElementById('add-address-modal-overlay')) return;
+            document.getElementById('add-address-modal-overlay').classList.remove('show');
+        }
+        
+        async function saveNewAddress() {
+            const name = document.getElementById('new-address-name').value.trim();
+            const detail = document.getElementById('new-address-detail').value.trim();
+            
+            if (!name || !detail) {
+                alert('请填写完整信息');
+                return;
+            }
+            
+            const addressData = { name, detail, icon: 'location-dot' };
+            
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readwrite');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                
+                const getRequest = store.get('addressList');
+                getRequest.onsuccess = () => {
+                    let addressList = getRequest.result ? getRequest.result.data : [];
+                    addressList.push(addressData);
+                    store.put({ key: 'addressList', data: addressList });
+                    
+                    addAddressToList(addressData, addressList.length - 1);
+                    closeAddAddressModal();
+                };
+            } catch (e) {
+                console.error('保存地址失败:', e);
+            }
+        }
+        
+        function addAddressToList(data, index) {
+            const list = document.getElementById('address-modal-list');
+            const item = document.createElement('div');
+            item.className = 'address-item mt-tap';
+            item.onclick = function() { selectAddress(this, data.detail); };
+            item.innerHTML = `
+                <div class="address-item-icon"><i class="fa-solid fa-${data.icon || 'location-dot'}"></i></div>
+                <div class="address-item-info">
+                    <div class="address-item-name">${data.name}</div>
+                    <div class="address-item-detail">${data.detail}</div>
+                </div>`;
+            list.appendChild(item);
+        }
+        
+        async function loadSavedAddresses() {
+            try {
+                await ShopStorage.init();
+                const transaction = ShopStorage.db.transaction([ShopStorage.storeName], 'readonly');
+                const store = transaction.objectStore(ShopStorage.storeName);
+                const request = store.get('addressList');
+                
+                request.onsuccess = () => {
+                    const list = document.getElementById('address-modal-list');
+                    list.innerHTML = '';
+                    if (request.result && request.result.data) {
+                        request.result.data.forEach((addr, index) => {
+                            addAddressToList(addr, index);
+                        });
+                    }
+                };
+            } catch (e) {
+                console.error('加载地址失败:', e);
+            }
+        }
+
+        function updateCartUI() {
+            let tc = 0, tp = 0, h = '';
+            for(let n in cartObj) {
+                let i = cartObj[n]; tc+=i.count; tp+=i.price*i.count;
+                h += `<div class="cart-item"><div class="cart-item-name">${n}</div><div class="cart-item-price">¥${(i.price*i.count).toFixed(2)}</div>
+                      <div class="cart-item-ctrl"><div class="cart-ctrl-btn cart-ctrl-minus mt-tap" onclick="updateCartQuantity('${n}',-1,event)">-</div>
+                      <div class="cart-ctrl-num">${i.count}</div><div class="cart-ctrl-btn cart-ctrl-plus mt-tap" onclick="updateCartQuantity('${n}',1,event)"><i class="fa-solid fa-plus" style="font-size:12px;"></i></div></div></div>`;
+            }
+            let bd = document.getElementById('cart-badge'), prEl = document.getElementById('cart-price'), emEl = document.getElementById('cart-empty'), pb = document.getElementById('cart-pay-btn');
+            if(tc>0) {
+                bd.innerText=tc; bd.classList.add('show');
+                prEl.style.display='inline-block'; prEl.innerText='¥ '+tp.toFixed(2);
+                emEl.style.display='none'; pb.classList.remove('disabled'); pb.classList.add('active'); pb.innerText='立即结算';
+            } else {
+                bd.classList.remove('show'); prEl.style.display='none'; emEl.style.display='inline-block';
+                pb.classList.add('disabled'); pb.classList.remove('active'); pb.innerText='未装载';
+            }
+            document.getElementById('cart-list').innerHTML = h;
+            let o=document.getElementById('cart-overlay'), p=document.getElementById('cart-panel');
+            if(cartVisible && tc>0) { o.classList.add('show'); p.classList.add('show'); } else { o.classList.remove('show'); p.classList.remove('show'); }
         }
 
         // 下雪特效管理器
