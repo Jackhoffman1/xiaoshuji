@@ -38385,7 +38385,7 @@ ${recentHistory.map(msg => {
                     );
                     
                     if (hadUnclaimedTransfer || unpaidTransfer || pendingPayRequest) {
-                        renderMessages();
+                        loadChatMessages(roleId);
                     }
                 }
                 
