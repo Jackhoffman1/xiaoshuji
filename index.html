@@ -5670,6 +5670,164 @@
             transform: scale(0.98);
         }
 
+        .moments-role-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .moments-role-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .moments-role-modal {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 24px;
+            width: 360px;
+            max-width: 90vw;
+            max-height: 70vh;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .moments-role-modal-overlay.active .moments-role-modal {
+            transform: scale(1);
+        }
+
+        .moments-role-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .moments-role-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 4px;
+        }
+
+        .moments-role-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .moments-role-item:hover {
+            background: rgba(255, 107, 138, 0.1);
+            transform: translateX(4px);
+        }
+
+        .moments-role-item:active {
+            transform: scale(0.98);
+        }
+
+        .moments-role-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 107, 138, 0.3);
+        }
+
+        .moments-role-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .moments-role-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .moments-role-desc {
+            font-size: 12px;
+            color: #999;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+        }
+
+        .moments-role-modal-close {
+            margin-top: 16px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.05);
+            color: #666;
+            transition: all 0.2s ease;
+        }
+
+        .moments-role-modal-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .moments-role-modal {
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        .dark-mode .moments-role-modal-title {
+            color: #FFF;
+        }
+
+        .dark-mode .moments-role-item {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .dark-mode .moments-role-item:hover {
+            background: rgba(255, 107, 138, 0.15);
+        }
+
+        .dark-mode .moments-role-name {
+            color: #FFF;
+        }
+
+        .dark-mode .moments-role-desc {
+            color: #888;
+        }
+
+        .dark-mode .moments-role-modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            color: #CCC;
+        }
+
+        .dark-mode .moments-role-modal-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
         .transfer-modal-overlay {
             position: fixed;
             top: 0;
@@ -20687,6 +20845,18 @@
                                     </span>
                                 </button>
                             </div>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label style="color: rgb(51, 51, 51);">消息修复:</label>
+                                <p style="font-size: 13px; color: #666; margin-bottom: 12px;">修复异常消息数据（无效索引、缺失字段、格式错误等）。如果消息操作（删除/编辑/回溯）无效果，可尝试此功能。</p>
+                                <button class="btn-secondary" onclick="manualRepairMessages()" style="width: 100%; background: rgba(52, 199, 89, 0.1); color: rgb(51, 51, 51); border-color: rgba(52, 199, 89, 0.3);">
+                                    <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                                        </svg>
+                                        修复异常消息数据
+                                    </span>
+                                </button>
+                            </div>
                             <div class="form-group" style="margin-top: 20px;">
                                 <label style="color: rgb(51, 51, 51);">数据清除:</label>
                                 <p style="font-size: 13px; color: #666; margin-bottom: 12px;">清除所有本地存储数据，此操作不可恢复，请谨慎操作。</p>
@@ -22080,6 +22250,14 @@
                     <button class="voice-modal-btn cancel" onclick="closeVoiceModal()">取消</button>
                     <button class="voice-modal-btn send" onclick="sendVoiceMessage()">发送</button>
                 </div>
+            </div>
+        </div>
+        
+        <div class="moments-role-modal-overlay" id="moments-role-modal-overlay">
+            <div class="moments-role-modal">
+                <div class="moments-role-modal-title">选择发布朋友圈的角色</div>
+                <div class="moments-role-list" id="moments-role-list"></div>
+                <button class="moments-role-modal-close" onclick="closeMomentsRoleModal()">取消</button>
             </div>
         </div>
         
@@ -23946,7 +24124,6 @@
                         body: JSON.stringify({
                             model: selectedModel,
                             messages: apiMessages,
-                            max_tokens: 800,
                             temperature: parseFloat(localStorage.getItem('apiTemperature')) || 1.0,
                             presence_penalty: 0.6,
                             frequency_penalty: 0.5
@@ -24116,35 +24293,12 @@
                     }
                 }
                 
-                const targetCount = Math.floor(Math.random() * 3) + 2;
-                
                 let lines = processedText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
                 
                 lines = filterJsonFragments(lines);
                 
-                if (lines.length >= 2 && lines.length <= 4) {
+                if (lines.length >= 2) {
                     return lines.slice(0, 4);
-                }
-                
-                if (lines.length > 4) {
-                    return lines.slice(0, 4);
-                }
-                
-                const sentences = processedText.split(/[！？。]+/).map(s => s.trim()).filter(s => s.length > 0);
-                
-                if (sentences.length >= 2) {
-                    if (sentences.length <= 4) {
-                        return sentences.slice(0, 4);
-                    }
-                    const result = [];
-                    const chunkSize = Math.ceil(sentences.length / targetCount);
-                    for (let i = 0; i < sentences.length && result.length < targetCount; i += chunkSize) {
-                        const chunk = sentences.slice(i, i + chunkSize).join(' ');
-                        if (chunk.trim()) {
-                            result.push(chunk.trim());
-                        }
-                    }
-                    return result.slice(0, 4);
                 }
                 
                 return [processedText];
@@ -26331,14 +26485,15 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                 const chatEndpoint = getChatEndpoint(savedApiUrl);
 
                 const characterInfo = character.name + (character.description ? `，${character.description}` : '');
-                const systemPrompt = `你是${characterInfo}。请用角色的口吻和性格，自称"我"称用户为"你"，在便签上写下3条想说的话。
-要求：
-1. 每条内容不超过12个字
-2. 内容不限，可以是任何角色对用户想说的三句独立的话
-3. 要符合人设不能ooc
-4. 不要使用任何标点符号，用空格代替逗号
-5. 直接输出3条内容，每条一行，不要加序号
-6. 禁止使用任何emoji表情符号`;
+                const systemPrompt = `你是${characterInfo}。请用角色的口吻和性格，自称"我"称用户为"你"，在便签上写下3条想说的话。 
+ 
+ 要求： 
+ 1. 每条内容不超过12个字 
+ 2. 内容不限，是角色给用户留下三句随机的留言 
+ 3. 要符合人设不能ooc 
+ 4. 不要使用任何标点符号，用空格代替逗号 
+ 5. 直接输出3条内容，每条一行，不要加序号 
+ 6. 禁止使用任何emoji表情符号`;
 
                 const response = await fetch(chatEndpoint, {
                     method: 'POST',
@@ -26352,7 +26507,6 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                             { role: 'system', content: systemPrompt },
                             { role: 'user', content: '请写下今天的便签提醒' }
                         ],
-                        max_tokens: 150,
                         temperature: 0.9
                     })
                 });
@@ -31467,6 +31621,245 @@ ${conversationHistory.slice(-10).map(msg => {
             }
         }
         
+        function repairMessages() {
+            console.log('[RepairMessages] 开始修复消息数据...');
+            
+            let repairedCount = 0;
+            let removedCount = 0;
+            let fixedIndexCount = 0;
+            let fixedFieldCount = 0;
+            
+            const roleIds = Object.keys(messages);
+            
+            roleIds.forEach(roleId => {
+                const roleMessages = messages[roleId];
+                
+                if (!Array.isArray(roleMessages)) {
+                    console.log(`[RepairMessages] 角色 ${roleId} 的消息不是数组，初始化为空数组`);
+                    messages[roleId] = [];
+                    repairedCount++;
+                    return;
+                }
+                
+                const validMessages = [];
+                const seenTimestamps = new Set();
+                
+                roleMessages.forEach((msg, index) => {
+                    let isInvalid = false;
+                    let needsFix = false;
+                    
+                    if (!msg || typeof msg !== 'object') {
+                        console.log(`[RepairMessages] 角色 ${roleId} 索引 ${index}: 无效消息对象，已移除`);
+                        removedCount++;
+                        return;
+                    }
+                    
+                    if (!msg.type || (msg.type !== 'sent' && msg.type !== 'received')) {
+                        if (msg.role === 'assistant') {
+                            msg.type = 'received';
+                            needsFix = true;
+                        } else if (msg.role === 'user') {
+                            msg.type = 'sent';
+                            needsFix = true;
+                        } else {
+                            console.log(`[RepairMessages] 角色 ${roleId} 索引 ${index}: 缺少有效的type字段，已移除`);
+                            removedCount++;
+                            return;
+                        }
+                    }
+                    
+                    if (msg.content === undefined || msg.content === null) {
+                        console.log(`[RepairMessages] 角色 ${roleId} 索引 ${index}: 缺少content字段，已移除`);
+                        removedCount++;
+                        return;
+                    }
+                    
+                    if (typeof msg.content === 'object') {
+                        if (!msg.content.type) {
+                            msg.content.type = 'unknown';
+                            needsFix = true;
+                        }
+                    }
+                    
+                    if (!msg.timestamp) {
+                        msg.timestamp = new Date().toISOString();
+                        needsFix = true;
+                    }
+                    
+                    if (!msg.roleId || msg.roleId !== roleId) {
+                        msg.roleId = roleId;
+                        needsFix = true;
+                    }
+                    
+                    if (msg.timestamp && seenTimestamps.has(msg.timestamp)) {
+                        msg.timestamp = msg.timestamp + '_' + index;
+                        needsFix = true;
+                    }
+                    seenTimestamps.add(msg.timestamp);
+                    
+                    delete msg.role;
+                    delete msg.read;
+                    
+                    if (needsFix) {
+                        fixedFieldCount++;
+                        console.log(`[RepairMessages] 角色 ${roleId} 索引 ${index}: 已修复字段`);
+                    }
+                    
+                    validMessages.push(msg);
+                });
+                
+                if (validMessages.length !== roleMessages.length) {
+                    messages[roleId] = validMessages;
+                    fixedIndexCount++;
+                    repairedCount++;
+                }
+            });
+            
+            if (repairedCount > 0 || removedCount > 0 || fixedFieldCount > 0) {
+                saveMessages();
+                console.log(`[RepairMessages] 修复完成: 修复${repairedCount}个角色, 移除${removedCount}条无效消息, 修复${fixedFieldCount}个字段问题`);
+            } else {
+                console.log('[RepairMessages] 未发现需要修复的消息数据');
+            }
+            
+            return {
+                repairedCount,
+                removedCount,
+                fixedIndexCount,
+                fixedFieldCount,
+                totalFixed: repairedCount + removedCount + fixedFieldCount
+            };
+        }
+        
+        function manualRepairMessages() {
+            const existingModal = document.getElementById('repair-messages-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'repair-messages-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="max-width: 340px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🔧</div>
+                    <h3 style="margin-bottom: 12px; color: #333;">修复异常消息</h3>
+                    <p style="color: #666; margin-bottom: 8px; line-height: 1.6;">
+                        将修复以下问题：
+                    </p>
+                    <ul style="text-align: left; color: #666; margin-bottom: 16px; padding-left: 24px; line-height: 1.8;">
+                        <li>移除无效/空消息对象</li>
+                        <li>修复缺失的必要字段</li>
+                        <li>纠正消息类型(type)错误</li>
+                        <li>重建消息索引一致性</li>
+                        <li>清理过时的冗余字段</li>
+                    </ul>
+                    <p style="color: #34c759; font-weight: 500; margin-bottom: 20px;">
+                        ✓ 修复后消息操作将恢复正常
+                    </p>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button onclick="closeRepairMessagesModal()" style="flex: 1; padding: 12px 20px; border: 1px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">取消</button>
+                        <button onclick="executeRepairMessages()" style="flex: 1; padding: 12px 20px; border: none; background: #34c759; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">确认修复</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeRepairMessagesModal();
+                }
+            });
+        }
+        
+        function closeRepairMessagesModal() {
+            const modal = document.getElementById('repair-messages-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        function executeRepairMessages() {
+            closeRepairMessagesModal();
+            
+            console.log('[ManualRepair] 开始手动修复消息...');
+            
+            const result = repairMessages();
+            
+            const existingModal = document.getElementById('repair-result-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            let resultContent = '';
+            if (result.totalFixed === 0) {
+                resultContent = `
+                    <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
+                    <h3 style="margin-bottom: 12px; color: #333;">检查完成</h3>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        未发现需要修复的消息数据。<br>
+                        您的消息数据正常！
+                    </p>
+                `;
+            } else {
+                let details = '';
+                if (result.repairedCount > 0) {
+                    details += `<li>修复了 ${result.repairedCount} 个角色的消息数据</li>`;
+                }
+                if (result.removedCount > 0) {
+                    details += `<li>移除了 ${result.removedCount} 条无效消息</li>`;
+                }
+                if (result.fixedFieldCount > 0) {
+                    details += `<li>修复了 ${result.fixedFieldCount} 个字段问题</li>`;
+                }
+                
+                resultContent = `
+                    <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+                    <h3 style="margin-bottom: 12px; color: #333;">修复完成</h3>
+                    <ul style="text-align: left; color: #666; margin-bottom: 12px; padding-left: 24px; line-height: 1.8;">
+                        ${details}
+                    </ul>
+                    <p style="color: #34c759; margin-bottom: 20px;">
+                        消息操作现在应该可以正常使用了！
+                    </p>
+                `;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'preset-modal';
+            modal.id = 'repair-result-modal';
+            modal.innerHTML = `
+                <div class="preset-modal-content" style="max-width: 300px; text-align: center;">
+                    ${resultContent}
+                    <button onclick="closeRepairResultModal()" style="padding: 12px 40px; border: none; background: #667eea; color: #fff; border-radius: 8px; cursor: pointer; font-size: 15px;">确定</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeRepairResultModal();
+                }
+            });
+            
+            if (currentChatRole) {
+                const chatMessages = document.getElementById('chat-messages');
+                if (chatMessages) {
+                    chatMessages.innerHTML = '';
+                    loadChatMessages(currentChatRole.id);
+                }
+            }
+        }
+        
+        function closeRepairResultModal() {
+            const modal = document.getElementById('repair-result-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
         function executeCleanOrphanData() {
             closeCleanOrphanModal();
             
@@ -32018,7 +32411,6 @@ ${conversationHistory.slice(-10).map(msg => {
                             { role: 'system', content: systemPrompt },
                             { role: 'user', content: '请回复评论' }
                         ],
-                        max_tokens: 50,
                         temperature: 0.9
                     })
                 });
@@ -32146,17 +32538,11 @@ ${conversationHistory.slice(-10).map(msg => {
             }, 100);
         }
 
-        // 显示发布朋友圈弹窗
-        async function showMomentsPublishModal() {
-            const actionBtn = document.querySelector('.moments-action-btn');
-            if (actionBtn) {
-                actionBtn.classList.add('refreshing');
-            }
-            
+        // 显示角色选择弹窗
+        function showMomentsPublishModal() {
             const allRoles = roles || [];
             
             if (allRoles.length === 0) {
-                if (actionBtn) actionBtn.classList.remove('refreshing');
                 alert('请先添加角色');
                 return;
             }
@@ -32167,16 +32553,63 @@ ${conversationHistory.slice(-10).map(msg => {
             const chatEndpoint = getChatEndpoint(savedApiUrl);
             
             if (!chatEndpoint || !apiKey || !selectedModel) {
-                if (actionBtn) actionBtn.classList.remove('refreshing');
                 alert('请先配置API');
                 return;
             }
             
-            const randomRole = allRoles[Math.floor(Math.random() * allRoles.length)];
+            const roleList = document.getElementById('moments-role-list');
+            roleList.innerHTML = '';
+            
+            allRoles.forEach(role => {
+                const roleItem = document.createElement('div');
+                roleItem.className = 'moments-role-item';
+                roleItem.onclick = () => {
+                    closeMomentsRoleModal();
+                    publishMomentsForRole(role);
+                };
+                
+                const avatarHtml = role.avatar 
+                    ? `<img class="moments-role-avatar" src="${role.avatar}" alt="${role.name}">`
+                    : `<div class="moments-role-avatar" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ff6b8a,#ff8e9e);color:white;font-weight:600;font-size:16px;">${role.name.charAt(0)}</div>`;
+                
+                roleItem.innerHTML = `
+                    ${avatarHtml}
+                    <div class="moments-role-info">
+                        <div class="moments-role-name">${role.name}</div>
+                        <div class="moments-role-desc">${role.description || '暂无描述'}</div>
+                    </div>
+                `;
+                
+                roleList.appendChild(roleItem);
+            });
+            
+            const overlay = document.getElementById('moments-role-modal-overlay');
+            overlay.classList.add('active');
+        }
+        
+        function closeMomentsRoleModal() {
+            const overlay = document.getElementById('moments-role-modal-overlay');
+            overlay.classList.remove('active');
+        }
+        
+        // 为指定角色发布朋友圈
+        async function publishMomentsForRole(randomRole) {
+            const actionBtn = document.querySelector('.moments-action-btn');
+            if (actionBtn) {
+                actionBtn.classList.add('refreshing');
+            }
+            
+            const allRoles = roles || [];
             const userSettings = getUserPersona();
             const userName = userSettings.name || '用户';
             
+            let savedApiUrl = localStorage.getItem('apiUrl') || '';
+            const apiKey = localStorage.getItem('apiKey') || '';
+            const selectedModel = localStorage.getItem('selectedModel') || '';
+            const chatEndpoint = getChatEndpoint(savedApiUrl);
+            
             const roleWorldbookEntries = worldbookEntries.filter(entry => {
+                if (entry.enabled === false) return false;
                 if (entry.isGlobal) return true;
                 return entry.roleIds && entry.roleIds.includes(randomRole.id);
             });
@@ -32226,6 +32659,7 @@ ${conversationHistory.slice(-10).map(msg => {
 【图片发布要求】
 本次发布需要包含图片。图片使用描述格式，不是真实图片。
 图片格式：[PHOTO]照片描述[/PHOTO]
+注意：必须严格使用[PHOTO]...[/PHOTO]格式，不要使用[图片是...]等其他格式！
 图片描述要求：
 - 用文字第三视角生动的描述照片内容
 - 描述要生动具体，包含细节
@@ -32244,26 +32678,25 @@ ${conversationHistory.slice(-10).map(msg => {
 
 ${worldbookContext ? `背景设定：\n${worldbookContext}\n` : ''}${chatContext ? `【最近的聊天记录】（可选参考：可以从中提取话题作为朋友圈题材，也可以自由发挥其他题材）\n${chatContext}\n\n` : ''}请生成${postCount}条微信朋友圈动态，并同步生成评论。
 ${imageInstruction}
-【朋友圈文风指导 - 纯文字极繁/极简活人感】
+【朋友圈文风指导】
 核心全局指令：
 1. 【思维不固定】：每条朋友圈都不需要思维连贯，因为真人的思维就是发散的，朋友圈是用来记录生活中的细节的。
 2. 【最高优先级：表情包绝对禁令】：无论情绪多么激动，绝对、永远不允许使用任何Emoji或颜文字。活人的高级感和发疯感只通过纯文字展现。
 3. 【拒绝升华，只给切片】：朋友圈不是作文，不需要起承转合，不需要总结人生哲理。只描述一个具体的瞬间、一个截屏、一首歌、或者一句没头没尾的话。
 4. 【AI味词汇彻底封杀】：全面禁用"邂逅、解锁、宝藏、治愈、惬意、元气满满、不负韶华、生活的美好、细细品味"等播音腔词汇。
-5. 【禁止天气话题】：不要发关于天气的内容（如"今天天气真好"），太无聊太敷衍。优先从聊天记录中提取话题，或记录真实的生活切片。
+5. 【禁止天气话题】：不要发关于天气的内容（如"今天天气真好"），太无聊太敷衍。优先从聊天记录中提取话题，或记录真实的生活切片，题材不限但不能太无聊。
 
 纯文字情绪排版法则：
 - 空格法则：用空格代替大部分逗号。例如：今天好累 真的不想动了
 - 句号法则：一条朋友圈的最后绝不加句号。如果加了，代表极度的冷漠和严肃。
-- 拟声词拉长：哈哈哈哈哈哈哈（代表敷衍或真笑）、啊啊啊啊啊啊（代表崩溃）、呃（代表无语）。
 
-题材参考（可从中随机选取）：
+题材参考（不做限制，仅举例，以此类推）：
 1. 荒谬的生活切片：记录日常生活中看到的、听到的、毫无意义但值得记录的瞬间。
 2. 赛博冲浪与分享：分享音乐、文章、截图或烂梗，配文通常极其简短。
 3. 浴室沉思/灵光一闪：突然想到的奇奇怪怪的逻辑、毫无用处的冷知识。
 4. 纯粹的生理/心理状态汇报：把朋友圈当成个人状态指示灯，字数极少。如：活过来了 饿 头痛欲裂、、、
 5. 极其具体的微小崩溃/确幸：不写"今天很倒霉"，而是写具体怎么倒霉。
-6. 没话找话的废话文学：完全没有营养，纯粹为了发动态而发的动态。
+6.不用照着以上题材写，完全可以自由发挥
 
 【输出格式要求】
 每条动态用===DYNAMIC===标记开始，格式如下：
@@ -32275,19 +32708,7 @@ ${imageInstruction}
 评论者名字|||回复|||被回复者名字|||评论内容
 （每个好友1条评论）
 
-${commenterInfo ? `【评论者详细信息】
-以下是可能评论的好友，请仔细阅读每个人物与发布者${randomRole.name}的关系和设定：
-
 ${commenterInfo}
-
-【重要规则】
-1. 评论者必须严格按照上述关系来评论，禁止乱认关系 禁止出现不存在的人物
-2. 评论风格要符合双方关系特点
-3. 评论内容要体现评论者的人物设定和性格
-4. 绝对不允许评论者声称与发布者有未设定的关系
-5. 评论之间可以互相回复，模拟真实朋友圈互动
-6. 回复时使用格式：评论者|||回复|||被回复者|||评论内容
-` : ''}
 
 【评论要求】
 1. 评论要自然、真实、有活人感，像真人会发的
@@ -32312,7 +32733,6 @@ ${commenterInfo}
                             { role: 'system', content: systemPrompt },
                             { role: 'user', content: '请发朋友圈' }
                         ],
-                        max_tokens: 1500,
                         temperature: 0.9
                     })
                 });
@@ -32339,6 +32759,26 @@ ${commenterInfo}
                                         }
                                     });
                                     postContent = postContent.replace(/\[PHOTO\][\s\S]*?\[\/PHOTO\]/g, '').trim();
+                                }
+                                
+                                const altPhotoPatterns = [
+                                    /\[图片[是为：:][^\]]*\]/g,
+                                    /\[一张[^\]]*?(?:截图|照片|图片)[^\]]*\]/g,
+                                    /\[照片[是为：:]?[^\]]*\]/g
+                                ];
+                                
+                                for (const pattern of altPhotoPatterns) {
+                                    const matches = postContent.match(pattern);
+                                    if (matches) {
+                                        matches.forEach(match => {
+                                            let desc = match.replace(/^\[(?:图片|照片|一张)[是为：:]?/, '').replace(/\]$/, '').trim();
+                                            desc = desc.replace(/^(?:截图|照片|图片)/, '').trim();
+                                            if (desc) {
+                                                momentImages.push({ type: 'photo', description: desc });
+                                            }
+                                        });
+                                        postContent = postContent.replace(pattern, '').trim();
+                                    }
                                 }
                                 
                                 const moment = createMoment(randomRole, postContent, momentImages);
@@ -32588,6 +33028,7 @@ ${commenterInfo}
                 
                 const allRoles = roles || [];
                 const roleWorldbookEntries = worldbookEntries.filter(entry => {
+                    if (entry.enabled === false) return false;
                     if (entry.isGlobal) return true;
                     return entry.roleIds && entry.roleIds.includes(role.id);
                 });
@@ -32627,6 +33068,7 @@ ${commenterInfo}
 【图片发布要求】
 本次发布需要包含图片。图片使用描述格式，不是真实图片。
 图片格式：[PHOTO]照片描述[/PHOTO]
+注意：必须严格使用[PHOTO]...[/PHOTO]格式，不要使用[图片是...]等其他格式！
 图片描述要求：
 - 用文字第三视角生动的描述照片内容
 - 描述要生动具体，包含细节
@@ -32645,26 +33087,25 @@ ${commenterInfo}
 
 ${chatContext ? `【最近的聊天记录】（可选参考：可以从中提取话题作为朋友圈题材，也可以自由发挥其他题材）\n${chatContext}\n\n` : ''}请生成1条微信朋友圈动态，并同步生成评论。
 ${imageInstruction}
-【朋友圈文风指导 - 纯文字极繁/极简活人感】
+【朋友圈文风指导】
 核心全局指令：
 1. 【思维不固定】：每条朋友圈都不需要思维连贯，因为真人的思维就是发散的，朋友圈是用来记录生活中的细节的。
 2. 【最高优先级：表情包绝对禁令】：无论情绪多么激动，绝对、永远不允许使用任何Emoji或颜文字。活人的高级感和发疯感只通过纯文字展现。
 3. 【拒绝升华，只给切片】：朋友圈不是作文，不需要起承转合，不需要总结人生哲理。只描述一个具体的瞬间、一个截屏、一首歌、或者一句没头没尾的话。
 4. 【AI味词汇彻底封杀】：全面禁用"邂逅、解锁、宝藏、治愈、惬意、元气满满、不负韶华、生活的美好、细细品味"等播音腔词汇。
-5. 【禁止天气话题】：不要发关于天气的内容（如"今天天气真好"），太无聊太敷衍。优先从聊天记录中提取话题，或记录真实的生活切片。
+5. 【禁止天气话题】：不要发关于天气的内容（如"今天天气真好"），太无聊太敷衍。优先从聊天记录中提取话题，或记录真实的生活切片，题材不限但不能太无聊。
 
 纯文字情绪排版法则：
 - 空格法则：用空格代替大部分逗号。例如：今天好累 真的不想动了
 - 句号法则：一条朋友圈的最后绝不加句号。如果加了，代表极度的冷漠和严肃。
-- 拟声词拉长：哈哈哈哈哈哈哈（代表敷衍或真笑）、啊啊啊啊啊啊（代表崩溃）、呃（代表无语）。
 
-题材参考（可从中随机选取）：
+题材参考（不做限制，仅举例，以此类推）：
 1. 荒谬的生活切片：记录日常生活中看到的、听到的、毫无意义但值得记录的瞬间。
 2. 赛博冲浪与分享：分享音乐、文章、截图或烂梗，配文通常极其简短。
 3. 浴室沉思/灵光一闪：突然想到的奇奇怪怪的逻辑、毫无用处的冷知识。
 4. 纯粹的生理/心理状态汇报：把朋友圈当成个人状态指示灯，字数极少。如：活过来了 饿 头痛欲裂、、、
 5. 极其具体的微小崩溃/确幸：不写"今天很倒霉"，而是写具体怎么倒霉。
-6. 没话找话的废话文学：完全没有营养，纯粹为了发动态而发的动态。
+6.不用照着以上题材写，完全可以自由发挥
 
 【输出格式要求】
 ===DYNAMIC===
@@ -32675,19 +33116,7 @@ ${imageInstruction}
 评论者名字|||回复|||被回复者名字|||评论内容
 （每个好友1条评论，发布者${role.name}再自评${selfCommentCount}条）
 
-${commenterInfo ? `【评论者详细信息】
-以下是可能评论的好友，请仔细阅读每个人物与发布者${role.name}的关系和设定：
-
 ${commenterInfo}
-
-【重要规则】
-1. 评论者必须严格按照上述关系来评论，禁止乱认关系
-2. 评论风格要符合双方关系特点（如：朋友可以调侃，家人会关心，同事较客气）
-3. 评论内容要体现评论者的人物设定和性格
-4. 绝对不允许评论者声称与发布者有未设定的关系
-5. 评论之间可以互相回复，模拟真实朋友圈互动
-6. 回复时使用格式：评论者|||回复|||被回复者|||评论内容
-` : ''}
 
 【评论要求】
 1. 评论要自然、真实、有活人感，像真人会发的
@@ -32697,7 +33126,7 @@ ${commenterInfo}
 5. 动态内容要自然、真实、像普通人发的朋友圈
 6. 不要使用任何markdown格式
 7. 禁止使用{{user}}、{{、}}等占位符，必须使用真实角色名字
-8. 禁止把用户(${userName})当做评论者，评论者只能是上述列出的角色
+8. 禁止把用户(${userName})当做评论者生成评论，评论者只能是上述列出的角色
 9. 禁止使用任何emoji表情符号`;
                 
                 const response = await fetch(chatEndpoint, {
@@ -32712,7 +33141,6 @@ ${commenterInfo}
                             { role: 'system', content: systemPrompt },
                             { role: 'user', content: '发一条朋友圈' }
                         ],
-                        max_tokens: 500,
                         temperature: 0.9
                     })
                 });
@@ -32741,6 +33169,26 @@ ${commenterInfo}
                                     }
                                 });
                                 postContent = postContent.replace(/\[PHOTO\][\s\S]*?\[\/PHOTO\]/g, '').trim();
+                            }
+                            
+                            const altPhotoPatterns = [
+                                /\[图片[是为：:][^\]]*\]/g,
+                                /\[一张[^\]]*?(?:截图|照片|图片)[^\]]*\]/g,
+                                /\[照片[是为：:]?[^\]]*\]/g
+                            ];
+                            
+                            for (const pattern of altPhotoPatterns) {
+                                const matches = postContent.match(pattern);
+                                if (matches) {
+                                    matches.forEach(match => {
+                                        let desc = match.replace(/^\[(?:图片|照片|一张)[是为：:]?/, '').replace(/\]$/, '').trim();
+                                        desc = desc.replace(/^(?:截图|照片|图片)/, '').trim();
+                                        if (desc) {
+                                            momentImages.push({ type: 'photo', description: desc });
+                                        }
+                                    });
+                                    postContent = postContent.replace(pattern, '').trim();
+                                }
                             }
                             
                             const moment = createMoment(role, postContent, momentImages);
@@ -38487,7 +38935,6 @@ ${recentHistory.map(msg => {
                     body: JSON.stringify({
                         model: selectedModel,
                         messages: [{ role: 'user', content: summaryPrompt }],
-                        max_tokens: 300,
                         temperature: 0.7
                     }),
                     signal: controller.signal
@@ -40117,7 +40564,6 @@ ${recentHistory.map(msg => {
                     body: JSON.stringify({
                         model: selectedModel,
                         messages: apiMessages,
-                        max_tokens: 800,
                         temperature: parseFloat(localStorage.getItem('apiTemperature')) || 1.0,
                         presence_penalty: 0.6,
                         frequency_penalty: 0.5
@@ -40615,6 +41061,16 @@ ${recentHistory.map(msg => {
         function showMessageContextMenu(bubble, rect, isSent, isLongPress = false) {
             hideContextMenu();
             
+            if (isSendingMessages) {
+                showSwipeToast('⏳ AI正在回复中，请稍后再操作消息');
+                return;
+            }
+            
+            if (!currentChatRole) {
+                showSwipeToast('❌ 当前聊天状态异常，请重新进入聊天');
+                return;
+            }
+            
             const messageIndex = bubble.dataset.messageIndex;
             const messageEl = bubble.closest('.message');
             
@@ -41045,8 +41501,14 @@ ${recentHistory.map(msg => {
         async function regenerateMessage(messageIndex) {
             console.log('开始重新生成消息，messageIndex:', messageIndex);
             
+            if (isSendingMessages) {
+                showSwipeToast('⏳ AI正在回复中，请稍后再重新生成');
+                return;
+            }
+            
             if (!currentChatRole) {
                 console.log('没有当前聊天角色');
+                showSwipeToast('❌ 当前聊天状态异常，请重新进入聊天');
                 return;
             }
 
@@ -41058,6 +41520,7 @@ ${recentHistory.map(msg => {
             
             if (messageIndex < 0 || messageIndex >= roleMessages.length) {
                 console.log('消息索引超出范围');
+                showSwipeToast('❌ 消息不存在，可能已被删除或数据已更新');
                 return;
             }
 
@@ -41244,7 +41707,6 @@ ${recentHistory.map(msg => {
                     body: JSON.stringify({
                         model: selectedModel,
                         messages: apiMessages,
-                        max_tokens: 800,
                         temperature: parseFloat(localStorage.getItem('apiTemperature')) || 1.0,
                         presence_penalty: 0.6,
                         frequency_penalty: 0.5
@@ -41497,7 +41959,13 @@ ${recentHistory.map(msg => {
         }
 
         function rewindMessages(messageIndex) {
+            if (isSendingMessages) {
+                showSwipeToast('⏳ AI正在回复中，请稍后再回溯消息');
+                return false;
+            }
+            
             if (!currentChatRole) {
+                showSwipeToast('❌ 当前聊天状态异常，请重新进入聊天');
                 return false;
             }
             
@@ -41505,6 +41973,7 @@ ${recentHistory.map(msg => {
             const roleMessages = messages[roleId];
             
             if (!roleMessages || !roleMessages[messageIndex]) {
+                showSwipeToast('❌ 消息不存在，可能已被删除或数据已更新');
                 return false;
             }
             
@@ -41572,7 +42041,13 @@ ${recentHistory.map(msg => {
         }
 
         function showEditMessageModal(messageIndex) {
+            if (isSendingMessages) {
+                showSwipeToast('⏳ AI正在回复中，请稍后再编辑消息');
+                return;
+            }
+            
             if (!currentChatRole) {
+                showSwipeToast('❌ 当前聊天状态异常，请重新进入聊天');
                 return;
             }
             
@@ -41580,6 +42055,7 @@ ${recentHistory.map(msg => {
             const roleMessages = messages[roleId];
             
             if (!roleMessages || !roleMessages[messageIndex]) {
+                showSwipeToast('❌ 消息不存在，可能已被删除或数据已更新');
                 return;
             }
             
@@ -41815,8 +42291,14 @@ ${recentHistory.map(msg => {
         }
 
         function deleteMessage(messageIndex) {
+            if (isSendingMessages) {
+                showSwipeToast('⏳ AI正在回复中，请稍后再删除消息');
+                return false;
+            }
+            
             if (!currentChatRole) {
                 console.error('[DeleteMessage] 没有当前聊天角色');
+                showSwipeToast('❌ 当前聊天状态异常，请重新进入聊天');
                 return false;
             }
             
@@ -41825,6 +42307,7 @@ ${recentHistory.map(msg => {
             
             if (!roleMessages || !roleMessages[messageIndex]) {
                 console.error('[DeleteMessage] 消息不存在:', messageIndex);
+                showSwipeToast('❌ 消息不存在，可能已被删除或数据已更新');
                 return false;
             }
             
@@ -43875,8 +44358,8 @@ ${recentHistory.map(msg => {
   
 每条消息必须： 
 1. 是一个完整的、能独立理解的句子或短语 
-2. 与用户的话题或上下文相关 
-3. 有逻辑性，不能莫名其妙 
+2. 与自己说过的话和用户的话题或上下文相关 
+3. 有逻辑性 
 4. 即使要凑够3-8条，也必须是与话题相关的延伸或补充 
 5.不能和一个复读机一样一直给出和上文差不多的回复 
  
@@ -43892,7 +44375,7 @@ ${recentHistory.map(msg => {
 {"message": "[PHOTO]夕阳的余晖透过落地窗洒进客厅，橘红色的光线在木质地板上拉出长长的影子[/PHOTO]"} 
   
 图片描述要求： 
-- 用第三视角描述画面，营造氛围感，禁止使用"我"自称，不能以角色的视角，要以第三方的视角来描述 
+- 用第二视角描述画面，营造氛围感，禁止使用"我"自称，不能以角色的视角，要以第二方的视角来描述 
 - 描述要生动具体，包含细节 
 - 字数控制在30-80字 
 - [PHOTO]和[/PHOTO]标签必须成对出现，不能拆分 
@@ -44082,52 +44565,49 @@ ${recentHistory.map(msg => {
                 let fullPrompt = '';
                 
                 fullPrompt += `
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                        【系统级强制规则·最高优先级】                          ║
-║                                                                              ║
-║  以下规则是系统级别的强制要求，优先级高于一切！                               ║
-║  • 必须严格遵守，不得违反                                                    ║
-║  • 优先级高于角色设定、世界书、用户设定等所有其他内容                         ║
-║  • 无论任何情况都必须遵守这些规则                                            ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                    ⚠️【消息数量硬性要求·绝对强制】⚠️                          ║
-╠══════════════════════════════════════════════════════════════════════════════╣
-║                                                                              ║
-║  【强制规则】每次回复必须发送 3-8 条消息！                                    ║
-║                                                                              ║
-║  • 最少3条，最多8条                                                          ║
-║  • 绝对不允许只发送1条或2条消息                                               ║
-║  • 即使内容简短，也要分成多条发送                                             ║
-║  • 这是硬性要求，没有例外，必须遵守                                           ║
-║                                                                              ║
-║  ❌ 错误：{"message": "好的"}{"message": "知道了"}  ← 只有2条，禁止！                 ║
-║  ✅ 正确：{"message": "嗯嗯"}{"message": "好的"}{"message": "知道了"}{"message": "晚点聊"}  ← 4条，正确！   ║
-║                                                                              ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                    ⚠️【对话连贯性·绝对强制】⚠️                              ║
-╠══════════════════════════════════════════════════════════════════════════════╣
-║                                                                              ║
-║  【强制规则】回复必须与用户的话题相关，不能前言不搭后语！                     ║
-║                                                                              ║
-║  • 仔细理解用户的问题和意图                                                  ║
-║  • 回复必须与用户的话题相关联                                                ║
-║  • 不能说莫名其妙的话                                                        ║
-║  • 不能答非所问                                                              ║
-║  • 如果需要转换话题，要用自然的方式过渡                                       ║
-║  • **所有3-8条消息都必须与话题相关**，不能为了凑数量而说无关的话             ║
-║  • 多条消息应该是对话题的延伸、补充或不同角度的回应                            ║
-║                                                                              ║
-║  ❌ 错误示例：用户问"你在干嘛"，回复"这么紧张干嘛" ← 答非所问，禁止！        ║
-║  ✅ 正确示例：用户问"你在干嘛"，回复"在沙发上刷手机呢，正看个搞笑视频" ← 相关回复，正确！   ║
-║                                                                              ║
-║  ❌ 错误示例：用户问"你在干嘛"，为了凑3条回复："在坐着"、"天气不错"、"吃饭了吗" ← 后两条无关，禁止！   ║
-║  ✅ 正确示例：用户问"你在干嘛"，回复"在坐着呢"、"刷刷手机"、"看会儿视频放松一下" ← 都相关，正确！   ║
-║                                                                              ║
-╚══════════════════════════════════════════════════════════════════════════════╝
+                       【系统级强制规则·最高优先级】                        
+                                                                               
+  以下规则是系统级别的强制要求，优先级高于一切！                              
+   • 必须严格遵守，不得违反                                                    
+   • 优先级高于角色设定、世界书、用户设定等所有其他内容                         
+   • 无论任何情况都必须遵守这些规则                                          
+ 
+                     ⚠️【消息数量硬性要求·绝对强制】⚠️                         
+ 
+                                                                               
+   【强制规则】每次回复必须发送 3-8 条消息！                                    
+                                                                               
+   • 最少3条，最多8条                                                          
+   • 绝对不允许只发送1条或2条消息                                                                                         
+   • 这是硬性要求，没有例外，必须遵守                                           
+                                                                               
+   ❌ 错误：{"message": "好的"} 
+                  {"message": "知道了"}  ← 只有2条，禁止！                 
+   ✅ 正确：{"message": "嗯嗯"} 
+                  {"message": "好的"} 
+                  {"message": "知道了"} 
+                  {"message": "晚点聊"}  ← 4条，正确！   
+                                                                               
+ 
+ 
+                     ⚠️【对话连贯性·绝对强制】⚠️                              
+ 
+                                                                               
+   【强制规则】回复必须与用户的话题相关，不能前言不搭后语！                    
+                                                                               
+   • 仔细理解用户的问题和意图                                                 
+   • 回复必须与用户的话题相关联                                               
+   • 不能说莫名其妙的话                                                        
+   • 不能答非所问                                                              
+   • 如果需要转换话题，要用自然的方式过渡                                       
+   • **所有3-8条消息都必须与话题相关**，不能为了凑数量而说无关的话             
+   • 多条消息应该是对话题的延伸、补充或不同角度的回应                            
+                                                                               
+   ❌ 错误示例：用户问"你在干嘛"，回复"这么紧张干嘛" ← 答非所问，禁止！        
+   ✅ 正确示例：用户问"你在干嘛"，回复"在沙发上刷手机呢，正看个搞笑视频" ← 相关回复，正确！   
+                                                                               
+   ❌ 错误示例：用户问"你在干嘛"，为了凑3条回复："在坐着"、"天气不错"、"吃饭了吗" ← 后两条无关，禁止！   
+   ✅ 正确示例：用户问"你在干嘛"，回复"在坐着呢"、"刷刷手机"、"看会儿视频放松一下" ← 都相关，正确！
 
 `;
                 fullPrompt += config.personaInstructionPrompt + '\n\n';
@@ -44332,6 +44812,39 @@ ${recentHistory.map(msg => {
                     jsonText = jsonText.replace(/```\s*/i, '').replace(/```\s*$/, '').trim();
                 }
                 
+                const messageObjects = jsonText.match(/\{\s*"message"\s*:\s*"[^"]*"\s*\}/g);
+                if (messageObjects && messageObjects.length >= 1) {
+                    const extractedMessages = [];
+                    messageObjects.forEach(obj => {
+                        try {
+                            const parsed = JSON.parse(obj);
+                            if (parsed && parsed.message && typeof parsed.message === 'string') {
+                                extractedMessages.push(parsed.message.trim());
+                            }
+                        } catch (e) {}
+                    });
+                    
+                    const incompleteMatches = jsonText.match(/"message"\s*:\s*"([^"]*)$/g);
+                    if (incompleteMatches) {
+                        incompleteMatches.forEach(match => {
+                            const content = match.replace(/"message"\s*:\s*"/, '');
+                            if (content.trim()) {
+                                extractedMessages.push(content.trim());
+                            }
+                        });
+                    }
+                    
+                    if (extractedMessages.length >= 1) {
+                        return extractedMessages.map(msg => {
+                            let finalMsg = msg;
+                            photoBlocks.forEach((block, index) => {
+                                finalMsg = finalMsg.replace(`__PHOTO_BLOCK_${index}__`, block);
+                            });
+                            return finalMsg;
+                        });
+                    }
+                }
+                
                 const lines = jsonText.split('\n').filter(line => line.trim());
                 const ndjsonMessages = [];
                 let isNdjson = true;
@@ -44474,28 +44987,20 @@ ${recentHistory.map(msg => {
             });
             
             if (messages.length >= 2 && messages.length <= 8) {
-                const validated = validateAndMergeMessages(messages, photoBlocks, true);
-                return validated;
+                return messages;
             }
             
             if (messages.length > 8) {
-                const validated = validateAndMergeMessages(messages.slice(0, 8), photoBlocks, true);
-                return validated;
+                return messages.slice(0, 8);
             }
             
-            const allText = processedText.replace(/\s+/g, ' ').trim();
+            const allText = processedText.replace(/\n+/g, ' ').trim();
             
             if (allText.length === 0) {
                 return [];
             }
             
-            const result = semanticSplitText(allText, 3, 8);
-            return result.map(msg => {
-                photoBlocks.forEach((block, index) => {
-                    msg = msg.replace(`__PHOTO_BLOCK_${index}__`, block);
-                });
-                return msg;
-            });
+            return [allText];
         }
         
         function extractMessagesFromBrokenJson(text) {
@@ -44604,6 +45109,14 @@ ${recentHistory.map(msg => {
                 }
                 
                 if (trimmed.match(/^\{[\s]*"messages"[\s]*:[\s]*\[/)) {
+                    return true;
+                }
+                
+                if (trimmed.match(/^\{"message"/) && !trimmed.endsWith('}')) {
+                    return true;
+                }
+                
+                if (trimmed.match(/\{"message":\s*"[^"]*$/)) {
                     return true;
                 }
                 
@@ -44716,10 +45229,6 @@ ${recentHistory.map(msg => {
         function validateAndMergeMessages(messages, photoBlocks, isFromApi = false) {
             if (!messages || messages.length === 0) return [];
             
-            const MIN_MSG_LENGTH = 2;
-            const MAX_MSG_LENGTH = 50;
-            const IDEAL_MSG_LENGTH = 15;
-            
             messages = mergeBrokenPhotoMessages(messages);
             
             messages = mergeIncompleteSentences(messages);
@@ -44731,53 +45240,7 @@ ${recentHistory.map(msg => {
                 
                 if (msg.length === 0) continue;
                 
-                const hasPhoto = photoBlocks.some((block, index) => 
-                    msg.includes(`__PHOTO_BLOCK_${index}__`)
-                );
-                
-                const hasPhotoStart = msg.includes('[PHOTO]');
-                const hasPhotoEnd = msg.includes('[/PHOTO]');
-                
-                if (msg.length < MIN_MSG_LENGTH && !hasPhoto && !hasPhotoStart && !hasPhotoEnd && validated.length > 0) {
-                    let lastMsg = validated[validated.length - 1];
-                    if (lastMsg.length + msg.length <= MAX_MSG_LENGTH) {
-                        validated[validated.length - 1] = lastMsg + ' ' + msg;
-                        continue;
-                    }
-                }
-                
-                if (!isFromApi && msg.length > MAX_MSG_LENGTH * 2 && !hasPhotoStart && !hasPhotoEnd) {
-                    const splitResult = semanticSplitText(msg, 2, 3);
-                    validated.push(...splitResult);
-                    continue;
-                }
-                
                 validated.push(msg);
-            }
-            
-            if (!isFromApi && validated.length === 1 && validated[0].length > IDEAL_MSG_LENGTH * 2) {
-                const splitResult = semanticSplitText(validated[0], 2, 4);
-                if (splitResult.length > 1) {
-                    return splitResult;
-                }
-            }
-            
-            if (validated.length > 8) {
-                const merged = [];
-                for (let i = 0; i < validated.length; i += 2) {
-                    if (i + 1 < validated.length) {
-                        const combined = validated[i] + ' ' + validated[i + 1];
-                        if (combined.length <= MAX_MSG_LENGTH) {
-                            merged.push(combined);
-                        } else {
-                            merged.push(validated[i]);
-                            merged.push(validated[i + 1]);
-                        }
-                    } else {
-                        merged.push(validated[i]);
-                    }
-                }
-                return merged.slice(0, 8);
             }
             
             return validated;
@@ -44986,7 +45449,7 @@ ${recentHistory.map(msg => {
                 return [text];
             }
             
-            const sentenceEnders = ['！', '？', '!', '?', '……', '～', '~'];
+            const sentenceEnders = ['。', '！', '？', '!', '?', '……', '～', '~'];
             const clauseMarkers = ['，', '、', ' ', ',', '；', ';'];
             
             let segments = [];
@@ -45014,7 +45477,7 @@ ${recentHistory.map(msg => {
                     currentSegment = '';
                 } else if (segmentLength > 50) {
                     const lastSpace = currentSegment.lastIndexOf(' ');
-                    if (lastSpace > segmentLength * 0.3) {
+                    if (lastSpace > 0) {
                         segments.push(currentSegment.substring(0, lastSpace).trim());
                         currentSegment = currentSegment.substring(lastSpace + 1);
                     } else {
@@ -45064,36 +45527,22 @@ ${recentHistory.map(msg => {
                 return [text];
             }
             
-            const targetParts = Math.min(Math.max(minCount, Math.ceil(len / 15)), maxCount);
-            const chunkSize = Math.ceil(len / targetParts);
-            const result = [];
+            const words = text.split(/\s+/).filter(w => w.length > 0);
             
-            for (let i = 0; i < len; i += chunkSize) {
-                let end = Math.min(i + chunkSize, len);
-                
-                if (end < len) {
-                    const searchStart = Math.max(i, end - 5);
-                    const searchEnd = Math.min(len, end + 5);
-                    const searchArea = text.substring(searchStart, searchEnd);
-                    
-                    const punctPositions = [];
-                    ['！', '？', '!', '?', ' ', '，'].forEach(punct => {
-                        let pos = searchArea.lastIndexOf(punct);
-                        if (pos !== -1) {
-                            punctPositions.push(searchStart + pos);
-                        }
-                    });
-                    
-                    if (punctPositions.length > 0) {
-                        const bestPos = punctPositions.reduce((a, b) => 
-                            Math.abs(a - end) < Math.abs(b - end) ? a : b
-                        );
-                        end = bestPos + 1;
-                    }
+            if (words.length < minCount) {
+                return [text];
+            }
+            
+            const targetParts = Math.min(Math.max(minCount, Math.ceil(len / 15)), maxCount);
+            const wordsPerPart = Math.ceil(words.length / targetParts);
+            
+            const result = [];
+            for (let i = 0; i < words.length; i += wordsPerPart) {
+                const partWords = words.slice(i, Math.min(i + wordsPerPart, words.length));
+                const part = partWords.join(' ');
+                if (part.trim()) {
+                    result.push(part.trim());
                 }
-                
-                const chunk = text.substring(i, end).trim();
-                if (chunk) result.push(chunk);
             }
             
             return result.length >= minCount ? result.slice(0, maxCount) : [text];
@@ -45511,15 +45960,16 @@ ${recentHistory.map(msg => {
         }
 
         function getEnabledWorldbookEntries() {
-            return worldbookEntries.filter(e => e.enabled !== false && e.roleIds && e.roleIds.length > 0);
+            return worldbookEntries.filter(e => 
+                e.enabled !== false && 
+                (e.isGlobal || (e.roleIds && e.roleIds.length > 0))
+            );
         }
 
         function getWorldbookEntriesByRole(roleId) {
             return worldbookEntries.filter(e => 
                 e.enabled !== false && 
-                e.roleIds && 
-                e.roleIds.length > 0 && 
-                e.roleIds.includes(roleId)
+                (e.isGlobal || (e.roleIds && e.roleIds.includes(roleId)))
             );
         }
 
@@ -45969,7 +46419,6 @@ ${conversationContext.slice(-10).map(m => {
                             body: JSON.stringify({
                                 model: selectedModel,
                                 messages: [{ role: 'user', content: statusPrompt }],
-                                max_tokens: 20,
                                 temperature: parseFloat(localStorage.getItem('apiTemperature')) || 1.0
                             }),
                             signal: controller.signal
@@ -47091,7 +47540,6 @@ ${conversationContext.slice(-10).map(m => {
                                 body: JSON.stringify({
                                     model: selectedModel,
                                     messages: [{ role: 'user', content: cardPrompt }],
-                                    max_tokens: 150,
                                     temperature: 0.8
                                 }),
                                 signal: controller.signal
@@ -47396,7 +47844,6 @@ ${conversationContext.slice(-10).map(m => {
                             body: JSON.stringify({
                                 model: selectedModel,
                                 messages: [{ role: 'user', content: cardPrompt }],
-                                max_tokens: 150,
                                 temperature: 0.8
                             }),
                             signal: controller.signal
@@ -48953,7 +49400,6 @@ ${chatHistoryText}
                     body: JSON.stringify({
                         model: selectedModel,
                         messages: apiMessages,
-                        max_tokens: 500,
                         temperature: 0.9
                     })
                 });
