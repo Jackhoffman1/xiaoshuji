@@ -21402,6 +21402,313 @@
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
         }
+        .phonecheck-tiktok-container {
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+        .phonecheck-tiktok-video-frame {
+            flex: 1;
+            margin: 0 12px;
+            background: #f4f5f7;
+            border-radius: 32px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .phonecheck-tiktok-video-summary {
+            font-size: 13px;
+            color: #555;
+            font-style: italic;
+            line-height: 1.6;
+            text-align: center;
+            max-height: 120px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+        }
+        .phonecheck-tiktok-video-summary-wrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 20px;
+            padding-bottom: 40px;
+            background: linear-gradient(349deg, rgb(228, 229, 231 / 37%) 0%, rgb(255,255,255) 60%, rgb(249,249,249) 100%);
+            z-index: 5;
+        }
+        .phonecheck-tiktok-video-summary-wrap::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.06) 50%, transparent 100%);
+        }
+        .phonecheck-tiktok-video-info {
+            position: absolute;
+            bottom: 106px;
+            left: 20px;
+            right: 80px;
+            z-index: 10;
+        }
+        .phonecheck-tiktok-live-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+            z-index: 5;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 11px;
+        }
+        .phonecheck-tiktok-play-btn:hover {
+            transform: translate(-50%, -50%) scale(1.08);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.98);
+        }
+        .phonecheck-tiktok-play-btn:active {
+            transform: translate(-50%, -50%) scale(0.98);
+        }
+        .phonecheck-tiktok-share-card {
+            display: flex;
+            width: 280px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 12px 28px rgba(255, 171, 199, 0.12), 0 3px 10px rgba(255, 171, 199, 0.04);
+            border: 1px solid rgba(255, 240, 245, 0.8);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .phonecheck-tiktok-share-cover {
+            width: 60px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            position: relative;
+            margin-right: 12px;
+            box-shadow: inset 0 0 0 1px rgba(255, 171, 199, 0.15);
+        }
+        .phonecheck-tiktok-share-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(255, 171, 199, 0.15);
+        }
+        .phonecheck-tiktok-share-play svg {
+            width: 10px;
+            height: 10px;
+            fill: #736266;
+            margin-left: 1px;
+        }
+        .phonecheck-tiktok-share-duration {
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            color: #736266;
+            font-size: 8px;
+            font-weight: 600;
+            padding: 2px 5px;
+            border-radius: 6px;
+        }
+        .phonecheck-tiktok-share-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            padding: 1px 0;
+        }
+        .phonecheck-tiktok-share-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .phonecheck-tiktok-share-author {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .phonecheck-tiktok-share-avatar {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(120deg, #FFD6E4 0%, #FFC1D5 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 9px;
+            font-weight: bold;
+        }
+        .phonecheck-tiktok-share-username {
+            font-size: 10px;
+            font-weight: 600;
+            color: #BDB3B5;
+        }
+        .phonecheck-tiktok-share-title {
+            font-size: 11px;
+            line-height: 1.4;
+            color: #736266;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-weight: 500;
+        }
+        .phonecheck-tiktok-share-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 4px;
+        }
+        .phonecheck-tiktok-share-metric {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 9px;
+            color: #BDB3B5;
+            font-weight: 500;
+        }
+        .phonecheck-tiktok-share-metric svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            fill: none;
+        }
+        .phonecheck-tiktok-share-metric.liked {
+            color: #FFABC7;
+        }
+        .phonecheck-tiktok-share-metric.liked svg {
+            fill: #FFABC7;
+            stroke: #FFABC7;
+        }
+        .phonecheck-tiktok-thoughts-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .phonecheck-tiktok-thoughts-overlay.show {
+            display: flex;
+        }
+        .phonecheck-tiktok-thoughts-modal {
+            width: 320px;
+            max-width: 90%;
+            background: #fff;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: phonecheckFadeIn 0.3s ease;
+        }
+        @keyframes phonecheckFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .phonecheck-tiktok-thoughts-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .phonecheck-tiktok-thoughts-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: #f4f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .phonecheck-tiktok-thoughts-cover svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #999;
+            stroke-width: 1.5;
+        }
+        .phonecheck-tiktok-thoughts-info {
+            flex: 1;
+        }
+        .phonecheck-tiktok-thoughts-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        .phonecheck-tiktok-thoughts-author {
+            font-size: 13px;
+            color: #888;
+        }
+        .phonecheck-tiktok-thoughts-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f5f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .phonecheck-tiktok-thoughts-close:hover {
+            background: #eee;
+        }
+        .phonecheck-tiktok-thoughts-close svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: #666;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .phonecheck-tiktok-thoughts-content {
+            margin-top: 16px;
+        }
+        .phonecheck-tiktok-thoughts-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        .phonecheck-tiktok-thoughts-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.7;
+        }
         .phonecheck-settings-section {
             padding: 16px 24px;
             border-bottom: 1px solid #f0f0f0;
@@ -21856,6 +22163,8 @@
                 transform: scale(0.7);
             }
         }
+
+
     </style>
 </head>
 <body>
@@ -25827,7 +26136,6 @@
         <div class="scroll-indicator"></div></div>
     </div>
     
-    <script src="./小鼠机_files/jszip.min.js.下载"></script>
     <script>
         // ============================================
         // 桌面页面切换模块 (Desktop Page Switcher)
@@ -26681,6 +26989,13 @@
                                     }
                                 } else if (msg.content.type === 'emoji') {
                                     msgContent = `[发送了表情包: "${msg.content.desc || '自定义表情'}"]`;
+                                } else if (msg.content.type === 'tiktok') {
+                                    const tiktokType = msg.content.contentType === 'live' ? '直播' : '视频';
+                                    const tagStr = Array.isArray(msg.content.tag) ? msg.content.tag.join(' ') : (msg.content.tag || '');
+                                    const currentRole = roles.find(r => r.id === currentChatRole?.id);
+                                    const roleName = currentRole?.name || '我';
+                                    const summaryText = msg.content.summary || '无内容概括';
+                                    msgContent = `[分享抖音${tiktokType}] 标题：${msg.content.title || '未知标题'}，作者：${msg.content.author || '未知作者'}，标签：${tagStr}\n内容概括：${summaryText}\n这是${roleName}看完后的感想：${msg.content.thoughts || '无感想'}\n（这是你观看过的视频或直播，用户看到了并分享给你。你可以和用户讨论这个视频或者直播的内容。）\n注意事项：讨论时你需要延续感想中的想法，不能和感想中的想法驴头不对马嘴`;
                                 } else if (msg.content.type === 'transfer') {
                                     const amount = msg.content.amount;
                                     const remark = msg.content.remark || '转账';
@@ -29504,6 +29819,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                     if (msg.content.type === 'voice') return msg.content.text || '';
                     if (msg.content.type === 'emoji') return `[发送了表情包: "${msg.content.desc || '自定义表情'}"]`;
                     if (msg.content.type === 'diary') return msg.content.content || '';
+                    if (msg.content.type === 'tiktok') return `[分享抖音${msg.content.contentType === 'live' ? '直播' : '视频'}] ${msg.content.title || ''}，感想：${msg.content.thoughts || ''}`;
+                    if (msg.content.type === 'article') return `[分享文章] ${msg.content.title || ''}`;
                     return '';
                 }
                 return msg.content || '';
@@ -29646,6 +29963,13 @@ ${conversationHistory.slice(-10).map(msg => {
                 content = `[发送了表情包: "${msg.content.desc || '自定义表情'}"]`;
             } else if (msg.content.type === 'diary') {
                 content = `[分享日记卡片] ${msg.content.content || ''}`;
+            } else if (msg.content.type === 'tiktok') {
+                const tiktokType = msg.content.contentType === 'live' ? '直播' : '视频';
+                const tagStr = Array.isArray(msg.content.tag) ? msg.content.tag.join(' ') : (msg.content.tag || '');
+                const summaryText = msg.content.summary || '无内容概括';
+                content = `[分享抖音${tiktokType}] 标题：${msg.content.title || '未知标题'}，作者：${msg.content.author || '未知作者'}，标签：${tagStr}\n内容概括：${summaryText}\n这是${currentChatRole?.name || '我'}看完后的感想：${msg.content.thoughts || '无感想'}\n（这是你观看过的视频或直播，用户看到了并分享给你。你可以和用户讨论这个视频或者直播的内容。）\n注意事项：讨论时你需要延续感想中的想法，不能和感想中的想法驴头不对马嘴`;
+            } else if (msg.content.type === 'article') {
+                content = `[分享文章] 标题：${msg.content.title || '未知标题'}\n（这是你浏览过的网页，用户看到了并分享给你。你可以和用户讨论这个网页的内容。）`;
             }
         } else {
             content = msg.content;
@@ -38151,6 +38475,8 @@ ${commenterInfo}
                     else if (msg.content.type === 'voice') contentStr = msg.content.text || '';
                     else if (msg.content.type === 'emoji') contentStr = `[发送了表情包: "${msg.content.desc || '自定义表情'}"]`;
                     else if (msg.content.type === 'diary') contentStr = '[日记卡片] ' + (msg.content.content || '');
+                    else if (msg.content.type === 'tiktok') contentStr = `[分享抖音] ${msg.content.title || ''}，感想：${msg.content.thoughts || ''}`;
+                    else if (msg.content.type === 'article') contentStr = `[分享文章] ${msg.content.title || ''}`;
                     else contentStr = JSON.stringify(msg.content);
                 } else {
                     contentStr = msg.content || '';
@@ -38165,6 +38491,8 @@ ${commenterInfo}
                     else if (msg.content.type === 'voice') contentStr = '[语音] ' + (msg.content.text || '');
                     else if (msg.content.type === 'emoji') contentStr = '[表情] ' + (msg.content.desc || '自定义表情');
                     else if (msg.content.type === 'diary') contentStr = '[日记] ' + (msg.content.content || '');
+                    else if (msg.content.type === 'tiktok') contentStr = '[抖音] ' + (msg.content.title || '') + '，感想：' + (msg.content.thoughts || '');
+                    else if (msg.content.type === 'article') contentStr = '[文章] ' + (msg.content.title || '');
                     else contentStr = JSON.stringify(msg.content);
                 } else {
                     contentStr = msg.content || '';
@@ -43096,6 +43424,60 @@ ${recentHistory.map(msg => {
                 `;
             }
             
+            if (msg.content && typeof msg.content === 'object' && msg.content.type === 'tiktok') {
+                const tiktokData = msg.content;
+                const isLive = tiktokData.contentType === 'live';
+                const coverGradient = 'linear-gradient(135deg, #fbf9f9 0%, #fffbfb 100%)';
+                const authorInitial = tiktokData.author ? tiktokData.author.replace('@', '').charAt(0).toUpperCase() : 'U';
+                const likes = Math.floor(Math.random() * 50000 + 10000);
+                const likesDisplay = likes >= 10000 ? (likes / 10000).toFixed(1) + 'w' : likes.toString();
+                const comments = Math.floor(Math.random() * 2000 + 500);
+                const tagStr = Array.isArray(tiktokData.tag) ? tiktokData.tag.join(' ') : (tiktokData.tag || '#fyp');
+                
+                const tiktokHTML = `
+                    <div class="phonecheck-tiktok-share-card">
+                        <div class="phonecheck-tiktok-share-cover" style="background: ${coverGradient};">
+                            <div class="phonecheck-tiktok-share-play">
+                                <svg viewBox="0 0 24 24"><path d="M7 4.5l12 7.5-12 7.5z" stroke-linejoin="round" stroke-width="2" stroke="none"/></svg>
+                            </div>
+                            <div class="phonecheck-tiktok-share-duration">${isLive ? 'LIVE' : '00:15'}</div>
+                        </div>
+                        <div class="phonecheck-tiktok-share-content">
+                            <div class="phonecheck-tiktok-share-header">
+                                <div class="phonecheck-tiktok-share-author">
+                                    <div class="phonecheck-tiktok-share-avatar">${authorInitial}</div>
+                                    <span class="phonecheck-tiktok-share-username">${tiktokData.author || '@Unknown'}</span>
+                                </div>
+                            </div>
+                            <p class="phonecheck-tiktok-share-title">${tiktokData.title || '分享的视频'} ${tagStr}</p>
+                            <div class="phonecheck-tiktok-share-footer">
+                                <div class="phonecheck-tiktok-share-metric liked">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    ${likesDisplay}
+                                </div>
+                                <div class="phonecheck-tiktok-share-metric">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                    </svg>
+                                    ${comments}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return `
+                    <div class="chat-avatar">${avatarHTML}</div>
+                    <div class="message-bubble diary-message-bubble" data-message-index="${messageIndex}" style="position: relative; background: transparent; box-shadow: none;">
+                        <div class="message-content" style="padding: 0;">
+                            ${tiktokHTML}
+                        </div>
+                        ${messageTime ? `<div class="message-time">${messageTime}</div>` : ''}
+                    </div>
+                `;
+            }
+            
             return `
                 <div class="chat-avatar">${avatarHTML}</div>
                 <div class="message-bubble" data-message-index="${messageIndex}" ${musicSessionAttr} style="position: relative;">
@@ -43464,6 +43846,17 @@ ${recentHistory.map(msg => {
                         }
                         if (msg.content.type === 'emoji') {
                             return `[发送了表情包: "${msg.content.desc || '自定义表情'}"]`;
+                        }
+                        if (msg.content.type === 'tiktok') {
+                            const tiktokType = msg.content.contentType === 'live' ? '直播' : '视频';
+                            const tagStr = Array.isArray(msg.content.tag) ? msg.content.tag.join(' ') : (msg.content.tag || '');
+                            const currentRole = roles.find(r => r.id === currentChatRole?.id);
+                            const roleName = currentRole?.name || '我';
+                            const summaryText = msg.content.summary || '无内容概括';
+                            return `[分享抖音${tiktokType}] 标题：${msg.content.title || '未知标题'}，作者：${msg.content.author || '未知作者'}，标签：${tagStr}\n内容概括：${summaryText}\n这是${roleName}看完后的感想：${msg.content.thoughts || '无感想'}\n（这是你观看过的视频或直播，用户看到了并分享给你。你可以和用户讨论这个视频或者直播的内容。）\n注意事项：讨论时你需要延续感想中的想法，不能和感想中的想法驴头不对马嘴`;
+                        }
+                        if (msg.content.type === 'article') {
+                            return `[分享文章] 标题：${msg.content.title || '未知标题'}，来源：${msg.content.url || '未知来源'}\n（这是你浏览过的网页，用户看到了并分享给你。你可以和用户讨论这个网页的内容。）`;
                         }
                         if (msg.content.type === 'transfer') {
                             const amount = msg.content.amount;
@@ -47160,23 +47553,39 @@ ${recentHistory.map(msg => {
             if (document.visibilityState === 'visible') {
                 handleIOSPageRestore();
                 startAutoSave();
+                const simsPanel = document.getElementById('sims-panel');
+                if (simsPanel && simsPanel.classList.contains('visible')) {
+                    startThoughtBubbleTimer();
+                    startNeedsUpdateTimer();
+                }
             } else {
                 saveAllData();
                 lastSaveTime = Date.now();
+                stopThoughtBubbleTimer();
+                stopNeedsUpdateTimer();
             }
         });
 
         window.addEventListener('pagehide', function(event) {
             saveAllData();
+            stopThoughtBubbleTimer();
+            stopNeedsUpdateTimer();
         });
 
         window.addEventListener('beforeunload', function(event) {
             saveAllData();
+            stopThoughtBubbleTimer();
+            stopNeedsUpdateTimer();
         });
 
         window.addEventListener('resume', function() {
             handleIOSPageRestore();
             startAutoSave();
+            const simsPanel = document.getElementById('sims-panel');
+            if (simsPanel && simsPanel.classList.contains('visible')) {
+                startThoughtBubbleTimer();
+                startNeedsUpdateTimer();
+            }
         });
 
         if (document.readyState === 'complete') {
@@ -51848,9 +52257,11 @@ ${conversationContext.slice(-10).map(m => {
                 const wechatContainer = document.getElementById('phonecheck-wechat-container');
                 const neteaseContainer = document.getElementById('phonecheck-netease-container');
                 const browserContainer = document.getElementById('phonecheck-browser-container');
+                const tiktokContainer = document.getElementById('phonecheck-tiktok-container');
                 appContent.style.display = 'none';
                 neteaseContainer.style.display = 'none';
                 browserContainer.style.display = 'none';
+                tiktokContainer.style.display = 'none';
                 wechatContainer.style.display = 'block';
                 loadPhonecheckWechatContentFromDB(function(savedContent) {
                     if (savedContent) {
@@ -51861,6 +52272,7 @@ ${conversationContext.slice(-10).map(m => {
             } else if (app.id === 'netease') {
                 document.getElementById('phonecheck-wechat-container').style.display = 'none';
                 document.getElementById('phonecheck-browser-container').style.display = 'none';
+                document.getElementById('phonecheck-tiktok-container').style.display = 'none';
                 document.getElementById('phonecheck-appContent').style.display = 'none';
                 document.getElementById('phonecheck-netease-container').style.display = 'block';
                 phonecheckNeteaseDepth = 0;
@@ -51873,6 +52285,7 @@ ${conversationContext.slice(-10).map(m => {
             } else if (app.id === 'browser') {
                 document.getElementById('phonecheck-wechat-container').style.display = 'none';
                 document.getElementById('phonecheck-netease-container').style.display = 'none';
+                document.getElementById('phonecheck-tiktok-container').style.display = 'none';
                 document.getElementById('phonecheck-appContent').style.display = 'none';
                 document.getElementById('phonecheck-browser-container').style.display = 'block';
                 phonecheckBrowserDepth = 0;
@@ -51886,24 +52299,34 @@ ${conversationContext.slice(-10).map(m => {
                 document.getElementById('phonecheck-wechat-container').style.display = 'none';
                 document.getElementById('phonecheck-netease-container').style.display = 'none';
                 document.getElementById('phonecheck-browser-container').style.display = 'none';
-                document.getElementById('phonecheck-appContent').style.display = 'block';
-                phonecheckTiktokDepth = 0; phonecheckTiktokTab = 'video'; window.phonecheckRenderTiktokHistory();
+                document.getElementById('phonecheck-appContent').style.display = 'none';
+                document.getElementById('phonecheck-tiktok-container').style.display = 'block';
+                phonecheckTiktokDepth = 0; phonecheckTiktokTab = 'video';
+                loadPhonecheckTiktokContentFromDB(function(savedContent) {
+                    if (savedContent) {
+                        phonecheckTiktokGeneratedContent = savedContent;
+                    }
+                    window.phonecheckRenderTiktokHistory();
+                });
             } else if (app.id === 'notes') {
                 document.getElementById('phonecheck-wechat-container').style.display = 'none';
                 document.getElementById('phonecheck-netease-container').style.display = 'none';
                 document.getElementById('phonecheck-browser-container').style.display = 'none';
+                document.getElementById('phonecheck-tiktok-container').style.display = 'none';
                 document.getElementById('phonecheck-appContent').style.display = 'block';
                 phonecheckNotesDepth = 0; window.phonecheckRenderNotesList();
             } else if (app.id === 'settings') {
                 document.getElementById('phonecheck-wechat-container').style.display = 'none';
                 document.getElementById('phonecheck-netease-container').style.display = 'none';
                 document.getElementById('phonecheck-browser-container').style.display = 'none';
+                document.getElementById('phonecheck-tiktok-container').style.display = 'none';
                 document.getElementById('phonecheck-appContent').style.display = 'block';
                 renderPhonecheckSettings();
             } else {
                 document.getElementById('phonecheck-wechat-container').style.display = 'none';
                 document.getElementById('phonecheck-netease-container').style.display = 'none';
                 document.getElementById('phonecheck-browser-container').style.display = 'none';
+                document.getElementById('phonecheck-tiktok-container').style.display = 'none';
                 document.getElementById('phonecheck-appContent').style.display = 'block';
                 appContent.innerHTML = app.ui;
             }
@@ -51926,6 +52349,13 @@ ${conversationContext.slice(-10).map(m => {
 
         let phonecheckBrowserGeneratedContent = {
             history: null,
+            roleInfo: null,
+            timestamp: null
+        };
+
+        let phonecheckTiktokGeneratedContent = {
+            videos: null,
+            lives: null,
             roleInfo: null,
             timestamp: null
         };
@@ -52404,6 +52834,68 @@ ${conversationContext.slice(-10).map(m => {
             };
         }
 
+        function savePhonecheckTiktokContentToDB(data) {
+            const request = indexedDB.open('DesktopData', 1);
+            
+            request.onupgradeneeded = function(event) {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                const transaction = db.transaction(['settings'], 'readwrite');
+                const store = transaction.objectStore('settings');
+                const saveData = {
+                    id: 'phonecheck-tiktok-content',
+                    content: data,
+                    timestamp: Date.now()
+                };
+                store.put(saveData);
+            };
+            
+            request.onerror = function(event) {
+                console.error('保存抖音内容到IndexedDB失败:', event.target.error);
+            };
+        }
+
+        function loadPhonecheckTiktokContentFromDB(callback) {
+            const request = indexedDB.open('DesktopData', 1);
+            
+            request.onupgradeneeded = function(event) {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                const transaction = db.transaction(['settings'], 'readonly');
+                const store = transaction.objectStore('settings');
+                const getRequest = store.get('phonecheck-tiktok-content');
+                
+                getRequest.onsuccess = function() {
+                    if (getRequest.result && getRequest.result.content) {
+                        callback(getRequest.result.content);
+                    } else {
+                        callback(null);
+                    }
+                };
+                
+                getRequest.onerror = function() {
+                    callback(null);
+                };
+            };
+            
+            request.onerror = function(event) {
+                console.error('从IndexedDB加载抖音内容失败:', event.target.error);
+                callback(null);
+            };
+        }
+
         window.phonecheckSwitchWechatTab = function(tab) { phonecheckWechatTab = tab; window.phonecheckRenderWechatMain(); };
         
         window.phonecheckRenderWechatMain = function() {
@@ -52649,9 +53141,9 @@ ${conversationContext.slice(-10).map(m => {
 
         async function generatePhonecheckNeteasePlaylistsHTML() {
             const defaultPlaylists = [
-                { name: '极致留白', sub: 'Ambient', bg: '#f9f9f9', border: '#eaeaea' },
-                { name: '工作专注', sub: 'Lo-Fi', bg: '#f4f4f5', border: '#e0e0e0' },
-                { name: '午夜巡航', sub: 'Synth', bg: '#ededed', border: '#d6d6d6' }
+                { name: '极致留白', sub: 'Ambient', bg: '#e5e5e5', border: '#d5d5d5' },
+                { name: '工作专注', sub: 'Lo-Fi', bg: '#e5e5e5', border: '#d5d5d5' },
+                { name: '午夜巡航', sub: 'Synth', bg: '#e5e5e5', border: '#d5d5d5' }
             ];
             
             const covers = await getPhonecheckPlaylistCovers();
@@ -52684,16 +53176,16 @@ ${conversationContext.slice(-10).map(m => {
         const phonecheckNeteasePlaylistsHTML = '';
 
         const phonecheckNeteaseLeaderboardHTML = [
-            { title: 'Ditto', artist: 'NewJeans', rank: '1', rankColor: '#111', bg: '#111', iconColor: '#fff', playCount: '1,234次', thoughts: '这首歌的旋律太洗脑了，每次听都会不自觉地跟着哼唱。那种复古又现代的感觉真的很特别。' },
-            { title: 'Kill Bill', artist: 'SZA', rank: '2', rankColor: '#555', bg: '#333', iconColor: '#fff', playCount: '987次', thoughts: 'SZA的声音真的很有辨识度，歌词写得太真实了，那种复杂的情感表达得淋漓尽致。' },
-            { title: 'Die For You', artist: 'The Weeknd', rank: '3', rankColor: '#888', bg: '#555', iconColor: '#fff', playCount: '856次', thoughts: '深夜听这首歌特别有感觉，The Weeknd的嗓音真的很有穿透力，情感表达太到位了。' },
-            { title: 'Cruel Summer', artist: 'Taylor Swift', rank: '4', rankColor: '#aaa', bg: '#f0f0f0', iconColor: '#ccc', playCount: '723次', thoughts: 'Taylor Swift的歌总是能精准地捕捉到那些微妙的情感，这首歌的bridge部分简直是神来之笔。' },
-            { title: 'Luv(sic) pt.3', artist: 'Nujabes', rank: '5', rankColor: '#bbb', bg: '#f5f5f5', iconColor: '#ddd', playCount: '654次', thoughts: 'Nujabes的音乐总是能让我平静下来，这首的钢琴采样和鼓点配合得太完美了。' },
-            { title: 'Anti-Hero', artist: 'Taylor Swift', rank: '6', rankColor: '#bbb', bg: '#fafafa', iconColor: '#ddd', playCount: '589次', thoughts: '这首歌的歌词太有共鸣了，那种自我审视的感觉写得很真实，MV也很有创意。' },
-            { title: 'As It Was', artist: 'Harry Styles', rank: '7', rankColor: '#bbb', bg: '#fafafa', iconColor: '#ddd', playCount: '512次', thoughts: '复古的合成器音色配上Harry Styles的声音，听起来既怀旧又新鲜，很适合开车的时候听。' },
-            { title: 'Flowers', artist: 'Miley Cyrus', rank: '8', rankColor: '#bbb', bg: '#fafafa', iconColor: '#ddd', playCount: '478次', thoughts: '这首歌的歌词很励志，Miley的嗓音很有力量，听完感觉自己也变得更有自信了。' },
-            { title: 'Blinding Lights', artist: 'The Weeknd', rank: '9', rankColor: '#bbb', bg: '#fafafa', iconColor: '#ddd', playCount: '423次', thoughts: '80年代风格的合成器音色太上头了，这首歌简直是跑步必备，节奏感超级强。' },
-            { title: 'Levitating', artist: 'Dua Lipa', rank: '10', rankColor: '#bbb', bg: '#fafafa', iconColor: '#ddd', playCount: '389次', thoughts: 'Dua Lipa的复古迪斯科风格真的很对我的胃口，这首歌让人忍不住想跟着跳舞。' }
+            { title: 'Ditto', artist: 'NewJeans', rank: '1', rankColor: '#111', bg: '#e5e5e5', iconColor: '#999', playCount: '1,234次', thoughts: '这首歌的旋律太洗脑了，每次听都会不自觉地跟着哼唱。那种复古又现代的感觉真的很特别。' },
+            { title: 'Kill Bill', artist: 'SZA', rank: '2', rankColor: '#555', bg: '#e5e5e5', iconColor: '#999', playCount: '987次', thoughts: 'SZA的声音真的很有辨识度，歌词写得太真实了，那种复杂的情感表达得淋漓尽致。' },
+            { title: 'Die For You', artist: 'The Weeknd', rank: '3', rankColor: '#888', bg: '#e5e5e5', iconColor: '#999', playCount: '856次', thoughts: '深夜听这首歌特别有感觉，The Weeknd的嗓音真的很有穿透力，情感表达太到位了。' },
+            { title: 'Cruel Summer', artist: 'Taylor Swift', rank: '4', rankColor: '#aaa', bg: '#e5e5e5', iconColor: '#999', playCount: '723次', thoughts: 'Taylor Swift的歌总是能精准地捕捉到那些微妙的情感，这首歌的bridge部分简直是神来之笔。' },
+            { title: 'Luv(sic) pt.3', artist: 'Nujabes', rank: '5', rankColor: '#bbb', bg: '#e5e5e5', iconColor: '#999', playCount: '654次', thoughts: 'Nujabes的音乐总是能让我平静下来，这首的钢琴采样和鼓点配合得太完美了。' },
+            { title: 'Anti-Hero', artist: 'Taylor Swift', rank: '6', rankColor: '#bbb', bg: '#e5e5e5', iconColor: '#999', playCount: '589次', thoughts: '这首歌的歌词太有共鸣了，那种自我审视的感觉写得很真实，MV也很有创意。' },
+            { title: 'As It Was', artist: 'Harry Styles', rank: '7', rankColor: '#bbb', bg: '#e5e5e5', iconColor: '#999', playCount: '512次', thoughts: '复古的合成器音色配上Harry Styles的声音，听起来既怀旧又新鲜，很适合开车的时候听。' },
+            { title: 'Flowers', artist: 'Miley Cyrus', rank: '8', rankColor: '#bbb', bg: '#e5e5e5', iconColor: '#999', playCount: '478次', thoughts: '这首歌的歌词很励志，Miley的嗓音很有力量，听完感觉自己也变得更有自信了。' },
+            { title: 'Blinding Lights', artist: 'The Weeknd', rank: '9', rankColor: '#bbb', bg: '#e5e5e5', iconColor: '#999', playCount: '423次', thoughts: '80年代风格的合成器音色太上头了，这首歌简直是跑步必备，节奏感超级强。' },
+            { title: 'Levitating', artist: 'Dua Lipa', rank: '10', rankColor: '#bbb', bg: '#e5e5e5', iconColor: '#999', playCount: '389次', thoughts: 'Dua Lipa的复古迪斯科风格真的很对我的胃口，这首歌让人忍不住想跟着跳舞。' }
         ].map((s, i) => {
             const escapedThoughts = s.thoughts.replace(/'/g, "\\'").replace(/"/g, '\\"');
             return `
@@ -52723,7 +53215,7 @@ ${conversationContext.slice(-10).map(m => {
             if (generated.playlists && generated.playlists.length > 0) {
                 const covers = await getPhonecheckPlaylistCovers();
                 playlistsHTML = generated.playlists.map((p, i) => {
-                    let coverStyle = `background:${p.bg}; border:1px solid ${p.border};`;
+                    let coverStyle = `background:${p.bg || '#e5e5e5'}; border:1px solid ${p.border || '#d5d5d5'};`;
                     let coverInner = `<svg width="20" height="20" fill="none" stroke="#aaa" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2"></circle></svg>`;
                     let coverIndex = 'null';
                     
@@ -52738,7 +53230,7 @@ ${conversationContext.slice(-10).map(m => {
                     const escapedSub = p.sub.replace(/'/g, "\\'");
                     
                     return `
-                        <div onclick="window.phonecheckRenderNeteasePlaylist('${escapedName}', '${escapedSub}', '${p.bg}', '${p.border}', ${coverIndex}, ${i}, '${escapedThoughts}')" style="flex:1; display:flex; flex-direction:column; gap:8px; cursor:pointer;">
+                        <div onclick="window.phonecheckRenderNeteasePlaylist('${escapedName}', '${escapedSub}', '${p.bg || '#e5e5e5'}', '${p.border || '#d5d5d5'}', ${coverIndex}, ${i}, '${escapedThoughts}')" style="flex:1; display:flex; flex-direction:column; gap:8px; cursor:pointer;">
                             <div style="aspect-ratio:1; ${coverStyle} border-radius:14px; display:flex; justify-content:center; align-items:center; box-shadow:0 4px 10px rgba(0,0,0,0.02);">
                                 ${coverInner}
                             </div>
@@ -52757,10 +53249,10 @@ ${conversationContext.slice(-10).map(m => {
                 leaderboardHTML = generated.leaderboard.map((s, i) => {
                     const escapedThoughts = (s.thoughts || '这首歌很好听...').replace(/'/g, "\\'").replace(/"/g, '\\"');
                     return `
-                    <div onclick="showPhonecheckSongThoughts('${s.title.replace(/'/g, "\\'")}', '${s.artist.replace(/'/g, "\\'")}', '${s.bg}', '${s.iconColor || '#ccc'}', '${escapedThoughts}')" style="display:flex; align-items:center; gap:16px; padding:10px 0; cursor:pointer;">
+                    <div onclick="showPhonecheckSongThoughts('${s.title.replace(/'/g, "\\'")}', '${s.artist.replace(/'/g, "\\'")}', '${s.bg || '#e5e5e5'}', '${s.iconColor || '#999'}', '${escapedThoughts}')" style="display:flex; align-items:center; gap:16px; padding:10px 0; cursor:pointer;">
                         <div style="width:16px; font-size:16px; font-weight:700; color:${s.rankColor}; font-style:italic; text-align:center;">${s.rank}</div>
-                        <div style="width:44px; height:44px; border-radius:12px; background:${s.bg}; border:1px solid rgba(0,0,0,0.05); display:flex; justify-content:center; align-items:center;">
-                            <svg width="14" height="14" fill="none" stroke="${s.iconColor || '#ccc'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <div style="width:44px; height:44px; border-radius:12px; background:${s.bg || '#e5e5e5'}; border:1px solid rgba(0,0,0,0.05); display:flex; justify-content:center; align-items:center;">
+                            <svg width="14" height="14" fill="none" stroke="${s.iconColor || '#999'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         </div>
                         <div style="flex:1; border-bottom:1px solid rgba(0,0,0,0.03); padding-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
                             <div><div style="font-size:15px; font-weight:600; color:#111;">${s.title}</div><div style="font-size:12px; color:#aaa; margin-top:2px; font-weight:500;">${s.artist}</div></div>
@@ -52868,10 +53360,13 @@ ${conversationContext.slice(-10).map(m => {
             let historyHTML = '';
             if (generated.history && generated.history.length > 0) {
                 historyHTML = generated.history.map(h => {
-                    const escapedTitle = h.title.replace(/'/g, "\\'");
-                    const escapedContent = (h.content || '').replace(/'/g, "\\'").replace(/\n/g, '\\n');
+                    const escapeStr = (str) => (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                    const escapedTitle = escapeStr(h.title);
+                    const escapedUrl = escapeStr(h.url);
+                    const escapedContent = escapeStr(h.content || '');
+                    const escapedDescription = escapeStr(h.description || '');
                     return `
-                    <div onclick="window.phonecheckRenderBrowserPage('${escapedTitle}', '${h.url}', '${escapedContent}')" style="display:flex; flex-direction:column; padding:16px 0; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
+                    <div onclick="window.phonecheckRenderBrowserPage('${escapedTitle}', '${escapedUrl}', '${escapedContent}')" style="display:flex; flex-direction:column; padding:16px 0; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
                         <div style="font-size:16px; color:#111; font-weight:600; letter-spacing:0.3px; margin-bottom:6px;">${h.title}</div>
                         <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:13px; color:#aaa; font-family:monospace;">${h.url}</span><span style="font-size:12px; color:#ccc;">${h.time || '刚刚'}</span></div>
                         ${h.description ? `<div style="font-size:12px; color:#888; margin-top:4px; line-height:1.4;">${h.description}</div>` : ''}
@@ -52888,12 +53383,16 @@ ${conversationContext.slice(-10).map(m => {
                     { title: 'JavaScript性能优化技巧', url: 'dev.to', time: '3天前' },
                     { title: '极简生活美学博客', url: 'medium.com', time: '3天前' }
                 ];
-                historyHTML = defaultHistory.map(h => `
-                    <div onclick="window.phonecheckRenderBrowserPage('${h.title}', '${h.url}')" style="display:flex; flex-direction:column; padding:16px 0; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
+                historyHTML = defaultHistory.map(h => {
+                    const escapeStr = (str) => (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                    const escapedTitle = escapeStr(h.title);
+                    const escapedUrl = escapeStr(h.url);
+                    return `
+                    <div onclick="window.phonecheckRenderBrowserPage('${escapedTitle}', '${escapedUrl}')" style="display:flex; flex-direction:column; padding:16px 0; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
                         <div style="font-size:16px; color:#111; font-weight:600; letter-spacing:0.3px; margin-bottom:6px;">${h.title}</div>
                         <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:13px; color:#aaa; font-family:monospace;">${h.url}</span><span style="font-size:12px; color:#ccc;">${h.time}</span></div>
                     </div>
-                `).join('');
+                `}).join('');
             }
             
             browserContainer.innerHTML = `
@@ -52916,6 +53415,117 @@ ${conversationContext.slice(-10).map(m => {
         };
 
         window.phonecheckCurrentArticle = null;
+
+        window.phonecheckCurrentTiktok = null;
+
+        function generateTiktokShareCard(tiktok) {
+            if (!tiktok) return '';
+            
+            const isLive = tiktok.type === 'live';
+            const coverGradient = 'linear-gradient(135deg, #fbf9f9 0%, #fffbfb 100%)';
+            const authorInitial = tiktok.author ? tiktok.author.replace('@', '').charAt(0).toUpperCase() : 'U';
+            const likes = Math.floor(Math.random() * 50000 + 10000);
+            const likesDisplay = likes >= 10000 ? (likes / 10000).toFixed(1) + 'w' : likes.toString();
+            const comments = Math.floor(Math.random() * 2000 + 500);
+            const tagStr = Array.isArray(tiktok.tag) ? tiktok.tag.join(' ') : (tiktok.tag || '#fyp');
+            
+            return `
+            <div class="phonecheck-tiktok-share-card">
+                <div class="phonecheck-tiktok-share-cover" style="background: ${coverGradient};">
+                    <div class="phonecheck-tiktok-share-play">
+                        <svg viewBox="0 0 24 24"><path d="M7 4.5l12 7.5-12 7.5z" stroke-linejoin="round" stroke-width="2" stroke="none"/></svg>
+                    </div>
+                    <div class="phonecheck-tiktok-share-duration">${isLive ? 'LIVE' : '00:15'}</div>
+                </div>
+                <div class="phonecheck-tiktok-share-content">
+                    <div class="phonecheck-tiktok-share-header">
+                        <div class="phonecheck-tiktok-share-author">
+                            <div class="phonecheck-tiktok-share-avatar">${authorInitial}</div>
+                            <span class="phonecheck-tiktok-share-username">${tiktok.author || '@Unknown'}</span>
+                        </div>
+                    </div>
+                    <p class="phonecheck-tiktok-share-title">${tiktok.title || '分享的视频'} ${tagStr}</p>
+                    <div class="phonecheck-tiktok-share-footer">
+                        <div class="phonecheck-tiktok-share-metric liked">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            ${likesDisplay}
+                        </div>
+                        <div class="phonecheck-tiktok-share-metric">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                            ${comments}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        function phonecheckShareTiktok() {
+            const tiktok = window.phonecheckCurrentTiktok;
+            if (!tiktok) {
+                phonecheckShowShareToast('请先进入视频详情页');
+                return;
+            }
+            
+            if (!phonecheckSelectedRoleId || typeof roles === 'undefined' || !roles) {
+                phonecheckShowShareToast('请先选择一个角色');
+                return;
+            }
+            
+            const role = roles.find(r => r.id === phonecheckSelectedRoleId);
+            if (!role) {
+                phonecheckShowShareToast('角色不存在');
+                return;
+            }
+            
+            console.log('分享抖音数据:', tiktok);
+            
+            const tiktokMessage = {
+                type: 'tiktok',
+                title: tiktok.title || '未知标题',
+                author: tiktok.author || '@Unknown',
+                cover: tiktok.cover || '#f4f5f7',
+                tag: tiktok.tag || ['#fyp'],
+                summary: tiktok.summary || '这是一个精彩的视频内容...',
+                thoughts: tiktok.thoughts || '这个直播很有意思，推荐你也看看！',
+                contentType: tiktok.type || 'video',
+                timestamp: new Date().toISOString()
+            };
+            
+            if (!messages[phonecheckSelectedRoleId]) {
+                messages[phonecheckSelectedRoleId] = [];
+            }
+            
+            messages[phonecheckSelectedRoleId].push({
+                type: 'sent',
+                content: tiktokMessage,
+                timestamp: new Date().toISOString()
+            });
+            
+            saveMessages();
+            
+            phonecheckShowShareToast('已分享到聊天');
+            
+            closePhonecheck();
+            
+            if (typeof switchToChat === 'function') {
+                switchToChat(phonecheckSelectedRoleId);
+            }
+        }
+
+        function phonecheckHandleShare() {
+            if (phonecheckCurrentActiveApp === 'tiktok') {
+                phonecheckShareTiktok();
+            } else if (phonecheckCurrentActiveApp === 'browser') {
+                phonecheckShareArticle();
+            } else {
+                phonecheckShowShareToast('当前页面不支持分享');
+            }
+        }
 
         function phonecheckShareArticle() {
             const article = window.phonecheckCurrentArticle;
@@ -53095,7 +53705,11 @@ ${conversationContext.slice(-10).map(m => {
 
         window.phonecheckRenderTiktokHistory = function() {
             phonecheckTiktokDepth = 0;
-            const appContent = document.getElementById('phonecheck-appContent');
+            const tiktokContainer = document.getElementById('phonecheck-tiktok-container');
+            const refreshBtn = document.getElementById('phonecheck-refresh-btn');
+            const shareBtn = document.getElementById('phonecheck-share-btn');
+            if (refreshBtn) refreshBtn.style.display = 'flex';
+            if (shareBtn) shareBtn.style.display = 'none';
             const isVideo = phonecheckTiktokTab === 'video';
             const headerHTML = `
                 <div style="padding: 95px 24px 20px; display:flex; justify-content:space-between; align-items:flex-end;">
@@ -53114,15 +53728,29 @@ ${conversationContext.slice(-10).map(m => {
                 </div>
             `;
             let listHTML = '';
+            const generated = phonecheckTiktokGeneratedContent;
             if (isVideo) {
-                const historyData = [
-                    { title: '极简桌面布置指南 Desk Setup', author: '@Design_Lab', time: '昨天', cover: '#f4f5f7' },
-                    { title: '东京雨夜漫步 4K', author: '@CityWalker', time: '前天', cover: '#ebebeb' },
-                    { title: '莫兰迪配色穿搭法则', author: '@OOTD_Daily', time: '前天', cover: '#e0e0e0' },
-                    { title: '胶片摄影构图技巧分享', author: '@Grain_Focus', time: '1周前', cover: '#f0f0f0' }
+                const historyData = generated.videos && generated.videos.length > 0 ? generated.videos : [
+                    { title: '极简桌面布置指南 Desk Setup', author: '@Design_Lab', time: '刚刚', cover: '#f4f5f7', tag: ['#desksetup', '#minimal'], summary: '这是一个关于极简桌面布置的视频，博主从零开始整理凌乱的桌面，展示了如何使用白色收纳盒统一视觉风格，最终打造出一个简洁有序的工作空间。整个视频节奏舒缓，配乐轻柔，非常适合放松观看。', thoughts: '这个视频太治愈了！看着博主一点点把凌乱的桌面整理成极简风格，整个过程就像是在做冥想一样。特别喜欢他用白色收纳盒来统一视觉的做法，这种克制的美学真的很打动我。已经收藏了，准备周末也把自己的工作区域重新规划一下。', videoComments: [{user: '整理控', text: '这个收纳思路太棒了'}, {user: '打工人', text: '周末也要整理一下'}] },
+                    { title: '东京雨夜漫步 4K', author: '@CityWalker', time: '10分钟前', cover: '#ebebeb', tag: ['#citywalk', '#tokyo', '#night'], summary: '这是一部4K画质的东京雨夜漫步视频，记录了深夜东京街头的独特氛围。霓虹灯在湿润地面上的倒影，安静又繁华的城市景象，配上舒缓的背景音乐，营造出沉浸式的城市漫步体验。', thoughts: '雨夜的东京真的太有氛围感了，霓虹灯在湿漉漉的地面上的倒影，还有那种安静又繁华的感觉。看完特别想去旅行，这种深夜独自漫步的视频总能让我平静下来，仿佛自己也置身于那个雨夜之中。背景音乐选得也很好，很治愈。', videoComments: [{user: '旅行者', text: '东京夜景太美了'}, {user: '夜猫子', text: '配乐选得太好了'}] },
+                    { title: '莫兰迪配色穿搭法则', author: '@OOTD_Daily', time: '昨天', cover: '#e0e0e0', tag: ['#fashion', '#ootd'], summary: '这个视频详细讲解了莫兰迪色系的穿搭技巧，博主展示了如何用低饱和度的颜色搭配出高级感。通过同色系深浅变化的层次搭配，打造出简约而不简单的日常穿搭风格。', thoughts: '莫兰迪色系真的永远不会出错，这种低饱和度的配色看起来就很高级。博主的搭配思路很清晰，用同色系深浅变化来营造层次感，比那些花里胡哨的撞色搭配耐看多了。学到了几个新组合，明天就可以试试看。', videoComments: [{user: '穿搭小白', text: '学到了配色技巧'}, {user: '时尚博主', text: '层次感很重要'}] },
+                    { title: '胶片摄影构图技巧分享', author: '@Grain_Focus', time: '昨天', cover: '#f0f0f0', tag: ['#photography', '#film'], summary: '博主分享了胶片摄影的核心构图技巧，包括如何利用留白制造呼吸感、黄金分割点的运用、以及胶片特有的颗粒感美学。视频展示了多张胶片作品，并详细解析了每张照片的构图思路。', thoughts: '胶片的质感真的无可替代，那种自然的颗粒感和色彩过渡是滤镜永远模仿不来的。博主讲的构图技巧很实用，特别是利用留白来制造呼吸感这一点，和我一直以来的拍摄理念不谋而合。看完特别想拿起相机出门扫街了。', videoComments: [{user: '摄影爱好者', text: '留白构图学到了'}, {user: '胶片党', text: '颗粒感太美了'}] },
+                    { title: '极简主义生活美学', author: '@Minimal_Life', time: '2天前', cover: '#f5f5f5', tag: ['#minimal', '#lifestyle'], summary: '这个视频探讨了极简主义生活的核心理念，博主分享了如何通过断舍离来简化生活，只保留真正让自己心动的物品。视频展示了极简家居布置和日常习惯的改变。', thoughts: '极简不只是扔东西，而是一种对生活的态度。视频里说的"只保留真正让你心动的东西"这句话戳中我了。确实，被物品包围并不等于拥有生活，反而是种负担。最近也在尝试断舍离，这个视频给了我更多动力。', videoComments: [{user: '断舍离中', text: '这句话戳中我了'}, {user: '极简新手', text: '也要开始整理了'}] },
+                    { title: '咖啡拉花入门教程', author: '@Coffee_Art', time: '3天前', cover: '#e8e8e8', tag: ['#coffee', '#latteart', '#tutorial'], summary: '这是一个咖啡拉花入门教程，博主详细讲解了奶泡打发的关键技巧、倒入时的手腕配合，以及常见图案的绘制方法。通过慢动作演示和关键点提示，让初学者也能轻松上手。', thoughts: '原来拉花的核心是奶泡的打发程度和倒入时的手腕配合，之前一直做不好原来是奶泡打得太久了。博主的教学方式很清晰，慢动作演示加上关键点的提示，让我这种手残党也觉得可以尝试一下。周末买点咖啡豆练习练习！', videoComments: [{user: '咖啡控', text: '奶泡打发是关键'}, {user: '手残党', text: '也要试试看'}] },
+                    { title: '城市天际线延时摄影', author: '@Urban_Lens', time: '1周前', cover: '#f2f2f2', tag: ['#timelapse', '#cityscape'], summary: '这个延时摄影作品记录了城市天际线从日落到华灯初上的完整过程。通过精心选择的拍摄角度，展现了城市轮廓的层次感，配乐与画面完美融合，呈现出时间流逝的震撼美感。', thoughts: '延时摄影总能让我感受到时间的流逝和城市的呼吸。看着天际线从日落到华灯初上，那种昼夜交替的瞬间真的很震撼。博主选的拍摄角度很棒，把城市的轮廓拍得很有层次感。配乐也选得很到位。', videoComments: [{user: '摄影师', text: '这个角度太棒了'}, {user: '城市探索', text: '延时摄影很震撼'}] }
                 ];
-                listHTML = historyData.map((item) => `
-                    <div onclick="window.phonecheckRenderTiktokDetail('video', '${item.title}', '${item.author}')" style="display:flex; gap:16px; padding:16px 24px; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
+                listHTML = historyData.map((item) => {
+                    const tagStr = Array.isArray(item.tag) ? item.tag.join(' ') : (item.tag || '#fyp');
+                    const escapeStr = (str) => (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                    const titleEscaped = escapeStr(item.title);
+                    const authorEscaped = escapeStr(item.author);
+                    const tagEscaped = escapeStr(tagStr);
+                    const coverEscaped = escapeStr(item.cover || '#f4f5f7');
+                    const summaryEscaped = escapeStr(item.summary || '这是一个精彩的视频内容...');
+                    const thoughtsEscaped = escapeStr(item.thoughts || '这个视频很有意思...');
+                    const videoCommentsEncoded = encodeURIComponent(JSON.stringify(item.videoComments || []));
+                    return `
+                    <div onclick="window.phonecheckRenderTiktokDetail('video', '${titleEscaped}', '${authorEscaped}', '${tagEscaped}', '${coverEscaped}', '${summaryEscaped}', '${thoughtsEscaped}', '${videoCommentsEncoded}')" style="display:flex; gap:16px; padding:16px 24px; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
                         <div style="width:68px; aspect-ratio:3/4; background:${item.cover}; border-radius:10px; border:1px solid rgba(0,0,0,0.04);"></div>
                         <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
                             <div style="font-size:15px; font-weight:600; color:#111; line-height:1.4; margin-bottom:6px; letter-spacing:0.2px;">${item.title}</div>
@@ -53132,21 +53760,34 @@ ${conversationContext.slice(-10).map(m => {
                             </div>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
             } else {
-                const liveData = [
-                    { title: '深夜白噪：学习 / 专注室', tag: '音乐台', author: '@WhiteNoise', time: '已结束', cover: '#f0f0f0' },
-                    { title: '设计师的日常作画 Live', tag: '艺术创作', author: '@Art_Studio', time: '已结束', cover: '#f9f9f9' }
+                const liveData = generated.lives && generated.lives.length > 0 ? generated.lives : [
+                    { title: '深夜白噪：学习 / 专注室', tag: ['#音乐', '#白噪音'], author: '@WhiteNoise', time: '已结束', cover: '#f0f0f0', summary: '这是一个深夜白噪音直播，主播播放舒缓的背景音乐和环境音，营造安静的学习氛围，适合需要专注或助眠的观众。直播持续了三个小时，没有广告打断。', thoughts: '这个白噪音直播太适合深夜学习了，主播选的背景音乐都很舒缓，没有突兀的转换。开着它当背景音，整个人的专注度都提升了不少。已经关注了，以后写代码的时候都要开着。', liveComments: [{user: '夜猫子', text: '这歌单太适合深夜了'}, {user: '学生党', text: '写作业必备！'}, {user: '程序员', text: '专注神器'}] },
+                    { title: '设计师的日常作画 Live', tag: ['#艺术', '#绘画', '#live'], author: '@Art_Studio', time: '已结束', cover: '#f9f9f9', summary: '这是一个绘画直播，主播从零开始创作一幅数字插画，展示了完整的绘画过程。从线稿到上色，再到光影处理，全程讲解创作思路和技巧。', thoughts: '看别人画画真的很有意思，尤其是这种从零开始的过程。主播的用色很大胆，但组合在一起却很和谐。学到了一些新的配色思路，还有他处理光影的方式很值得借鉴。', liveComments: [{user: '画渣', text: '这个配色好美！'}, {user: '设计师', text: '光影处理学到了'}, {user: '艺术生', text: '配色思路很棒'}] },
+                    { title: '独立游戏开发日志', tag: ['#游戏', '#开发'], author: '@Indie_Dev', time: '已结束', cover: '#f5f5f5', summary: '这是一个独立游戏开发直播，主播一个人负责策划、美术和程序开发。直播展示了游戏的核心机制实现过程，以及遇到的技术难题和解决方案。', thoughts: '独立开发者的日常真的不容易，一个人要兼顾策划、美术、程序。但看到他一点点把游戏做出来的过程真的很燃。这种对梦想的坚持很打动人，也让我对自己的项目更有动力了。', liveComments: [{user: '游戏迷', text: '期待上线！'}, {user: '程序员', text: '一个人做太强了'}, {user: '独立开发者', text: '加油！'}] },
+                    { title: '城市夜景骑行漫游', tag: ['#旅行', '#骑行', '#夜景'], author: '@Night_Rider', time: '已结束', cover: '#e8e8e8', summary: '这是一个深夜城市骑行直播，主播骑着自行车穿梭在城市的街道上，用运动相机记录沿途的夜景。直播展示了城市在夜晚展现出的另一面。', thoughts: '深夜骑行的视角太独特了，城市在夜晚展现出的另一面真的很迷人。主播骑过的那些街道我好像也去过，但从来没在晚上看过。这种慢节奏的直播很适合放松心情。', liveComments: [{user: '骑行爱好者', text: '夜景太美了'}, {user: '夜猫子', text: '下次也想去夜骑'}, {user: '城市探索', text: '这个角度很独特'}] },
+                    { title: 'ASMR助眠电台', tag: ['#ASMR', '#助眠'], author: '@Sleepy_Vibes', time: '已结束', cover: '#f2f2f2', summary: '这是一个ASMR助眠直播，主播使用各种道具制造轻柔的声音，包括轻敲、耳语、翻书等，帮助观众放松身心，进入睡眠状态。', thoughts: '最近睡眠质量不太好，这个ASMR直播真的帮了大忙。主播的声音很温柔，各种轻敲和耳语的声音设计得恰到好处。听完之后整个人都放松下来了，终于能睡个好觉。', liveComments: [{user: '失眠党', text: '终于能睡着了'}, {user: '夜猫子', text: '声音好温柔'}, {user: '压力党', text: '太放松了'}] }
                 ];
-                listHTML = liveData.map((item) => `
-                    <div onclick="window.phonecheckRenderTiktokDetail('live', '${item.title}', '${item.author}')" style="display:flex; gap:16px; padding:16px 24px; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
+                listHTML = liveData.map((item, index) => {
+                    const tagStr = Array.isArray(item.tag) ? item.tag.join(' ') : (item.tag || '#live');
+                    const escapeStr = (str) => (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                    const titleEscaped = escapeStr(item.title);
+                    const authorEscaped = escapeStr(item.author);
+                    const tagEscaped = escapeStr(tagStr);
+                    const coverEscaped = escapeStr(item.cover || '#f4f5f7');
+                    const summaryEscaped = escapeStr(item.summary || '这是一个精彩的直播内容...');
+                    const thoughtsEscaped = escapeStr(item.thoughts || '这个直播很有意思...');
+                    const liveCommentsEncoded = encodeURIComponent(JSON.stringify(item.liveComments || []));
+                    return `
+                    <div onclick="window.phonecheckRenderTiktokDetail('live', '${titleEscaped}', '${authorEscaped}', '${tagEscaped}', '${coverEscaped}', '${summaryEscaped}', '${thoughtsEscaped}', '${liveCommentsEncoded}')" style="display:flex; gap:16px; padding:16px 24px; border-bottom:1px solid rgba(0,0,0,0.03); cursor:pointer;">
                         <div style="width:60px; height:60px; background:${item.cover}; border-radius:50%; border:1px solid rgba(0,0,0,0.05); display:flex; justify-content:center; align-items:center;">
                             <svg width="20" height="20" fill="none" stroke="#ccc" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
                         </div>
                         <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
                             <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
                                 <span style="border:1px solid #111; color:#111; font-size:9px; font-weight:700; padding:1px 4px; border-radius:4px; letter-spacing:0.5px;">LIVE</span>
-                                <span style="font-size:11px; color:#999;">${item.tag}</span>
+                                <span style="font-size:11px; color:#999;">${tagStr}</span>
                             </div>
                             <div style="font-size:15px; font-weight:600; color:#111; line-height:1.4; margin-bottom:4px;">${item.title}</div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -53155,9 +53796,9 @@ ${conversationContext.slice(-10).map(m => {
                             </div>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
             }
-            appContent.innerHTML = `
+            tiktokContainer.innerHTML = `
                 <div style="background:#fff; height:100%; display:flex; flex-direction:column;">
                     ${headerHTML}
                     <div style="flex:1; overflow-y:auto; padding-bottom:30px;">
@@ -53167,24 +53808,71 @@ ${conversationContext.slice(-10).map(m => {
             `;
         };
 
-        window.phonecheckRenderTiktokDetail = function(type, title, author) {
+        window.phonecheckRenderTiktokDetail = function(type, title, author, tag, cover, summary, thoughts, commentsEncoded) {
             phonecheckTiktokDepth = 1;
-            const appContent = document.getElementById('phonecheck-appContent');
+            const tiktokContainer = document.getElementById('phonecheck-tiktok-container');
+            const refreshBtn = document.getElementById('phonecheck-refresh-btn');
+            const shareBtn = document.getElementById('phonecheck-share-btn');
+            if (refreshBtn) refreshBtn.style.display = 'none';
+            if (shareBtn) shareBtn.style.display = 'flex';
             const isLive = type === 'live';
+            const videoTag = Array.isArray(tag) ? tag.join(' ') : (tag || '#fyp');
+            const videoCover = cover || '#f4f5f7';
+            const videoSummary = summary || '这是一个精彩的视频内容...';
+            const videoThoughts = thoughts || '这个内容很有意思...';
+            
+            let comments = [];
+            if (commentsEncoded) {
+                try {
+                    comments = JSON.parse(decodeURIComponent(commentsEncoded));
+                } catch (e) {
+                    comments = [];
+                }
+            }
+            
+            window.phonecheckCurrentTiktok = {
+                type: type,
+                title: title,
+                author: author,
+                tag: tag,
+                cover: videoCover,
+                summary: videoSummary,
+                thoughts: videoThoughts
+            };
+            
+            let commentsHTML = '';
+            if (comments && Array.isArray(comments) && comments.length > 0) {
+                commentsHTML = comments.map(comment => {
+                    const user = comment.user || 'User';
+                    const text = comment.text || '';
+                    return `<div style="font-size:12px; color:#888; margin-bottom:8px;"><span style="font-weight:600; color:#555;">${user}:</span> ${text}</div>`;
+                }).join('');
+            } else if (isLive) {
+                commentsHTML = `<div style="font-size:12px; color:#888; margin-bottom:8px;"><span style="font-weight:600; color:#555;">User_A:</span> 很棒的直播...</div>`;
+            }
+            
             const liveOverlay = isLive ? `
-                <div style="position:absolute; bottom:0; left:0; width:100%; height:150px; background:linear-gradient(to top, rgba(255,255,255,0.9), transparent); z-index:5; pointer-events:none; display:flex; flex-direction:column; justify-content:flex-end; padding:20px;">
-                    <div style="font-size:12px; color:#888; margin-bottom:8px;"><span style="font-weight:600; color:#555;">User_A:</span> 构图好漂亮...</div>
-                    <div style="font-size:12px; color:#888; margin-bottom:8px;"><span style="font-weight:600; color:#555;">Cloud:</span> 极简风永远滴神！</div>
+                <div class="phonecheck-tiktok-live-overlay">
+                    ${commentsHTML}
                 </div>
                 <div style="position:absolute; top:20px; right:20px; border:1px solid rgba(0,0,0,0.1); background:rgba(255,255,255,0.7); backdrop-filter:blur(10px); padding:4px 8px; border-radius:12px; font-size:10px; font-weight:700; letter-spacing:1px; color:#111;">LIVE <span style="color:#d32f2f;">●</span></div>
-            ` : '';
-            appContent.innerHTML = `
-                <div style="height:100%; background:#fff; display:flex; flex-direction:column; position:relative; padding-bottom:16px;">
+            ` : (commentsHTML ? `
+                <div class="phonecheck-tiktok-live-overlay">
+                    ${commentsHTML}
+                </div>
+            ` : '');
+            tiktokContainer.innerHTML = `
+                <div class="phonecheck-app-container" style="padding-bottom:16px;">
                     <div style="height: 100px; width: 100%;"></div>
-                    <div style="flex:1; margin:0 12px; background:#f4f5f7; border-radius:32px; position:relative; overflow:hidden; border:1px solid rgba(0,0,0,0.03);">
+                    <div class="phonecheck-tiktok-video-frame" onclick="showPhonecheckTiktokThoughts('${title.replace(/'/g, "\\'")}', '${author}', '${videoCover}', '${videoThoughts.replace(/'/g, "\\'")}')">
+                        <div class="phonecheck-tiktok-video-summary-wrap">
+                            <div class="phonecheck-tiktok-video-summary">
+                                ${videoSummary.length > 150 ? videoSummary.substring(0, 150) + '...' : videoSummary}
+                            </div>
+                        </div>
                         ${liveOverlay}
-                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
-                            <svg width="40" height="40" fill="none" stroke="#ccc" stroke-width="1.2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                        <div class="phonecheck-tiktok-play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:72px; height:72px; border-radius:50%; background:rgba(255,255,255,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:flex; justify-content:center; align-items:center; box-shadow:0 1px 8px rgba(0,0,0,0.03), inset 0 0 0 1px rgba(255,255,255,0.5); cursor:pointer; transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);">
+                            <svg width="26" height="26" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="margin-left:3px;"><polygon points="8 5 19 12 8 19 8 5"></polygon></svg>
                         </div>
                         <div style="position:absolute; bottom:20px; right:12px; display:flex; flex-direction:column; gap:20px; align-items:center; z-index:10;">
                             <div style="width:40px; height:40px; border-radius:50%; background:#fff; border:1px solid rgba(0,0,0,0.05); display:flex; justify-content:center; align-items:center; box-shadow:0 4px 10px rgba(0,0,0,0.03);">
@@ -53203,16 +53891,43 @@ ${conversationContext.slice(-10).map(m => {
                                 <span style="font-size:10px; color:#555; font-weight:600;">Share</span>
                             </div>
                         </div>
-                        <div style="position:absolute; bottom:20px; left:20px; right:80px; z-index:10;">
+                        <div class="phonecheck-tiktok-video-info">
                             <div style="font-size:15px; font-weight:700; color:#111; margin-bottom:6px; letter-spacing:0.5px;">${author}</div>
                             <div style="font-size:13px; color:#555; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
-                                ${title} ☁️ <span style="font-weight:600; color:#111;">#minimal</span>
+                                ${title} ☁️ <span style="font-weight:600; color:#111;">${videoTag}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
         };
+
+        function showPhonecheckTiktokThoughts(title, author, cover, thoughts) {
+            const overlay = document.getElementById('phonecheck-tiktok-thoughts-overlay');
+            const titleEl = document.getElementById('phonecheck-tiktok-thoughts-title');
+            const authorEl = document.getElementById('phonecheck-tiktok-thoughts-author');
+            const coverEl = document.getElementById('phonecheck-tiktok-thoughts-cover');
+            const textEl = document.getElementById('phonecheck-tiktok-thoughts-text');
+            
+            if (titleEl) titleEl.textContent = title;
+            if (authorEl) authorEl.textContent = author;
+            if (coverEl) {
+                coverEl.style.background = cover || '#f4f5f7';
+            }
+            if (textEl) textEl.textContent = thoughts || '这个内容很有意思...';
+            
+            if (overlay) {
+                overlay.classList.add('show');
+            }
+        }
+
+        function closePhonecheckTiktokThoughts(event) {
+            if (event && event.target !== event.currentTarget) return;
+            const overlay = document.getElementById('phonecheck-tiktok-thoughts-overlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+            }
+        }
 
         window.phonecheckRenderNotesList = function() {
             phonecheckNotesDepth = 0;
@@ -53283,6 +53998,8 @@ ${conversationContext.slice(-10).map(m => {
             } else if (phonecheckCurrentActiveApp === 'tiktok' && phonecheckTiktokDepth === 1) {
                 window.phonecheckRenderTiktokHistory();
                 if (refreshBtn) refreshBtn.style.display = 'flex';
+                const shareBtn = document.getElementById('phonecheck-share-btn');
+                if (shareBtn) shareBtn.style.display = 'none';
             } else if (phonecheckCurrentActiveApp === 'notes' && phonecheckNotesDepth === 1) {
                 window.phonecheckRenderNotesList();
                 if (refreshBtn) refreshBtn.style.display = 'flex';
@@ -53298,15 +54015,22 @@ ${conversationContext.slice(-10).map(m => {
             const wechatContainer = document.getElementById('phonecheck-wechat-container');
             const neteaseContainer = document.getElementById('phonecheck-netease-container');
             const browserContainer = document.getElementById('phonecheck-browser-container');
+            const tiktokContainer = document.getElementById('phonecheck-tiktok-container');
+            const refreshBtn = document.getElementById('phonecheck-refresh-btn');
+            const shareBtn = document.getElementById('phonecheck-share-btn');
             appWindow.classList.remove('active');
             wechatContainer.style.display = 'none';
             neteaseContainer.style.display = 'none';
             browserContainer.style.display = 'none';
+            tiktokContainer.style.display = 'none';
             appContent.style.display = 'block';
+            if (refreshBtn) refreshBtn.style.display = 'flex';
+            if (shareBtn) shareBtn.style.display = 'none';
             setTimeout(() => {
                 appContent.innerHTML = '';
                 wechatContainer.innerHTML = '';
                 neteaseContainer.innerHTML = '';
+                tiktokContainer.innerHTML = '';
             }, 500);
         };
 
@@ -53358,10 +54082,10 @@ ${conversationContext.slice(-10).map(m => {
                 }
             } else if (phonecheckCurrentActiveApp === 'tiktok') {
                 if (phonecheckTiktokDepth === 0) {
-                    window.phonecheckRenderTiktokHistory();
+                    await window.phonecheckGenerateTiktokContent();
                 } else {
                     phonecheckTiktokDepth = 0;
-                    window.phonecheckRenderTiktokHistory();
+                    await window.phonecheckGenerateTiktokContent();
                 }
             } else if (phonecheckCurrentActiveApp === 'notes') {
                 if (phonecheckNotesDepth === 0) {
@@ -53443,6 +54167,13 @@ ${conversationContext.slice(-10).map(m => {
                                             content = `[表情] ${msg.content.desc || '表情包'}`;
                                         } else if (msg.content.type === 'transfer') {
                                             content = `[转账] ¥${msg.content.amount || 0}`;
+                                        } else if (msg.content.type === 'article') {
+                                            content = `[分享文章] 标题：${msg.content.title || '未知标题'}，来源：${msg.content.url || '未知来源'}，摘要：${msg.content.description || '无摘要'}\n（这是你浏览过的网页，用户看到了并分享给你。你可以和用户讨论这个网页的内容。）`;
+                                        } else if (msg.content.type === 'tiktok') {
+                                            const tiktokType = msg.content.contentType === 'live' ? '直播' : '视频';
+                                            const tagStr = Array.isArray(msg.content.tag) ? msg.content.tag.join(' ') : (msg.content.tag || '');
+                                            const summaryText = msg.content.summary || '无内容概括';
+                                            content = `[分享抖音${tiktokType}] 标题：${msg.content.title || '未知标题'}，作者：${msg.content.author || '未知作者'}，标签：${tagStr}\n内容概括：${summaryText}\n这是${roleInfo.name}看完后的感想：${msg.content.thoughts || '无感想'}\n（这是你观看过的视频或直播，用户看到了并分享给你。你可以和用户讨论这个视频或者直播的内容。）\n注意事项：讨论时你需要延续感想中的想法，不能和感想中的想法驴头不对马嘴`;
                                         } else {
                                             content = JSON.stringify(msg.content);
                                         }
@@ -53680,6 +54411,13 @@ ${chatHistoryText}
                                             content = `[表情] ${msg.content.desc || '表情包'}`;
                                         } else if (msg.content.type === 'transfer') {
                                             content = `[转账] ¥${msg.content.amount || 0}`;
+                                        } else if (msg.content.type === 'article') {
+                                            content = `[分享文章] 标题：${msg.content.title || '未知标题'}，来源：${msg.content.url || '未知来源'}，摘要：${msg.content.description || '无摘要'}\n（这是你浏览过的网页，用户看到了并分享给你。你可以和用户讨论这个网页的内容。）`;
+                                        } else if (msg.content.type === 'tiktok') {
+                                            const tiktokType = msg.content.contentType === 'live' ? '直播' : '视频';
+                                            const tagStr = Array.isArray(msg.content.tag) ? msg.content.tag.join(' ') : (msg.content.tag || '');
+                                            const summaryText = msg.content.summary || '无内容概括';
+                                            content = `[分享抖音${tiktokType}] 标题：${msg.content.title || '未知标题'}，作者：${msg.content.author || '未知作者'}，标签：${tagStr}\n内容概括：${summaryText}\n这是${roleInfo.name}看完后的感想：${msg.content.thoughts || '无感想'}\n（这是你观看过的视频或直播，用户看到了并分享给你。你可以和用户讨论这个视频或者直播的内容。）\n注意事项：讨论时你需要延续感想中的想法，不能和感想中的想法驴头不对马嘴`;
                                         } else {
                                             content = JSON.stringify(msg.content);
                                         }
@@ -53901,6 +54639,13 @@ ${chatHistoryText}
                                             content = `[表情] ${msg.content.desc || '表情包'}`;
                                         } else if (msg.content.type === 'transfer') {
                                             content = `[转账] ¥${msg.content.amount || 0}`;
+                                        } else if (msg.content.type === 'article') {
+                                            content = `[分享文章] 标题：${msg.content.title || '未知标题'}，来源：${msg.content.url || '未知来源'}，摘要：${msg.content.description || '无摘要'}\n（这是你浏览过的网页，用户看到了并分享给你。你可以和用户讨论这个网页的内容。）`;
+                                        } else if (msg.content.type === 'tiktok') {
+                                            const tiktokType = msg.content.contentType === 'live' ? '直播' : '视频';
+                                            const tagStr = Array.isArray(msg.content.tag) ? msg.content.tag.join(' ') : (msg.content.tag || '');
+                                            const summaryText = msg.content.summary || '无内容概括';
+                                            content = `[分享抖音${tiktokType}] 标题：${msg.content.title || '未知标题'}，作者：${msg.content.author || '未知作者'}，标签：${tagStr}\n内容概括：${summaryText}\n这是${roleInfo.name}看完后的感想：${msg.content.thoughts || '无感想'}\n（这是你观看过的视频或直播，用户看到了并分享给你。你可以和用户讨论这个视频或者直播的内容。）\n注意事项：讨论时你需要延续感想中的想法，不能和感想中的想法驴头不对马嘴`;
                                         } else {
                                             content = JSON.stringify(msg.content);
                                         }
@@ -54027,6 +54772,241 @@ ${chatHistoryText}
             }
 
             window.phonecheckRenderBrowserHome();
+        }
+
+        window.phonecheckGenerateTiktokContent = async function() {
+            const tiktokContainer = document.getElementById('phonecheck-tiktok-container');
+            
+            tiktokContainer.innerHTML = `
+                <div style="background:#fff; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; padding-top:95px;">
+                    <div style="width:40px; height:40px; border:3px solid #f0f0f0; border-top-color:#111; border-radius:50%; animation:phonecheck-spin 0.8s linear infinite;"></div>
+                    <div style="margin-top:16px; font-size:14px; color:#888;">正在生成抖音内容...</div>
+                </div>
+                <style>
+                    @keyframes phonecheck-spin {
+                        to { transform: rotate(360deg); }
+                    }
+                </style>
+            `;
+
+            const savedApiUrl = localStorage.getItem('apiUrl') || '';
+            const apiKey = localStorage.getItem('apiKey') || '';
+            const selectedModel = localStorage.getItem('selectedModel') || '';
+            const chatEndpoint = getChatEndpoint(savedApiUrl);
+
+            if (!chatEndpoint || !apiKey || !selectedModel) {
+                phonecheckTiktokGeneratedContent = {
+                    videos: null,
+                    lives: null,
+                    roleInfo: null,
+                    timestamp: null
+                };
+                savePhonecheckTiktokContentToDB(phonecheckTiktokGeneratedContent);
+                window.phonecheckRenderTiktokHistory();
+                return;
+            }
+
+            let roleInfo = null;
+            let worldbookPrompt = '';
+            let chatHistoryText = '';
+
+            if (phonecheckSelectedRoleId && typeof roles !== 'undefined' && roles) {
+                roleInfo = roles.find(r => r.id === phonecheckSelectedRoleId);
+                if (roleInfo) {
+                    worldbookPrompt = getWorldbookPrompt(roleInfo.id);
+                    
+                    if (typeof messages !== 'undefined' && messages[phonecheckSelectedRoleId]) {
+                        const conversationHistory = messages[phonecheckSelectedRoleId] || [];
+                        const recentHistory = conversationHistory.slice(-20);
+                        
+                        if (recentHistory.length > 0) {
+                            const formattedMessages = recentHistory.map(msg => {
+                                const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : '';
+                                let content = '';
+                                
+                                if (msg.content) {
+                                    if (typeof msg.content === 'object') {
+                                        if (msg.content.type === 'voice') {
+                                            content = `[语音] ${msg.content.text || '语音消息'}`;
+                                        } else if (msg.content.type === 'photo') {
+                                            content = `[图片] ${msg.content.description || '图片'}`;
+                                        } else if (msg.content.type === 'emoji') {
+                                            content = `[表情] ${msg.content.desc || '表情包'}`;
+                                        } else if (msg.content.type === 'transfer') {
+                                            content = `[转账] ¥${msg.content.amount || 0}`;
+                                        } else if (msg.content.type === 'article') {
+                                            content = `[分享文章] 标题：${msg.content.title || '未知标题'}，来源：${msg.content.url || '未知来源'}，摘要：${msg.content.description || '无摘要'}\n（这是你浏览过的网页，用户看到了并分享给你。你可以和用户讨论这个网页的内容。）`;
+                                        } else if (msg.content.type === 'tiktok') {
+                                            const tiktokType = msg.content.contentType === 'live' ? '直播' : '视频';
+                                            const tagStr = Array.isArray(msg.content.tag) ? msg.content.tag.join(' ') : (msg.content.tag || '');
+                                            const summaryText = msg.content.summary || '无内容概括';
+                                            content = `[分享抖音${tiktokType}] 标题：${msg.content.title || '未知标题'}，作者：${msg.content.author || '未知作者'}，标签：${tagStr}\n内容概括：${summaryText}\n这是${roleInfo.name}看完后的感想：${msg.content.thoughts || '无感想'}\n（这是你观看过的视频或直播，用户看到了并分享给你。你可以和用户讨论这个视频或者直播的内容。）\n注意事项：讨论时你需要延续感想中的想法，不能和感想中的想法驴头不对马嘴`;
+                                        } else {
+                                            content = JSON.stringify(msg.content);
+                                        }
+                                    } else {
+                                        content = msg.content;
+                                    }
+                                }
+                                
+                                const sender = msg.type === 'sent' ? '我' : roleInfo.name;
+                                return `[${time}] ${sender}: ${content}`;
+                            }).join('\n');
+                            
+                            chatHistoryText = `\n## 最近聊天记录（与${roleInfo.name}的对话）\n${formattedMessages}`;
+                        }
+                    }
+                }
+            }
+
+            const systemPrompt = `你是${roleInfo ? roleInfo.name : '一个普通人'}本人。你需要根据角色设定，生成符合该角色特点的抖音浏览历史内容。
+ 
+${roleInfo ? `## 角色信息 
+- 角色名称：${roleInfo.name} 
+${roleInfo.description ? `- 人物描述：${roleInfo.description}` : ''} 
+${roleInfo.tags && roleInfo.tags.length > 0 ? `- 性格特点：${roleInfo.tags.join('、')}` : ''} 
+ 
+这台手机属于${roleInfo.name}，所有抖音内容都应该体现这个角色的观看习惯，应该多样化。 
+**重要：你需要从${roleInfo.name}的视角来生成内容。** ` : '## 默认设定\n这台手机属于一个普通的年轻人，抖音内容应该符合一般年轻人的观看习惯。'}
+ 
+${worldbookPrompt ? `## 世界书/背景设定 \n${worldbookPrompt}` : ''} 
+${chatHistoryText} 
+## 生成要求 
+请生成抖音的历史记录内容，以JSON格式返回： 
+ 
+### 视频历史 
+生成7条最近观看的视频记录，每条包含： 
+- title: 视频标题（中文，15-30字） 
+- author: 作者名称（如@Design_Lab、@CityWalker等） 
+- time: 观看时间（如"刚刚"、"10分钟前"、"昨天"、"3天前"等） 
+- cover: 封面颜色（十六进制颜色值，必须是黑白灰色系，如#f4f4f4、#e8e8e8、#d9d9d9、#f0f0f0等灰度色） 
+- tag: 视频标签数组（1-3个标签，如["#minimal", "#design"]或["#travel", "#citywalk", "#night"]） 
+- summary: 视频内容概括（**必须100-150字，绝对不能超过150字**，客观描述视频的主要内容、主题、亮点或关键信息，不包含个人感想。例如："这是一个关于极简桌面布置的视频，博主从零开始整理凌乱的桌面，展示了如何使用白色收纳盒统一视觉风格，最终打造出一个简洁有序的工作空间。"） 
+- thoughts: 角色对这个视频的感想或观后感（**必须100-200字**，从角色第一人称视角，表达观看后的感受、想法、启发或共鸣。**必须使用正确的中文标点符号，包括逗号、句号、感叹号等，不能省略标点**） 
+- videoComments: 视频评论数组（**必须2条评论**，每条评论包含user和text两个字段。评论内容必须与视频内容高度相关，体现观众对视频的实时反应。例如：对于设计视频，评论可以是"这个配色太棒了"、"学到了"；对于旅行视频，评论可以是"风景太美了"、"想去这里"。评论要简短自然，10-25字） 
+ 
+### 直播历史 
+生成5条最近观看的直播记录，每条包含： 
+- title: 直播标题（中文，15-30字） 
+- tag: 直播标签数组（1-3个标签，如["#音乐", "#白噪音"]或["#艺术", "#绘画", "#live"]） 
+- author: 主播名称（如@WhiteNoise、@Art_Studio等） 
+- time: 观看状态（固定为"已结束"） 
+- cover: 封面颜色（十六进制颜色值，必须是黑白灰色系） 
+- summary: 直播内容概括（**必须100-150字，绝对不能超过150字**，客观描述直播的主要内容、主题、亮点或关键信息，不包含个人感想。例如："这是一个深夜白噪音直播，主播播放舒缓的背景音乐和环境音，营造安静的学习氛围，适合需要专注或助眠的观众。"） 
+- thoughts: 角色对这个直播的感想或观后感（**必须100-200字**，从角色第一人称视角。**必须使用正确的中文标点符号**） 
+- liveComments: 直播评论数组（**必须3条评论**，每条评论包含user和text两个字段。评论内容必须与直播内容高度相关，体现观众对直播的实时反应。例如：对于绘画直播，评论可以是"这个配色好美！"、"学到了"；对于音乐直播，评论可以是"这歌单太棒了"、"很适合学习"。评论要简短自然，10-25字） 
+ 
+## 返回格式 
+请严格按照以下JSON格式返回，不要添加任何其他内容： 
+\`\`\`json 
+{ 
+  "videos": [ 
+    { 
+      "title": "视频标题", 
+      "author": "@作者名", 
+      "time": "观看时间", 
+      "cover": "#颜色值", 
+      "tag": ["#标签1", "#标签2"], 
+      "summary": "视频内容概括，客观描述视频的主要内容，必须100-150字，绝对不能超过150字。",
+      "thoughts": "角色对这个视频的感想或观后感，必须有100-200字，使用正确的中文标点符号。", 
+      "videoComments": [ 
+        {"user": "用户名A", "text": "与视频内容相关的评论"}, 
+        {"user": "用户名B", "text": "与视频内容相关的评论"} 
+      ] 
+    } 
+  ], 
+  "lives": [ 
+    { 
+      "title": "直播标题", 
+      "tag": ["#标签1", "#标签2"], 
+      "author": "@主播名", 
+      "time": "已结束", 
+      "cover": "#颜色值", 
+      "summary": "直播内容概括，客观描述直播的主要内容，必须100-150字，绝对不能超过150字。",
+      "thoughts": "角色对这个直播的感想或观后感，必须有100-200字，使用正确的中文标点符号。", 
+      "liveComments": [ 
+        {"user": "用户名A", "text": "与直播内容相关的评论"}, 
+        {"user": "用户名B", "text": "与直播内容相关的评论"},
+        {"user": "用户名C", "text": "与直播内容相关的评论"} 
+      ] 
+    } 
+  ] 
+} 
+\`\`\`
+ 
+## 注意事项 
+1. 内容要符合角色设定，体现角色的兴趣和观看习惯 
+2. 视频和直播内容要多样化，可以涵盖设计、音乐、游戏、美食、旅行、学习等等不同领域，不做限制必须要多样化 
+3. 如果角色有特定的兴趣爱好，可以在观看记录中体现 
+4. 如果有聊天记录，可以参考聊天内容中提到的话题来生成相关内容 
+5. **所有内容都要从角色本人的视角出发，这是${roleInfo ? roleInfo.name : '角色'}的手机** 
+6. **多样性要求：每次生成的内容必须完全不同，避免重复相似的视频主题** 
+7. **创新性：尝试生成角色可能感兴趣的、之前没有出现过的新内容** 
+8. **summary字段必须严格控制在100-150字之间，绝对不能超过150字，客观描述视频/直播内容，不包含个人感想**
+9. **thoughts字段必须严格控制在100-200字之间，不能少于100字，不能超过200字** 
+10. **thoughts字段必须使用正确的中文标点符号（，。！？、：；""''等），不能省略标点或使用错误标点**`;
+
+            try {
+                const response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: '请生成抖音界面内容，以JSON格式返回。' }
+                        ],
+                        temperature: 1.3
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    let reply = result.choices[0].message.content;
+                    
+                    reply = reply.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+                    
+                    try {
+                        const generatedData = JSON.parse(reply);
+                        phonecheckTiktokGeneratedContent = {
+                            videos: generatedData.videos || null,
+                            lives: generatedData.lives || null,
+                            roleInfo: roleInfo,
+                            timestamp: Date.now()
+                        };
+                        savePhonecheckTiktokContentToDB(phonecheckTiktokGeneratedContent);
+                    } catch (parseError) {
+                        console.warn('解析抖音内容JSON失败:', parseError);
+                        phonecheckTiktokGeneratedContent = {
+                            videos: null,
+                            lives: null,
+                            roleInfo: roleInfo,
+                            timestamp: Date.now()
+                        };
+                    }
+                } else {
+                    console.warn('API请求失败:', response.status);
+                    phonecheckTiktokGeneratedContent = {
+                        videos: null,
+                        lives: null,
+                        roleInfo: roleInfo,
+                        timestamp: Date.now()
+                    };
+                }
+            } catch (error) {
+                console.error('生成抖音内容失败:', error);
+                phonecheckTiktokGeneratedContent = {
+                    videos: null,
+                    lives: null,
+                    roleInfo: roleInfo,
+                    timestamp: Date.now()
+                };
+            }
+
+            window.phonecheckRenderTiktokHistory();
         }
 
         function openPhonecheck() {
@@ -54202,12 +55182,11 @@ ${chatHistoryText}
             if (nameEl) nameEl.textContent = name;
             if (subEl) subEl.textContent = sub;
             if (coverEl) {
-                coverEl.style.background = bg || '#f0f0f0';
-                if (border) coverEl.style.border = `1px solid ${border}`;
+                coverEl.style.background = '#e5e5e5';
+                coverEl.style.border = '1px solid #d5d5d5';
                 const svg = coverEl.querySelector('svg');
                 if (svg) {
-                    const isDark = bg && (bg.toLowerCase().includes('111') || bg.toLowerCase().includes('333') || bg.toLowerCase().includes('555'));
-                    svg.style.stroke = isDark ? '#fff' : '#ccc';
+                    svg.style.stroke = '#999';
                 }
             }
             if (textEl) textEl.textContent = thoughts || '这个歌单很好听...';
@@ -56555,13 +57534,34 @@ ${chatHistoryText}
                             <div class="phonecheck-refresh-btn" id="phonecheck-refresh-btn" onclick="phonecheckRefreshApp()">
                                 <svg class="phonecheck-refresh-icon" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                             </div>
-                            <div class="phonecheck-share-btn" id="phonecheck-share-btn" onclick="phonecheckShareArticle()" style="display:none;">
+                            <div class="phonecheck-share-btn" id="phonecheck-share-btn" onclick="phonecheckHandleShare()" style="display:none;">
                                 <svg class="phonecheck-share-icon" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
                             </div>
                             <div class="phonecheck-app-content" id="phonecheck-appContent"></div>
                             <div class="phonecheck-wechat-container" id="phonecheck-wechat-container" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; z-index:90;"></div>
                             <div class="phonecheck-netease-container" id="phonecheck-netease-container" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; z-index:90;"></div>
                             <div class="phonecheck-browser-container" id="phonecheck-browser-container" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; z-index:90;"></div>
+                            <div class="phonecheck-tiktok-container" id="phonecheck-tiktok-container" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; z-index:90;"></div>
+                            <div class="phonecheck-tiktok-thoughts-overlay" id="phonecheck-tiktok-thoughts-overlay" onclick="closePhonecheckTiktokThoughts(event)">
+                                <div class="phonecheck-tiktok-thoughts-modal" onclick="event.stopPropagation()">
+                                    <div class="phonecheck-tiktok-thoughts-header">
+                                        <div class="phonecheck-tiktok-thoughts-cover" id="phonecheck-tiktok-thoughts-cover">
+                                            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                        </div>
+                                        <div class="phonecheck-tiktok-thoughts-info">
+                                            <div class="phonecheck-tiktok-thoughts-title" id="phonecheck-tiktok-thoughts-title">视频标题</div>
+                                            <div class="phonecheck-tiktok-thoughts-author" id="phonecheck-tiktok-thoughts-author">@作者</div>
+                                        </div>
+                                        <div class="phonecheck-tiktok-thoughts-close" onclick="closePhonecheckTiktokThoughts()">
+                                            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        </div>
+                                    </div>
+                                    <div class="phonecheck-tiktok-thoughts-content">
+                                        <div class="phonecheck-tiktok-thoughts-label">观看感想</div>
+                                        <div class="phonecheck-tiktok-thoughts-text" id="phonecheck-tiktok-thoughts-text">这个视频让我想起了...</div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="phonecheck-home-bar-container" onclick="phonecheckCloseApp()">
                                 <div class="phonecheck-home-bar"></div>
                             </div>
