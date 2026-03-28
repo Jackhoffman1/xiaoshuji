@@ -282,7 +282,7 @@
             --heart-icon-width: 180px !important;
             --heart-icon-avatar-size: 40px !important;
             --heart-icon-bubble-width: 180px !important;
-            top: calc(79% - 250px) !important;
+            top: calc(79% - 265px) !important;
         }
         
         html.android .heart-icon .chat-container {
@@ -21864,18 +21864,14 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年3月27日</div>
+                <div class="announcement-date" id="announcement-date">2026年3月29日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <ul>
-                        <li>📱 修改了桌面，增加了第二页</li>
-                        <li>🔍 查手机功能制作中（目前查微信实装）</li>
-                        <li>🔧 修复了消息引索异常的问题，旧版本的消息无法改变了，后续是否还有问题还需要多多测试哦</li>
-                        <li>🐛 修复了删除聊天记录会删除css的问题，还有一些小bug</li>
-                        <li>🖼️ 头图小组件增加了清空后可编辑</li>
-                        <li>🎵 实装了查网易云和浏览器，浏览器内的网页可以分享给角色</li>
-                        <li>💬 查微信的朋友圈背景是直接使用角色详细资料页内的背景哦</li>
+                        <li>🔧 修复了刷新不启用全局css的问题</li>
+                        <li>🔤 修复了本地字体刷新消失的问题</li>
+                        <li>📱 修复了安卓小组件下移的问题</li>
                         <li style="color: orange;">⏳ 待办事项：实装minimax语音</li>
                     </ul>
                 </div>
@@ -34164,50 +34160,54 @@ ${conversationHistory.slice(-10).map(msg => {
                 console.log('开始从 IndexedDB 加载数据...');
                 
                 try {
-                    await migrateAllBigData();
-                } catch (e) {
-                    console.warn('数据迁移失败:', e);
-                }
-                
-                const loadJsonData = async (key, defaultValue) => {
                     try {
-                        const data = await loadBigData(key);
-                        if (data !== null) {
-                            return JSON.parse(data);
+                        await migrateAllBigData();
+                    } catch (e) {
+                        console.warn('数据迁移失败:', e);
+                    }
+                    
+                    const loadJsonData = async (key, defaultValue) => {
+                        try {
+                            const data = await loadBigData(key);
+                            if (data !== null) {
+                                return JSON.parse(data);
+                            }
+                        } catch (e) {
+                            console.warn('加载 ' + key + ' 失败:', e);
+                        }
+                        return defaultValue;
+                    };
+                    
+                    roles = await loadJsonData('wechatRoles', []);
+                    messages = await loadJsonData('wechatMessages', {});
+                    moments = await loadJsonData('wechatMoments', []);
+                    simsRolesData = await loadJsonData('simsRolesData', {});
+                    worldbookEntries = await loadJsonData('worldbookEntries', []);
+                    diarySlots = await loadJsonData('diarySlots', [null, null, null, null, null, null]);
+                    
+                    try {
+                        await loadEmojiData();
+                    } catch (e) {
+                        console.warn('加载表情数据失败:', e);
+                    }
+                    
+                    try {
+                        const saved = localStorage.getItem('musicSessionHistory');
+                        if (saved && saved.trim() !== '') {
+                            musicSessionHistory = JSON.parse(saved);
                         }
                     } catch (e) {
-                        console.warn('加载 ' + key + ' 失败:', e);
+                        musicSessionHistory = {};
                     }
-                    return defaultValue;
-                };
-                
-                roles = await loadJsonData('wechatRoles', []);
-                messages = await loadJsonData('wechatMessages', {});
-                moments = await loadJsonData('wechatMoments', []);
-                simsRolesData = await loadJsonData('simsRolesData', {});
-                worldbookEntries = await loadJsonData('worldbookEntries', []);
-                diarySlots = await loadJsonData('diarySlots', [null, null, null, null, null, null]);
-                
-                try {
-                    await loadEmojiData();
-                } catch (e) {
-                    console.warn('加载表情数据失败:', e);
-                }
-                
-                try {
-                    const saved = localStorage.getItem('musicSessionHistory');
-                    if (saved && saved.trim() !== '') {
-                        musicSessionHistory = JSON.parse(saved);
+                    
+                    isDataInitialized = true;
+                    console.log('数据加载完成');
+                    
+                    if (typeof renderRoles === 'function') {
+                        renderRoles();
                     }
                 } catch (e) {
-                    musicSessionHistory = {};
-                }
-                
-                isDataInitialized = true;
-                console.log('数据加载完成');
-                
-                if (typeof renderRoles === 'function') {
-                    renderRoles();
+                    console.error('initializeAppData 内部错误:', e);
                 }
             })();
             
@@ -45731,7 +45731,11 @@ ${recentHistory.map(msg => {
         async function initWechatData() {
             console.log('=== initWechatData 开始 ===');
             
-            await initializeAppData();
+            try {
+                await initializeAppData();
+            } catch (e) {
+                console.error('initializeAppData 失败:', e);
+            }
             
             console.log('roles数量:', roles.length);
             console.log('messages角色数:', Object.keys(messages).length);
@@ -46683,7 +46687,12 @@ ${recentHistory.map(msg => {
 
         // 页面加载时初始化微信数据
         window.addEventListener('load', async function() {
-            await initWechatData();
+            applyGlobalCustomCss();
+            try {
+                await initWechatData();
+            } catch (e) {
+                console.error('initWechatData 失败:', e);
+            }
             loadSavedAvatar();
             loadMusicRoomBackground();
             loadMusicRoomImages();
@@ -49862,7 +49871,6 @@ ${conversationContext.slice(-10).map(m => {
                 initFontPreview();
                 updateFontList();
                 updateFontSelect();
-                applySavedDefaultFont();
             }
 
             function loadFonts() {
@@ -49870,20 +49878,28 @@ ${conversationContext.slice(-10).map(m => {
                     const saved = localStorage.getItem(STORAGE_KEY);
                     fonts = saved ? JSON.parse(saved) : [];
                     const invalidFonts = [];
+                    const loadPromises = [];
+                    
                     fonts.forEach((font, index) => {
                         if (font.type === 'local' && font.data) {
-                            if (!loadFontFace(font)) {
+                            const loadPromise = loadFontFace(font);
+                            loadPromise.catch(() => {
                                 invalidFonts.push(index);
-                            }
+                            });
+                            loadPromises.push(loadPromise);
                         } else if (font.type === 'url' && font.url) {
                             loadFontFaceFromUrl(font);
                         }
                     });
-                    if (invalidFonts.length > 0) {
-                        fonts = fonts.filter((_, index) => !invalidFonts.includes(index));
-                        saveFonts();
-                        console.log('已自动清除无效的旧字体数据');
-                    }
+                    
+                    Promise.allSettled(loadPromises).then(() => {
+                        if (invalidFonts.length > 0) {
+                            fonts = fonts.filter((_, index) => !invalidFonts.includes(index));
+                            saveFonts();
+                            console.log('已自动清除无效的旧字体数据');
+                        }
+                        applySavedDefaultFont();
+                    });
                 } catch (e) {
                     console.error('Load fonts error:', e);
                     fonts = [];
@@ -49902,18 +49918,19 @@ ${conversationContext.slice(-10).map(m => {
             function loadFontFace(font) {
                 if (typeof font.data !== 'string') {
                     console.warn('检测到无效的旧字体数据，将被清除:', font.family);
-                    return false;
+                    return Promise.reject('Invalid font data');
                 }
                 let fontData = font.data;
                 fontData = base64ToArrayBuffer(fontData);
                 const fontFace = new FontFace(font.family, fontData);
-                fontFace.load().then(loadedFace => {
+                return fontFace.load().then(loadedFace => {
                     document.fonts.add(loadedFace);
                     console.log('Font loaded:', font.family);
+                    return loadedFace;
                 }).catch(err => {
                     console.error('Font load error:', err);
+                    throw err;
                 });
-                return true;
             }
 
             function arrayBufferToBase64(buffer) {
