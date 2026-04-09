@@ -4139,6 +4139,316 @@
             background-position: center;
         }
 
+        /* 微博应用样式 */
+        .forum-app-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+        .forum-app-container * { -webkit-tap-highlight-color: transparent; }
+        .forum-app-container ::-webkit-scrollbar { display: none; }
+
+        .forum-app-container svg { fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .forum-page { width: 100%; flex: 1; overflow-y: auto; background-color: ##fcfcfc; display: none; }
+        .forum-page.active { display: block; }
+
+        .forum-top-nav { width: 100%; height: 90px; background: #ffffff; display: flex; align-items: flex-end; padding: 0 6px 10px; flex-shrink: 0; position: relative; }
+        .forum-back-btn { width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #111; }
+        .forum-back-btn svg { width: 32px; height: 32px; stroke-width: 1.4; background: #fff; border-radius: 50%; padding: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        .forum-nav-links { display: flex; align-items: flex-end; gap: 30px; flex: 1; justify-content: center; padding-bottom: 8px; }
+        .forum-nav-link { color: #c8c8c8; font-weight: 400; font-size: 14px; position: relative; letter-spacing: 3px; transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); cursor: pointer; padding: 4px 0; text-transform: uppercase; }
+        .forum-nav-link.active { color: #111; font-size: 14px; font-weight: 600; letter-spacing: 3px; }
+        .forum-nav-link.active::after { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #111; border-radius: 50%; }
+        .forum-refresh-btn { width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #bbb; transition: all 0.3s; margin-left: auto; border-radius: 50%; }
+        .forum-refresh-btn:active { color: #666; transform: scale(0.9); }
+        .forum-refresh-btn svg { width: 14px; height: 14px; stroke-width: 1.6; }
+        .forum-refresh-btn.loading svg { animation: forumRefreshSpin 1s linear infinite; color: #999; }
+        @keyframes forumRefreshSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .forum-nav-right { width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #999; }
+        .forum-nav-right svg { width: 20px; height: 20px; stroke-width: 1.4; }
+
+        /* 热搜榜样式 */
+        .forum-hot-search { margin: 12px; padding: 16px; background: #fff; border-radius: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+        .forum-hot-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+        .forum-hot-title { font-size: 15px; font-weight: 700; color: #111; letter-spacing: 2px; }
+        .forum-hot-subtitle { font-size: 11px; color: #bbb; letter-spacing: 0.5px; }
+        .forum-hot-list { display: flex; flex-direction: column; gap: 0; }
+        .forum-hot-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f8f8f8; gap: 10px; }
+        .forum-hot-item:last-child { border-bottom: none; }
+        .forum-hot-rank { width: 22px; font-size: 15px; font-weight: 700; color: #ccc; text-align: center; flex-shrink: 0; font-style: italic; }
+        .forum-hot-rank.top { color: #555; }
+        .forum-hot-content { flex: 1; display: flex; align-items: center; gap: 6px; min-width: 0; }
+        .forum-hot-text { font-size: 13px; color: #333; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .forum-hot-tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 600; flex-shrink: 0; }
+        .forum-hot-tag.hot { background: #f0f0f0; color: #555; }
+        .forum-hot-tag.new { background: #f0f0f0; color: #555; }
+        .forum-hot-tag.fun { background: #f0f0f0; color: #555; }
+        .forum-hot-count { font-size: 11px; color: #ccc; flex-shrink: 0; }
+
+        .forum-hot-npc-section { margin-top: 14px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+        .forum-hot-npc-title { font-size: 12px; font-weight: 700; color: #999; letter-spacing: 1.5px; margin-bottom: 10px; }
+        .forum-hot-npc-list { display: flex; flex-direction: column; gap: 12px; }
+        .forum-hot-npc-item { display: flex; gap: 10px; align-items: flex-start; }
+        .forum-hot-npc-info { flex: 1; min-width: 0; }
+        .forum-hot-npc-name { font-size: 13px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 4px; margin-bottom: 3px; }
+        .forum-hot-npc-badge { font-size: 10px; background: #333; color: #fff; padding: 0 4px; border-radius: 3px; font-weight: 700; line-height: 16px; }
+        .forum-hot-npc-text { font-size: 12px; color: #666; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .forum-post-card { background: #ffffff; margin-bottom: 12px; margin-top: 12px; padding: 14px; border-radius: 14px; margin-left: 12px; margin-right: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+        .forum-profile-post { margin-bottom: 10px; padding: 14px; border-radius: 14px; border-bottom: none; box-shadow: 0 1px 6px rgba(0,0,0,0.04); margin-left: 12px; margin-right: 12px; }
+
+        .forum-post-header { display: flex; align-items: center; margin-bottom: 10px; }
+        .forum-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #eee, #ddd); margin-right: 10px; flex-shrink: 0; overflow: hidden; }
+        .forum-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .forum-user-info { flex: 1; }
+        .forum-user-info .name { font-size: 13px; font-weight: 700; color: #111; display: flex; align-items: center; letter-spacing: 0.3px; }
+        .forum-user-info .meta { font-size: 10px; color: #bbb; margin-top: 1px; letter-spacing: 0.5px; }
+
+        .forum-post-text { font-size: 13px; color: #222; line-height: 1.7; margin-bottom: 10px; word-wrap: break-word; letter-spacing: 0.2px; }
+        .forum-hashtag { color: #555; font-weight: 600; cursor: pointer; }
+
+        .forum-media-grid-2 { display: grid; grid-template-columns: repeat(4, 52px); gap: 4px; margin-bottom: 2px; overflow: hidden; }
+        .forum-media-single { overflow: hidden; width: 85px; margin-bottom: 2px; }
+        .forum-img-placeholder { width: 100%; background: #eaeaea; object-fit: cover; border-radius: 6px; }
+
+        .forum-post-actions { display: flex; padding: 8px 0 0; justify-content: space-between; }
+        .forum-action-btn { display: flex; align-items: center; gap: 5px; color: #bbb; font-size: 11px; font-weight: 500; cursor: pointer; transition: color 0.2s; padding: 4px 0; }
+        .forum-action-btn svg { width: 16px; height: 16px; color: #ccc; transition: color 0.2s; }
+        .forum-action-btn:active { color: #666; }
+        .forum-action-btn:active svg { color: #666; }
+
+        .forum-comments { display: none; padding: 8px 0 4px; margin-top: 4px; border-top: 1px solid #f5f5f5; }
+        .forum-comments.show { display: block; animation: fadeIn 0.3s ease; }
+        .forum-comment-item { display: flex; align-items: flex-start; padding: 6px 0; }
+        .forum-comment-nested { margin-left: 16px; padding-left: 10px; border-left: 2px solid #e8e8e8; }
+        .forum-comment-body { flex: 1; }
+        .forum-comment-name { font-size: 11px; font-weight: 700; color: #111; letter-spacing: 0.3px; }
+        .forum-comment-text { font-size: 11px; color: #666; margin-top: 1px; line-height: 1.5; }
+        .forum-comment-input-wrap { display: flex; align-items: center; padding-top: 6px; margin-top: 4px; }
+        .forum-comment-input { flex: 1; border: none; outline: none; font-size: 11px; color: #111; background: transparent; padding: 4px 0; }
+        .forum-comment-input::placeholder { color: #ccc; }
+
+        .forum-like-btn.liked { color: #e84057; }
+        .forum-like-btn.liked svg { fill: #e84057; stroke: #e84057; color: #e84057; }
+
+        .forum-likes-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 0; }
+
+        .forum-more-btn { width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; color: #999; cursor: pointer; border-radius: 50%; transition: all 0.2s; position: relative; }
+        .forum-more-btn svg { width: 20px; height: 20px; }
+        .forum-more-btn:active { background: #f0f0f0; color: #666; }
+
+        .forum-more-menu { display: none; position: absolute; right: 16px; top: 50px; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 50; flex-direction: row; overflow: hidden; }
+        .forum-more-menu.show { display: flex; animation: fadeIn 0.2s ease; }
+        .forum-more-menu-item { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 18px; cursor: pointer; transition: background 0.2s; gap: 4px; }
+        .forum-more-menu-item:active { background: #f5f5f5; }
+        .forum-more-menu-item svg { width: 18px; height: 18px; color: #555; }
+        .forum-more-menu-item span { font-size: 9px; font-weight: 600; color: #888; letter-spacing: 0.5px; }
+        .forum-more-menu-item.danger span { color: #e84057; }
+        .forum-more-menu-item.danger svg { color: #e84057; }
+
+        .forum-msg-nav-boxes { display: flex; justify-content: space-around; padding: 25px 16px 15px; border-bottom: 1px solid #eee; }
+        .forum-msg-box { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .forum-msg-icon { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e0e0e0; display: flex; justify-content: center; align-items: center; color: #000; }
+        .forum-msg-icon svg { width: 22px; height: 22px; }
+        .forum-msg-box span { font-size: 11px; color: #000; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        .forum-msg-item { display: flex; align-items: center; padding: 15px 16px; cursor: pointer; }
+        .forum-msg-item .forum-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #ccc, #999); flex-shrink: 0; background-size: cover; background-position: center; }
+        .forum-msg-content { flex: 1; border-bottom: 1px solid #f5f5f5; padding-bottom: 12px; margin-left: 15px; }
+        .forum-msg-name { font-size: 13px; color: #000; font-weight: 700; }
+        .forum-msg-preview { font-size: 12px; color: #666; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
+        .forum-msg-item:active { background: #f8f8f8; }
+
+        .forum-dm-gen-btn { width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #333; transition: all 0.2s; }
+        .forum-dm-gen-btn:active { background: #f0f0f0; transform: scale(0.92); }
+        .forum-dm-gen-btn.loading { pointer-events: none; animation: forumDmSpin 1s linear infinite; }
+        @keyframes forumDmSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .forum-dm-chat-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #f0f0f0; background: #fff; position: sticky; top: 0; z-index: 10; }
+        .forum-dm-back { cursor: pointer; color: #333; display: flex; align-items: center; }
+        .forum-dm-back:active { opacity: 0.5; }
+        .forum-dm-chat-name { font-size: 14px; font-weight: 700; color: #111; letter-spacing: 0.5px; }
+        .forum-dm-delete-btn { cursor: pointer; color: #999; display: flex; align-items: center; transition: color 0.2s; }
+        .forum-dm-delete-btn:active { color: #e84057; }
+        .forum-dm-chat-body { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .forum-dm-bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 13px; line-height: 1.5; word-break: break-word; }
+        .forum-dm-bubble.them { align-self: flex-start; background: #f0f0f0; color: #111; border-bottom-left-radius: 4px; }
+        .forum-dm-bubble.me { align-self: flex-end; background: #111; color: #fff; border-bottom-right-radius: 4px; }
+        .forum-dm-time-divider { text-align: center; font-size: 10px; color: #bbb; padding: 8px 0; letter-spacing: 0.5px; }
+        .forum-dm-ref-post { align-self: flex-start; max-width: 80%; background: #f8f8f8; border: 1px solid #eee; border-radius: 12px; padding: 10px 14px; margin-bottom: 4px; }
+        .forum-dm-ref-label { font-size: 10px; color: #999; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .forum-dm-ref-text { font-size: 12px; color: #555; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .forum-dm-input-bar { display: flex; align-items: center; padding: 10px 16px; border-top: 1px solid #f0f0f0; background: #fff; gap: 10px; }
+        .forum-dm-input { flex: 1; height: 38px; border: none; border-radius: 19px; background: #f5f5f5; padding: 0 16px; font-size: 13px; color: #111; outline: none; }
+        .forum-dm-input::placeholder { color: #bbb; }
+        .forum-dm-send-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #111; transition: all 0.2s; }
+        .forum-dm-send-btn:active { background: #f0f0f0; transform: scale(0.92); }
+
+        .forum-dm-typing { display: flex; gap: 4px; align-items: center; padding: 12px 16px; }
+        .forum-dm-dot { width: 6px; height: 6px; border-radius: 50%; background: #999; animation: forumDmTyping 1.4s infinite ease-in-out both; }
+        .forum-dm-dot:nth-child(2) { animation-delay: 0.2s; }
+        .forum-dm-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes forumDmTyping { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+
+        .forum-profile-cover { height: 160px; background: linear-gradient(to bottom, #d5d5d5, #f5f5f5); position: relative; cursor: pointer; background-size: cover; background-position: center; transition: opacity 0.2s; }
+        .forum-profile-cover::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: linear-gradient(to bottom, transparent, #ffffff); pointer-events: none; }
+        .forum-profile-cover:active { opacity: 0.85; }
+        .forum-profile-avatar { width: 76px; height: 76px; border-radius: 50%; background: #d0d0d0; border: 4px solid #ffffff; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; background-size: cover; background-position: center; transition: opacity 0.2s; }
+        .forum-profile-avatar:active { opacity: 0.85; }
+        .forum-profile-nav { position: absolute; top: 0; width: 100%; display: flex; justify-content: space-between; padding: 12px 20px; font-size: 20px; z-index: 10; color: #000; }
+        .forum-profile-nav svg { cursor: pointer; }
+
+        .forum-profile-main { padding: 0 20px; position: relative; margin-top: -38px; }
+        .forum-edit-btn { margin-bottom: 12px; font-size: 12px; font-weight: 700; border: 1px solid #ddd; padding: 6px 16px; border-radius: 4px; cursor: pointer; letter-spacing: 1px; transition: all 0.3s; }
+        .forum-edit-btn:active { background: #f5f5f5; }
+
+        .forum-edit-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); z-index: 200; display: none; justify-content: center; align-items: center; animation: fadeIn 0.25s ease; }
+        .forum-edit-modal.show { display: flex; }
+        .forum-edit-card { width: calc(100% - 48px); max-width: 320px; background: #ffffff; border-radius: 16px; padding: 28px 24px 20px; }
+        .forum-edit-title { font-size: 14px; font-weight: 700; letter-spacing: 3px; color: #111; text-align: center; margin-bottom: 24px; }
+        .forum-edit-group { margin-bottom: 16px; }
+        .forum-edit-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #999; display: block; margin-bottom: 6px; }
+        .forum-edit-input { width: 100%; height: 42px; border: none; border-radius: 8px; background: #f5f5f5; padding: 0 16px; font-size: 14px; font-weight: 600; color: #111; outline: none; transition: background 0.3s; }
+        .forum-edit-input:focus { background: #f0f0f0; }
+        .forum-edit-input::placeholder { color: #bbb; font-weight: 400; }
+        .forum-edit-actions { display: flex; gap: 12px; margin-top: 24px; }
+        .forum-edit-cancel { flex: 1; height: 42px; border-radius: 8px; background: #f5f5f5; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: 700; letter-spacing: 2px; color: #888; cursor: pointer; transition: background 0.2s; }
+        .forum-edit-cancel:active { background: #eee; }
+        .forum-edit-save { flex: 1; height: 42px; border-radius: 8px; background: #111; color: #fff; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; }
+        .forum-edit-save:active { transform: scale(0.97); }
+        .forum-profile-name { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; outline: none; cursor: text; border-bottom: 1px solid transparent; transition: border-color 0.3s; min-height: 24px; }
+        .forum-profile-name:focus { border-bottom-color: #ccc; }
+        .forum-profile-desc { font-size: 13px; color: #333; margin-top: 12px; line-height: 1.6; outline: none; cursor: text; border-bottom: 1px solid transparent; transition: border-color 0.3s; min-height: 18px; }
+        .forum-profile-desc:focus { border-bottom-color: #ccc; }
+
+        .forum-profile-data { display: flex; gap: 24px; margin-top: 16px; font-size: 11px; color: #666; text-transform: uppercase; font-weight: 500; }
+        .forum-profile-data b { color: #000; font-weight: 800; font-size: 16px; margin-right: 4px; }
+
+        .forum-profile-tabs { display: flex; margin-top: 25px; border-bottom: 1px solid #f0f0f0; }
+        .forum-ptab { padding: 12px 15px; font-size: 12px; color: #999; font-weight: 700; letter-spacing: 1px; position: relative; transition: all 0.3s; flex: 1; text-align: center; cursor: pointer; }
+        .forum-ptab.active { color: #000; }
+        .forum-ptab.active::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 100%; height: 2px; background: #000; }
+
+        /* 角色主页样式 — 韩系ins风 */
+        .forum-role-profile-cover { height: 200px; position: relative; background: linear-gradient(to bottom, #d5d5d5, #f5f5f5); background-size: cover; background-position: center; overflow: hidden; cursor: pointer; transition: opacity 0.2s; }
+        .forum-role-profile-cover:active { opacity: 0.88; }
+        .forum-role-profile-cover::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(to bottom, transparent, #ffffff); pointer-events: none; z-index: 1; }
+        #forum-role-profile { background: #ffffff; }
+        .forum-role-profile-main { padding: 0 24px; position: relative; margin-top: -52px; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+        .forum-role-profile-avatar { width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, #eee, #ddd); border: 3.5px solid #ffffff; margin-bottom: 14px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); background-size: cover; background-position: center; overflow: hidden; }
+        .forum-role-profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .forum-role-profile-name { font-size: 18px; font-weight: 700; letter-spacing: 1px; color: #111; min-height: 24px; text-align: center; }
+        .forum-role-profile-desc { font-size: 12px; color: #999; margin-top: 6px; line-height: 1.6; text-align: center; font-style: italic; letter-spacing: 0.3px; }
+        .forum-role-profile-stats { display: flex; gap: 32px; margin-top: 20px; font-size: 10px; color: #999; text-transform: uppercase; font-weight: 600; justify-content: center; letter-spacing: 1.5px; }
+        .forum-role-profile-stats b { display: block; color: #111; font-weight: 800; font-size: 17px; margin-bottom: 2px; text-align: center; letter-spacing: 0; }
+        .forum-role-follow-btn { margin-top: 20px; padding: 9px 44px; border-radius: 24px; font-size: 11px; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); border: none; background: #111; color: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+        .forum-role-follow-btn:active { transform: scale(0.95); box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+        .forum-role-follow-btn.followed { background: transparent; color: #999; border: 1.5px solid #ddd; box-shadow: none; }
+        .forum-role-follow-btn.followed:active { background: #f5f5f5; }
+        .forum-role-profile-tab-bar { display: flex; margin-top: 28px; border-bottom: 1px solid #f0f0f0; }
+        .forum-role-profile-tab { padding: 14px 15px; font-size: 11px; color: #111; font-weight: 700; letter-spacing: 2px; position: relative; flex: 1; text-align: center; }
+        .forum-role-profile-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 24px; height: 2px; background: #111; border-radius: 1px; }
+        #forum-role-profile-posts .forum-post-card { background: #ffffff; border-radius: 16px; box-shadow: 0 1px 8px rgba(0,0,0,0.03); margin: 12px 14px; }
+        .forum-post-header.forum-role-clickable { cursor: pointer; }
+        .forum-post-header.forum-role-clickable:active .forum-user-info .name { color: #007AFF; }
+
+        /* 关注列表弹窗 */
+        .forum-follows-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); z-index: 200; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(2px); }
+        .forum-follows-modal.show { display: flex; animation: fadeIn 0.2s ease; }
+        .forum-follows-card { width: 100%; max-height: 65%; background: #ffffff; border-radius: 20px 20px 0 0; padding: 24px 0 0; display: flex; flex-direction: column; animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .forum-follows-header { display: flex; justify-content: space-between; align-items: center; padding: 0 24px 18px; border-bottom: 1px solid #f0f0f0; }
+        .forum-follows-title { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: #111; }
+        .forum-follows-close { cursor: pointer; color: #999; display: flex; align-items: center; padding: 4px; }
+        .forum-follows-close svg { stroke: currentColor; stroke-width: 2; fill: none; }
+        .forum-follows-list { overflow-y: auto; flex: 1; padding: 8px 0; }
+        .forum-follows-item { display: flex; align-items: center; padding: 14px 24px; cursor: pointer; transition: background 0.2s; }
+        .forum-follows-item:active { background: #f8f8f8; }
+        .forum-follows-item-avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, #eee, #ddd); margin-right: 16px; flex-shrink: 0; overflow: hidden; background-size: cover; background-position: center; }
+        .forum-follows-item-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .forum-follows-item-name { font-size: 14px; font-weight: 600; color: #111; flex: 1; letter-spacing: 0.3px; }
+        .forum-follows-item-btn { font-size: 10px; font-weight: 700; color: #999; border: 1.5px solid #ddd; padding: 6px 16px; border-radius: 16px; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; }
+        .forum-follows-item-btn:active { background: #f5f5f5; }
+        .forum-follows-empty { text-align: center; padding: 48px 0; color: #bbb; font-size: 11px; letter-spacing: 2px; }
+        .forum-role-profile-tab-bar { display: flex; margin-top: 25px; border-bottom: 1px solid #f0f0f0; }
+        .forum-role-profile-tab { padding: 12px 15px; font-size: 12px; color: #000; font-weight: 700; letter-spacing: 1px; position: relative; flex: 1; text-align: center; }
+        .forum-role-profile-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 100%; height: 2px; background: #000; }
+        .forum-post-header.forum-role-clickable { cursor: pointer; }
+        .forum-post-header.forum-role-clickable .forum-user-info .name { color: #111; }
+        .forum-post-header.forum-role-clickable:active .forum-user-info .name { color: #007AFF; }
+
+        .forum-bottom-bar { width: calc(100% - 24px); height: 56px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: 28px; display: flex; justify-content: space-around; align-items: center; flex-shrink: 0; margin: 0 12px 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.06); }
+        .forum-tab-item { width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; color: #c8c8c8; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1); border-radius: 50%; }
+        .forum-tab-item svg { width: 22px; height: 22px; stroke-width: 1.3; }
+        .forum-tab-item.active { color: #111; background: rgba(0,0,0,0.06); }
+
+        .forum-fab { position: absolute; bottom: 85px; right: 20px; width: 50px; height: 50px; background: #000; color: #fff; border-radius: 25px; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 80; cursor: pointer; transition: transform 0.2s; }
+        .forum-fab:hover { transform: scale(0.95); }
+        .forum-fab svg { width: 24px; height: 24px; stroke-width: 1.2; stroke: #fff; }
+
+        .forum-newpost-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.25); z-index: 200; display: none; justify-content: center; align-items: center; animation: fadeIn 0.25s ease; }
+        .forum-newpost-modal.show { display: flex; }
+        .forum-newpost-card { width: calc(100% - 36px); max-width: 340px; background: #ffffff; border-radius: 18px; padding: 24px 20px 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
+        .forum-newpost-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .forum-newpost-title { font-size: 14px; font-weight: 700; letter-spacing: 3px; color: #111; }
+        .forum-newpost-close { width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #999; border-radius: 50%; transition: all 0.2s; }
+        .forum-newpost-close:hover { background: #f5f5f5; color: #333; }
+        .forum-newpost-close svg { width: 16px; height: 16px; stroke-width: 2; }
+        .forum-newpost-textarea { width: 100%; min-height: 100px; max-height: 180px; border: none; border-radius: 10px; background: #f7f7f7; padding: 14px; font-size: 14px; color: #111; outline: none; resize: none; line-height: 1.6; font-family: inherit; }
+        .forum-newpost-textarea::placeholder { color: #bbb; }
+        .forum-newpost-textarea:focus { background: #f2f2f2; }
+        .forum-newpost-images { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .forum-newpost-img-item { width: 70px; height: 70px; border-radius: 8px; overflow: hidden; position: relative; }
+        .forum-newpost-img-item img { width: 100%; height: 100%; object-fit: cover; }
+        .forum-newpost-img-remove { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .forum-newpost-img-remove svg { width: 10px; height: 10px; stroke: #fff; stroke-width: 2.5; }
+        .forum-newpost-add-img { width: 70px; height: 70px; border-radius: 8px; border: 1.5px dashed #d0d0d0; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; color: #bbb; transition: all 0.2s; gap: 2px; }
+        .forum-newpost-add-img:hover { border-color: #999; color: #999; }
+        .forum-newpost-add-img svg { width: 20px; height: 20px; stroke-width: 1.5; }
+        .forum-newpost-add-img span { font-size: 8px; letter-spacing: 1px; font-weight: 600; }
+        .forum-newpost-footer { display: flex; justify-content: flex-end; margin-top: 18px; gap: 10px; }
+        .forum-newpost-cancel { height: 38px; padding: 0 20px; border-radius: 10px; background: #f5f5f5; display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #888; cursor: pointer; transition: background 0.2s; }
+        .forum-newpost-cancel:active { background: #eee; }
+        .forum-newpost-publish { height: 38px; padding: 0 24px; border-radius: 10px; background: #111; color: #fff; display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; }
+        .forum-newpost-publish:active { transform: scale(0.97); }
+
+        /* 角色发帖选择弹窗 */
+        .forum-role-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(6px); z-index: 210; display: none; justify-content: center; align-items: center; animation: fadeIn 0.25s ease; }
+        .forum-role-modal.show { display: flex; }
+        .forum-role-card-wrap { width: calc(100% - 36px); max-width: 340px; background: #fff; border-radius: 20px; padding: 22px 18px 18px; box-shadow: 0 12px 40px rgba(0,0,0,0.13); }
+        .forum-role-modal-title { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: #111; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .forum-role-modal-close { width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #bbb; border-radius: 50%; transition: all 0.2s; }
+        .forum-role-modal-close:hover { background: #f5f5f5; color: #555; }
+        .forum-role-modal-close svg { width: 15px; height: 15px; stroke-width: 2; }
+        .forum-role-list { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; }
+        .forum-role-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; cursor: pointer; transition: background 0.18s; }
+        .forum-role-item:hover { background: #f7f7f7; }
+        .forum-role-item:active { background: #f0f0f0; }
+        .forum-role-item-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #e0e0e0, #ccc); flex-shrink: 0; overflow: hidden; }
+        .forum-role-item-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .forum-role-item-info { flex: 1; min-width: 0; }
+        .forum-role-item-name { font-size: 13px; font-weight: 700; color: #111; letter-spacing: 0.2px; }
+        .forum-role-item-desc { font-size: 10px; color: #bbb; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .forum-role-item-arrow { color: #ccc; }
+        .forum-role-item-arrow svg { width: 14px; height: 14px; stroke-width: 2; }
+        .forum-role-empty { text-align: center; padding: 30px 0; color: #ccc; font-size: 12px; letter-spacing: 1px; }
+        .forum-role-generating { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.88); backdrop-filter: blur(8px); z-index: 220; display: none; flex-direction: column; justify-content: center; align-items: center; gap: 14px; border-radius: 0; }
+        .forum-role-generating.show { display: flex; }
+        .forum-role-gen-dots { display: flex; gap: 6px; align-items: center; }
+        .forum-role-gen-dots span { width: 8px; height: 8px; background: #111; border-radius: 50%; animation: forumGenDot 1.2s infinite ease-in-out; }
+        .forum-role-gen-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .forum-role-gen-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes forumGenDot { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+        .forum-role-gen-text { font-size: 11px; color: #999; letter-spacing: 2px; font-weight: 600; }
+
         /* 微信应用样式 */
         .app-container {
             position: fixed;
@@ -23053,16 +23363,14 @@
         <div class="announcement-card">
             <div class="announcement-header">
                 <h2 class="announcement-title">本次更新内容</h2>
-                <div class="announcement-date" id="announcement-date">2026年3月29日</div>
+                <div class="announcement-date" id="announcement-date">2026年4月9日</div>
             </div>
             <div class="announcement-body">
                 <div class="announcement-content">
                     <ul>
-                        <li>🔧 修复了刷新不启用全局css的问题</li>
-                        <li>🔤 修复了本地字体刷新消失的问题</li>
-                        <li>📱 修复了安卓小组件下移的问题</li>
-                        <li>📱 查手机做完了</li>
-                        <li style="color: orange;">⏳ 待办事项：实装minimax语音</li>
+                        <li>📱 微博功能实装，后续还会补充完善</li>
+                        <li>📝 总结设置新增自定义总结提示词功能</li>
+                        <li>🔄 自动总结改为按轮数计数（1轮 = 你发1条 + AI回1条）</li>
                     </ul>
                 </div>
             </div>
@@ -24716,6 +25024,263 @@
         </div>
     </div>
 
+    <!-- 微博应用界面 -->
+    <div id="forum-app" class="forum-app-container">
+        <div class="forum-top-nav">
+            <div class="forum-back-btn" onclick="closeForumApp()">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </div>
+            <div class="forum-nav-links">
+                <span class="forum-nav-link active" id="forum-nav-home" onclick="forumSwitchPage('home')">FEED</span>
+                <span class="forum-nav-link" id="forum-nav-msg" onclick="forumSwitchPage('msg')">DM</span>
+                <span class="forum-nav-link" id="forum-nav-profile" onclick="forumSwitchPage('profile')">ME</span>
+            </div>
+            <div class="forum-nav-right" onclick="forumOpenRoleModal()">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+        </div>
+
+        <!-- 首页推荐流 -->
+        <div id="forum-home" class="forum-page active">
+            <!-- 热搜榜 -->
+            <div class="forum-hot-search" id="forum-hot-search">
+                <div class="forum-hot-header">
+                    <div class="forum-hot-title">HOT SEARCH</div>
+                    <div class="forum-hot-subtitle">实时热搜榜</div>
+                    <div class="forum-refresh-btn" onclick="forumRefreshHotSearch()" title="刷新热搜">
+                        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    </div>
+                </div>
+                <div class="forum-hot-list" id="forum-hot-list">
+                    <div class="forum-hot-item"><span class="forum-hot-rank top">1</span><div class="forum-hot-content"><span class="forum-hot-text">月薪三千的人到底怎么活的</span><span class="forum-hot-tag hot">热</span></div><span class="forum-hot-count">384万</span></div>
+                    <div class="forum-hot-item"><span class="forum-hot-rank top">2</span><div class="forum-hot-content"><span class="forum-hot-text">恋爱脑是不是一种病</span><span class="forum-hot-tag hot">热</span></div><span class="forum-hot-count">256万</span></div>
+                    <div class="forum-hot-item"><span class="forum-hot-rank top">3</span><div class="forum-hot-content"><span class="forum-hot-text">深夜emo的人都在想什么</span><span class="forum-hot-tag new">新</span></div><span class="forum-hot-count">198万</span></div>
+                    <div class="forum-hot-item"><span class="forum-hot-rank">4</span><div class="forum-hot-content"><span class="forum-hot-text">被父母催婚催到崩溃</span></div><span class="forum-hot-count">152万</span></div>
+                    <div class="forum-hot-item"><span class="forum-hot-rank">5</span><div class="forum-hot-content"><span class="forum-hot-text">社恐人的外卖备注有多离谱</span><span class="forum-hot-tag fun">趣</span></div><span class="forum-hot-count">127万</span></div>
+                    <div class="forum-hot-item"><span class="forum-hot-rank">6</span><div class="forum-hot-content"><span class="forum-hot-text">你见过最窒息的合租室友</span></div><span class="forum-hot-count">98万</span></div>
+                </div>
+                <div class="forum-hot-npc-section" id="forum-hot-npc-section">
+                    <div class="forum-hot-npc-title">大V热议</div>
+                    <div class="forum-hot-npc-list" id="forum-hot-npc-list">
+                        <div class="forum-hot-npc-item">
+                            <div class="forum-hot-npc-info">
+                                <div class="forum-hot-npc-name">深夜树洞Bot <span class="forum-hot-npc-badge">V</span></div>
+                                <div class="forum-hot-npc-text">月薪三千不丢人，丢人的是明明不开心还要装作很努力的样子。</div>
+                            </div>
+                        </div>
+                        <div class="forum-hot-npc-item">
+                            <div class="forum-hot-npc-info">
+                                <div class="forum-hot-npc-name">情感急诊室 <span class="forum-hot-npc-badge">V</span></div>
+                                <div class="forum-hot-npc-text">恋爱脑不是病，但总为别人掏心掏肺最后一无所有，那就该醒了。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="forum-fab" onclick="forumOpenNewPost()">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
+        </div>
+
+        <!-- 消息栏 -->
+        <div id="forum-msg" class="forum-page">
+            <div class="forum-msg-nav-boxes">
+                <div class="forum-msg-box"><div class="forum-msg-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg></div><span>Mention</span></div>
+                <div class="forum-msg-box"><div class="forum-msg-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7h0a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></div><span>Comment</span></div>
+                <div class="forum-msg-box"><div class="forum-msg-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div><span>Like</span></div>
+            </div>
+
+            <div style="padding: 20px 16px 10px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 11px; font-weight: 700; color: #999; letter-spacing: 1.5px;">DIRECT MESSAGES</div>
+                <div class="forum-dm-gen-btn" onclick="forumGenerateDM()" id="forum-dm-gen-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </div>
+            </div>
+
+            <div id="forum-dm-list"></div>
+        </div>
+
+        <!-- 私信聊天详情页 -->
+        <div id="forum-dm-chat" class="forum-page">
+            <div class="forum-dm-chat-header">
+                <div class="forum-dm-back" onclick="forumCloseDMChat()">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </div>
+                <div class="forum-dm-chat-name" id="forum-dm-chat-name"></div>
+                <div class="forum-dm-delete-btn" onclick="forumDeleteCurrentDM()">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </div>
+            </div>
+            <div class="forum-dm-chat-body" id="forum-dm-chat-body"></div>
+            <div class="forum-dm-input-bar">
+                <input type="text" class="forum-dm-input" id="forum-dm-input" placeholder="发送消息..." onkeydown="if(event.key==='Enter')forumSendDMReply()">
+                <div class="forum-dm-send-btn" onclick="forumSendDMReply()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- 个人主页 -->
+        <div id="forum-profile" class="forum-page">
+            <div class="forum-profile-cover" onclick="document.getElementById('forum-cover-input').click()">
+            </div>
+            <input type="file" id="forum-cover-input" accept="image/*" style="display:none;" onchange="forumUploadCover(event)">
+
+            <div class="forum-profile-main">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div class="forum-profile-avatar" onclick="document.getElementById('forum-avatar-input').click()"></div>
+                    <input type="file" id="forum-avatar-input" accept="image/*" style="display:none;" onchange="forumUploadAvatar(event)">
+                    <div class="forum-edit-btn" onclick="forumOpenEditModal()">EDIT PROFILE</div>
+                </div>
+
+                <div class="forum-profile-name" contenteditable="true" data-forum-text="name" onblur="forumTextBlur(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">_MONOCHROME_</div>
+                <div class="forum-profile-desc" contenteditable="true" data-forum-text="desc" onblur="forumTextBlur(this)">Less is more.<br>用黑白灰剥离世界喧嚣，专注材质本身。</div>
+
+                <div class="forum-profile-data">
+                    <div><b id="forum-data-posts">24</b> Posts</div>
+                    <div style="cursor:pointer;" onclick="forumOpenFollowsList()"><b id="forum-data-follows">12</b> Follows</div>
+                    <div><b id="forum-data-followers">18k</b> Followers</div>
+                </div>
+            </div>
+
+            <div class="forum-profile-tabs">
+                <div class="forum-ptab active" onclick="forumSwitchProfileTab('posts', this)">POSTS</div>
+                <div class="forum-ptab" onclick="forumSwitchProfileTab('likes', this)">LIKES</div>
+            </div>
+
+            <div id="forum-profile-posts">
+            </div>
+
+            <div id="forum-profile-likes" style="display: none;">
+                <div class="forum-likes-empty" id="forum-likes-empty">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    <div style="font-size: 12px; color: #bbb; margin-top: 12px; letter-spacing: 1px;">NO LIKES YET</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角色主页 -->
+        <div id="forum-role-profile" class="forum-page">
+            <div class="forum-role-profile-cover" onclick="document.getElementById('forum-role-cover-input').click()"></div>
+            <input type="file" id="forum-role-cover-input" accept="image/*" style="display:none;" onchange="forumUploadRoleCover(event)">
+            <div class="forum-role-profile-main">
+                <div class="forum-role-profile-avatar" id="forum-role-profile-avatar"></div>
+                <div class="forum-role-profile-name" id="forum-role-profile-name"></div>
+                <div class="forum-role-profile-desc" id="forum-role-profile-desc"></div>
+                <div class="forum-role-profile-stats" id="forum-role-profile-stats"></div>
+                <div class="forum-role-follow-btn" id="forum-role-follow-btn" onclick="forumToggleFollow()">FOLLOW</div>
+            </div>
+            <div class="forum-role-profile-tab-bar">
+                <div class="forum-role-profile-tab active">POSTS</div>
+            </div>
+            <div id="forum-role-profile-posts"></div>
+        </div>
+
+        <div class="forum-edit-modal" id="forum-edit-modal">
+            <div class="forum-edit-card">
+                <div class="forum-edit-title">EDIT PROFILE</div>
+                <div class="forum-edit-group">
+                    <label class="forum-edit-label">POSTS</label>
+                    <input class="forum-edit-input" id="forum-edit-posts" type="text">
+                </div>
+                <div class="forum-edit-group">
+                    <label class="forum-edit-label">FOLLOWS</label>
+                    <input class="forum-edit-input" id="forum-edit-follows" type="text">
+                </div>
+                <div class="forum-edit-group">
+                    <label class="forum-edit-label">FOLLOWERS</label>
+                    <input class="forum-edit-input" id="forum-edit-followers" type="text">
+                </div>
+                <div class="forum-edit-group">
+                    <label class="forum-edit-label">PHONE MODEL</label>
+                    <input class="forum-edit-input" id="forum-edit-phone" type="text" placeholder="e.g. iPhone 15 Pro">
+                </div>
+                <div class="forum-edit-actions">
+                    <div class="forum-edit-cancel" onclick="forumCloseEditModal()">CANCEL</div>
+                    <div class="forum-edit-save" onclick="forumSaveEditModal()">SAVE</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关注列表弹窗 -->
+        <div class="forum-follows-modal" id="forum-follows-modal">
+            <div class="forum-follows-card">
+                <div class="forum-follows-header">
+                    <div class="forum-follows-title">FOLLOWING</div>
+                    <div class="forum-follows-close" onclick="forumCloseFollowsList()">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                </div>
+                <div class="forum-follows-list" id="forum-follows-list"></div>
+            </div>
+        </div>
+
+        <div class="forum-newpost-modal" id="forum-newpost-modal">
+            <div class="forum-newpost-card">
+                <div class="forum-newpost-header">
+                    <div class="forum-newpost-title">NEW POST</div>
+                    <div class="forum-newpost-close" onclick="forumCloseNewPost()">
+                        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                </div>
+                <textarea class="forum-newpost-textarea" id="forum-newpost-text" placeholder="Share your thoughts..."></textarea>
+                <div class="forum-newpost-images" id="forum-newpost-images">
+                    <div class="forum-newpost-add-img" onclick="document.getElementById('forum-newpost-file').click()">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        <span>ADD</span>
+                    </div>
+                </div>
+                <input type="file" id="forum-newpost-file" accept="image/*" multiple style="display:none" onchange="forumNewPostAddImages(event)">
+                <div class="forum-newpost-footer">
+                    <div class="forum-newpost-cancel" onclick="forumCloseNewPost()">CANCEL</div>
+                    <div class="forum-newpost-publish" onclick="forumPublishPost()">POST</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角色发帖选择弹窗 -->
+        <div class="forum-role-modal" id="forum-role-modal">
+            <div class="forum-role-card-wrap">
+                <div class="forum-role-modal-title">
+                    <span>GENERATE POSTS</span>
+                    <div class="forum-role-modal-close" onclick="forumCloseRoleModal()">
+                        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                </div>
+                <div class="forum-role-list" id="forum-role-list"></div>
+                <!-- 生成中遮罩 -->
+                <div class="forum-role-generating" id="forum-role-generating">
+                    <div class="forum-role-gen-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="forum-role-gen-text" id="forum-role-gen-text">GENERATING</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="forum-bottom-bar">
+            <div class="forum-tab-item active" onclick="forumSwitchTab('home', this)">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+            <div class="forum-tab-item" onclick="forumSwitchTab('msg', this)">
+                <svg viewBox="0 0 24 24">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </div>
+            <div class="forum-tab-item" onclick="forumSwitchTab('profile', this)">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+        </div>
+    </div>
+
     <!-- 外卖应用界面 -->
     <div id="waimai-app" class="waimai-app-container" onclick="closeWaimai(event)">
         <div class="mt-ins-app" onclick="event.stopPropagation()">
@@ -26189,12 +26754,12 @@
                 </div>
                 <div class="modal-body touch-scroll-container" style="overflow: hidden auto; touch-action: manipulation;">
                     <div class="form-group">
-                        <label for="manual-summary-count" style="color: rgb(51, 51, 51);">手动总结 - 回顾聊天记录条数:</label>
+                        <label for="manual-summary-count" style="color: rgb(51, 51, 51);">手动总结 - 回顾聊天记录轮数:</label>
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <input type="number" id="manual-summary-count" min="1" max="500" value="20" style="flex: 1; padding: 14px 16px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 12px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 15px;">
                         </div>
                         <p style="font-size: 12px; color: #666; margin-top: 8px;">
-                            设置手动点击总结时，回顾最近多少条聊天记录（范围: 1-500条）。
+                            设置手动点击总结时，回顾最近多少轮聊天记录（1轮 = 你发1条 + AI回1条，范围: 1-500轮）。
                         </p>
                     </div>
                     
@@ -26215,12 +26780,20 @@
                     </div>
                     
                     <div class="form-group" id="auto-summary-count-group">
-                        <label for="auto-summary-count" style="color: rgb(51, 51, 51);">自动总结 - 回顾聊天记录条数:</label>
+                        <label for="auto-summary-count" style="color: rgb(51, 51, 51);">自动总结 - 回顾聊天记录轮数:</label>
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <input type="number" id="auto-summary-count" min="1" max="500" value="50" style="flex: 1; padding: 14px 16px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 12px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 15px;">
                         </div>
                         <p style="font-size: 12px; color: #666; margin-top: 8px;">
-                            设置自动总结时，回顾最近多少条聊天记录（范围: 1-500条）。
+                            设置自动总结时，回顾最近多少轮聊天记录（1轮 = 你发1条 + AI回1条，范围: 1-500轮）。
+                        </p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="custom-summary-prompt" style="color: rgb(51, 51, 51);">自定义总结提示词:</label>
+                        <textarea id="custom-summary-prompt" rows="6" placeholder="留空则使用默认提示词。可用变量：{roleName}（角色名）、{userName}（用户名）、{roleDescription}（角色人设）、{dateStr}（日期）、{chatHistory}（聊天记录）" style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 12px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 14px; line-height: 1.5; resize: vertical; box-sizing: border-box; font-family: inherit;"></textarea>
+                        <p style="font-size: 12px; color: #666; margin-top: 8px;">
+                            自定义总结时发送给 AI 的提示词。留空使用默认提示词。支持变量：{roleName}、{userName}、{roleDescription}、{dateStr}、{chatHistory}
                         </p>
                     </div>
                     
@@ -30225,6 +30798,8 @@ ${role.tags && role.tags.length > 0 ? `- 性格特点：${role.tags.join('、')}
                         openSimsPanel();
                     } else if (appData === 'waimai' || appName === '外卖') {
                         openWaimai();
+                    } else if (appData === 'forum' || appName === '微博') {
+                        openForum();
                     } else if (appData === 'diary' || appName === '日记') {
                         openDiary();
                     } else {
@@ -38236,6 +38811,2452 @@ ${commenterInfo}
         }
 
         // 打开微信应用
+        function forumSortPosts() {
+            var home = document.getElementById('forum-home');
+            if (!home) return;
+            var fab = home.querySelector('.forum-fab');
+            var cards = Array.from(home.querySelectorAll('.forum-post-card'));
+            if (cards.length < 2) return;
+            cards.sort(function(a, b) {
+                var tsA = parseInt(a.getAttribute('data-timestamp') || '0', 10);
+                var tsB = parseInt(b.getAttribute('data-timestamp') || '0', 10);
+                return tsB - tsA;
+            });
+            cards.forEach(function(card) { card.remove(); });
+            var insertAfter = fab;
+            cards.forEach(function(card) {
+                if (insertAfter) {
+                    insertAfter.parentNode.insertBefore(card, insertAfter.nextSibling);
+                    insertAfter = card;
+                } else {
+                    home.appendChild(card);
+                }
+            });
+        }
+
+        function openForum() {
+            document.getElementById('forum-app').style.display = 'flex';
+            // 确保所有评论区默认收纳
+            document.querySelectorAll('#forum-app .forum-comments').forEach(function(c) { c.classList.remove('show'); });
+            forumLoadDeletedPosts();
+            forumLoadImages();
+            forumLoadTexts();
+            forumLoadProfileData();
+            forumLoadComments();
+            forumLoadLikes();
+            forumLoadPostTexts();
+            forumLoadNewPosts();
+            forumLoadRolePosts();
+            forumLoadHotSearchData();
+            forumLoadNpcPosts();
+            setTimeout(forumSortPosts, 800);
+            setTimeout(forumSortPosts, 2000);
+            // 确保头像/名字加载完后再同步到帖子
+            setTimeout(forumSyncPosts, 1500);
+            setTimeout(forumSyncPosts, 3000);
+        }
+
+        function closeForumApp() {
+            // 如果在私信聊天详情，返回消息列表
+            var dmChat = document.getElementById('forum-dm-chat');
+            if (dmChat && dmChat.style.display !== 'none' && dmChat.style.display !== '') {
+                forumCloseDMChat();
+                return;
+            }
+            // 如果在角色主页，返回FEED
+            var roleProfile = document.getElementById('forum-role-profile');
+            if (roleProfile && roleProfile.classList.contains('active')) {
+                forumCloseRoleProfile();
+                return;
+            }
+            document.getElementById('forum-app').style.display = 'none';
+        }
+
+        function forumSaveImage(key, imageData) {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readwrite');
+                var store = transaction.objectStore('settings');
+                store.put({ id: key, image: imageData, timestamp: Date.now() });
+            };
+            request.onerror = function(event) {
+                console.error('Forum IndexedDB error:', event.target.error);
+            };
+        }
+
+        function forumLoadImages() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readonly');
+                var store = transaction.objectStore('settings');
+
+                var coverReq = store.get('forum-cover');
+                coverReq.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image) {
+                        var cover = document.querySelector('.forum-profile-cover');
+                        if (cover) cover.style.background = 'url(' + e.target.result.image + ') center/cover no-repeat';
+                    }
+                };
+
+                var avatarReq = store.get('forum-avatar');
+                avatarReq.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image) {
+                        forumCachedAvatarUrl = 'url(' + e.target.result.image + ')';
+                        var avatar = document.querySelector('.forum-profile-avatar');
+                        if (avatar) avatar.style.backgroundImage = forumCachedAvatarUrl;
+                    }
+                    forumSyncPosts();
+                };
+            };
+            request.onerror = function(event) {
+                console.error('Forum IndexedDB error:', event.target.error);
+            };
+        }
+
+        function forumUploadCover(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var cover = document.querySelector('.forum-profile-cover');
+                if (cover) cover.style.background = 'url(' + e.target.result + ') center/cover no-repeat';
+                forumSaveImage('forum-cover', e.target.result);
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function forumUploadAvatar(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                forumCachedAvatarUrl = 'url(' + e.target.result + ')';
+                var avatar = document.querySelector('.forum-profile-avatar');
+                if (avatar) avatar.style.backgroundImage = forumCachedAvatarUrl;
+                forumSaveImage('forum-avatar', e.target.result);
+                forumSyncPosts();
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function forumTextBlur(el) {
+            var text = el.innerText.trim();
+            if (!text) {
+                var key = el.getAttribute('data-forum-text');
+                el.innerText = key === 'name' ? '_MONOCHROME_' : 'Less is more.';
+                return;
+            }
+            var key = el.getAttribute('data-forum-text');
+            forumSaveImage('forum-' + key, text);
+            if (key === 'name') forumSyncPosts();
+        }
+
+        function forumSyncPosts() {
+            var profileAvatar = document.querySelector('.forum-profile-avatar');
+            var profileName = document.querySelector('.forum-profile-name');
+            // 只同步用户自己的帖子（不带 data-role-name 且有 forum-post-avatar 类的）
+            var allPostCards = document.querySelectorAll('.forum-post-card');
+            allPostCards.forEach(function(card) {
+                if (card.getAttribute('data-role-name')) return; // 角色帖不同步
+                var avatar = card.querySelector('.forum-post-avatar');
+                var nameEl = card.querySelector('.forum-post-name');
+                if (profileAvatar && avatar) {
+                    var imgSrc = profileAvatar.style.backgroundImage;
+                    if (imgSrc) {
+                        avatar.style.backgroundImage = imgSrc;
+                        avatar.style.backgroundSize = 'cover';
+                        avatar.style.backgroundPosition = 'center';
+                    }
+                }
+                if (profileName && nameEl) {
+                    nameEl.innerText = profileName.innerText;
+                }
+            });
+        }
+
+        function forumToggleLike(btn) {
+            btn.classList.toggle('liked');
+            var postCard = btn.closest('[data-post-id]');
+            if (postCard) {
+                var postId = postCard.getAttribute('data-post-id');
+                forumSaveImage('forum-like-' + postId, btn.classList.contains('liked') ? '1' : '0');
+            }
+            forumRenderLikes();
+        }
+
+        function forumSwitchProfileTab(tab, el) {
+            document.querySelectorAll('.forum-ptab').forEach(function(t) { t.classList.remove('active'); });
+            el.classList.add('active');
+            if (tab === 'posts') {
+                document.getElementById('forum-profile-posts').style.display = '';
+                document.getElementById('forum-profile-likes').style.display = 'none';
+                // 确保评论区默认收纳
+                document.querySelectorAll('#forum-profile-posts .forum-comments').forEach(function(c) { c.classList.remove('show'); });
+            } else {
+                document.getElementById('forum-profile-posts').style.display = 'none';
+                document.getElementById('forum-profile-likes').style.display = '';
+                forumRenderLikes();
+            }
+        }
+
+        function forumRenderLikes() {
+            var likesContainer = document.getElementById('forum-profile-likes');
+            var emptyEl = document.getElementById('forum-likes-empty');
+            var allPosts = document.querySelectorAll('[data-post-id]');
+            var likedPosts = [];
+            allPosts.forEach(function(post) {
+                var likeBtn = post.querySelector('.forum-like-btn');
+                if (likeBtn && likeBtn.classList.contains('liked')) {
+                    likedPosts.push(post);
+                }
+            });
+
+            var existingCards = likesContainer.querySelectorAll('.forum-post-card');
+            existingCards.forEach(function(c) { c.remove(); });
+
+            if (likedPosts.length === 0) {
+                emptyEl.style.display = 'flex';
+            } else {
+                emptyEl.style.display = 'none';
+                likedPosts.forEach(function(post) {
+                    var clone = post.cloneNode(true);
+                    clone.removeAttribute('data-post-id');
+                    clone.classList.add('forum-liked-clone');
+                    likesContainer.insertBefore(clone, emptyEl);
+                });
+            }
+        }
+
+        function forumLoadLikeForPost(postId) {
+            var post = document.querySelector('[data-post-id="' + postId + '"]');
+            if (!post) return;
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(ev) {
+                var db = ev.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(ev) {
+                var db = ev.target.result;
+                var tx = db.transaction(['settings'], 'readonly');
+                var store = tx.objectStore('settings');
+                var req = store.get('forum-like-' + postId);
+                req.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image === '1') {
+                        var likeBtn = post.querySelector('.forum-like-btn');
+                        if (likeBtn) likeBtn.classList.add('liked');
+                    }
+                };
+            };
+        }
+
+        function forumLoadLikes() {
+            var posts = document.querySelectorAll('[data-post-id]');
+            posts.forEach(function(post) {
+                var postId = post.getAttribute('data-post-id');
+                forumLoadLikeForPost(postId);
+            });
+        }
+
+        function forumLoadPostTexts() {
+            var posts = document.querySelectorAll('[data-post-id]');
+            posts.forEach(function(post) {
+                var postId = post.getAttribute('data-post-id');
+                var request = indexedDB.open('DesktopData', 1);
+                request.onupgradeneeded = function(event) {
+                    var db = event.target.result;
+                    if (!db.objectStoreNames.contains('settings')) {
+                        db.createObjectStore('settings', { keyPath: 'id' });
+                    }
+                };
+                request.onsuccess = function(event) {
+                    var db = event.target.result;
+                    var transaction = db.transaction(['settings'], 'readonly');
+                    var store = transaction.objectStore('settings');
+                    var req = store.get('forum-post-text-' + postId);
+                    req.onsuccess = function(e) {
+                        if (e.target.result && e.target.result.image) {
+                            var textEl = post.querySelector('.forum-post-text');
+                            if (textEl) textEl.innerHTML = e.target.result.image;
+                        }
+                    };
+                };
+            });
+        }
+
+        function forumToggleMoreMenu(btn) {
+            var menu = btn.querySelector('.forum-more-menu');
+            var isOpen = menu.classList.contains('show');
+            document.querySelectorAll('.forum-more-menu.show').forEach(function(m) { m.classList.remove('show'); });
+            if (!isOpen) menu.classList.add('show');
+        }
+
+        function forumEditPost(menuItem) {
+            var postCard = menuItem.closest('[data-post-id]');
+            if (!postCard) return;
+            var textEl = postCard.querySelector('.forum-post-text');
+            if (!textEl) return;
+            textEl.setAttribute('contenteditable', 'true');
+            textEl.focus();
+            textEl.style.outline = 'none';
+            textEl.style.borderBottom = '1px solid #ccc';
+            textEl.onblur = function() {
+                textEl.removeAttribute('contenteditable');
+                textEl.style.borderBottom = '';
+                textEl.onblur = null;
+                var postId = postCard.getAttribute('data-post-id');
+                forumSaveImage('forum-post-text-' + postId, textEl.innerHTML);
+            };
+            document.querySelectorAll('.forum-more-menu.show').forEach(function(m) { m.classList.remove('show'); });
+        }
+
+        async function forumToggleCommentSection(menuItem) {
+            var postCard = menuItem.closest('[data-post-id]');
+            if (!postCard) return;
+            var postId = postCard.getAttribute('data-post-id');
+            var postTextEl = postCard.querySelector('.forum-post-text');
+            var postText = postTextEl ? postTextEl.innerText.trim() : '';
+
+            document.querySelectorAll('.forum-more-menu.show').forEach(function(m) { m.classList.remove('show'); });
+
+            // 确保评论区存在且展开
+            var comments = postCard.querySelector('.forum-comments');
+            if (!comments) {
+                var actions = postCard.querySelector('.forum-post-actions');
+                comments = document.createElement('div');
+                comments.className = 'forum-comments show';
+                comments.innerHTML = '<div class="forum-comment-input-wrap"><input class="forum-comment-input" type="text" placeholder="Write a comment..." onkeydown="if(event.key===\'Enter\')forumAddComment(this)"></div>';
+                actions.parentNode.insertBefore(comments, actions.nextSibling);
+            } else {
+                comments.classList.add('show');
+            }
+
+            // 防重复：已有评论时提示追加
+            var existingItems = postCard.querySelectorAll('.forum-comment-item');
+            if (existingItems.length > 0) {
+                if (!confirm('已有 ' + existingItems.length + ' 条评论，是否继续追加 5 条？')) return;
+            }
+
+            var spanEl = menuItem.querySelector('span');
+            var origText = spanEl ? spanEl.innerText : 'COMMENT';
+            if (spanEl) spanEl.innerText = '···';
+            menuItem.style.pointerEvents = 'none';
+
+            var savedApiUrl = localStorage.getItem('apiUrl') || '';
+            var apiKey = localStorage.getItem('apiKey') || '';
+            var selectedModel = localStorage.getItem('selectedModel') || '';
+            var chatEndpoint = getChatEndpoint(savedApiUrl);
+
+            if (!chatEndpoint || !apiKey || !selectedModel) {
+                if (spanEl) spanEl.innerText = origText;
+                menuItem.style.pointerEvents = '';
+                alert('请先在设置中配置 API');
+                return;
+            }
+
+            // 检测帖子中的图片
+            var postImages = [];
+            postCard.querySelectorAll('.forum-media-single img, .forum-media-grid-2 img, .forum-media-grid-3 img').forEach(function(img) {
+                if (img.src && img.src.length > 10) postImages.push(img.src);
+            });
+
+            // 读取角色信息（角色帖带有 data-role-name 属性）
+            var roleNameAttr = postCard.getAttribute('data-role-name') || '';
+            var roleDescAttr = postCard.getAttribute('data-role-desc') || '';
+            var roleContext = '';
+            if (roleNameAttr) {
+                roleContext = '这条帖子的发布者是角色"' + roleNameAttr + '"' +
+                    (roleDescAttr ? '（' + roleDescAttr + '）' : '') + '。\n';
+            }
+
+            var promptText = roleContext +
+                '以下是一条社交媒体帖子：\n\n"' + postText + '"\n' +
+                (postImages.length > 0 ? '（帖子附有 ' + postImages.length + ' 张图片，请结合图片内容生成评论）\n' : '') +
+                '\n请生成 5 条真实自然的评论，要求：\n' +
+                '- 每条评论必须紧扣此帖子的具体内容' + (postImages.length > 0 ? '和图中内容' : '') + '，不得写通用评论\n' +
+                '- 语气自然多样：共鸣、打趣、好奇、关心、淡淡附和均可\n' +
+                '- 不要所有评论都是夸奖，要真实多元\n' +
+                '- 用中文网络 ID 或姓名（如"林晓晴""摸鱼ing""夜跑去了"等）\n' +
+                '- 【禁止使用任何 emoji 或表情符号】\n' +
+                '必须严格按以下 JSON 格式返回，不输出任何其他文字：\n' +
+                '[{"name":"评论者名字","text":"评论内容"},...]';
+
+            // 构建 user content：有图片则用 vision 格式
+            var userContent;
+            if (postImages.length > 0) {
+                userContent = [{ type: 'text', text: promptText }];
+                postImages.forEach(function(src) {
+                    userContent.push({ type: 'image_url', image_url: { url: src } });
+                });
+            } else {
+                userContent = promptText;
+            }
+
+            try {
+                var resp = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: '你是一个模拟真实社交媒体用户写评论的助手。必须严格按 JSON 格式输出，不输出任何多余文字或代码块标记。' },
+                            { role: 'user', content: userContent }
+                        ],
+                        temperature: 1.0,
+                        stream: false
+                    })
+                });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                var data = await resp.json();
+                var content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+                if (!content) throw new Error('empty response');
+                content = content.trim().replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/```\s*$/i,'').trim();
+                var arr = JSON.parse(content);
+                if (!Array.isArray(arr)) throw new Error('invalid format');
+
+                var inputWrap = comments.querySelector('.forum-comment-input-wrap');
+                arr.forEach(function(c) {
+                    var cName = (c.name || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                    var cText = (c.text || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                    var item = document.createElement('div');
+                    item.className = 'forum-comment-item';
+                    item.innerHTML = '<div class="forum-comment-body"><div class="forum-comment-name">' + cName + '</div><div class="forum-comment-text">' + cText + '</div></div>';
+                    comments.insertBefore(item, inputWrap);
+                });
+
+                // 更新评论数按钮
+                var totalItems = postCard.querySelectorAll('.forum-comment-item').length;
+                var commentBtn = postCard.querySelector('.forum-post-actions .forum-action-btn[onclick*="forumToggleComments"]');
+                if (commentBtn) {
+                    var svgEl = commentBtn.querySelector('svg');
+                    commentBtn.innerHTML = '';
+                    if (svgEl) commentBtn.appendChild(svgEl);
+                    commentBtn.appendChild(document.createTextNode(totalItems));
+                }
+
+                forumSaveComments(postId);
+            } catch (e) {
+                alert('评论生成失败，请重试。\n' + (e.message || ''));
+            }
+
+            if (spanEl) spanEl.innerText = origText;
+            menuItem.style.pointerEvents = '';
+        }
+
+        function forumDeletePost(menuItem) {
+            var postCard = menuItem.closest('[data-post-id]');
+            if (!postCard) return;
+            var postId = postCard.getAttribute('data-post-id');
+            var comments = postCard.querySelector('.forum-comments');
+            if (comments) comments.remove();
+            postCard.style.transition = 'all 0.3s ease';
+            postCard.style.opacity = '0';
+            postCard.style.transform = 'translateX(100%)';
+            setTimeout(function() {
+                postCard.remove();
+            }, 300);
+            document.querySelectorAll('.forum-more-menu.show').forEach(function(m) { m.classList.remove('show'); });
+            var request = indexedDB.open('DesktopData', 1);
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readwrite');
+                var store = transaction.objectStore('settings');
+                store.delete('forum-comments-' + postId);
+                store.delete('forum-post-text-' + postId);
+                store.delete('forum-like-' + postId);
+                store.delete('forum-rolepost-' + postId);
+                var getDeleted = store.get('forum-deleted-posts');
+                getDeleted.onsuccess = function(e) {
+                    var deleted = [];
+                    if (e.target.result && e.target.result.image) {
+                        try { deleted = JSON.parse(e.target.result.image); } catch(err) {}
+                    }
+                    if (deleted.indexOf(postId) === -1) {
+                        deleted.push(postId);
+                    }
+                    store.put({ id: 'forum-deleted-posts', image: JSON.stringify(deleted), timestamp: Date.now() });
+                };
+            };
+        }
+
+        function forumLoadDeletedPosts() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readonly');
+                var store = transaction.objectStore('settings');
+                var req = store.get('forum-deleted-posts');
+                req.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image) {
+                        try {
+                            var deleted = JSON.parse(e.target.result.image);
+                            deleted.forEach(function(postId) {
+                                var post = document.querySelector('[data-post-id="' + postId + '"]');
+                                if (post) post.remove();
+                            });
+                        } catch(err) {}
+                    }
+                };
+            };
+        }
+
+        function forumToggleComments(btn) {
+            var postCard = btn.closest('.forum-post-card') || btn.closest('.forum-profile-post');
+            var comments = postCard.querySelector('.forum-comments');
+            if (comments) comments.classList.toggle('show');
+        }
+
+        function forumAddComment(input) {
+            var text = input.value.trim();
+            if (!text) return;
+            var comments = input.closest('.forum-comments');
+            var inputWrap = comments.querySelector('.forum-comment-input-wrap');
+            var profileName = document.querySelector('.forum-profile-name');
+            var name = profileName ? profileName.innerText : 'me';
+
+            var item = document.createElement('div');
+            item.className = 'forum-comment-item';
+            item.innerHTML = '<div class="forum-comment-body"><div class="forum-comment-name">' + name + '</div><div class="forum-comment-text">' + text + '</div></div>';
+            comments.insertBefore(item, inputWrap);
+            input.value = '';
+
+            var postCard = input.closest('[data-post-id]');
+            if (postCard) {
+                var postId = postCard.getAttribute('data-post-id');
+                forumSaveComments(postId);
+                // 角色自动回复用户的评论（嵌套显示在用户评论下方）
+                forumTriggerRoleReply(postCard, comments, inputWrap, item, text, name);
+            }
+        }
+
+        async function forumTriggerRoleReply(postCard, comments, inputWrap, userCommentItem, userText, userName) {
+            var roleName = postCard.getAttribute('data-role-name');
+            var roleDesc = postCard.getAttribute('data-role-desc') || '';
+            if (!roleName) return;
+
+            var savedApiUrl = localStorage.getItem('apiUrl') || '';
+            var apiKey = localStorage.getItem('apiKey') || '';
+            var selectedModel = localStorage.getItem('selectedModel') || '';
+            var chatEndpoint = getChatEndpoint(savedApiUrl);
+            if (!chatEndpoint || !apiKey || !selectedModel) return;
+
+            // 获取帖子正文
+            var postTextEl = postCard.querySelector('.forum-post-text');
+            var postText = postTextEl ? postTextEl.innerText : '';
+
+            // 获取已有评论作为上下文（最多10条，排除输入框）
+            var existingComments = [];
+            var commentItems = comments.querySelectorAll('.forum-comment-item');
+            commentItems.forEach(function(ci) {
+                var n = ci.querySelector('.forum-comment-name');
+                var t = ci.querySelector('.forum-comment-text');
+                if (n && t) existingComments.push(n.innerText + '：' + t.innerText);
+            });
+            var commentContext = existingComments.slice(-10).join('\n');
+
+            // 显示打字中占位（嵌套在用户评论正下方）
+            var typingItem = document.createElement('div');
+            typingItem.className = 'forum-comment-item forum-comment-nested forum-role-typing';
+            typingItem.innerHTML = '<div class="forum-comment-body"><div class="forum-comment-name">' +
+                roleName.replace(/</g, '&lt;').replace(/>/g, '&gt;') +
+                '</div><div class="forum-comment-text" style="color:#bbb;font-style:italic;">...</div></div>';
+            // 插入到用户评论的正后方
+            if (userCommentItem && userCommentItem.nextSibling) {
+                comments.insertBefore(typingItem, userCommentItem.nextSibling);
+            } else {
+                comments.insertBefore(typingItem, inputWrap);
+            }
+
+            var systemPrompt = '你正在扮演角色：' + roleName + '。\n' +
+                (roleDesc ? '角色描述：' + roleDesc + '\n' : '') +
+                '你刚刚在社交媒体上发布了一条帖子，现在有人评论了你的帖子，你需要以角色的真实口吻回复这条评论。\n' +
+                '要求：\n' +
+                '- 口气自然，像真实的人在社交媒体上的互动，简短（15~40字以内），不要长篇大论\n' +
+                '- 禁止使用任何 emoji 或表情符号\n' +
+                '- 只输出回复内容本身，不要加任何前缀或说明';
+
+            var userPrompt = '【你的帖子内容】\n' + postText + '\n\n' +
+                (commentContext ? '【帖子下的其他评论（供参考）】\n' + commentContext + '\n\n' : '') +
+                '【' + userName + ' 对你说】\n' + userText + '\n\n' +
+                '请用 ' + roleName + ' 的口吻回复 ' + userName + ' 的评论：';
+
+            try {
+                var response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + apiKey
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: userPrompt }
+                        ],
+                        temperature: parseFloat(localStorage.getItem('apiTemperature')) || 1.0,
+                        stream: false
+                    })
+                });
+
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                var data = await response.json();
+                var reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+                if (!reply) throw new Error('empty');
+
+                reply = reply.trim()
+                    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+                    .replace(/<thinking>[\s\S]*?<\/thinking>/gi, '')
+                    .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+                    .trim();
+
+                // 替换占位为真实回复
+                var replyTextEl = typingItem.querySelector('.forum-comment-text');
+                if (replyTextEl) {
+                    replyTextEl.style.color = '';
+                    replyTextEl.style.fontStyle = '';
+                    replyTextEl.textContent = reply;
+                }
+
+                // 保存评论
+                var pid = postCard.getAttribute('data-post-id');
+                if (pid) forumSaveComments(pid);
+
+            } catch (e) {
+                // 失败时移除占位，静默处理
+                if (typingItem && typingItem.parentNode) typingItem.parentNode.removeChild(typingItem);
+            }
+        }
+
+        function forumSaveComments(postId) {
+            var postCard = document.querySelector('[data-post-id="' + postId + '"]');
+            if (!postCard) return;
+            var items = postCard.querySelectorAll('.forum-comment-item');
+            var commentsData = [];
+            items.forEach(function(item) {
+                var nameEl = item.querySelector('.forum-comment-name');
+                var textEl = item.querySelector('.forum-comment-text');
+                if (nameEl && textEl) {
+                    commentsData.push({
+                        name: nameEl.innerText,
+                        text: textEl.innerText,
+                        isNested: item.classList.contains('forum-comment-nested')
+                    });
+                }
+            });
+            forumSaveImage('forum-comments-' + postId, JSON.stringify(commentsData));
+        }
+
+        function forumLoadCommentsForPost(postId) {
+            var postCard = document.querySelector('[data-post-id="' + postId + '"]');
+            if (!postCard) return;
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(ev) {
+                var db = ev.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(ev) {
+                var db = ev.target.result;
+                var tx = db.transaction(['settings'], 'readonly');
+                var store = tx.objectStore('settings');
+                var req = store.get('forum-comments-' + postId);
+                req.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image) {
+                        try {
+                            var commentsData = JSON.parse(e.target.result.image);
+                            var commentsEl = postCard.querySelector('.forum-comments');
+                            if (!commentsEl) return;
+                            var inputWrap = commentsEl.querySelector('.forum-comment-input-wrap');
+                            // 清除旧评论，避免重复
+                            commentsEl.querySelectorAll('.forum-comment-item').forEach(function(i) { i.remove(); });
+                            commentsData.forEach(function(c) {
+                                var item = document.createElement('div');
+                                item.className = 'forum-comment-item' + (c.isNested ? ' forum-comment-nested' : '');
+                                var cName = (c.name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                var cText = (c.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                item.innerHTML = '<div class="forum-comment-body"><div class="forum-comment-name">' + cName + '</div><div class="forum-comment-text">' + cText + '</div></div>';
+                                commentsEl.insertBefore(item, inputWrap);
+                            });
+                        } catch(err) {}
+                    }
+                };
+            };
+        }
+
+        function forumLoadComments() {
+            var posts = document.querySelectorAll('[data-post-id]');
+            posts.forEach(function(post) {
+                var postId = post.getAttribute('data-post-id');
+                forumLoadCommentsForPost(postId);
+            });
+        }
+
+        // ====== 热搜榜持久化加载 ======
+        function forumLoadHotSearchData() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(ev) { var db = ev.target.result; if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'id' }); };
+            request.onsuccess = function(ev) {
+                var db = ev.target.result;
+                var tx = db.transaction(['settings'], 'readonly');
+                var store = tx.objectStore('settings');
+                var req = store.get('forum-hot-search-data');
+                req.onsuccess = function(e) {
+                    if (!e.target.result || !e.target.result.image) return;
+                    try {
+                        var data = JSON.parse(e.target.result.image);
+                        var tagMap = { '热': 'hot', '新': 'new', '趣': 'fun' };
+                        if (data.hotSearch && Array.isArray(data.hotSearch)) {
+                            var hotList = document.getElementById('forum-hot-list');
+                            hotList.innerHTML = '';
+                            data.hotSearch.forEach(function(item, idx) {
+                                var rankClass = idx < 3 ? ' top' : '';
+                                var tagHtml = '';
+                                if (item.tag && tagMap[item.tag]) {
+                                    tagHtml = '<span class="forum-hot-tag ' + tagMap[item.tag] + '">' + item.tag + '</span>';
+                                }
+                                var safeText = (item.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                hotList.innerHTML += '<div class="forum-hot-item">' +
+                                    '<span class="forum-hot-rank' + rankClass + '">' + (idx + 1) + '</span>' +
+                                    '<div class="forum-hot-content"><span class="forum-hot-text">' + safeText + '</span>' + tagHtml + '</div>' +
+                                    '<span class="forum-hot-count">' + (item.count || 0) + '万</span></div>';
+                            });
+                        }
+                        if (data.npcComments && Array.isArray(data.npcComments)) {
+                            var npcList = document.getElementById('forum-hot-npc-list');
+                            npcList.innerHTML = '';
+                            data.npcComments.forEach(function(npc) {
+                                var safeName = (npc.name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                var safeText = (npc.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                npcList.innerHTML += '<div class="forum-hot-npc-item"><div class="forum-hot-npc-info">' +
+                                    '<div class="forum-hot-npc-name">' + safeName + ' <span class="forum-hot-npc-badge">V</span></div>' +
+                                    '<div class="forum-hot-npc-text">' + safeText + '</div></div></div>';
+                            });
+                        }
+                    } catch(err) {}
+                };
+            };
+        }
+
+        function forumLoadNpcPosts() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(ev) { var db = ev.target.result; if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'id' }); };
+            request.onsuccess = function(ev) {
+                var db = ev.target.result;
+                var tx = db.transaction(['settings'], 'readonly');
+                var store = tx.objectStore('settings');
+                // 读取删除记录
+                var deletedReq = store.get('forum-deleted-posts');
+                deletedReq.onsuccess = function(de) {
+                    var deleted = [];
+                    if (de.target.result && de.target.result.image) {
+                        try { deleted = JSON.parse(de.target.result.image); } catch(err) {}
+                    }
+                    var tx2 = db.transaction(['settings'], 'readonly');
+                    var store2 = tx2.objectStore('settings');
+                    store2.openCursor().onsuccess = function(e) {
+                        var cursor = e.target.result;
+                        if (cursor) {
+                            var key = cursor.value.id;
+                            if (key && key.indexOf('forum-npcpost-') === 0) {
+                                var postId = key.replace('forum-npcpost-', '');
+                                var isDeleted = deleted.indexOf(postId) !== -1;
+                                var existing = document.querySelector('[data-post-id="' + postId + '"]');
+                                if (!isDeleted && !existing) {
+                                    try {
+                                        var data = JSON.parse(cursor.value.image);
+                                        var safeUsername = (data.username || '路人').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                        var safePostText = (data.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                        var hashtagHtml = '';
+                                        if (data.hashtag) {
+                                            var safeTag = data.hashtag.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                            hashtagHtml = '<br><span class="forum-hashtag">' + safeTag + '</span>';
+                                        }
+                                        var commentsHtml = '';
+                                        if (data.comments && Array.isArray(data.comments)) {
+                                            data.comments.forEach(function(c) {
+                                                var cn = (c.name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                                var ct = (c.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                                var nestedClass = c.isReply ? ' forum-comment-nested' : '';
+                                                commentsHtml += '<div class="forum-comment-item' + nestedClass + '"><div class="forum-comment-body"><div class="forum-comment-name">' + cn + '</div><div class="forum-comment-text">' + ct + '</div></div></div>';
+                                            });
+                                        }
+                                        var likesStr = (data.likes || 0) >= 1000 ? ((data.likes || 0) / 1000).toFixed(1) + 'K' : (data.likes || 0);
+                                        var postTs = data.timestamp || Date.now();
+                                        var cardHtml = '<div class="forum-post-card" data-post-id="' + postId + '" data-timestamp="' + postTs + '">' +
+                                            '<div class="forum-post-header">' +
+                                                '<div class="forum-avatar" style="background: linear-gradient(135deg, #e0e0e0, #c0c0c0);"></div>' +
+                                                '<div class="forum-user-info"><div class="name">' + safeUsername + '</div><div class="meta">' + (data.timeLabel || '') + '</div></div>' +
+                                                '<div class="forum-more-btn" onclick="forumToggleMoreMenu(this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle><circle cx="5" cy="12" r="1.5"></circle></svg>' +
+                                                    '<div class="forum-more-menu">' +
+                                                        '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumEditPost(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg><span>EDIT</span></div>' +
+                                                        '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumToggleCommentSection(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>COMMENT</span></div>' +
+                                                        '<div class="forum-more-menu-item danger" onclick="event.stopPropagation();forumDeletePost(this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg><span>DELETE</span></div>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                            '<div class="forum-post-text">' + safePostText + hashtagHtml + '</div>' +
+                                            '<div class="forum-post-actions">' +
+                                                '<div class="forum-action-btn"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>' + (data.reposts || 0) + '</div>' +
+                                                '<div class="forum-action-btn" onclick="forumToggleComments(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>' + (data.commentCount || 0) + '</div>' +
+                                                '<div class="forum-action-btn forum-like-btn" onclick="forumToggleLike(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>' + likesStr + '</div>' +
+                                            '</div>' +
+                                            '<div class="forum-comments">' +
+                                                commentsHtml +
+                                                '<div class="forum-comment-input-wrap"><input class="forum-comment-input" type="text" placeholder="Add a comment..." onkeydown="if(event.key===\'Enter\')forumAddComment(this)"></div>' +
+                                            '</div>' +
+                                        '</div>';
+                                        var homePage = document.getElementById('forum-home');
+                                        var fab = homePage.querySelector('.forum-fab');
+                                        if (fab) {
+                                            fab.insertAdjacentHTML('afterend', cardHtml);
+                                        } else {
+                                            homePage.insertAdjacentHTML('beforeend', cardHtml);
+                                        }
+                                        forumLoadCommentsForPost(postId);
+                                        forumLoadLikeForPost(postId);
+                                    } catch(err) {}
+                                }
+                            }
+                            cursor.continue();
+                        }
+                    };
+                };
+            };
+        }
+
+        // ====== 热搜榜刷新功能 ======
+        async function forumRefreshHotSearch() {
+            var btn = document.querySelector('.forum-refresh-btn');
+            if (btn.classList.contains('loading')) return;
+            btn.classList.add('loading');
+
+            var savedApiUrl = localStorage.getItem('apiUrl') || '';
+            var apiKey = localStorage.getItem('apiKey') || '';
+            var selectedModel = localStorage.getItem('selectedModel') || '';
+            var chatEndpoint = getChatEndpoint(savedApiUrl);
+
+            if (!chatEndpoint || !apiKey || !selectedModel) {
+                btn.classList.remove('loading');
+                alert('请先在设置中配置 API');
+                return;
+            }
+
+            // 收集角色信息用于生成与角色相关的热搜话题
+            var roleContext = '';
+            if (typeof roles !== 'undefined' && roles.length > 0) {
+                var shuffled = roles.slice().sort(function() { return 0.5 - Math.random(); });
+                var picked = shuffled.slice(0, Math.min(3, shuffled.length));
+                roleContext = '\n\n【角色信息（用于生成角色相关话题）】\n';
+                picked.forEach(function(r) {
+                    roleContext += '- ' + r.name + (r.description ? '：' + r.description.slice(0, 80) : '') + '\n';
+                });
+            }
+
+            var prompt = '你是一个模拟微博热搜数据的生成器。请生成以下内容：\n\n' +
+                '1. 8 条热搜话题，要求：\n' +
+                '   - 【重要】话题内容要完全生活化、接地气、抓人眼球，聚焦年轻人关心的话题\n' +
+                '   - 话题领域：恋爱/暧昧/分手、打工/摸鱼/工资、社恐/emo/独居、合租/外卖/奶茶、催婚/家庭关系、朋友圈/社交媒体、追星/八卦/吃瓜等\n' +
+                '   - 【禁止】科技、AI、政策、国际新闻等严肃话题\n' +
+                '   - 话题要像真实微博热搜那样有争议性或共鸣感，让人想点进去看\n' +
+                '   - 每条包含话题文字、热度数值（万为单位，50~500之间）\n' +
+                '   - 前3条标记 tag（"热"或"新"），其余条随机有或没有 tag（可选 "热"/"新"/"趣"）\n' +
+                '   - 其中必须有 2 条话题与下面提供的角色相关，以这些角色发布的微博或生活状态为灵感编造话题（但话题本身不直接提角色名，而是泛化为大众共鸣的话题）\n' +
+                roleContext + '\n' +
+                '2. 2 个微博大V的热评，要求：\n' +
+                '   - 大V是虚构的，不要用真实人物名字\n' +
+                '   - 每个大V有：名称（2~6个汉字的自媒体/情感/生活类昵称）、一条犀利短评（20~50字）\n' +
+                '   - 名称风格参考：深夜树洞Bot、情感急诊室、当代废话文学、打工人日记、独居生活指南 等\n' +
+                '   - 短评要毒舌、扎心、共情或幽默，像微博大V那种让人想转发的金句\n' +
+                '   - 短评必须针对热搜话题中的某一条来评论\n' +
+                '   - 【禁止使用任何 emoji 或表情符号】\n\n' +
+                '3. 3 条路人微博帖子（与上面的角色信息完全无关，独立生成），要求：\n' +
+                '   - 模拟不同类型的微博用户发帖，类型随机选择：树洞Bot、营销号、八卦号、K-POP粉丝、美食探店、穿搭博主、吐槽达人、考研/考公党、摸鱼打工人、追剧姐妹、塔罗占卜师、二次元宅、豆瓣文青 等\n' +
+                '   - 每条帖子包含：用户昵称（网名风格，3~8个字）、帖子正文（30~80字，口语化）、可选的 #话题标签#\n' +
+                '   - 三条帖子的用户类型和风格要各不相同\n' +
+                '   - 帖子要有真实感，像真人在发微博\n' +
+                '   - 【禁止使用任何 emoji 或表情符号】\n' +
+                '   - 【禁止】帖子内容不得包含任何关于图片、照片、视频、配图、截图的描述或提及\n' +
+                '   - 每条帖子附带 6~8 条评论，评论要求：\n' +
+                '     * 评论整体要有真实微博评论区的多样化氛围，不能全是吵架\n' +
+                '     * 评论类型要丰富多样，包括但不限于：\n' +
+                '       - 真诚共鸣/附和（"太真实了""我也是"）\n' +
+                '       - 认真讨论/分析（有理有据地发表看法）\n' +
+                '       - 抖机灵/玩梗（网络热梗、谐音梗、段子手）\n' +
+                '       - 友善打趣/调侃（善意的开玩笑）\n' +
+                '       - 个人经历分享（"我之前也遇到过..."）\n' +
+                '       - 好奇追问（"然后呢？""细说"）\n' +
+                '       - 吵架互怼（杠精、对家撕、阴阳怪气）← 保留但只占 1~2 条\n' +
+                '       - 冷不丁的神回复/离题评论\n' +
+                '     * 每条帖子的评论要自然组合以上多种类型，比例均衡\n' +
+                '     * 部分评论可以是回复前面某条评论的（"回复楼上：..."等），这些回复评论标记 isReply: true\n' +
+                '     * 【关键】回复评论必须紧跟在被回复的那条评论后面，不能隔开。比如A发了评论，B回复A，则B必须紧跟在A后面\n' +
+                '     * 【禁止使用任何 emoji 或表情符号】\n\n' +
+                '严格按以下 JSON 格式返回，不输出任何其他文字：\n' +
+                '{\n' +
+                '  "hotSearch": [\n' +
+                '    {"text": "话题文字", "count": 384, "tag": "热"},\n' +
+                '    ...(共8条)\n' +
+                '  ],\n' +
+                '  "npcComments": [\n' +
+                '    {"name": "大V名称", "text": "短评内容"},\n' +
+                '    {"name": "大V名称", "text": "短评内容"}\n' +
+                '  ],\n' +
+                '  "npcPosts": [\n' +
+                '    {\n' +
+                '      "username": "用户昵称",\n' +
+                '      "text": "帖子正文",\n' +
+                '      "hashtag": "#话题标签#",\n' +
+                '      "comments": [\n' +
+                '        {"name": "评论者昵称", "text": "评论内容", "isReply": false},\n' +
+                '        {"name": "回复者昵称", "text": "回复xxx：内容", "isReply": true},\n' +
+                '        ...(共6~8条，要有互动和对话感)\n' +
+                '      ]\n' +
+                '    }\n' +
+                '  ]\n' +
+                '}';
+
+            try {
+                var response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + apiKey
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: '你是一个微博内容模拟器，擅长生成热搜话题和模拟各类微博用户发帖。必须严格按用户要求的 JSON 格式输出，不输出任何多余文字或代码块标记。' },
+                            { role: 'user', content: prompt }
+                        ],
+                        temperature: 1.2,
+                        stream: false
+                    })
+                });
+
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+
+                var data = await response.json();
+                var content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+                if (!content) throw new Error('empty response');
+
+                content = content.trim().replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
+                content = content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
+                var parsed = JSON.parse(content);
+                if (!parsed.hotSearch || !Array.isArray(parsed.hotSearch)) throw new Error('invalid format');
+
+                // 更新热搜列表
+                var hotList = document.getElementById('forum-hot-list');
+                var tagMap = { '热': 'hot', '新': 'new', '趣': 'fun' };
+                hotList.innerHTML = '';
+                parsed.hotSearch.forEach(function(item, idx) {
+                    var rankClass = idx < 3 ? ' top' : '';
+                    var tagHtml = '';
+                    if (item.tag && tagMap[item.tag]) {
+                        tagHtml = '<span class="forum-hot-tag ' + tagMap[item.tag] + '">' + item.tag + '</span>';
+                    }
+                    var safeText = (item.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    hotList.innerHTML += '<div class="forum-hot-item">' +
+                        '<span class="forum-hot-rank' + rankClass + '">' + (idx + 1) + '</span>' +
+                        '<div class="forum-hot-content"><span class="forum-hot-text">' + safeText + '</span>' + tagHtml + '</div>' +
+                        '<span class="forum-hot-count">' + (item.count || 0) + '万</span>' +
+                        '</div>';
+                });
+
+                // 更新大V热评
+                if (parsed.npcComments && Array.isArray(parsed.npcComments)) {
+                    var npcList = document.getElementById('forum-hot-npc-list');
+                    npcList.innerHTML = '';
+                    parsed.npcComments.forEach(function(npc, idx) {
+                        var safeName = (npc.name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        var safeNpcText = (npc.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        npcList.innerHTML += '<div class="forum-hot-npc-item">' +
+                            '<div class="forum-hot-npc-info">' +
+                            '<div class="forum-hot-npc-name">' + safeName + ' <span class="forum-hot-npc-badge">V</span></div>' +
+                            '<div class="forum-hot-npc-text">' + safeNpcText + '</div>' +
+                            '</div></div>';
+                    });
+                }
+
+                // 插入路人NPC微博帖子
+                if (parsed.npcPosts && Array.isArray(parsed.npcPosts)) {
+                    var homePage = document.getElementById('forum-home');
+                    var fab = homePage.querySelector('.forum-fab');
+                    var nowTs = Date.now();
+                    parsed.npcPosts.forEach(function(post, idx) {
+                        var npcPostId = 'npc-' + nowTs + '-' + idx;
+                        // 每条帖子间隔 3~15 分钟
+                        var offsetMs = idx * (3 + Math.floor(Math.random() * 12)) * 60 * 1000;
+                        var postTimestamp = nowTs - offsetMs;
+                        var timeLabel = forumFormatPostTime(postTimestamp);
+                        var safeUsername = (post.username || '路人').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        var safePostText = (post.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        var hashtagHtml = '';
+                        if (post.hashtag) {
+                            var safeTag = post.hashtag.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            hashtagHtml = '<br><span class="forum-hashtag">' + safeTag + '</span>';
+                        }
+                        var commentsHtml = '';
+                        if (post.comments && Array.isArray(post.comments)) {
+                            post.comments.forEach(function(c) {
+                                var cn = (c.name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                var ct = (c.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                var nestedClass = c.isReply ? ' forum-comment-nested' : '';
+                                commentsHtml += '<div class="forum-comment-item' + nestedClass + '"><div class="forum-comment-body">' +
+                                    '<div class="forum-comment-name">' + cn + '</div>' +
+                                    '<div class="forum-comment-text">' + ct + '</div></div></div>';
+                            });
+                        }
+                        var reposts = Math.floor(Math.random() * 200) + 10;
+                        var comments = Math.floor(Math.random() * 150) + 5;
+                        var likes = Math.floor(Math.random() * 2000) + 50;
+                        var likesStr = likes >= 1000 ? (likes / 1000).toFixed(1) + 'K' : likes;
+
+                        var cardHtml = '<div class="forum-post-card" data-post-id="' + npcPostId + '" data-timestamp="' + postTimestamp + '">' +
+                            '<div class="forum-post-header">' +
+                                '<div class="forum-avatar" style="background: linear-gradient(135deg, #e0e0e0, #c0c0c0);"></div>' +
+                                '<div class="forum-user-info">' +
+                                    '<div class="name">' + safeUsername + '</div>' +
+                                    '<div class="meta">' + timeLabel + '</div>' +
+                                '</div>' +
+                                '<div class="forum-more-btn" onclick="forumToggleMoreMenu(this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle><circle cx="5" cy="12" r="1.5"></circle></svg>' +
+                                    '<div class="forum-more-menu">' +
+                                        '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumEditPost(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg><span>EDIT</span></div>' +
+                                        '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumToggleCommentSection(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>COMMENT</span></div>' +
+                                        '<div class="forum-more-menu-item danger" onclick="event.stopPropagation();forumDeletePost(this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg><span>DELETE</span></div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="forum-post-text">' + safePostText + hashtagHtml + '</div>' +
+                            '<div class="forum-post-actions">' +
+                                '<div class="forum-action-btn"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>' + reposts + '</div>' +
+                                '<div class="forum-action-btn" onclick="forumToggleComments(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>' + comments + '</div>' +
+                                '<div class="forum-action-btn forum-like-btn" onclick="forumToggleLike(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>' + likesStr + '</div>' +
+                            '</div>' +
+                            '<div class="forum-comments">' +
+                                commentsHtml +
+                                '<div class="forum-comment-input-wrap"><input class="forum-comment-input" type="text" placeholder="Add a comment..." onkeydown="if(event.key===\'Enter\')forumAddComment(this)"></div>' +
+                            '</div>' +
+                        '</div>';
+
+                        if (fab) {
+                            fab.insertAdjacentHTML('afterend', cardHtml);
+                        } else {
+                            homePage.insertAdjacentHTML('beforeend', cardHtml);
+                        }
+
+                        // 持久化保存每条NPC帖子
+                        forumSaveImage('forum-npcpost-' + npcPostId, JSON.stringify({
+                            username: post.username,
+                            text: post.text,
+                            hashtag: post.hashtag || '',
+                            comments: post.comments || [],
+                            reposts: reposts,
+                            commentCount: comments,
+                            likes: likes,
+                            timeLabel: timeLabel,
+                            timestamp: postTimestamp
+                        }));
+                    });
+                }
+
+                // 持久化保存热搜数据
+                forumSaveImage('forum-hot-search-data', JSON.stringify({
+                    hotSearch: parsed.hotSearch,
+                    npcComments: parsed.npcComments || []
+                }));
+
+                btn.classList.remove('loading');
+                setTimeout(forumSortPosts, 100);
+            } catch (e) {
+                btn.classList.remove('loading');
+                alert('热搜刷新失败，请重试。\n' + (e.message || ''));
+            }
+        }
+
+        // ====== 角色发帖功能 ======
+        function forumOpenRoleModal() {
+            var modal = document.getElementById('forum-role-modal');
+            var list = document.getElementById('forum-role-list');
+            var generating = document.getElementById('forum-role-generating');
+            if (generating) generating.classList.remove('show');
+
+            // 从全局 roles 变量渲染角色列表
+            list.innerHTML = '';
+            if (typeof roles === 'undefined' || roles.length === 0) {
+                list.innerHTML = '<div class="forum-role-empty">NO CHARACTERS YET</div>';
+            } else {
+                roles.forEach(function(role) {
+                    var desc = role.description || role.remark || '';
+                    var item = document.createElement('div');
+                    item.className = 'forum-role-item';
+                    item.setAttribute('data-role-id', role.id);
+                    var avatarHtml = role.avatar
+                        ? '<img src="' + role.avatar + '" alt="' + role.name.replace(/"/g, '') + '">'
+                        : '';
+                    item.innerHTML =
+                        '<div class="forum-role-item-avatar">' + avatarHtml + '</div>' +
+                        '<div class="forum-role-item-info">' +
+                            '<div class="forum-role-item-name">' + role.name + '</div>' +
+                            (desc ? '<div class="forum-role-item-desc">' + desc + '</div>' : '') +
+                        '</div>' +
+                        '<div class="forum-role-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg></div>';
+                    item.onclick = function() { forumSelectRoleForPosts(role.id); };
+                    list.appendChild(item);
+                });
+            }
+            modal.classList.add('show');
+        }
+
+        function forumCloseRoleModal() {
+            document.getElementById('forum-role-modal').classList.remove('show');
+        }
+
+        async function forumSelectRoleForPosts(roleId) {
+            var role = (typeof roles !== 'undefined') ? roles.find(function(r) { return r.id === roleId; }) : null;
+            if (!role) return;
+
+            var generating = document.getElementById('forum-role-generating');
+            var genText = document.getElementById('forum-role-gen-text');
+            generating.classList.add('show');
+            if (genText) genText.textContent = 'GENERATING';
+
+            var savedApiUrl = localStorage.getItem('apiUrl') || '';
+            var apiKey = localStorage.getItem('apiKey') || '';
+            var selectedModel = localStorage.getItem('selectedModel') || '';
+            var chatEndpoint = getChatEndpoint(savedApiUrl);
+
+            if (!chatEndpoint || !apiKey || !selectedModel) {
+                generating.classList.remove('show');
+                forumCloseRoleModal();
+                alert('请先在设置中配置 API');
+                return;
+            }
+
+            // 获取与该角色最近 20 条聊天记录作为灵感
+            var chatContext = '';
+            if (typeof messages !== 'undefined' && messages[role.id] && messages[role.id].length > 0) {
+                var recentMsgs = messages[role.id].slice(-20);
+                chatContext = recentMsgs.map(function(m) {
+                    var speaker = (m.role === 'user') ? '对方' : role.name;
+                    var text = typeof m.content === 'string' ? m.content : (m.parts ? m.parts.map(function(p){return p.text||'';}).join('') : '');
+                    return speaker + ': ' + text.slice(0, 120);
+                }).join('\n');
+            }
+
+            var prompt = '你正在扮演角色：' + role.name + '。\n' +
+                (role.description ? '角色描述：' + role.description + '\n' : '') +
+                (role.remark ? '备注：' + role.remark + '\n' : '') +
+                '\n【任务】以该角色的第一人称真实口吻，生成 3 条微博风格的社交媒体帖子，风格要求：\n' +
+                '- 像真实的人在发圈，带生活气息，不要说教感、不要过度正向\n' +
+                '- 可以有情绪起伏：碎碎念、自嘲、感慨、兴奋、懒散都行\n' +
+                '- 【禁止使用任何 emoji 或表情符号】，帖子和评论中均不得出现 emoji\n' +
+                '- 【禁止】帖子内容不得包含任何关于图片、照片、视频、配图、截图的描述或提及，只能是纯文字内容\n' +
+                '- 可带 #话题# 标签，但不强制\n' +
+                '- 三条帖子风格可以不一样\n' +
+                (chatContext ? '- 【重要】第三条帖子必须以下面的近期聊天记录为灵感，写出角色在这段对话后的真实感受或生活状态，不要直接引用原文，但要体现出情绪和情境的延续：\n\n【近期聊天记录】\n' + chatContext + '\n\n' : '') +
+                '每条帖子下方生成 10 条评论，评论要求：\n' +
+                '- 【重要】每条评论必须围绕对应那条帖子的具体内容来写，不得出现与帖子无关的通用评论\n' +
+                '- 3~4 条来自熟人,不能编造，需要根据角色人设内容和世界书里面选择角色可能认识的人，讲话风格要符合他们的口吻\n' +
+                '- 6~7 条来自陌生网友（用年轻人会用的网恋ID），语气各异\n' +
+                '- 评论不要都是夸，要有共鸣、打趣、好奇、关心、淡淡附和等多种语气\n' +
+                '- 【禁止使用任何 emoji 或表情符号】，评论中不得包含任何 emoji\n\n' +
+                '必须严格按以下 JSON 格式返回，不输出任何其他文字：\n' +
+                '{\n' +
+                '  "posts": [\n' +
+                '    {\n' +
+                '      "text": "帖子正文",\n' +
+                '      "comments": [\n' +
+                '        {"name": "评论者名字", "text": "评论内容", "isAcquaintance": true},\n' +
+                '        ...(共10条)\n' +
+                '      ]\n' +
+                '    }\n' +
+                '  ]\n' +
+                '}';
+
+            try {
+                var response = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + apiKey
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: '你是一个擅长模拟真实网络用户发帖的写手。必须严格按用户要求的 JSON 格式输出，不输出任何多余文字或代码块标记。' },
+                            { role: 'user', content: prompt }
+                        ],
+                        temperature: 1.0,
+                        stream: false
+                    })
+                });
+
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+
+                var data = await response.json();
+                var content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+                if (!content) throw new Error('empty response');
+
+                content = content.trim().replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
+
+                var parsed = JSON.parse(content);
+                if (!parsed.posts || !Array.isArray(parsed.posts)) throw new Error('invalid format');
+
+                generating.classList.remove('show');
+                forumCloseRoleModal();
+                forumInsertRolePosts(role, parsed.posts);
+
+            } catch (e) {
+                generating.classList.remove('show');
+                forumCloseRoleModal();
+                alert('生成失败，请重试。\n' + (e.message || ''));
+            }
+        }
+
+        function forumFormatPostTime(ts) {
+            var d = ts ? new Date(ts) : new Date();
+            var y = d.getFullYear();
+            var mo = d.getMonth() + 1;
+            var day = d.getDate();
+            var h = d.getHours();
+            var mi = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+            return y + '年' + mo + '月' + day + '日 ' + h + ':' + mi;
+        }
+
+        function forumBuildRolePostCard(postId, roleName, roleAvatar, postData, timeStr, likes, reposts, roleDesc, timestamp) {
+            var text = (postData.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            var displayTime = timeStr || forumFormatPostTime();
+            var likeCount = (likes !== undefined && likes !== null) ? likes : 0;
+            var repostCount = (reposts !== undefined && reposts !== null) ? reposts : 0;
+            var avatarInnerHtml = roleAvatar ? '<img src="' + roleAvatar + '" alt="' + roleName.replace(/"/g, '') + '">' : '';
+            var roleNameEscaped = roleName.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            var roleDescEscaped = (roleDesc || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            var tsAttr = timestamp ? ' data-timestamp="' + timestamp + '"' : '';
+            var commentsHtml = '';
+            if (Array.isArray(postData.comments)) {
+                postData.comments.forEach(function(c) {
+                    var cName = (c.name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    var cText = (c.text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    commentsHtml += '<div class="forum-comment-item">' +
+                        '<div class="forum-comment-body">' +
+                        '<div class="forum-comment-name">' + cName + '</div>' +
+                        '<div class="forum-comment-text">' + cText + '</div>' +
+                        '</div></div>';
+                });
+            }
+            return '<div class="forum-post-card" data-post-id="' + postId + '" data-role-name="' + roleNameEscaped + '" data-role-desc="' + roleDescEscaped + '"' + tsAttr + '>' +
+                '<div class="forum-post-header forum-role-clickable" onclick="if(!event.target.closest(\'.forum-more-btn\'))forumOpenRoleProfile(\'' + roleNameEscaped.replace(/'/g, "\\'") + '\')">' +
+                    '<div class="forum-avatar forum-post-avatar">' + avatarInnerHtml + '</div>' +
+                    '<div class="forum-user-info">' +
+                        '<div class="name forum-post-name">' + roleName.replace(/</g, '&lt;') + '</div>' +
+                        '<div class="meta">' + displayTime + '</div>' +
+                    '</div>' +
+                    '<div class="forum-more-btn" onclick="forumToggleMoreMenu(this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle><circle cx="5" cy="12" r="1.5"></circle></svg>' +
+                        '<div class="forum-more-menu">' +
+                            '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumToggleCommentSection(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>COMMENT</span></div>' +
+                            '<div class="forum-more-menu-item danger" onclick="event.stopPropagation();forumDeletePost(this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg><span>DELETE</span></div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="forum-post-text">' + text + '</div>' +
+                '<div class="forum-post-actions">' +
+                    '<div class="forum-action-btn"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>' + repostCount + '</div>' +
+                    '<div class="forum-action-btn" onclick="forumToggleComments(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>' + (postData.comments ? postData.comments.length : 0) + '</div>' +
+                    '<div class="forum-action-btn forum-like-btn" onclick="forumToggleLike(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>' + likeCount + '</div>' +
+                '</div>' +
+                '<div class="forum-comments">' +
+                    commentsHtml +
+                    '<div class="forum-comment-input-wrap"><input class="forum-comment-input" placeholder="Write a comment..." onkeydown="if(event.key===\'Enter\')forumAddComment(this)"></div>' +
+                '</div>' +
+            '</div>';
+        }
+
+        function forumInsertRolePosts(role, postsData) {
+            // 计算每条帖子分开几分钟发布，假设在今天内随机时间段
+            var now = Date.now();
+            // 随机选一个基准时间：今天 8:00~22:00 之间
+            var today = new Date();
+            var baseHour = 8 + Math.floor(Math.random() * 14); // 8~21点
+            var baseMin = Math.floor(Math.random() * 60);
+            var baseTs = new Date(today.getFullYear(), today.getMonth(), today.getDate(), baseHour, baseMin).getTime();
+            // 如果计算出的时间在未来，就往前推60分钟
+            if (baseTs > now) baseTs = now - 60 * 60 * 1000;
+
+            postsData.forEach(function(postData, idx) {
+                var postId = 'ai-' + Date.now() + '-' + Math.floor(Math.random() * 9999);
+                // 每条帖子间隔 5~15 分钟
+                var offset = idx * (5 + Math.floor(Math.random() * 10)) * 60 * 1000;
+                var postTs = baseTs + offset;
+                var timeStr = forumFormatPostTime(postTs);
+                // 随机生成点赞数和转发数（越火的帖子较多）
+                var likeCount = Math.floor(Math.random() * 180) + 8;
+                var repostCount = Math.floor(Math.random() * 40) + 1;
+                var roleDesc = role.description || role.remark || '';
+                var cardHtml = forumBuildRolePostCard(postId, role.name, role.avatar || '', postData, timeStr, likeCount, repostCount, roleDesc, postTs);
+
+                var homePage = document.getElementById('forum-home');
+                var fab = homePage.querySelector('.forum-fab');
+                if (fab) {
+                    fab.insertAdjacentHTML('afterend', cardHtml);
+                } else {
+                    homePage.insertAdjacentHTML('afterbegin', cardHtml);
+                }
+
+                // 保存到 IndexedDB
+                forumSaveImage('forum-rolepost-' + postId, JSON.stringify({
+                    roleName: role.name,
+                    roleAvatar: role.avatar || '',
+                    roleDesc: role.description || role.remark || '',
+                    text: postData.text || '',
+                    comments: postData.comments || [],
+                    timeStr: timeStr,
+                    likes: likeCount,
+                    reposts: repostCount,
+                    timestamp: postTs
+                }));
+            });
+        }
+
+        function forumLoadRolePosts() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readonly');
+                var store = transaction.objectStore('settings');
+                // 先读删除记录
+                var deletedReq = store.get('forum-deleted-posts');
+                deletedReq.onsuccess = function(de) {
+                    var deleted = [];
+                    if (de.target.result && de.target.result.image) {
+                        try { deleted = JSON.parse(de.target.result.image); } catch(err) {}
+                    }
+                    // 再遍历全部记录
+                    var tx2 = db.transaction(['settings'], 'readonly');
+                    var store2 = tx2.objectStore('settings');
+                    store2.openCursor().onsuccess = function(e) {
+                        var cursor = e.target.result;
+                        if (cursor) {
+                            var key = cursor.value.id;
+                            if (key && key.indexOf('forum-rolepost-') === 0) {
+                                var postId = key.replace('forum-rolepost-', '');
+                                var isDeleted = deleted.indexOf(postId) !== -1;
+                                var existing = document.querySelector('[data-post-id="' + postId + '"]');
+                                if (!isDeleted && !existing) {
+                                    try {
+                                        var data = JSON.parse(cursor.value.image);
+                                        var cardHtml = forumBuildRolePostCard(postId, data.roleName || '', data.roleAvatar || '', { text: data.text, comments: data.comments }, data.timeStr || '', data.likes, data.reposts, data.roleDesc || '', data.timestamp || Date.now());
+                                        var homePage = document.getElementById('forum-home');
+                                        var fab = homePage.querySelector('.forum-fab');
+                                        if (fab) {
+                                            fab.insertAdjacentHTML('afterend', cardHtml);
+                                        } else {
+                                            homePage.insertAdjacentHTML('afterbegin', cardHtml);
+                                        }
+                                        // 加载该帖子保存的评论（含用户评论），覆盖初始AI评论
+                                        forumLoadCommentsForPost(postId);
+                                        // 恢复点赞状态
+                                        forumLoadLikeForPost(postId);
+                                    } catch(err) {}
+                                }
+                            }
+                            cursor.continue();
+                        }
+                    };
+                };
+            };
+        }
+        // ====== 角色发帖功能结束 ======
+
+        // ====== 角色主页功能 ======
+        var forumCurrentRoleProfileName = '';
+        function forumOpenRoleProfile(roleName) {
+            forumCurrentRoleProfileName = roleName;
+            // 收集该角色的所有帖子
+            var allCards = document.querySelectorAll('#forum-home .forum-post-card[data-role-name]');
+            var rolePosts = [];
+            var roleAvatar = '';
+            allCards.forEach(function(card) {
+                if (card.getAttribute('data-role-name') === roleName) {
+                    rolePosts.push(card);
+                    if (!roleAvatar) {
+                        var img = card.querySelector('.forum-post-avatar img');
+                        if (img) roleAvatar = img.src;
+                    }
+                }
+            });
+
+            // 填充角色主页信息
+            // 加载该角色的封面图
+            var coverEl = document.querySelector('.forum-role-profile-cover');
+            forumLoadRoleCover(roleName, coverEl);
+
+            var avatarEl = document.getElementById('forum-role-profile-avatar');
+            if (roleAvatar) {
+                avatarEl.innerHTML = '<img src="' + roleAvatar + '">';
+                avatarEl.style.background = 'none';
+            } else {
+                avatarEl.innerHTML = '';
+                avatarEl.style.background = 'linear-gradient(135deg, #eee, #ddd)';
+            }
+            document.getElementById('forum-role-profile-name').textContent = roleName;
+            document.getElementById('forum-role-profile-desc').textContent = '';
+            document.getElementById('forum-role-profile-stats').innerHTML = '<div><b>' + rolePosts.length + '</b> Posts</div>';
+
+            // 复制该角色的帖子到主页
+            var postsContainer = document.getElementById('forum-role-profile-posts');
+            postsContainer.innerHTML = '';
+            rolePosts.forEach(function(card) {
+                var clone = card.cloneNode(true);
+                clone.classList.add('forum-profile-post');
+                // 移除角色可点击样式，避免在主页里再次触发跳转
+                var header = clone.querySelector('.forum-post-header');
+                if (header) {
+                    header.classList.remove('forum-role-clickable');
+                    header.removeAttribute('onclick');
+                }
+                postsContainer.appendChild(clone);
+            });
+
+            // 切换到角色主页
+            document.querySelectorAll('#forum-app .forum-page').forEach(function(page) {
+                page.classList.remove('active');
+            });
+            document.querySelectorAll('#forum-app .forum-nav-link').forEach(function(link) {
+                link.classList.remove('active');
+            });
+            document.getElementById('forum-role-profile').classList.add('active');
+            forumUpdateNav('role-profile');
+            forumUpdateFollowBtn(roleName);
+        }
+
+        function forumCloseRoleProfile() {
+            forumSwitchPage('home');
+        }
+
+        function forumUploadRoleCover(event) {
+            var file = event.target.files[0];
+            if (!file || !forumCurrentRoleProfileName) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var dataUrl = e.target.result;
+                var coverEl = document.querySelector('.forum-role-profile-cover');
+                coverEl.style.background = 'url(' + dataUrl + ') center/cover no-repeat';
+                // 持久化保存
+                forumSaveImage('forum-role-cover-' + forumCurrentRoleProfileName, dataUrl);
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function forumLoadRoleCover(roleName, coverEl) {
+            coverEl.style.background = 'linear-gradient(to bottom, #d5d5d5, #f5f5f5)';
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(ev) { var db = ev.target.result; if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'id' }); };
+            request.onsuccess = function(ev) {
+                var db = ev.target.result;
+                var tx = db.transaction(['settings'], 'readonly');
+                var store = tx.objectStore('settings');
+                var req = store.get('forum-role-cover-' + roleName);
+                req.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image) {
+                        coverEl.style.background = 'url(' + e.target.result.image + ') center/cover no-repeat';
+                    }
+                };
+            };
+        }
+
+        // 关注功能
+        function forumGetFollowedRoles(callback) {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(ev) { var db = ev.target.result; if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'id' }); };
+            request.onsuccess = function(ev) {
+                var db = ev.target.result;
+                var tx = db.transaction(['settings'], 'readonly');
+                var store = tx.objectStore('settings');
+                var req = store.get('forum-followed-roles');
+                req.onsuccess = function(e) {
+                    var list = [];
+                    if (e.target.result && e.target.result.image) {
+                        try { list = JSON.parse(e.target.result.image); } catch(err) {}
+                    }
+                    callback(list);
+                };
+            };
+        }
+
+        function forumSaveFollowedRoles(list) {
+            forumSaveImage('forum-followed-roles', JSON.stringify(list));
+        }
+
+        function forumToggleFollow() {
+            if (!forumCurrentRoleProfileName) return;
+            var btn = document.getElementById('forum-role-follow-btn');
+            forumGetFollowedRoles(function(list) {
+                var idx = -1;
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].name === forumCurrentRoleProfileName) { idx = i; break; }
+                }
+                if (idx >= 0) {
+                    // 取消关注
+                    list.splice(idx, 1);
+                    btn.textContent = 'FOLLOW';
+                    btn.classList.remove('followed');
+                } else {
+                    // 关注 - 获取角色头像
+                    var avatarEl = document.getElementById('forum-role-profile-avatar');
+                    var img = avatarEl.querySelector('img');
+                    var avatar = img ? img.src : '';
+                    list.push({ name: forumCurrentRoleProfileName, avatar: avatar });
+                    btn.textContent = 'FOLLOWING';
+                    btn.classList.add('followed');
+                }
+                forumSaveFollowedRoles(list);
+            });
+        }
+
+        function forumUpdateFollowBtn(roleName) {
+            var btn = document.getElementById('forum-role-follow-btn');
+            forumGetFollowedRoles(function(list) {
+                var isFollowed = false;
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].name === roleName) { isFollowed = true; break; }
+                }
+                if (isFollowed) {
+                    btn.textContent = 'FOLLOWING';
+                    btn.classList.add('followed');
+                } else {
+                    btn.textContent = 'FOLLOW';
+                    btn.classList.remove('followed');
+                }
+            });
+        }
+
+        function forumOpenFollowsList() {
+            var modal = document.getElementById('forum-follows-modal');
+            var listEl = document.getElementById('forum-follows-list');
+            listEl.innerHTML = '<div class="forum-follows-empty">Loading...</div>';
+            modal.classList.add('show');
+            forumGetFollowedRoles(function(list) {
+                if (list.length === 0) {
+                    listEl.innerHTML = '<div class="forum-follows-empty">NO FOLLOWS YET</div>';
+                    return;
+                }
+                listEl.innerHTML = '';
+                list.forEach(function(item) {
+                    var safeName = (item.name || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    var avatarHtml = item.avatar ? '<img src="' + item.avatar + '">' : '';
+                    var el = document.createElement('div');
+                    el.className = 'forum-follows-item';
+                    el.innerHTML = '<div class="forum-follows-item-avatar">' + avatarHtml + '</div>' +
+                        '<div class="forum-follows-item-name">' + safeName + '</div>' +
+                        '<div class="forum-follows-item-btn">FOLLOWING</div>';
+                    el.querySelector('.forum-follows-item-name').addEventListener('click', function() {
+                        forumCloseFollowsList();
+                        forumOpenRoleProfile(item.name);
+                    });
+                    el.querySelector('.forum-follows-item-avatar').addEventListener('click', function() {
+                        forumCloseFollowsList();
+                        forumOpenRoleProfile(item.name);
+                    });
+                    el.querySelector('.forum-follows-item-btn').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        // 取消关注
+                        forumGetFollowedRoles(function(currentList) {
+                            var newList = currentList.filter(function(r) { return r.name !== item.name; });
+                            forumSaveFollowedRoles(newList);
+                            el.remove();
+                            if (newList.length === 0) {
+                                listEl.innerHTML = '<div class="forum-follows-empty">NO FOLLOWS YET</div>';
+                            }
+                        });
+                    });
+                    listEl.appendChild(el);
+                });
+            });
+        }
+
+        function forumCloseFollowsList() {
+            document.getElementById('forum-follows-modal').classList.remove('show');
+        }
+        // ====== 角色主页功能结束 ======
+
+        // ====== 私信 DM 功能 ======
+
+        // 获取用户最新一条微博的文本内容（只取用户自己的帖子，不取角色帖）
+        function forumGetLatestPostText() {
+            // 从 ME 页面的帖子中获取（用户自己发的博文）
+            var profileCards = Array.from(document.querySelectorAll('#forum-profile-posts .forum-post-card'));
+            if (!profileCards.length) {
+                // 也检查 FEED 中用户自己的帖子（带 forum-profile-post 类但无 data-role-name）
+                var feedCards = Array.from(document.querySelectorAll('#forum-home .forum-post-card'));
+                profileCards = feedCards.filter(function(c) {
+                    return !c.getAttribute('data-role-name');
+                });
+            }
+            if (!profileCards.length) return '';
+            profileCards.sort(function(a, b) {
+                var tsA = parseInt(a.getAttribute('data-timestamp') || '0', 10);
+                var tsB = parseInt(b.getAttribute('data-timestamp') || '0', 10);
+                return tsB - tsA;
+            });
+            var latest = profileCards[0];
+            var textEl = latest ? latest.querySelector('.forum-post-text') : null;
+            return textEl ? textEl.innerText.trim() : '';
+        }
+
+        // 从 IndexedDB 加载所有私信会话
+        function forumLoadDMs(callback) {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onsuccess = function(e) {
+                var db = e.target.result;
+                var tx = db.transaction('settings', 'readonly');
+                var store = tx.objectStore('settings');
+                var list = [];
+                store.openCursor().onsuccess = function(ev) {
+                    var cursor = ev.target.result;
+                    if (cursor) {
+                        if (cursor.value.id && cursor.value.id.indexOf('forum-dm-') === 0) {
+                            try { list.push(JSON.parse(cursor.value.image)); } catch(ex) {}
+                        }
+                        cursor.continue();
+                    } else {
+                        // 按最新消息时间排序
+                        list.sort(function(a, b) { return (b.timestamp || 0) - (a.timestamp || 0); });
+                        callback(list);
+                    }
+                };
+            };
+            request.onerror = function() { callback([]); };
+        }
+
+        // 渲染私信列表
+        function forumRenderDMList(list) {
+            var container = document.getElementById('forum-dm-list');
+            if (!container) return;
+            container.innerHTML = '';
+            if (!list.length) return;
+            list.forEach(function(dm) {
+                var preview = dm.messages && dm.messages.length ? dm.messages[dm.messages.length - 1].text : '';
+                if (preview.length > 30) preview = preview.substring(0, 30) + '…';
+                var timeLabel = dm.timeLabel || '';
+                var el = document.createElement('div');
+                el.className = 'forum-msg-item';
+                var longPressTimer = null;
+                el.onclick = function() { forumOpenDMChat(dm.id); };
+                el.ontouchstart = function() { longPressTimer = setTimeout(function() { forumDeleteDM(dm.id); }, 600); };
+                el.ontouchend = function() { clearTimeout(longPressTimer); };
+                el.ontouchmove = function() { clearTimeout(longPressTimer); };
+                el.onmousedown = function() { longPressTimer = setTimeout(function() { forumDeleteDM(dm.id); }, 600); };
+                el.onmouseup = function() { clearTimeout(longPressTimer); };
+                el.onmouseleave = function() { clearTimeout(longPressTimer); };
+                el.innerHTML = '<div class="forum-avatar" style="background: linear-gradient(135deg, ' + (dm.avatarColor || '#ccc') + ', ' + (dm.avatarColor2 || '#999') + ');"></div>' +
+                    '<div class="forum-msg-content">' +
+                    '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+                    '<div class="forum-msg-name">' + forumEscHtml(dm.username) + '</div>' +
+                    '<div style="font-size:11px; color:#999;">' + forumEscHtml(timeLabel) + '</div>' +
+                    '</div>' +
+                    '<div class="forum-msg-preview">' + forumEscHtml(preview) + '</div>' +
+                    '</div>';
+                container.appendChild(el);
+            });
+        }
+
+        function forumEscHtml(s) {
+            return (s || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // 生成随机头像颜色（无色调灰阶）
+        function forumRandomAvatarColors() {
+            var palettes = [
+                ['#d0d0d0', '#999'], ['#c8c8c8', '#a0a0a0'], ['#bbb', '#888'],
+                ['#d5d5d5', '#aaa'], ['#ccc', '#909090'], ['#b8b8b8', '#8a8a8a'],
+                ['#ddd', '#a5a5a5'], ['#c0c0c0', '#959595'], ['#d8d8d8', '#9e9e9e'],
+                ['#cacaca', '#8e8e8e'], ['#e0e0e0', '#b0b0b0'], ['#c5c5c5', '#929292']
+            ];
+            return palettes[Math.floor(Math.random() * palettes.length)];
+        }
+
+        // 生成随机时间标签
+        function forumRandomTimeLabel() {
+            var labels = ['刚刚', '3分钟前', '15分钟前', '半小时前', '1小时前', '2小时前', '3小时前', '昨天'];
+            return labels[Math.floor(Math.random() * labels.length)];
+        }
+
+        // 调用 API 生成私信
+        async function forumGenerateDM() {
+            var btn = document.getElementById('forum-dm-gen-btn');
+            if (!btn || btn.classList.contains('loading')) return;
+
+            var savedApiUrl = localStorage.getItem('apiUrl') || '';
+            var apiKey = localStorage.getItem('apiKey') || '';
+            var selectedModel = localStorage.getItem('selectedModel') || '';
+            var chatEndpoint = getChatEndpoint(savedApiUrl);
+
+            if (!chatEndpoint || !apiKey || !selectedModel) {
+                alert('请先在设置中配置 API');
+                return;
+            }
+
+            var latestPost = forumGetLatestPostText();
+            if (!latestPost) {
+                btn.classList.remove('loading');
+                alert('你还没有发过微博，请先发一条微博再生成私信');
+                return;
+            }
+
+            btn.classList.add('loading');
+
+            var profileName = '';
+            var profileNameEl = document.querySelector('.forum-profile-name');
+            if (profileNameEl) profileName = profileNameEl.innerText.trim();
+
+            var promptText = '你正在模拟一个社交媒体平台的私信场景。\n\n' +
+                '博主账号名为"' + profileName + '"，TA最近发了一条微博：\n"' + latestPost + '"\n\n' +
+                '现在有一个路人粉丝/普通用户看到了这条微博后，主动给博主发了私信。\n\n' +
+                '请生成这个路人的私信内容，要求：\n' +
+                '1. 这个路人是真实的网民，有自己的性格和说话风格，不是机器人\n' +
+                '2. 私信内容必须与博主那条微博的具体内容紧密相关\n' +
+                '3. 语气自然真实——可以是好奇提问、求分享、随意搭话、吐槽共鸣、请教问题、表达羡慕等\n' +
+                '4. 长度适中，1~3条消息（就像真人发私信那样，可以一条说完也可以分几条发）\n' +
+                '5. 路人的网名要像真实的中文网民ID（如"跑步的鱼""是小橘呀""深夜食客"等），不要太正式\n' +
+                '6. 【禁止使用任何 emoji 或表情符号】\n' +
+                '7. 要有"活人感"——真实用户不会每句话都很礼貌完整，可以口语化、简短、甚至有点随意\n\n' +
+                '必须严格按以下 JSON 格式返回，不输出任何其他文字：\n' +
+                '{"username":"路人网名","messages":["第一条消息","第二条消息"]}\n' +
+                '（messages 数组包含 1~3 条消息文本）';
+
+            try {
+                var resp = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: '你是一个模拟真实社交媒体用户发私信的助手。必须严格按 JSON 格式输出，不输出任何多余文字或代码块标记。' },
+                            { role: 'user', content: promptText }
+                        ],
+                        temperature: 1.0,
+                        stream: false
+                    })
+                });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                var data = await resp.json();
+                var content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+                if (!content) throw new Error('empty response');
+                content = content.trim().replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
+                var parsed = JSON.parse(content);
+                if (!parsed.username || !Array.isArray(parsed.messages)) throw new Error('invalid format');
+
+                // 构建 DM 数据
+                var colors = forumRandomAvatarColors();
+                var dmId = 'dm-' + Date.now();
+                var dmData = {
+                    id: dmId,
+                    username: parsed.username,
+                    avatarColor: colors[0],
+                    avatarColor2: colors[1],
+                    timeLabel: forumRandomTimeLabel(),
+                    timestamp: Date.now(),
+                    refPost: latestPost.length > 60 ? latestPost.substring(0, 60) + '…' : latestPost,
+                    messages: parsed.messages.map(function(text) {
+                        return { from: 'them', text: text };
+                    })
+                };
+
+                // 保存到 IndexedDB
+                forumSaveImage('forum-dm-' + dmId, JSON.stringify(dmData));
+
+                // 刷新列表
+                forumLoadDMs(function(list) { forumRenderDMList(list); });
+
+            } catch (e) {
+                alert('私信生成失败，请重试。\n' + (e.message || ''));
+            }
+
+            btn.classList.remove('loading');
+        }
+
+        // 打开私信聊天详情
+        var forumCachedAvatarUrl = '';
+        var forumCurrentDMId = null;
+
+        function forumOpenDMChat(dmId) {
+            forumCurrentDMId = dmId;
+            var request = indexedDB.open('DesktopData', 1);
+            request.onsuccess = function(e) {
+                var db = e.target.result;
+                var tx = db.transaction('settings', 'readonly');
+                var store = tx.objectStore('settings');
+                var get = store.get('forum-dm-' + dmId);
+                get.onsuccess = function() {
+                    if (!get.result) return;
+                    try {
+                        var dm = JSON.parse(get.result.image);
+                        forumRenderDMChat(dm);
+                    } catch(ex) {}
+                };
+            };
+        }
+
+        function forumRenderDMChat(dm) {
+            document.getElementById('forum-dm-chat-name').textContent = dm.username || '';
+
+            var body = document.getElementById('forum-dm-chat-body');
+            body.innerHTML = '';
+
+            // 引用的微博
+            if (dm.refPost) {
+                var ref = document.createElement('div');
+                ref.className = 'forum-dm-ref-post';
+                ref.innerHTML = '<div class="forum-dm-ref-label">引用了你的微博</div><div class="forum-dm-ref-text">' + forumEscHtml(dm.refPost) + '</div>';
+                body.appendChild(ref);
+            }
+
+            // 消息气泡
+            (dm.messages || []).forEach(function(msg) {
+                var bubble = document.createElement('div');
+                bubble.className = 'forum-dm-bubble ' + (msg.from === 'me' ? 'me' : 'them');
+                bubble.textContent = msg.text;
+                body.appendChild(bubble);
+            });
+
+            // 显示聊天页
+            document.getElementById('forum-msg').style.display = 'none';
+            document.getElementById('forum-dm-chat').style.display = 'flex';
+            document.getElementById('forum-dm-chat').style.flexDirection = 'column';
+            document.getElementById('forum-dm-chat').style.height = '100%';
+
+            // 全屏：隐藏顶栏和底栏
+            var topNav = document.querySelector('#forum-app .forum-top-nav');
+            var bottomBar = document.querySelector('#forum-app .forum-bottom-bar');
+            if (topNav) topNav.style.display = 'none';
+            if (bottomBar) bottomBar.style.display = 'none';
+
+            // 滚动到底部
+            setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+
+            // 聚焦输入框
+            document.getElementById('forum-dm-input').value = '';
+        }
+
+        // 发送私信回复
+        function forumSendDMReply() {
+            var input = document.getElementById('forum-dm-input');
+            var text = (input.value || '').trim();
+            if (!text || !forumCurrentDMId) return;
+
+            input.value = '';
+
+            // 添加气泡到聊天界面
+            var body = document.getElementById('forum-dm-chat-body');
+            var bubble = document.createElement('div');
+            bubble.className = 'forum-dm-bubble me';
+            bubble.textContent = text;
+            body.appendChild(bubble);
+            setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+
+            // 更新 IndexedDB 中的消息
+            var dmId = forumCurrentDMId;
+            var request = indexedDB.open('DesktopData', 1);
+            request.onsuccess = function(e) {
+                var db = e.target.result;
+                var tx = db.transaction('settings', 'readwrite');
+                var store = tx.objectStore('settings');
+                var get = store.get('forum-dm-' + dmId);
+                get.onsuccess = function() {
+                    if (!get.result) return;
+                    try {
+                        var dm = JSON.parse(get.result.image);
+                        dm.messages.push({ from: 'me', text: text });
+                        dm.timestamp = Date.now();
+                        store.put({ id: 'forum-dm-' + dmId, image: JSON.stringify(dm), timestamp: Date.now() });
+                        // 刷新列表预览
+                        forumLoadDMs(function(list) { forumRenderDMList(list); });
+                        // 路人自动回复
+                        forumDMAutoReply(dmId, dm);
+                    } catch(ex) {}
+                };
+            };
+        }
+
+        // 路人自动回复
+        async function forumDMAutoReply(dmId, dm) {
+            var savedApiUrl = localStorage.getItem('apiUrl') || '';
+            var apiKey = localStorage.getItem('apiKey') || '';
+            var selectedModel = localStorage.getItem('selectedModel') || '';
+            var chatEndpoint = getChatEndpoint(savedApiUrl);
+            if (!chatEndpoint || !apiKey || !selectedModel) return;
+
+            // 显示打字指示器
+            var body = document.getElementById('forum-dm-chat-body');
+            var typing = document.createElement('div');
+            typing.className = 'forum-dm-bubble them forum-dm-typing';
+            typing.innerHTML = '<span class="forum-dm-dot"></span><span class="forum-dm-dot"></span><span class="forum-dm-dot"></span>';
+            body.appendChild(typing);
+            setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+
+            // 构建对话历史
+            var history = (dm.messages || []).map(function(msg) {
+                return (msg.from === 'me' ? '博主' : dm.username) + '：' + msg.text;
+            }).join('\n');
+
+            var promptText = '你正在模拟一个社交媒体私信场景中的路人用户"' + dm.username + '"。\n\n' +
+                (dm.refPost ? '起因是博主发了一条微博："' + dm.refPost + '"\n' + dm.username + '看到后主动私信了博主。\n\n' : '') +
+                '以下是目前的私信对话记录：\n' + history + '\n\n' +
+                '现在请以"' + dm.username + '"的身份回复博主最新的消息。\n\n' +
+                '要求：\n' +
+                '1. 保持这个路人之前的说话风格和性格一致\n' +
+                '2. 回复要自然真实，像真人聊天\n' +
+                '3. 不要太长，1~2句话即可\n' +
+                '4. 可以口语化、简短、随意\n' +
+                '5. 【禁止使用任何 emoji 或表情符号】\n' +
+                '6. 只需要输出回复的文本内容，不要加引号，不要加前缀\n';
+
+            try {
+                var resp = await fetch(chatEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [
+                            { role: 'system', content: '你是一个模拟真实社交媒体用户聊天的助手。直接输出回复内容，不要加任何前缀、引号或多余格式。' },
+                            { role: 'user', content: promptText }
+                        ],
+                        temperature: 1.0,
+                        stream: false
+                    })
+                });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                var data = await resp.json();
+                var content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+                if (!content) throw new Error('empty');
+                content = content.trim().replace(/^["']|["']$/g, '');
+
+                // 移除打字指示器
+                if (typing.parentNode) typing.remove();
+
+                // 添加回复气泡
+                var replyBubble = document.createElement('div');
+                replyBubble.className = 'forum-dm-bubble them';
+                replyBubble.textContent = content;
+                body.appendChild(replyBubble);
+                setTimeout(function() { body.scrollTop = body.scrollHeight; }, 50);
+
+                // 保存到 IndexedDB
+                var req2 = indexedDB.open('DesktopData', 1);
+                req2.onsuccess = function(e2) {
+                    var db2 = e2.target.result;
+                    var tx2 = db2.transaction('settings', 'readwrite');
+                    var store2 = tx2.objectStore('settings');
+                    var get2 = store2.get('forum-dm-' + dmId);
+                    get2.onsuccess = function() {
+                        if (!get2.result) return;
+                        try {
+                            var dmLatest = JSON.parse(get2.result.image);
+                            dmLatest.messages.push({ from: 'them', text: content });
+                            dmLatest.timestamp = Date.now();
+                            store2.put({ id: 'forum-dm-' + dmId, image: JSON.stringify(dmLatest), timestamp: Date.now() });
+                            forumLoadDMs(function(list) { forumRenderDMList(list); });
+                        } catch(ex) {}
+                    };
+                };
+            } catch(e) {
+                if (typing.parentNode) typing.remove();
+            }
+        }
+
+        // 删除私信会话
+        function forumDeleteDM(dmId, fromChat) {
+            if (!dmId) return;
+            if (!confirm('确定删除这条私信会话？')) return;
+            var request = indexedDB.open('DesktopData', 1);
+            request.onsuccess = function(e) {
+                var db = e.target.result;
+                var tx = db.transaction('settings', 'readwrite');
+                var store = tx.objectStore('settings');
+                store.delete('forum-dm-' + dmId);
+                tx.oncomplete = function() {
+                    forumLoadDMs(function(list) { forumRenderDMList(list); });
+                    if (fromChat) forumCloseDMChat();
+                };
+            };
+        }
+
+        function forumDeleteCurrentDM() {
+            forumDeleteDM(forumCurrentDMId, true);
+        }
+
+        function forumCloseDMChat() {
+            forumCurrentDMId = null;
+            document.getElementById('forum-dm-chat').style.display = 'none';
+            document.getElementById('forum-msg').style.display = 'block';
+
+            // 恢复顶栏和底栏
+            var topNav = document.querySelector('#forum-app .forum-top-nav');
+            var bottomBar = document.querySelector('#forum-app .forum-bottom-bar');
+            if (topNav) topNav.style.display = '';
+            if (bottomBar) bottomBar.style.display = '';
+        }
+
+        // 页面加载时渲染私信列表
+        forumLoadDMs(function(list) { forumRenderDMList(list); });
+
+        // ====== 私信 DM 功能结束 ======
+
+
+        function forumOpenEditModal() {
+            var modal = document.getElementById('forum-edit-modal');
+            document.getElementById('forum-edit-posts').value = document.getElementById('forum-data-posts').innerText;
+            document.getElementById('forum-edit-follows').value = document.getElementById('forum-data-follows').innerText;
+            document.getElementById('forum-edit-followers').value = document.getElementById('forum-data-followers').innerText;
+            var phoneEl = document.querySelector('.forum-phone-model');
+            document.getElementById('forum-edit-phone').value = phoneEl ? phoneEl.innerText : '';
+            modal.classList.add('show');
+        }
+
+        function forumCloseEditModal() {
+            document.getElementById('forum-edit-modal').classList.remove('show');
+        }
+
+        function forumSaveEditModal() {
+            var posts = document.getElementById('forum-edit-posts').value.trim() || '24';
+            var follows = document.getElementById('forum-edit-follows').value.trim() || '12';
+            var followers = document.getElementById('forum-edit-followers').value.trim() || '18k';
+            var phone = document.getElementById('forum-edit-phone').value.trim() || 'iPhone';
+
+            document.getElementById('forum-data-posts').innerText = posts;
+            document.getElementById('forum-data-follows').innerText = follows;
+            document.getElementById('forum-data-followers').innerText = followers;
+
+            var phoneEls = document.querySelectorAll('.forum-phone-model');
+            phoneEls.forEach(function(el) { el.innerText = phone; });
+
+            forumSaveImage('forum-data-posts', posts);
+            forumSaveImage('forum-data-follows', follows);
+            forumSaveImage('forum-data-followers', followers);
+            forumSaveImage('forum-phone-model', phone);
+
+            forumCloseEditModal();
+        }
+
+        function forumLoadProfileData() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readonly');
+                var store = transaction.objectStore('settings');
+
+                var keys = ['forum-data-posts', 'forum-data-follows', 'forum-data-followers', 'forum-phone-model'];
+                var elIds = ['forum-data-posts', 'forum-data-follows', 'forum-data-followers', null];
+                keys.forEach(function(key, i) {
+                    var req = store.get(key);
+                    req.onsuccess = function(e) {
+                        if (e.target.result && e.target.result.image) {
+                            if (key === 'forum-phone-model') {
+                                document.querySelectorAll('.forum-phone-model').forEach(function(el) { el.innerText = e.target.result.image; });
+                            } else if (elIds[i]) {
+                                document.getElementById(elIds[i]).innerText = e.target.result.image;
+                            }
+                        }
+                    };
+                });
+            };
+        }
+
+        function forumLoadTexts() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readonly');
+                var store = transaction.objectStore('settings');
+
+                var nameReq = store.get('forum-name');
+                nameReq.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image) {
+                        var nameEl = document.querySelector('[data-forum-text="name"]');
+                        if (nameEl) nameEl.innerText = e.target.result.image;
+                        forumSyncPosts();
+                    }
+                };
+
+                var descReq = store.get('forum-desc');
+                descReq.onsuccess = function(e) {
+                    if (e.target.result && e.target.result.image) {
+                        var descEl = document.querySelector('[data-forum-text="desc"]');
+                        if (descEl) descEl.innerText = e.target.result.image;
+                    }
+                };
+            };
+        }
+
+        function forumUpdateNav(pageId) {
+            var navLinks = document.querySelector('#forum-app .forum-nav-links');
+            var navRight = document.querySelector('#forum-app .forum-nav-right');
+            var topNav = document.querySelector('#forum-app .forum-top-nav');
+            if (pageId === 'profile' || pageId === 'role-profile') {
+                if (navLinks) navLinks.style.display = 'none';
+                if (navRight) navRight.style.display = 'none';
+                topNav.style.background = 'transparent';
+                topNav.style.position = 'absolute';
+                topNav.style.zIndex = '10';
+            } else {
+                if (navLinks) navLinks.style.display = '';
+                if (navRight) navRight.style.display = '';
+                topNav.style.background = '';
+                topNav.style.position = '';
+                topNav.style.zIndex = '';
+            }
+        }
+
+        function forumSwitchTab(pageId, element) {
+            document.querySelectorAll('#forum-app .forum-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.querySelectorAll('#forum-app .forum-tab-item').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('#forum-app .forum-nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById('forum-' + pageId).classList.add('active');
+            element.classList.add('active');
+            var navLink = document.getElementById('forum-nav-' + pageId);
+            if (navLink) navLink.classList.add('active');
+            forumUpdateNav(pageId);
+        }
+
+        var forumNewPostImages = [];
+
+        function forumOpenNewPost() {
+            forumNewPostImages = [];
+            document.getElementById('forum-newpost-text').value = '';
+            var container = document.getElementById('forum-newpost-images');
+            container.innerHTML = '<div class="forum-newpost-add-img" onclick="document.getElementById(\'forum-newpost-file\').click()"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>ADD</span></div>';
+            document.getElementById('forum-newpost-modal').classList.add('show');
+        }
+
+        function forumCloseNewPost() {
+            document.getElementById('forum-newpost-modal').classList.remove('show');
+            forumNewPostImages = [];
+        }
+
+        function forumNewPostAddImages(event) {
+            var files = event.target.files;
+            if (!files || !files.length) return;
+            for (var i = 0; i < files.length; i++) {
+                (function(file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        forumNewPostImages.push(e.target.result);
+                        forumRenderNewPostImages();
+                    };
+                    reader.readAsDataURL(file);
+                })(files[i]);
+            }
+            event.target.value = '';
+        }
+
+        function forumRenderNewPostImages() {
+            var container = document.getElementById('forum-newpost-images');
+            var html = '';
+            forumNewPostImages.forEach(function(src, idx) {
+                html += '<div class="forum-newpost-img-item"><img src="' + src + '"><div class="forum-newpost-img-remove" onclick="forumRemoveNewPostImage(' + idx + ')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div></div>';
+            });
+            html += '<div class="forum-newpost-add-img" onclick="document.getElementById(\'forum-newpost-file\').click()"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg><span>ADD</span></div>';
+            container.innerHTML = html;
+        }
+
+        function forumRemoveNewPostImage(idx) {
+            forumNewPostImages.splice(idx, 1);
+            forumRenderNewPostImages();
+        }
+
+        function forumPublishPost() {
+            var text = document.getElementById('forum-newpost-text').value.trim();
+            if (!text && forumNewPostImages.length === 0) return;
+
+            var postId = 'new-' + Date.now();
+            var profileName = document.querySelector('.forum-profile-name');
+            var name = profileName ? profileName.innerText : 'me';
+            var profileAvatar = document.querySelector('.forum-profile-avatar');
+            var avatarStyle = forumCachedAvatarUrl || (profileAvatar && profileAvatar.style.backgroundImage ? profileAvatar.style.backgroundImage : '');
+
+            // 如果头像为空（还没从 IndexedDB 加载），从 IndexedDB 异步读取并更新
+            if (!avatarStyle) {
+                avatarStyle = '#d0d0d0';
+                // 异步加载后更新帖子
+                var req = indexedDB.open('DesktopData', 1);
+                req.onsuccess = function(e) {
+                    var db = e.target.result;
+                    var tx = db.transaction('settings', 'readonly');
+                    var store = tx.objectStore('settings');
+                    var get = store.get('forum-avatar');
+                    get.onsuccess = function(ev) {
+                        if (ev.target.result && ev.target.result.image) {
+                            var imgUrl = 'url(' + ev.target.result.image + ')';
+                            // 更新 DOM 上的帖子头像
+                            var card = document.querySelector('[data-post-id="' + postId + '"]');
+                            if (card) {
+                                var avatars = card.querySelectorAll('.forum-post-avatar');
+                                avatars.forEach(function(a) {
+                                    a.style.backgroundImage = imgUrl;
+                                    a.style.backgroundSize = 'cover';
+                                    a.style.backgroundPosition = 'center';
+                                });
+                            }
+                            // 同时更新 profile-posts 里的副本
+                            var profileCards = document.querySelectorAll('#forum-profile-posts [data-post-id="' + postId + '"] .forum-post-avatar');
+                            profileCards.forEach(function(a) {
+                                a.style.backgroundImage = imgUrl;
+                                a.style.backgroundSize = 'cover';
+                                a.style.backgroundPosition = 'center';
+                            });
+                            // 更新 profile-avatar DOM
+                            var pAvatar = document.querySelector('.forum-profile-avatar');
+                            if (pAvatar && !pAvatar.style.backgroundImage) {
+                                pAvatar.style.backgroundImage = imgUrl;
+                            }
+                        }
+                    };
+                };
+            }
+
+            var mediaHtml = '';
+            if (forumNewPostImages.length === 1) {
+                mediaHtml = '<div class="forum-media-single"><img src="' + forumNewPostImages[0] + '" style="width:85px;border-radius:6px;object-fit:cover;"></div>';
+            } else if (forumNewPostImages.length > 1) {
+                mediaHtml = '<div class="forum-media-grid-2">';
+                forumNewPostImages.forEach(function(src) {
+                    mediaHtml += '<div class="forum-img-placeholder"><img src="' + src + '" style="width:100%;height:100%;object-fit:cover;border-radius:6px;"></div>';
+                });
+                mediaHtml += '</div>';
+            }
+
+            var postTimestamp = Date.now();
+            var cardHtml = '<div class="forum-post-card" data-post-id="' + postId + '" data-timestamp="' + postTimestamp + '">' +
+                '<div class="forum-post-header">' +
+                    '<div class="forum-avatar forum-post-avatar" style="background: ' + avatarStyle + '; background-size: cover; background-position: center;"></div>' +
+                    '<div class="forum-user-info">' +
+                        '<div class="name forum-post-name">' + name + '</div>' +
+                        '<div class="meta">' + forumFormatPostTime(postTimestamp) + '</div>' +
+                    '</div>' +
+                    '<div class="forum-more-btn" onclick="forumToggleMoreMenu(this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle><circle cx="5" cy="12" r="1.5"></circle></svg>' +
+                        '<div class="forum-more-menu">' +
+                            '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumEditPost(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg><span>EDIT</span></div>' +
+                            '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumToggleCommentSection(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>COMMENT</span></div>' +
+                            '<div class="forum-more-menu-item danger" onclick="event.stopPropagation();forumDeletePost(this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg><span>DELETE</span></div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                (text ? '<div class="forum-post-text">' + text + '</div>' : '') +
+                mediaHtml +
+                '<div class="forum-post-actions">' +
+                    '<div class="forum-action-btn"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>0</div>' +
+                    '<div class="forum-action-btn" onclick="forumToggleComments(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>0</div>' +
+                    '<div class="forum-action-btn forum-like-btn" onclick="forumToggleLike(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>0</div>' +
+                '</div>' +
+                '<div class="forum-comments">' +
+                    '<div class="forum-comment-input-wrap"><input class="forum-comment-input" placeholder="Write a comment..." onkeydown="if(event.key===\'Enter\')forumAddComment(this)"></div>' +
+                '</div>' +
+            '</div>';
+
+            var homePage = document.getElementById('forum-home');
+            var fab = homePage.querySelector('.forum-fab');
+            if (fab) {
+                fab.insertAdjacentHTML('afterend', cardHtml);
+            } else {
+                homePage.insertAdjacentHTML('beforeend', cardHtml);
+            }
+
+            var profileCardHtml = cardHtml.replace('forum-post-card"', 'forum-post-card forum-profile-post"');
+            var profilePosts = document.getElementById('forum-profile-posts');
+            if (profilePosts) {
+                profilePosts.insertAdjacentHTML('afterbegin', profileCardHtml);
+            }
+
+            forumSaveImage('forum-newpost-' + postId, JSON.stringify({ text: text, images: forumNewPostImages, timestamp: postTimestamp, profileName: name, profileAvatar: avatarStyle }));
+
+            forumCloseNewPost();
+
+            // 确保新帖子头像同步（避免头像还未从 IndexedDB 加载时显示默认）
+            setTimeout(forumSyncPosts, 100);
+            setTimeout(forumSyncPosts, 1000);
+        }
+
+        function forumLoadNewPosts() {
+            var request = indexedDB.open('DesktopData', 1);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(['settings'], 'readonly');
+                var store = transaction.objectStore('settings');
+                var delReq = store.get('forum-deleted-posts');
+                delReq.onsuccess = function() {
+                    var deleted = [];
+                    try { deleted = JSON.parse(delReq.result && delReq.result.image || '[]'); } catch(e) {}
+                    store.openCursor().onsuccess = function(e) {
+                        var cursor = e.target.result;
+                        if (cursor) {
+                            var key = cursor.value.id;
+                            if (key && key.indexOf('forum-newpost-') === 0) {
+                                var postId = key.replace('forum-newpost-', '');
+                                var isDeleted = deleted.indexOf(postId) !== -1;
+                                var existing = document.querySelector('[data-post-id="' + postId + '"]');
+                                if (!isDeleted && !existing) {
+                                    try {
+                                        var data = JSON.parse(cursor.value.image);
+                                        forumInsertNewPostCard(postId, data);
+                                    } catch(err) {}
+                                }
+                            }
+                            cursor.continue();
+                        }
+                    };
+                };
+            };
+        }
+
+        function forumInsertNewPostCard(postId, data) {
+            var name, avatarStyle;
+            // 优先使用帖子保存的名字和头像，避免异步加载顺序问题
+            if (data.profileName) {
+                name = data.profileName;
+            } else {
+                var profileName = document.querySelector('.forum-profile-name');
+                name = profileName ? profileName.innerText : 'me';
+            }
+            if (data.profileAvatar) {
+                avatarStyle = data.profileAvatar;
+            } else {
+                var profileAvatar = document.querySelector('.forum-profile-avatar');
+                avatarStyle = profileAvatar && profileAvatar.style.backgroundImage ? profileAvatar.style.backgroundImage : '#d0d0d0';
+            }
+
+            var mediaHtml = '';
+            if (data.images && data.images.length === 1) {
+                mediaHtml = '<div class="forum-media-single"><img src="' + data.images[0] + '" style="width:85px;border-radius:6px;object-fit:cover;"></div>';
+            } else if (data.images && data.images.length > 1) {
+                mediaHtml = '<div class="forum-media-grid-2">';
+                data.images.forEach(function(src) {
+                    mediaHtml += '<div class="forum-img-placeholder"><img src="' + src + '" style="width:100%;height:100%;object-fit:cover;border-radius:6px;"></div>';
+                });
+                mediaHtml += '</div>';
+            }
+
+            var loadedTs = data.timestamp || Date.now();
+            var cardHtml = '<div class="forum-post-card" data-post-id="' + postId + '" data-timestamp="' + loadedTs + '">' +
+                '<div class="forum-post-header">' +
+                    '<div class="forum-avatar forum-post-avatar" style="background: ' + avatarStyle + '; background-size: cover; background-position: center;"></div>' +
+                    '<div class="forum-user-info">' +
+                        '<div class="name forum-post-name">' + name + '</div>' +
+                        '<div class="meta">' + forumFormatPostTime(loadedTs) + '</div>' +
+                    '</div>' +
+                    '<div class="forum-more-btn" onclick="forumToggleMoreMenu(this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle><circle cx="5" cy="12" r="1.5"></circle></svg>' +
+                        '<div class="forum-more-menu">' +
+                            '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumEditPost(this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg><span>EDIT</span></div>' +
+                            '<div class="forum-more-menu-item" onclick="event.stopPropagation();forumToggleCommentSection(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>COMMENT</span></div>' +
+                            '<div class="forum-more-menu-item danger" onclick="event.stopPropagation();forumDeletePost(this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg><span>DELETE</span></div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                (data.text ? '<div class="forum-post-text">' + data.text + '</div>' : '') +
+                mediaHtml +
+                '<div class="forum-post-actions">' +
+                    '<div class="forum-action-btn"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>0</div>' +
+                    '<div class="forum-action-btn" onclick="forumToggleComments(this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>0</div>' +
+                    '<div class="forum-action-btn forum-like-btn" onclick="forumToggleLike(this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>0</div>' +
+                '</div>' +
+                '<div class="forum-comments">' +
+                    '<div class="forum-comment-input-wrap"><input class="forum-comment-input" placeholder="Write a comment..." onkeydown="if(event.key===\'Enter\')forumAddComment(this)"></div>' +
+                '</div>' +
+            '</div>';
+
+            var homePage = document.getElementById('forum-home');
+            var fab = homePage.querySelector('.forum-fab');
+            if (fab) {
+                fab.insertAdjacentHTML('afterend', cardHtml);
+            } else {
+                homePage.insertAdjacentHTML('beforeend', cardHtml);
+            }
+
+            var profileCardHtml = cardHtml.replace('forum-post-card"', 'forum-post-card forum-profile-post"');
+            var profilePosts = document.getElementById('forum-profile-posts');
+            if (profilePosts) {
+                profilePosts.insertAdjacentHTML('afterbegin', profileCardHtml);
+            }
+            // 恢复该帖子的评论和点赞状态
+            forumLoadCommentsForPost(postId);
+            forumLoadLikeForPost(postId);
+            forumSyncPosts();
+        }
+
+        function forumSwitchPage(pageId) {
+            document.querySelectorAll('#forum-app .forum-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.querySelectorAll('#forum-app .forum-tab-item').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('#forum-app .forum-nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById('forum-' + pageId).classList.add('active');
+            var navLink = document.getElementById('forum-nav-' + pageId);
+            if (navLink) navLink.classList.add('active');
+            var tabItems = document.querySelectorAll('#forum-app .forum-tab-item');
+            var tabIndex = pageId === 'home' ? 0 : pageId === 'msg' ? 1 : 2;
+            if (tabItems[tabIndex]) tabItems[tabIndex].classList.add('active');
+            forumUpdateNav(pageId);
+        }
+
         async function openWechat() {
             document.getElementById('wechat-app').style.display = 'flex';
             document.getElementById('ios-glass-tabbar').classList.add('visible');
@@ -41817,9 +44838,13 @@ ${songInfo}
             const savedManualCount = parseInt(localStorage.getItem('manualSummaryCount')) || 20;
             const savedAutoCount = parseInt(localStorage.getItem('autoSummaryCount')) || 50;
             const autoSummaryEnabled = localStorage.getItem('autoSummaryEnabled') === 'true';
+            const savedCustomPrompt = localStorage.getItem('customSummaryPrompt') || '';
             
             manualInput.value = savedManualCount;
             autoInput.value = savedAutoCount;
+            
+            const customPromptInput = document.getElementById('custom-summary-prompt');
+            if (customPromptInput) customPromptInput.value = savedCustomPrompt;
             
             if (autoSummaryEnabled) {
                 toggle.classList.add('active');
@@ -41866,11 +44891,15 @@ ${songInfo}
             manualInput.value = manualCount;
             autoInput.value = autoCount;
             
+            const customPromptInput = document.getElementById('custom-summary-prompt');
+            const customPrompt = customPromptInput ? customPromptInput.value.trim() : '';
+            
             localStorage.setItem('manualSummaryCount', manualCount);
             localStorage.setItem('autoSummaryCount', autoCount);
             localStorage.setItem('autoSummaryEnabled', autoSummaryEnabled);
+            localStorage.setItem('customSummaryPrompt', customPrompt);
             
-            let message = `已保存设置：\n手动总结回顾 ${manualCount} 条\n自动总结功能: ${autoSummaryEnabled ? '已开启' : '已关闭'}`;
+            let message = `已保存设置：\n手动总结回顾 ${manualCount} 条\n自动总结功能: ${autoSummaryEnabled ? '已开启' : '已关闭'}\n自定义提示词: ${customPrompt ? '已设置' : '未设置（使用默认）'}`;
             if (autoSummaryEnabled) {
                 message += `\n自动总结回顾 ${autoCount} 条`;
             }
@@ -43030,9 +46059,11 @@ ${songInfo}
             const summaryCount = summaryType === 'auto' 
                 ? parseInt(localStorage.getItem('autoSummaryCount')) || 50
                 : parseInt(localStorage.getItem('manualSummaryCount')) || 20;
-            const recentHistory = conversationHistory.slice(-summaryCount);
+            // 按「轮」计数：一轮 = 用户发送 + AI回复，取消息数 = 轮数 * 2
+            const actualMessageCount = summaryCount * 2;
+            const recentHistory = conversationHistory.slice(-actualMessageCount);
             
-            console.log(`[AutoSummary] 聊天记录数量: ${conversationHistory.length}, 取最近 ${summaryCount} 条`);
+            console.log(`[AutoSummary] 聊天记录数量: ${conversationHistory.length}, 取最近 ${summaryCount} 轮(${actualMessageCount}条消息)`);
             console.log(`[AutoSummary] recentHistory:`, recentHistory);
 
             let savedApiUrl = localStorage.getItem('apiUrl') || '';
@@ -43057,23 +46088,7 @@ ${songInfo}
             const now = new Date();
             const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
 
-            const summaryPrompt = `请根据以下聊天记录，以${roleName}的第一人称视角（使用"我"）来精准直白地总结发生了什么。
-
-【强制总结规则】
-1. 总结内容必须正好100字，不多不少
-2. 以角色第一人称视角，使用"我"来描述
-3. 使用"${userName}"来称呼对方
-4. 禁止出现第三方视角
-5. 开头必须带有日期格式：${dateStr}，日期后面紧跟总结内容，不要换行
-6. 符合角色人设口吻
-7. 记录重要的事项，内容要充实详细
-8. 必须包含具体的对话内容或事件
-
-【角色人设】
-${roleDescription}
-
-【聊天记录】
-${recentHistory.map(msg => {
+            const chatHistoryText = recentHistory.map(msg => {
     let content = '';
     if (msg.content) {
         if (typeof msg.content === 'object') {
@@ -43093,9 +46108,40 @@ ${recentHistory.map(msg => {
     } else {
         return `${roleName}：${content}`;
     }
-}).join('\n')}
+}).join('\n');
+
+            const customSummaryPrompt = localStorage.getItem('customSummaryPrompt') || '';
+            let summaryPrompt;
+            if (customSummaryPrompt.trim()) {
+                summaryPrompt = customSummaryPrompt
+                    .replace(/\{roleName\}/g, roleName)
+                    .replace(/\{userName\}/g, userName)
+                    .replace(/\{roleDescription\}/g, roleDescription)
+                    .replace(/\{dateStr\}/g, dateStr)
+                    .replace(/\{chatHistory\}/g, chatHistoryText);
+                console.log('[AutoSummary] 使用自定义提示词');
+            } else {
+                summaryPrompt = `请根据以下聊天记录，以${roleName}的第一人称视角（使用"我"）来精准直白地总结发生了什么。
+
+【强制总结规则】
+1. 总结内容必须正好100字，不多不少
+2. 以角色第一人称视角，使用"我"来描述
+3. 使用"${userName}"来称呼对方
+4. 禁止出现第三方视角
+5. 开头必须带有日期格式：${dateStr}，日期后面紧跟总结内容，不要换行
+6. 符合角色人设口吻
+7. 记录重要的事项，内容要充实详细
+8. 必须包含具体的对话内容或事件
+
+【角色人设】
+${roleDescription}
+
+【聊天记录】
+${chatHistoryText}
 
 请直接返回总结内容，格式如：${dateStr}今天我和${userName}聊了...（后面跟具体内容，总字数必须正好100字）`;
+                console.log('[AutoSummary] 使用默认提示词');
+            }
 
             try {
                 const controller = new AbortController();
@@ -45231,10 +48277,12 @@ ${recentHistory.map(msg => {
             const lastSummaryIndex = parseInt(localStorage.getItem(lastSummaryIndexKey)) || 0;
             const currentMessageCount = messages[roleId] ? messages[roleId].length : 0;
             const newMessagesSinceLastSummary = currentMessageCount - lastSummaryIndex;
+            // 按「轮」计数：一轮 = 用户发送 + AI回复，所以实际消息阈值 = 设置轮数 * 2
+            const actualThreshold = autoTriggerCount * 2;
             
-            console.log(`[AutoSummary] 检查触发: 新消息数=${newMessagesSinceLastSummary}, 触发阈值=${autoTriggerCount}`);
+            console.log(`[AutoSummary] 检查触发: 新消息数=${newMessagesSinceLastSummary}, 触发阈值=${autoTriggerCount}轮(${actualThreshold}条消息)`);
             
-            if (newMessagesSinceLastSummary >= autoTriggerCount) {
+            if (newMessagesSinceLastSummary >= actualThreshold) {
                 generateAiSummary('auto', true);
             }
         }
